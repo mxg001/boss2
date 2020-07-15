@@ -1,0 +1,138 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a href="index.html">主页</a></li>
+            <li>超级银行家</li>
+            <li class="active"><strong>彩票代购订单导入管理</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="lotteryImportRecordsCtrl">
+    <form class="form-horizontal" id="form1">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>查询条件</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" style="width:150px;">导入日期：</label>
+                            <div class="col-sm-6" style="width:440px;">
+                                <input id="d5223" class="form-control" type="datetime" ng-model="record.importDateStart" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="var d5224=$dp.$('d5224');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5224.focus();},maxDate:'#F{$dp.$D(\'d5224\')}'})"/>
+                                ~
+                                <input id="d5224" class="form-control" type="datetime"  ng-model="record.importDateEnd" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5223\')}'})"/>
+                            </div>
+                            <label class="col-sm-2 control-label" style="width:130px;">状态：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="record.status" ng-options="x.value as x.text for x in statusList">
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                        	 <label class="col-sm-2 control-label" style="width:150px;">批次号：</label>
+                            <div class="col-sm-2">
+                                 <input type="text" class="form-control" ng-model="record.batchNo">
+                            </div>
+                            <label class="col-sm-2 control-label" style="width:150px;">彩票类型：</label>
+                            <div class="col-sm-2">
+                                 <select class="form-control" ng-model="record.lotteryType" ng-options="x.value as x.text for x in lotteryTypes">
+                                 </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-top: 30px">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-8">
+                                <button class="btn btn-primary6 btn-mr20"  ng-click="query()" ng-disabled="submitting">查询</button>
+                                <button class="btn btn-primary3 btn-mr20" type="button" ng-click="resetForm()">清空</button>
+                                <button class="btn btn-new btn-mr20" type="button" ng-click="importModal()"
+                                        ng-show="true">导入</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>查询列表</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="tposition">
+                            <div class="gridStyle" ui-grid="lotteryImportRecordsGrid" ui-grid-selection ui-grid-pagination
+                                 ui-grid-resize-columns ui-grid-pinning></div>
+                            <div ng-show="loadImg" class="timg"></div>
+                        </div>
+                    </div>
+                </div>
+                <div style="height:30px;"></div>
+            </div>
+        </div>
+    </form>
+
+    <div id="importModal" class="modal fade form-horizontal" tabindex="3" role="dialog">
+        <div class="modal-dialog" style="height:300px;width: 700px">
+            <div class="modal-content" style="height:400px;width: 700px">
+                <form class="form-horizontal" name="horizontalAcc">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            &times;</button>
+                        <h3 class="modal-title">彩票代购订单批量导入</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">导入文件：</label>
+                            <div class="col-sm-4" style="padding-top: 4px">
+                                <input type="file" nv-file-select="" ng-model="fileSelect" uploader="uploader" multiple/>
+                                <table class="table">
+                                    <tbody>
+                                    <tr ng-repeat="item in uploader.queue">
+                                        <td>
+                                            <strong>{{ item.file.name }}</strong>
+                                        </td>
+                                        <td nowrap>
+                                            <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                                <span class="glyphicon glyphicon-trash"></span>删除
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <label class="col-sm-1" ></label>
+                            <div class="col-sm-3 checkbox">
+                                <!--<a href="bankImport/importTemplate?bankNickName={{importInfo.bankNickName}}"-->
+                                <a target="_self" href="http://agent-attch.oss-cn-hangzhou.aliyuncs.com/%E5%BD%A9%E7%A5%A8%E5%AF%BC%E5%85%A5%E6%A8%A1%E6%9D%BF0423%E6%95%B4%E7%90%86_20180518102939.xlsx?Expires=3103410580&OSSAccessKeyId=Ck76WULSZApw3ZFv&Signature=WdsRHK9gv%2Bg0ndD9836AGOrqVSA%3D">导入模板</a>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                        	<label class="col-sm-2 control-label">彩票类型：</label>
+                            <div class="col-sm-4" style="padding-top: 4px">
+                                 <select class="form-control" ng-model="importInfo.lotteryType" ng-options="x.value as x.text for x in modulTypes">
+                                 </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="form-group control-label">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-6">
+                                <button class="btn btn-primary btn-mr20" type="button" ng-click='importInfo()'
+                                        ng-disabled="uploader.queue.length == 0 || importStatus"
+                                >确定</button>
+                                <button class="btn btn-primary4" type="button" ng-click='cancel()'
+                                >返回</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,278 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>商户管理</a></li>
+            <li class="active"><strong>实名认证预警</strong></li>
+        </ol>
+    </div>
+</div>
+
+
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+     ng-controller="verifiedWarningCtrl">
+    <form class="form-horizontal" id="form1" name="horizontal" novalidate>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="tabs-container tab_other">
+                    <div class="panel-body ibox float-e-margins">
+
+                        <div class="ibox-title">
+                            <h5>鉴权认证</h5>
+                        </div>
+                        <!--BOSS系统至外放平台网络超时预警-->
+                        <div class="ibox-content">
+                            <div class="form-group">
+                                <h5 style="font-size:14px;">BOSS系统至外放平台网络超时预警</h5>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">预警短信内容:</label>
+                                <div class="col-sm-10 checkbox" ng-bind="overtimeWarning.content">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><i class="red_req">*</i>超时次数设置:</label>
+                                <div class="col-sm-10" style="float:left">
+                                    <input type="text" class="form-control" style="float:left;width:100px" ng-model="overtimeWarning.cycle" ng-pattern="/^([1-9])\d{0,10}$/" required>
+                                    <span  style="float:left;margin:7px 10px 0 10px;">分钟内,超时</span>
+                                    <input type="text" class="form-control" style="float:left;width:100px" ng-model="overtimeWarning.num" ng-pattern="/^([1-9])\d{0,10}$/" required>
+                                    <span  style="float:left;margin:7px 10px 0 10px;"> 次</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-sm-10">
+                                    <span style="color:red">备注:在设置的时间范围内,超时的商户总次数达到设置的次数,则会发送预警短信</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><i class="red_req">*</i>预警缓冲时间设置:</label>
+                                <div class="col-sm-10" style="float:left">
+                                    <input type="text" class="form-control" style="float:left;width:100px" ng-model="overtimeWarning.cd_time" ng-pattern="/^[1-9]\d{0,10}|0$/" required>
+                                    <span  style="float:left;margin:7px 10px 0 10px;">分钟</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-sm-10">
+                                    <span style="color:red">备注:触发预警后缓冲时间内不会发送短信,缓冲时间结束后重新记录预警事件</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><i class="red_req">*</i>短信接收人:</label>
+                                <div class="col-sm-10">
+                                    <textarea style="width:400px;height:100px;" ng-model="overtimeWarning.phones" required></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-sm-10" >
+                                    <span style="color: red;">注:若需多人同时接收短信时,请用英文逗号隔开</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--鉴权认证失败预警-->
+                        <div class="ibox-content">
+                            <div class="form-group">
+                                <h5 style="font-size:14px;">鉴权认证失败预警</h5>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">预警短信内容:</label>
+                                <div class="col-sm-10 checkbox" ng-bind="authWarning.content">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><i class="red_req">*</i>失败次数设置:</label>
+                                <div class="col-sm-10" style="float:left">
+                                    <input type="text" class="form-control" style="float:left;width:100px" ng-model="authWarning.cycle" ng-pattern="/^([1-9])\d{0,10}$/" required>
+                                    <span  style="float:left;margin:7px 10px 0 10px;">分钟内,鉴权认证共失败</span>
+                                    <input type="text" class="form-control" style="float:left;width:100px" ng-model="authWarning.num" ng-pattern="/^([1-9])\d{0,10}$/" required>
+                                    <span  style="float:left;margin:7px 10px 0 10px;"> 次</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-sm-10">
+                                    <span style="color:red">备注:在设置的时间范围内,若鉴权失败的商户总次数达到设置的次数,会发送预警短信</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><i class="red_req">*</i>预警缓冲时间设置:</label>
+                                <div class="col-sm-10" style="float:left">
+                                    <input type="text" class="form-control" style="float:left;width:100px" ng-model="authWarning.cd_time" ng-pattern="/^[1-9]\d{0,10}|0$/" required>
+                                    <span  style="float:left;margin:7px 10px 0 10px;">分钟</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-sm-10">
+                                    <span style="color:red">备注:触发预警后缓冲时间内不会发送短信,缓冲时间结束后重新记录预警事件</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><i class="red_req">*</i>短信接收人:</label>
+                                <div class="col-sm-10">
+                                    <textarea style="width:400px;height:100px;" ng-model="authWarning.phones" required></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-sm-10" >
+                                    <span style="color: red;">注:若需多人同时接收短信时,请用英文逗号隔开</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>活体认证</h5>
+                        </div>
+                        <!--活体认证预警-->
+                        <div class="ibox-content">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">预警短信内容:</label>
+                                <div class="col-sm-10 checkbox" ng-bind="hackWarning.content">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><i class="red_req">*</i>失败次数设置:</label>
+                                <div class="col-sm-10" style="float:left">
+                                    <input type="text" class="form-control" style="float:left;width:100px" ng-model="hackWarning.cycle" ng-pattern="/^([1-9])\d{0,10}$/" required>
+                                    <span  style="float:left;margin:7px 10px 0 10px;">分钟内,活体认证连续失败</span>
+                                    <input type="text" class="form-control" style="float:left;width:100px" ng-model="hackWarning.num" ng-pattern="/^([1-9])\d{0,10}$/" required>
+                                    <span  style="float:left;margin:7px 10px 0 10px;"> 次</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-sm-10">
+                                    <span style="color:red">备注：在设置的时间范围内,若活体认证失败的商户总次数达到设置的次数,会发送预警短信</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><i class="red_req">*</i>预警缓冲时间设置:</label>
+                                <div class="col-sm-10" style="float:left">
+                                    <input type="text" class="form-control" style="float:left;width:100px" ng-model="hackWarning.cd_time" ng-pattern="/^[1-9]\d{0,10}|0$/" required>
+                                    <span  style="float:left;margin:7px 10px 0 10px;">分钟</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-sm-10">
+                                    <span style="color:red">备注:触发预警后缓冲时间内不会发送短信,缓冲时间结束后重新记录预警事件</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><i class="red_req">*</i>短信接收人:</label>
+                                <div class="col-sm-10">
+                                    <textarea style="width:400px;height:100px;" ng-model="hackWarning.phones" required></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-sm-10" >
+                                    <span style="color: red;">注:若需多人同时接收短信时,请用英文逗号隔开</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-body ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>企业对比</h5>
+                        </div>
+                        <!--企业对比预警-->
+                        <div class="ibox-content">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">企业及个体工商户连续比对不符预警:</label>
+                                <div class="col-sm-10 checkbox" ng-bind="enterpriseWarning.content">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><i class="red_req">*</i>连续比对不符次数设置:</label>
+                                <div class="col-sm-10" style="float:left">
+                                    <input type="text" class="form-control" style="float:left;width:100px" ng-model="enterpriseWarning.num" ng-pattern="/^([1-9])\d{0,10}$/" required>
+                                    <span  style="float:left;margin:7px 10px 0 10px;"> 次</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><i class="red_req">*</i>预警缓冲时间设置:</label>
+                                <div class="col-sm-10" style="float:left">
+                                    <input type="text" class="form-control" style="float:left;width:100px" ng-model="enterpriseWarning.cd_time" ng-pattern="/^[1-9]\d{0,10}|0$/" required>
+                                    <span  style="float:left;margin:7px 10px 0 10px;">分钟</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-sm-10">
+                                    <span style="color:red">备注:触发预警后缓冲时间内不会发送短信,缓冲时间结束后重新记录预警事件</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><i class="red_req">*</i>短信接收人:</label>
+                                <div class="col-sm-10">
+                                    <textarea style="width:400px;height:100px;" ng-model="enterpriseWarning.phones" required></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-sm-10" >
+                                    <span style="color: red;">注:若需多人同时接收短信时,请用英文逗号隔开</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-body ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>审核预警</h5>
+                        </div>
+                        <!--商户待审核预警-->
+                        <div class="ibox-content">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">待审核商户数量过多预警:</label>
+                                <div class="col-sm-10 checkbox" ng-bind="toCheck.content">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><i class="red_req">*</i>待审核商户预警数量设置:</label>
+                                <div class="col-sm-10" style="float:left">
+                                    <input type="text" class="form-control" style="float:left;width:100px" ng-model="toCheck.num" ng-pattern="/^([1-9])\d{0,10}$/" required>
+                                    <span  style="float:left;margin:7px 10px 0 10px;"> 条</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><i class="red_req">*</i>短信接收人:</label>
+                                <div class="col-sm-10">
+                                    <textarea style="width:400px;height:100px;" ng-model="toCheck.phones" required></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-sm-10" >
+                                    <span style="color: red;">注:若需多人同时接收短信时,请用英文逗号隔开</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 bgff">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6">
+                <button class="btn btn-new btn-mr20" style="width: 130px;" type="button"
+                        ng-click="updateVerifiedWarning()" ng-disabled="horizontal.$invalid ||submitting" id="btnSubmit">保存</button>
+                <a class="btn btn-primary4 btn-mr20" style="width: 130px;" type="button" ui-sref="merchant.auditMer">返回</a>
+            </div>
+        </div>
+    </form>
+</div>

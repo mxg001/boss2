@@ -1,0 +1,172 @@
+<!--调单管理-->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>风控管理</a></li>
+            <li class="active"><strong>调单扣款查询</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app ng-controller="deductQueryCtrl">
+    <form class="form-horizontal" id="form1">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="">
+                    <div class="panel-body ibox float-e-margins">
+                        <div class="ibox-content">
+                            <div class="ibox-title">
+                                <h5>调单扣款查询</h5>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">订单编号:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.transOrderNo">
+                                </div>
+                                <label class="col-sm-2 control-label">系统参考号:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.acqReferenceNo">
+                                </div>
+                                <label class="col-sm-2 control-label">调单类型:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.orderTypeCode" ng-options="x.value as x.text for x in orderTypeCodeList"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">扣款处理状态:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.agentDeductDealStatus" ng-options="x.value as x.text for x in agentDeductDealStatusSelect"/>
+                                </div>
+                                <label class="col-sm-2 control-label">下发处理状态:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.agentIssueDealStatus" ng-options="x.value as x.text for x in agentIssueDealStatusSelect"/>
+                                </div>
+                                <label class="col-sm-2 control-label">商户编号:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.merchantNo">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">调单号:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.orderNo">
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-top: 30px">
+                                <div class="col-sm-12">
+                                    <label class="col-sm-2 control-label"></label>
+                                    <button class="btn btn-primary6 btn-mr20" type="button" ng-click="query()" >查询</button>
+                                    <button class="btn btn-primary3 btn-mr20" type="button" ng-click="clear()" >清空</button>
+                                    <button class="btn btn-primary7 btn-mr20" type="button" ng-show="hasPermit('surveyDeduct.importDetail')" ng-click="exportInfo()" >导出</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body ibox float-e-margins">
+                        <div class="ibox-title">
+                            <div class="ibox-content">
+                                <div class="ibox-title">
+                                    <h5>调单扣款列表</h5>
+                                </div>
+                                <div class="form-group">
+                                    <div class="gridStyle" ui-grid="userGrid" ui-grid-selection ui-grid-pagination
+                                         ui-grid-resize-columns ui-grid-pinning></div>
+                                    <div ng-show="loadImg" class="timg"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="height:30px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div id="acqModal" class="modal fade form-horizontal" tabindex="4" role="dialog">
+        <div class="modal-dialog" style="height:450px;width:900px">
+            <div class="modal-content" >
+                <form class="form-horizontal" name="horizontalCard"  novalidate>
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            &times;</button>
+                        <h3 class="modal-title">{{title}}</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label"><i class="red_req">*</i>请选择选择:</label>
+                            <div class="col-sm-5" style="margin-top:7px;" >
+                                <label><input type="radio" ng-model='addInfo.sta' name="sta"  ng-change="acqModalChange()" ng-value="0"/>{{title1}}</label>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <label><input type="radio" ng-model='addInfo.sta' name="sta"  ng-change="acqModalChange()" ng-value="1"/>{{title2}}</label>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                            </div>
+                        </div>
+                        <div ng-if="!selectSta">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label"><i class="red_req">*</i>{{amountTitle}}:</label>
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" name="amoutOne" required ng-model="addInfo.amoutOne"  ng-pattern="/^([1-9]\d{0,9}|0)(\.\d{1,2})?$/">
+                                    <div class="req_mesg" ng-show="horizontalCard.amoutOne.$dirty && horizontalCard.amoutOne.$invalid">
+                                        <span ng-show="horizontalCard.amoutOne.$error.required">{{amountTitle}}不能为空</span>
+                                        <span ng-show="horizontalCard.amoutOne.$error.pattern">{{amountTitle}}格式不符</span>
+                                    </div>
+                                </div>
+                                <label style="margin-top:7px;">元</label>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label"><i class="red_req">*</i>{{timeTitle}}:</label>
+                                    <div class="col-sm-5">
+                                        <input class="form-control" type="datetime" ng-model="addInfo.time" onchange=""  style="width:auto;display:inline-block;"
+                                               onFocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-if="selectSta" >
+                            <label class="col-lg-3 control-label"><i class="red_req">*</i>处理状态:</label>
+                            <div class="col-sm-3">
+                                <select class="form-control" ng-model="addInfo.selectSta" name="selectSta" required ng-options="x.value as x.text for x in selectStaList"/>
+                                <div class="req_mesg" ng-show="horizontalCard.selectSta.$dirty && horizontalCard.selectSta.$invalid">
+                                    <span ng-show="horizontalCard.selectSta.$error.required">处理状态不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-if="amountSta2">
+                            <label class="col-sm-3 control-label"><i class="red_req">*</i>{{amountTitle2}}:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="amoutTwo" required ng-model="addInfo.amoutTwo"  ng-pattern="/^([1-9]\d{0,9}|0)(\.\d{1,2})?$/">
+                                <div class="req_mesg" ng-show="horizontalCard.amoutTwo.$dirty && horizontalCard.amoutTwo.$invalid">
+                                    <span ng-show="horizontalCard.amoutTwo.$error.required">{{amountTitle2}}不能为空</span>
+                                    <span ng-show="horizontalCard.amoutTwo.$error.pattern">{{amountTitle2}}格式不符</span>
+                                </div>
+                            </div>
+                            <label style="margin-top:7px;">元</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label"><i class="red_req">*</i>备注说明:</label>
+                            <div class="col-sm-7">
+                                <textarea class="form-control" rows="4" cols="15" name="remark" required maxlength="500" ng-model="addInfo.remark"></textarea>
+                                <div class="req_mesg" ng-show="horizontalCard.remark.$dirty && horizontalCard.remark.$invalid">
+                                    <span ng-show="horizontalCard.remark.$error.required">备注说明不能为空</span>
+                                </div>
+                            </div>
+                            <label style="margin-top:7px;">注:最多输入500个字</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="form-group control-label">
+                            <label class="col-sm-1 control-label"></label>
+                            <div class="col-sm-6">
+                                <button class="btn btn-primary btn-mr20" ng-disabled="horizontalCard.$invalid" type="button" ng-click='commitInfo()' >确定</button>
+                                <button class="btn btn-primary4" type="button" ng-click='closeAcqModal()'
+                                >返回</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,186 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>红包管理</a></li>
+            <li class="active"><strong>红包领取查询</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app ng-controller="queryRedEnvelopesReceiveCtrl">
+    <form class="form-horizontal" id="form1">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-content">
+                            <div class="ibox-title">
+                                <h5>查询条件</h5>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">红包领取ID:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.id">
+                                </div>
+                                <label class="col-sm-2 control-label">领取状态:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.status" ng-options="x.value as x.text for x in statusSelect">
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label">关联业务订单ID:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.orderNo">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">发红包用户ID:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.pushUserCode">
+                                </div>
+                                <label class="col-sm-2 control-label">发红包用户姓名:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.pushUserName">
+                                </div>
+                                <label class="col-sm-2 control-label">发红包用户手机号:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.pushUserPhone">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">领取用户ID:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.getUserCode">
+                                </div>
+                                <label class="col-sm-2 control-label">领取用户姓名:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.getUserName">
+                                </div>
+                                <label class="col-sm-2 control-label">领取用户手机号:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.getUserPhone">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">发放人类型:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.pushType" ng-options="x.value as x.text for x in pushTypeSelect">
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label">接收人数类型:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.receiveType" ng-options="x.value as x.text for x in receiveTypeSelect">
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label">业务类型:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.busType" ng-options="x.value as x.text for x in busTypeSelect">
+                                    </select>
+                                </div>
+                            </div>
+                            
+                         <!--    <div class="form-group">
+                                <label class="col-sm-2 control-label">领取用户实时定位区域:</label>
+                                <div class="col-sm-2">
+									<select class="form-control input-s-sm inline" ng-model="info.openProvince"  ng-change="getCities()" ng-options="x.name as x.name for x in provinceGroup"/>                                </div>
+                                <div class="col-sm-2">
+                                    <select class="form-control input-s-sm inline" ng-model="info.openCity"  ng-change="getAreas()" ng-options="x.name as x.name for x in cityGroup"/>
+                                </div>
+                                <div class="col-sm-2">
+                                    <select class="form-control input-s-sm inline" ng-model="info.openRegion"  ng-options="x.name as x.name for x in areaGroup"/>
+                                </div>
+                         </div> -->
+                         
+                          <div class="form-group">
+                                <label class="col-sm-2 control-label">领取用户实时定位区域:</label>
+                                <div class="col-sm-2">
+									<select class="form-control input-s-sm inline" ng-model="selected" ng-options="s.name for s in list" ng-change="c()">   
+											<option value="">全部</option>
+									</select>                        
+							    </div>
+                                <div class="col-sm-2">
+                                    <select class="form-control input-s-sm inline" ng-model="selected2" ng-options="sh.name for sh in selected.child" ng-change="c2()">
+                                    	<option value="">全部</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-2">
+                                    <select class="form-control input-s-sm inline" ng-model="selected3" ng-options="x.name for x in selected2.child">
+                                    	<option value="">全部</option>
+                                    </select>
+                                </div>
+                              <label class="col-sm-2 control-label">领地分红领取状态:</label>
+                              <div class="col-sm-2">
+                                  <select class="form-control" ng-model="info.dividendStatus" ng-options="x.value as x.text for x in dividendStatusList">
+                                  </select>
+                              </div>
+                         </div>
+                            
+                            
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">发放人组织名称:</label>
+                                <div class="col-sm-2">
+                                    <select chosen="{width:'100%'}"  class="chosen-select" tabindex="5" ng-model="info.orgId" ng-options="x.orgId as x.orgName for x in orgInfoList">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label">领取时间:</label>
+                                <div class="col-sm-5">
+                                    <input id="d5231" class="form-control" type="datetime" ng-model="info.getDateMin" onchange=""  style="width:auto;display:inline-block;"
+                                           onFocus="var d5232=$dp.$('d5232');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5232.focus();},maxDate:'#F{$dp.$D(\'d5232\')}'})"/>
+                                    ~
+                                    <input id="d5232" class="form-control" type="datetime"  ng-model="info.getDateMax" onchange=""  style="width:auto;display:inline-block;"
+                                           onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5231\')}'})"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">红包ID:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.redOrderId">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-12">
+                                    <div class="col-sm-2"></div>
+                                    <button class="btn btn-primary6 btn-mr20" type="button"
+                                            id="btnSubmit" ng-click="query()">查询</button>
+                                    <button class="btn btn-primary3 btn-mr20" type="button" ng-click="clear()"
+                                            id="btnSubmit2">清空</button>
+                                    <button class="btn btn-primary7 btn-mr20" type="button"
+                                            ng-click="import()">导出</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-content">
+                            <div class="ibox-title">
+                                <h5>查询结果</h5>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-3 checkbox">总记录:<span ng-bind="allCount"></span></div>
+                                <div class="col-sm-3 checkbox">领取总金额:<span ng-bind="amountCount | currency:''"></span>元</div>
+                                <div class="col-sm-3 checkbox">领取总收益:<span ng-bind="totalLordsProfit"></span>元</div>
+                            </div>
+                            <!--<div class="form-group">-->
+                                <!--<div class="col-sm-3 checkbox">领地基准分红总金额:<span ng-bind="totalBasicBonus"></span>元</div>-->
+                                <!--<div class="col-sm-3 checkbox">领地分红总金额:<span ng-bind="totalBonusAmount"></span>元</div>-->
+                            <!--</div>-->
+                            <div class="form-group">
+                                <div ui-grid="gridOptions" ui-grid-pagination ui-grid-selection
+                                     ui-grid-resize-columns ui-grid-pinning class="grid">
+                                    <div ng-show="loadImg" class="timg"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>

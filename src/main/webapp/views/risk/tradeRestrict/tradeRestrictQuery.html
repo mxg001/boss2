@@ -1,0 +1,185 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>风控管理</a></li>
+            <li class="active"><strong>交易限制记录</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app ng-controller="tradeRestrictQueryCtrl">
+    <form class="form-horizontal" id="form1">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="">
+                    <div class="panel-body ibox float-e-margins">
+                        <div class="ibox-content">
+                            <div class="ibox-title">
+                                <h5>交易限制记录查询</h5>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">受限卡号/商户号:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.limitNumber">
+                                </div>
+                                <label class="col-sm-2 control-label">商户名称:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.merchantName">
+                                </div>
+                                <label class="col-sm-2 control-label">代理商编号:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.agentNo">
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">交易订单号:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.orderNo">
+                                </div>
+                                <label class="col-sm-2 control-label">商户手机号:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.merchantPhone">
+                                </div>
+                                <label class="col-sm-2 control-label">规则编号:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.rollNo">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">限制次数:</label>
+                                <div class="col-sm-2">
+                                    <input type="number" class="form-control" ng-model="info.triggerNumber">
+                                </div>
+                                <label class="col-sm-2 control-label">限制状态:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.status" ng-options="x.value as x.text for x in statusSelect"/>
+                                </div>
+                                <label class="col-sm-2 control-label">失败返回码:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.resultNo">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">操作人:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.createPerson">
+                                </div>
+                                <label class="col-sm-2 control-label">商户注册时间:</label>
+                                <div class="col-sm-6">
+                                    <input id="d5221" class="form-control" type="datetime" ng-model="info.merchantTimeBegin"
+                                           onchange="" style="width:auto;display:inline-block;"
+                                           onFocus="var d5222=$dp.$('d5222');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5222.focus();},maxDate:'#F{$dp.$D(\'d5222\')}'})"/>
+                                    ~
+                                    <input id="d5222" class="form-control" type="datetime" ng-model="info.merchantTimeEnd"
+                                           onchange="" style="width:auto;display:inline-block;"
+                                           onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5221\')}'})"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">创建时间:</label>
+                                <div class="col-sm-6">
+                                    <input id="d5233" class="form-control" type="datetime" ng-model="info.createTimeBegin"
+                                           onchange="" style="width:auto;display:inline-block;"
+                                           onFocus="var d5234=$dp.$('d5234');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5234.focus();},maxDate:'#F{$dp.$D(\'d5234\')}'})"/>
+                                    ~
+                                    <input id="d5234" class="form-control" type="datetime" ng-model="info.createTimeEnd"
+                                           onchange="" style="width:auto;display:inline-block;"
+                                           onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5233\')}'})"/>
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">操作时间:</label>
+                                <div class="col-sm-6">
+                                    <input id="d5256" class="form-control" type="datetime" ng-model="info.operationTimeBegin"
+                                           onchange="" style="width:auto;display:inline-block;"
+                                           onFocus="var d5257=$dp.$('d5257');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5257.focus();},maxDate:'#F{$dp.$D(\'d5257\')}'})"/>
+                                    ~
+                                    <input id="d5257" class="form-control" type="datetime" ng-model="info.operationTimeEnd"
+                                           onchange="" style="width:auto;display:inline-block;"
+                                           onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5256\')}'})"/>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-top:30px">
+                                <div class="col-sm-12">
+                                    <label class="col-sm-2 control-label"></label>
+                                    <button class="btn btn-primary6 btn-mr20" type="button" ng-click="query()" >查询</button>
+                                    <button class="btn btn-primary3 btn-mr20" type="button" ng-click="clear()" >清空</button>
+                                    <button class="btn btn-new btn-mr20" type="button" ng-show="hasPermit('tradeRestrict.riskStatusChangeBatch')" ng-click="riskStatusChangeBatch(1)" >开启限制</button>
+                                    <button class="btn btn-new btn-mr20" type="button" ng-show="hasPermit('tradeRestrict.riskStatusChangeBatch')" ng-click="riskStatusChangeBatch(2)" >解除限制</button>
+                                    <button class="btn btn-primary7 btn-mr20" type="button" ng-show="hasPermit('tradeRestrict.importDetail')" ng-click="exportInfo()" >导出</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body ibox float-e-margins">
+                        <div class="ibox-title">
+                            <div class="ibox-content">
+                                <div class="ibox-title">
+                                    <h5>交易限制记录列表</h5>
+                                </div>
+                                <div class="form-group">
+                                    <div class="gridStyle" ui-grid="userGrid" ui-grid-selection ui-grid-pagination
+                                         ui-grid-resize-columns ui-grid-pinning></div>
+                                    <div ng-show="loadImg" class="timg"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="height:30px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <form class="form-horizontal" id="form2" name="horizontalAdd" novalidate>
+        <div id="importDiscount" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog" style="width: 900px">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            &times;</button>
+                        <h3 class="modal-title">批量导入商品</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">导入文件:</label>
+                            <div class="col-sm-3 checkbox ">
+                                <input type="file" nv-file-select="" ng-model="fileSelect" uploader="uploader" multiple/>
+                                <table class="table">
+                                    <tbody>
+                                    <tr ng-repeat="item in uploader.queue">
+                                        <td>
+                                            <strong>{{ item.file.name }}</strong>
+                                        </td>
+                                        <td nowrap>
+                                            <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                                <span class="glyphicon glyphicon-trash"></span>删除
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-3 checkbox ">
+                                <a href="excActRoute/downloadTemplate" >批量导入商品模板下载</a>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-6">
+                                <button class="btn btn-primary btn-mr20" type="button" ng-click='importDiscount()'
+                                        id="btnSubmit" ng-disabled="uploader.queue.length==0||submitting">提交</button>
+                                <button class="btn btn-primary8" type="button" ng-click='importDiscountHide()' >取消</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>

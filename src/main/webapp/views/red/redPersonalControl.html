@@ -1,0 +1,187 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+                <li><a>主页</a></li>
+            <li><a>红包管理</a></li>
+            <li class="active"><strong>修改红包配置</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn"
+     ng-controller="redPersonalControlCtrl">
+    <form class="form-horizontal" name="horizontal" >
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox-content">
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">业务类型：</label>
+                        <div class="col-sm-2">
+                            <span  style="width:80px;height: 38px; line-height: 33px">个人红包</span>
+                        </div>
+
+                    </div>
+                    <div class="ibox-title">
+                        <h5>红包领取规则</h5>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-5">
+                        <i>通过此模块设定各种类型用户每日可领取红包上限数</i>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><i class="red_req">*</i>普通用户：</label>
+                        <div class="col-sm-2">
+                            <input type="text"   style="width: 100px;height: 38px;" name="userLimit"  ng-model="baseInfo.userLimit" required> 个
+                        </div>
+
+                        <label class="col-sm-2 control-label"><i class="red_req">*</i>专员：</label>
+                        <div class="col-sm-2">
+                            <input type="text"   style="width: 100px;height: 38px;" name="memberLimit"  ng-model="baseInfo.memberLimit" required> 个
+                        </div>
+
+                        <label class="col-sm-2 control-label"><i class="red_req">*</i>经理：</label>
+                        <div class="col-sm-2">
+                            <input type="text"   style="width: 100px;height: 38px;" name="managerLimit"  ng-model="baseInfo.managerLimit" required> 个
+                        </div>
+
+
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><i class="red_req">*</i>银行家：</label>
+                        <div class="col-sm-2">
+                            <input type="text"   style="width: 100px;height: 38px;" name="bankerLimit"  ng-model="baseInfo.bankerLimit" required> 个
+                        </div>
+                    </div>
+
+
+                    <div class="ibox-title">
+                        <h5>红包发放设置</h5>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-5">
+                            <i>通过此模块设定各种类型用户每日可发放红包次数上限值 </i>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><i class="red_req">*</i>有效期：</label>
+                        <div class="col-sm-4">
+                            <input type="text"   style="width: 100px;height: 38px;" name="effectiveTime"  ng-model="baseInfo.effectiveTime" required> 小时
+                            <span>
+                                (无限填-1，时间请填整数)
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>红包总金额：</label>
+                            <div class="col-sm-2">
+                                <input type="text"   style="width: 60px;height: 38px;" name="user_oneday_num"  ng-model="baseInfo.totalAmountMin" required>-
+                                <input type="text"   style="width: 60px;height: 38px;" name="user_oneday_num"  ng-model="baseInfo.totalAmountMax" required> 元
+
+                            </div>
+
+                        <label class="col-sm-2 control-label"><i class="red_req">*</i>红包可抢人数上限：</label>
+                        <div class="col-sm-2">
+                            <input type="text"  style="width: 100px;height: 38px;"  name="redNumber"  ng-model="baseInfo.redNumber" required> 人
+
+                        </div>
+                        <label class="col-sm-2 control-label"><i class="red_req">*</i>单个红包最小金额：</label>
+                        <div class="col-sm-2">
+                            <input type="text" style="width: 100px;height: 38px;"  name="amountMin"  ng-model="baseInfo.amountMin" required> 元
+
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+
+                    </div>
+
+
+                    <div class="ibox-title">
+                        <h5>红包发放设置</h5>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-5">
+                            <i>通过此模块设定各种类型用户每日可发放红包次数上限值 </i>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><i class="red_req">*</i>公司/平台：</label>
+                        <div class="col-sm-2">
+                            <input type="text"  style="width: 100px;height: 38px;"name="scalePlate"  ng-model="baseInfo.scalePlate" required> %
+                        </div>
+                        <label class="col-sm-2 control-label"><i class="red_req">*</i>OEM：</label>
+                        <div class="col-sm-2">
+                            <input type="text"   style="width: 100px;height: 38px;"name="scaleOrg"  ng-model="baseInfo.scaleOrg" required> %
+                        </div>
+                        <label class="col-sm-2 control-label"><i class="red_req">*</i>各级代理总奖金：</label>
+                        <div class="col-sm-2">
+                            <input type="text"   style="width: 100px;height: 38px;"name="scaleAgentTotal"  ng-model="baseInfo.scaleAgentTotal" required> %
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><i class="red_req">*</i>用户领抢：</label>
+                        <div class="col-sm-2">
+                            <input type="text"   style="width: 100px;height: 38px;"name="scaleUser"  ng-model="baseInfo.scaleUser" required> %
+                        </div>
+
+                        <label class="col-sm-2 control-label"><i class="red_req">*</i>专员分佣：</label>
+                        <div class="col-sm-2">
+                            <input type="text"   style="width: 100px;height: 38px;"name="scaleMember"  ng-model="baseInfo.scaleMember" required> %
+                        </div>
+                        <label class="col-sm-2 control-label"><i class="red_req">*</i>经理分佣：</label>
+                        <div class="col-sm-2">
+                            <input type="text"   style="width: 100px;height: 38px;"name="scaleManager"  ng-model="baseInfo.scaleManager" required> %
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+
+                        <label class="col-sm-2 control-label"><i class="red_req">*</i>银行家分佣：</label>
+                        <div class="col-sm-2">
+                            <input type="text"  style="width: 100px;height: 38px;" name="scaleBanker"  ng-model="baseInfo.scaleBanker" required> %
+                        </div>
+                    </div>
+
+
+
+                    <div class="ibox-title">
+                        <h5>红包到期处理</h5>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="col-sm-12">
+                            <label><input type="radio" name="recoveryType" ng-model="baseInfo.recoveryType" ng-value="0">原路退款</input></label>
+                            <label><input type="radio" name="recoveryType"  ng-model="baseInfo.recoveryType" ng-value="1">归平台所有</input></label>
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="form-group" style="padding-bottom: 50px;">
+                        <label class="col-sm-2 control-label"></label>
+                        <div class="col-sm-8">
+                            <input type="button" class="btn btn-primary btn-mr20" ng-disabled='horizontal.$invalid
+                             || submitting'
+                                   ng-click="submit()" value='保存'>
+                            <input type="button" class="btn btn-primary4 btn-mr20" ui-sref="red.redControl" value='返回'>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

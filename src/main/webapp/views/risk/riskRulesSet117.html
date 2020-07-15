@@ -1,0 +1,83 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>风控管理</a></li>
+			<li class="active"><strong>规则设置</strong></li>
+		</ol>
+	</div>
+</div>
+<style>
+	.textContect{
+		float:left;
+		padding:7px 5PX 0 5PX;
+	}
+	.inputContectMin{
+		width:50px;
+		float:left;
+		text-align:center;
+	}
+</style>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	 ng-controller="riskRulesSetCtrl">
+	<form class="form-horizontal" id="form1">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-content">
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">规则编号：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.rulesNo"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">规则引擎：</label>
+							<div class="col-sm-10" style="float:left">
+								<span class="textContect" >针对刷卡交易,商户</span>
+								<input type="text" class="form-control inputContectMin"  ng-model="values.tradeDay">
+								<div class="textContect">天内交易失败返回码为 51(余额不足)、55(密码错误)、61(交易金额超限) 三种返回码累计次数为</div>
+								<input type="text" class="form-control inputContectMin"  ng-model="values.tradeNum">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-10" style="float:left">
+								<div class="textContect" >次以上,限制该商户交易,</div>
+								<input type="text" class="form-control inputContectMin"  ng-model="values.hourTime">
+								<div class="textContect" >小时后自动解除限制.</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">规则指令：</label>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">处理措施：</label>
+							<div class="col-sm-3">
+								<input type="text" class="form-control"  ng-model="info.treatmentMeasures">
+							</div>
+						</div>
+
+						<div ui-view="riskRulesSetCommon"></div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">备注：</label>
+							<div class="col-sm-5">
+								<textarea class="form-control" rows="5" ng-model="info.remark"></textarea>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-lg-8">
+								<button class="btn btn-primary btn-mr20" ng-disabled="submitting" type="button" ng-click="commit()">提交</button>
+								<a class="btn btn-primary4" type="button"  ui-sref="risk.riskRulesMag">返回</a>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

@@ -1,0 +1,115 @@
+<!-- head -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>超级兑</a></li>
+            <li class="active"><strong>新增渠道商品</strong></li>
+        </ol>
+    </div>
+</div>
+
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="excRouteGoodAddCtrl">
+    <form class="form-horizontal" id="form1" name="horizontalCard">
+        <div class="form-group">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="ibox-title">
+                        <h5>新增渠道商品</h5>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">核销渠道编号:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" readonly ng-model="addInfo.channelNo">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>上游渠道id:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="goodTypeNo" required ng-model="addInfo.goodTypeNo">
+                                <div class="req_mesg" ng-show="horizontalCard.goodTypeNo.$dirty && horizontalCard.goodTypeNo.$invalid">
+                                    <span ng-show="horizontalCard.goodTypeNo.$error.required">渠道商品编号不能为空</span>
+                                </div>
+                            </div>
+                            <label style="margin-top:7px;">注:上游提供的</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>渠道商品编号:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="channelGoodNo" required ng-model="addInfo.channelGoodNo">
+                                <div class="req_mesg" ng-show="horizontalCard.channelGoodNo.$dirty && horizontalCard.channelGoodNo.$invalid">
+                                    <span ng-show="horizontalCard.channelGoodNo.$error.required">渠道商品编号不能为空</span>
+                                </div>
+                            </div>
+                            <label style="margin-top:7px;">注:上游提供的</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>渠道商品名称:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="channelGoodName" required ng-model="addInfo.channelGoodName">
+                                <div class="req_mesg" ng-show="horizontalCard.channelGoodName.$dirty && horizontalCard.channelGoodName.$invalid">
+                                    <span ng-show="horizontalCard.channelGoodName.$error.required">渠道商品名称不能为空</span>
+                                </div>
+                            </div>
+                            <label style="margin-top:7px;">注:上游提供的</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>渠道商品内容编号:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="goodContentId" required ng-model="addInfo.goodContentId">
+                                <div class="req_mesg" ng-show="horizontalCard.goodContentId.$dirty && horizontalCard.goodContentId.$invalid">
+                                    <span ng-show="horizontalCard.goodContentId.$error.required">渠道商品内容编号不能为空</span>
+                                </div>
+                            </div>
+                            <label style="margin-top:7px;">注:上游的商品内容ID</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>对应商品ID:</label>
+                            <div class="col-sm-3">
+                                <select  name="pId" id="autocomplete-select1" required
+                                         ng-model="addInfo.pId" ng-options="x.value as x.text for x in productList"
+                                         style="width: 100%" chosen chosen-data="pId" chosen-keyup="getStates">
+                                </select>
+                                <div class="req_mesg" ng-show="horizontalCard.pId.$dirty && horizontalCard.pId.$invalid">
+                                    <span ng-show="horizontalCard.pId.$error.required">对应商品ID不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>核销价格:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="channelPrice" required ng-model="addInfo.channelPrice" ng-pattern="/^([1-9]\d{0,9}|0)(\.\d{1,2})?$/" >
+                                <div class="req_mesg" ng-show="horizontalCard.channelPrice.$dirty && horizontalCard.channelPrice.$invalid">
+                                    <span ng-show="horizontalCard.channelPrice.$error.required">核销价格不能为空</span>
+                                    <span ng-show="horizontalCard.channelPrice.$error.pattern">核销价格格式不符</span>
+                                </div>
+                            </div>
+                            <label style="margin-top:7px;">元 注:上游提供的</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>核销方式:</label>
+                            <div class="col-sm-3">
+                                <select class="form-control" name="goodMode" required ng-model="addInfo.goodMode" ng-options="x.value as x.text for x in goodModeSelect"/>
+                                <div class="req_mesg" ng-show="horizontalCard.goodMode.$dirty && horizontalCard.goodMode.$invalid">
+                                    <span ng-show="horizontalCard.goodMode.$error.required">核销方式不能为空</span>
+                                </div>
+                            </div>
+                            <label style="margin-top:7px;">注:上游提供的</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 bgff">
+                <div class="col-sm-12">
+                    <div class="col-lg-3"></div>
+                    <div class="col-sm-6">
+                        <button class="btn btn-primary btn-mr20" type="button" ng-click="commitInfo()" ng-disabled="horizontalCard.$invalid || submitting">提交</button>
+                        <a class="btn btn-primary4" ui-sref="exchange.route" >返回</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,63 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>信用卡管家</a></li>
+			<li class="active"><strong>账单清单</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="billInventoryCtrl">
+	<form class="form-horizontal" id="form1" name="horizontal" novalidate>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>查询账单</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">用户ID:</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" ng-model="info.userNo">
+							</div>
+							<label class="col-sm-2 control-label">银行卡号:</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" ng-model="info.cardNo">
+							</div>
+							<label class="col-sm-2 control-label">账单类型:</label>
+							<div class="col-sm-2">
+								<select class="form-control" ng-model="info.method" ng-options="x.value as x.text for x in methodSelect">
+									<option value="" selected>全部</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-8">
+								<button class="btn btn-primary6 btn-mr20" ng-click="query()">查询</button>
+								<button class="btn btn-primary3 btn-mr20" ng-click="resetForm()">清空</button>
+								<button class="btn btn-new btn-mr20" ng-click="exportInfo()">导出</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>账单列表</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="gridStyle" ui-grid="myGrid" ui-grid-selection ui-grid-pagination
+							ui-grid-resize-columns ui-grid-pinning>
+							<div ng-show="loadImg" class="timg"></div>
+						</div>
+					</div>
+				</div>
+				<div style="height:30px;"></div>
+			</div>
+		</div>
+	</form>
+</div>

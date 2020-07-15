@@ -1,0 +1,40 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>产品服务</a></li>
+			<li class="active"><strong>增加进件要求项定义</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn"
+	ng-controller="addRequireCtrl">
+	<form class="form-horizontal" name="horizontal" novalidate id="form1" >
+		<div class="form-group">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="ibox float-e-margins">
+						<div class="ibox-title">
+							<h5>进件要求项定义</h5>
+							<!--<div ibox-tools></div>-->
+						</div>
+						<div class="ibox-content">
+							<div ui-view="requireBase"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-12 bgff">
+				<div class="col-sm-12">
+					<div class="col-sm-2"></div>
+					<div class="col-sm-6"><button class="btn btn-primary btn-rounded btn-block" type="button" ng-show="hasPermit('require.insert')"
+												  ng-click="addRequire()" id="btnSubmit" ng-disabled="horizontal.$invalid
+							|| (baseInfo.exampleType=='2' && uploaderFile.queue.length==0) || subDisable">提交</button></div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+</div>

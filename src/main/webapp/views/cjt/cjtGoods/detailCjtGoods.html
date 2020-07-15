@@ -1,0 +1,112 @@
+<!-- head -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>超级推</a></li>
+            <li><a>商品管理</a></li>
+            <li class="active"><strong>商品详情</strong></li>
+        </ol>
+    </div>
+</div>
+
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn"
+     ng-controller="detailCjtGoods">
+    <form class="form-horizontal" id="form1" name="horizontal">
+        <div class="form-group">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content row">
+                    <div class="ibox-title">
+                        <h5>基本资料</h5>
+                        <!--<div ibox-tools></div>-->
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group ">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>商品标题：</label>
+                            <div class="col-lg-2 checkbox" ng-bind="baseInfo.goodsName">
+                            </div>
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>硬件产品类型：</label>
+                            <div class="col-lg-2 checkbox" ng-bind="baseInfo.typeName">
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>销售价：</label>
+                            <div class="col-lg-2 checkbox">{{baseInfo.price}}元
+                            </div>
+                            <label class="col-lg-2 control-label">尺寸：</label>
+                            <div class="col-lg-2 checkbox" >{{baseInfo.size}}
+                            </div>
+                            <label class="col-lg-2 control-label">颜色：</label>
+                            <div class="col-lg-2 checkbox" ng-bind="baseInfo.color">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ibox-title">
+                        <h5>商品主图</h5>
+                        <!--<div ibox-tools></div>-->
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group ">
+                            <label class="col-lg-2 control-label">图1：</label>
+                            <div class="col-lg-4 col-img"  ng-if="baseInfo.mainImgUrl1!=null">
+                                <a href="{{baseInfo.mainImgUrl1}}" fancybox rel="group">
+                                    <img width="250px" height="150px" ng-src="{{baseInfo.mainImgUrl1}}"/>
+                                </a>
+                            </div>
+                            <label class="col-lg-2 control-label">图2：</label>
+                            <div class="col-lg-4 col-img"  ng-if="baseInfo.mainImgUrl2!=null">
+                                <a href="{{baseInfo.mainImgUrl2}}" fancybox rel="group">
+                                    <img width="250px" height="150px" ng-src="{{baseInfo.mainImgUrl2}}"/>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="col-lg-2 control-label">图3：</label>
+                            <div class="col-lg-4 col-img"  ng-if="baseInfo.mainImgUrl3!=null">
+                                <a href="{{baseInfo.mainImgUrl3}}" fancybox rel="group">
+                                    <img width="250px" height="150px" ng-src="{{baseInfo.mainImgUrl3}}"/>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ibox-title">
+                        <h5>商品详情</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">商品描述:</label>
+                            <div class="col-lg-10">
+                                <summernote type="text" id="summernote" class="form-control" name="goodsDesc"  ng-model="baseInfo.goodsDesc" editable="editable" editor="editor" >
+                                </summernote>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">商品详情图片:</label><label style="color: silver;" class="control-label">(按上传的先后位置显示)</label>
+                        </div>
+                        <div class="form-group" ng-repeat="item in descImgUrlList" ng-if="item!=null&&item!=''">
+                            <label class="col-sm-2 control-label">&nbsp;</label>
+                            <div class="col-lg-4 col-img">
+                                <a href="{{item}}" fancybox rel="group">
+                                    <img width="250px" height="150px" ng-src="{{item}}"/>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-lg-12 bgff">
+                    <div class="col-sm-12">
+                        <div class="col-sm-3"></div>
+                        <div class="col-sm-6">
+                            <button class="btn btn-primary4 btn-mr20" type="button"
+                                    ui-sref="cjt.queryCjtGoods">返回</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

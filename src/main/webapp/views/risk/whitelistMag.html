@@ -1,0 +1,104 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>风控管理</a></li>
+			<li class="active"><strong>白名单管理</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="whitelistMagCtrl">
+	<form class="form-horizontal" id="form1">
+			<div class="row">
+				<div class="col-lg-12">
+						<div class="panel-body ibox float-e-margins">
+							<div class="ibox-content">
+							
+								<div class="form-group">
+									<label class="col-sm-1 control-label">白名单类型：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.rollType" ng-options="x.value as x.text for x in whitelistTypesAll"/>
+									</div>
+								
+									<label class="col-sm-2 control-label">商户编号/身份证号：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" ng-model="info.rollNo">
+									</div>
+									
+									<label class="col-sm-1 control-label">状态：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.rollStatus" ng-options="x.value as x.text for x in _rollStatus"/>
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label class="col-sm-1 control-label">创建时间：</label>
+									<div class="col-sm-6">
+										<input type="datetime" style="width:auto;display:inline-block;" ng-model="info.sdate" class="form-control" date-time ng-model="info.sTime" min-view="date" view="date" format="YYYY-MM-DD">
+										~
+										<div style="position: relative; display: inline-block"><input type="datetime" ng-model="info.edate" class="form-control" style="width:auto;display:inline-block;" date-time ng-model="info.eTime" view="date"  min-view="date" format="YYYY-MM-DD"></div>
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<div class="col-lg-12">
+										<div class="col-sm-1"></div>
+										<button class="btn btn-primary6 btn-mr20" type="button" ng-click="query()">查询</button>
+										<button class="btn btn-primary3 btn-mr20" type="button" ng-click="reset()">清空</button>
+										<a class="btn btn-primary5 btn-mr20" type="button" ng-show="hasPermit('whiteList.insert')" ui-sref="risk.whitelistAdd">新增</a>
+										<button class="btn btn-primary12 btn-mr20" ng-show="hasPermit('whiteList.deleteBatch')" type="button" ng-click="delBatch()">批量删除</button>
+										<button class="btn btn-new" type="button" ng-show="hasPermit('whiteList.setRule')" ng-click="openModal()">白名单规则匹配</button>
+									</div>
+									
+								</div>
+								<div class="form-group">
+									<div ui-grid="whitelistGrid" ui-grid-pagination ui-grid-resize-columns ui-grid-selection ui-grid-pinning class="grid"></div>
+								</div>
+									
+							</div>
+					</div>
+				</div>
+			</div>
+	</form>
+
+	
+	<!-- 模态框（Modal）新增终端 -->
+	<div id="addWhiteRuls" class="modal fade" tabindex="-1" role="dialog">
+	   <div class="modal-dialog">
+	      <div class="modal-content">
+	         <div class="modal-header">
+	            <button type="button" class="close" data-dismiss="modal">
+	                  &times;
+	            </button>
+	            <h3 class="modal-title">规则配置</h3>
+	         </div>
+	         <div class="modal-body">
+	         	<form id="form2">
+					<div class="form-group">
+						<label class="col-sm-4 control-label">白名单类型：</label>
+						<select class="form-control" ng-model="roll.rollType" ng-options="x.value as x.text for x in whitelistTypes"/>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label">配置规则编号：</label>
+						<input type="checkbox" ng-change="selectAll()" ng-model="tall" class="form-control" style="width:14px; height:14px;float:left; margin-right:5px;"/>全选  (注: 勾选的规则对该类型的白名单商户生效)
+						<div style="overflow:hidden; padding:10px 0;">
+							<div ng-repeat="item in rulesList" style="float:left;margin-right:10px;">
+								<div ng-show="roll.rollType==5"><input type="checkbox" class="form-control" ng-model="item.merWhiteRoll" style="width:14px; height:14px;float:left; margin-right:5px;" ng-true-value="1" ng-false-value="0"/>{{item.rulesNo}}</div>
+								<div ng-show="roll.rollType==6"><input type="checkbox" class="form-control" ng-model="item.realNameWhiteRoll" style="width:14px; height:14px;float:left; margin-right:5px;" ng-true-value="1" ng-false-value="0"/>{{item.rulesNo}}</div>
+								<div ng-show="roll.rollType==4"><input type="checkbox" class="form-control" ng-model="item.walletWhiteRoll" style="width:14px; height:14px;float:left; margin-right:5px;" ng-true-value="1" ng-false-value="0"/>{{item.rulesNo}}</div>
+							</div>
+						</div>
+					</div>
+	         	</form>
+	         </div>
+	         <div class="modal-footer">
+			    <button type="button" ng-click="confirm()" class="btn btn-primary">确定</button>
+			 </div>
+	      </div>
+		</div>
+	</div>
+
+</div>

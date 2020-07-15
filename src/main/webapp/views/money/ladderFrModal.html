@@ -1,0 +1,89 @@
+<div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal"
+		aria-label="Close" ng-click="solutionModalClose()">
+		<span aria-hidden="true">&times;</span>
+	</button>
+	<h4 class="modal-title" id="myModalLabel">每月日均累计交易量阶梯扣率带保底</h4>
+</div>
+<div class="modal-body" style="height: 300px;">
+	<form id="form1" method="" action="" name="horizontal">
+		<div class="form-group" class="col-lg-12">
+			<div class="col-lg-2">
+				<input type="text" ng-model="info.m1" type="text" class="form-control" disabled="disabled" value="0">
+			</div>
+			<label class="col-lg-1 control-label">万元&lt;</label>
+			<div class="col-lg-2">
+				<input ng-blur="weikong(info.m2)" type="number" ng-model="info.m2" type="text" class="form-control" required>
+			</div>
+			<label class="col-lg-1 control-label">元 &nbsp;~&nbsp;</label>
+			<div class="col-lg-2">
+				<input ng-blur="weikong(info.m3)"  type="number" ng-model="info.m3" type="text" class="form-control" required>
+			</div>
+			<label class="col-lg-1 control-label">%&lt;=</label>
+			<div class="col-lg-2">
+				<input type="number" ng-blur="bijiao(info.m1,info.m4)" ng-model="info.m4" type="text" class="form-control" required>
+			</div>
+			<label class="col-lg-1 control-label">万元</label>
+		</div>
+		
+		<div class="form-group" class="col-lg-12">
+			<div class="col-lg-2">
+				<input type="number" ng-model="info.m4" type="text" class="form-control">
+			</div>
+			<label class="col-lg-1 control-label">万元&lt;</label>
+			<div class="col-lg-2">
+				<input ng-blur="weikong(info.m5)"  type="number" ng-model="info.m5" type="text" class="form-control" required>
+			</div>
+			<label class="col-lg-1 control-label">元 &nbsp;~&nbsp;</label>
+			<div class="col-lg-2">
+				<input ng-blur="weikong(info.m6)" type="number" ng-model="info.m6" type="text" class="form-control" required>
+			</div>
+			<label class="col-lg-1 control-label">%&lt;=</label>
+			<div class="col-lg-2">
+				<input type="number" ng-blur="bijiao(info.m4,info.m7)" ng-model="info.m7" type="text" class="form-control" required>
+			</div>
+			<label class="col-lg-1 control-label">万元</label>
+		</div>
+		
+		<div class="form-group" class="col-lg-12">
+			<div class="col-lg-2">
+				<input type="number" ng-model="info.m7" type="text" class="form-control">
+			</div>
+			<label class="col-lg-1 control-label">万元&lt;</label>
+			<div class="col-lg-2">
+				<input ng-blur="weikong(info.m8)" type="number" ng-model="info.m8" type="text" class="form-control" required>
+			</div>
+			<label class="col-lg-1 control-label">元 &nbsp;~&nbsp;</label>
+			<div class="col-lg-2">
+				<input ng-blur="weikong(info.m9)" type="number" ng-model="info.m9" type="text" class="form-control" required>
+			</div>
+			<label class="col-lg-1 control-label">%&lt;=</label>
+			<div class="col-lg-2">
+				<input type="number" ng-blur="bijiao(info.m7,info.m10)" ng-model="info.m10" type="text" class="form-control" required>
+			</div>
+			<label class="col-lg-1 control-label">万元</label>
+		</div>
+		
+		<div class="form-group" class="col-lg-12">
+			<div class="col-lg-2">
+				<input type="number" ng-model="info.m10" type="text" class="form-control">
+			</div>
+			<label class="col-lg-1 control-label">万元&lt;</label>
+			<div class="col-lg-2">
+				<input ng-blur="weikong(info.m11)" type="number" ng-model="info.m11" type="text" class="form-control" required>
+			</div>
+			<label class="col-lg-1 control-label">元 &nbsp;~&nbsp;</label>
+			<div class="col-lg-2">
+				<input ng-blur="weikong(info.m12)" type="number" ng-model="info.m12" type="text" class="form-control" required>
+			</div>
+			<label class="col-lg-1 control-label">%&lt;=</label>
+			<div class="col-lg-2">
+				<input ng-blur="bijiao(info.m10,info.m13)" ng-model="info.m13" type="text" class="form-control" disabled="disabled" value="无穷大">
+			</div>
+			<label class="col-lg-1 control-label">万元</label>
+		</div>
+	</form>
+</div>
+<div class="modal-footer">
+	<button type="submit" class="btn btn-primary" ng-disabled="horizontal.$invalid || submitting" ng-click="solutionModalOk()">确定</button>
+</div>

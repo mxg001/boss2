@@ -1,0 +1,64 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>功能管理</a></li>
+			<li class="active"><strong>活动管理详情</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="zxIndustryDetailCtrl">
+	<form class="form-horizontal" id="form1">
+			<div class="row">
+				<div class="col-lg-12">
+						<div class="panel-body ibox float-e-margins">
+							<div class="ibox-title">
+								<h5>活动管理详情</h5>
+							</div>
+							<div class="ibox-content">
+								<div class="form-group">
+									<label class="col-sm-2 control-label">活动名称：</label>
+									<div class="col-lg-2 lh30" ng-bind="baseInfo.activityName">
+									</div>
+									<label class="col-sm-2 control-label">活动开关：</label>
+                                    <div class="col-lg-2 lh30" ng-show="baseInfo.status==0">打开</div>
+                                    <div class="col-lg-2 lh30" ng-show="baseInfo.status!=0">关闭</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">活动简介：</label>
+									<div class="col-lg-8">
+										<textarea class="form-control" rows="6" ng-model="baseInfo.activityExplain" readonly></textarea>
+									</div>
+								</div>
+								<div class="form-group">
+								    <div ng-repeat="config in list">
+                                        <label class="col-sm-2 control-label">{{config.teamName}}:</label>
+                                        <div class="col-lg-2">
+                                            <input ng-show="config.rateType==2" class="form-control" type="text" maxlength="10" style="width: 85%; float: left; margin-right: 5px;"
+                                             ng-model="config.rate"  readonly></input>
+                                             <input ng-show="config.rateType==1" class="form-control" type="text" maxlength="10" style="width: 85%; float: left; margin-right: 5px;"
+                                             ng-model="config.fixedAmount"  readonly></input>
+                                            <span class="lh30">{{config.rateType==1?'元':'%'}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+							</div>
+
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-12 bgff">
+                        <div class="col-sm-12">
+                            <div class="col-sm-2"></div>
+                            <div class="col-sm-6">
+                                <div style="padding: 0 15px;">
+                                    <input type="button" class="btn btn-primary4 btn-mr20" ui-sref="func.couponActivity" value='返回'>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+	</form>
+</div>

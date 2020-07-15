@@ -1,0 +1,318 @@
+<!-- 超级银行家用户管理页面 -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>超级兑</a></li>
+            <li class="active"><strong>积分兑换核销管理</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app ng-controller="exchangeAuditQueryCtrl">
+    <form class="form-horizontal" id="form1">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="">
+                    <div class="panel-body ibox float-e-margins">
+                        <div class="ibox-content">
+                            <div class="ibox-title">
+                                <h5>业务订单查询</h5>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">订单ID:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.orderNo">
+                                </div>
+                                <label class="col-sm-2 control-label">订单状态:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.orderStatus" ng-options="x.value as x.text for x in orderStatusSelect"/>
+                                </div>
+                                <label class="col-sm-2 control-label">组织名称:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.oemNo" ng-options="x.value as x.text for x in oemList"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">贡献人ID:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.merNo">
+                                </div>
+                                <label class="col-sm-2 control-label">贡献人证件号:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.businessCode">
+                                </div>
+                                <label class="col-sm-2 control-label">贡献人手机号:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.mobileUsername">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">兑换机构:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.orgCode" ng-options="x.value as x.text for x in orgList"/>
+                                </div>
+                                <label class="col-sm-2 control-label">创建时间:</label>
+                                <div class="col-sm-5">
+                                    <input id="d5231" class="form-control" type="datetime" ng-model="info.createTimeBegin" onchange=""  style="width:auto;display:inline-block;"
+                                           onFocus="var d5232=$dp.$('d5232');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5232.focus();},maxDate:'#F{$dp.$D(\'d5232\')}'})"/>
+                                    ~
+                                    <input id="d5232" class="form-control" type="datetime"  ng-model="info.createTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+                                           onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5231\')}'})"/>
+                                </div>
+                            </div>
+                            <div ng-show="visible">
+                                <div class="form-group">
+                                    <label class="col-sm-1 control-label">一次核销状态:</label>
+                                    <div class="col-sm-2">
+                                        <select class="form-control" ng-model="info.checkStatusOne" ng-options="x.value as x.text for x in checkStatusSelect"/>
+                                    </div>
+                                    <label class="col-sm-2 control-label">二次核销状态:</label>
+                                    <div class="col-sm-2">
+                                        <select class="form-control" ng-model="info.checkStatus" ng-options="x.value as x.text for x in checkStatusSelect"/>
+                                    </div>
+                                    <label class="col-sm-2 control-label">核销人:</label>
+                                    <div class="col-sm-2">
+                                        <input type="text" class="form-control" ng-model="info.checkOper">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-1 control-label">上游渠道核销状态:</label>
+                                    <div class="col-sm-2">
+                                        <select class="form-control" ng-model="info.channelCheckStatus" ng-options="x.value as x.text for x in checkStatusSelect"/>
+                                    </div>
+                                    <label class="col-sm-2 control-label">核销渠道:</label>
+                                    <div class="col-sm-2">
+                                        <select class="form-control" ng-model="info.channel" ng-options="x.value as x.text for x in channelSelect"/>
+                                    </div>
+                                    <label class="col-sm-2 control-label">记账状态:</label>
+                                    <div class="col-sm-2">
+                                        <select class="form-control" ng-model="info.accStatus" ng-options="x.value as x.text for x in accStatusSelect"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-1 control-label">上游渠道核销时间:</label>
+                                    <div class="col-sm-5">
+                                        <input id="d5366" class="form-control" type="datetime" ng-model="info.channelCheckTimeBegin" onchange=""  style="width:auto;display:inline-block;"
+                                               onFocus="var d5367=$dp.$('d5367');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5367.focus();},maxDate:'#F{$dp.$D(\'d5367\')}'})"/>
+                                        ~
+                                        <input id="d5367" class="form-control" type="datetime"  ng-model="info.channelCheckTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+                                               onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5366\')}'})"/>
+                                    </div>
+                                    <label class="col-sm-1 control-label">核销时间:</label>
+                                    <div class="col-sm-5">
+                                        <input id="d5255" class="form-control" type="datetime" ng-model="info.checkTimeBegin" onchange=""  style="width:auto;display:inline-block;"
+                                               onFocus="var d5256=$dp.$('d5256');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5256.focus();},maxDate:'#F{$dp.$D(\'d5256\')}'})"/>
+                                        ~
+                                        <input id="d5256" class="form-control" type="datetime"  ng-model="info.checkTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+                                               onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5255\')}'})"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-1 control-label">核销渠道订单ID:</label>
+                                    <div class="col-sm-2">
+                                        <input type="text" class="form-control" ng-model="info.saleOrderNo">
+                                    </div>
+                                    <label class="col-sm-2 control-label">入账时间:</label>
+                                    <div class="col-sm-5">
+                                        <input id="d5266" class="form-control" type="datetime" ng-model="info.accTimeBegin" onchange=""  style="width:auto;display:inline-block;"
+                                               onFocus="var d5267=$dp.$('d5267');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5267.focus();},maxDate:'#F{$dp.$D(\'d5267\')}'})"/>
+                                        ~
+                                        <input id="d5267" class="form-control" type="datetime"  ng-model="info.accTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+                                               onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5266\')}'})"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="more-term" style="text-align: right;margin-bottom:20px;padding-right: 39px;color:#3baaff;"><span  ng-click="toggle()" style="cursor: pointer;" ng-class="{true:'active',false:''}[visible]">{{mtxt}}</span></div>
+                            <div class="form-group" style="margin-top: 30px">
+                                <div class="col-sm-12">
+                                    <label class="col-sm-1 control-label"></label>
+                                    <button class="btn btn-primary6 btn-mr20" type="button" ng-click="query()" >查询</button>
+                                    <button class="btn btn-primary3 btn-mr20" type="button" ng-click="clear()" >清空</button>
+                                    <button class="btn btn-new btn-mr20" type="button" ng-show="hasPermit('exchangeOrder.importDiscount')"  ng-click="importDiscountShow()" >批量核销导入</button>
+                                    <button class="btn btn-primary7 btn-mr20" type="button" ng-show="hasPermit('exchangeOrder.importAuditDetail')" ng-click="exportInfo(1)" >导出</button>
+                                    <button class="btn btn-primary7 btn-mr20" style="width: 160px;" type="button" ng-show="hasPermit('exchangeOrder.importAuditDetail')" ng-click="exportInfo(2)" >导出(不含图片)</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body ibox float-e-margins">
+                        <div class="ibox-title">
+                            <div class="ibox-content">
+                                <div class="form-group">
+                                    <div class="col-sm-2 checkbox">兑换价格汇总:<span ng-bind="totalAmount.priceTotal | currency:''"></span>元</div>
+                                    <div class="col-sm-2 checkbox">核销价格汇总:<span ng-bind="totalAmount.writeOffPriceTotal | currency:''"></span>元</div>
+                                    <div class="col-sm-2 checkbox">平台分润汇总:<span ng-bind="totalAmount.plateShareTotal | currency:''"></span>元</div>
+                                    <div class="col-sm-2 checkbox">品牌分润汇总:<span ng-bind="totalAmount.oemShareTotal | currency:''"></span>元</div>
+                                    <div class="col-sm-2 checkbox">代理商分润汇总:<span ng-bind="totalAmount.agentAmoutTotal | currency:''"></span>元</div>
+                                    <div class="col-sm-2 checkbox">用户总分润汇总:<span ng-bind="totalAmount.merAmoutTotal | currency:''"></span>元</div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="gridStyle" ui-grid="userGrid" ui-grid-selection ui-grid-pagination
+                                         ui-grid-resize-columns ui-grid-pinning></div>
+                                    <div ng-show="loadImg" class="timg"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="height:30px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div id="addBankModal" class="modal fade form-horizontal" tabindex="4" role="dialog">
+        <div class="modal-dialog" style="height:450px;width: 900px">
+            <div class="modal-content" >
+                <form class="form-horizontal" name="horizontalCard" ng-submit="addBank()" novalidate>
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            &times;</button>
+                        <h3 class="modal-title">新增产品</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">机构名称:</label>
+                            <div class="col-sm-3">
+                                <select class="form-control" ng-change="changeOrgCode()" ng-model="addinfo.orgCode" ng-options="x.value as x.text for x in orgList"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>积分产品类别:</label>
+                            <div class="col-sm-3">
+                                <select class="form-control" name="typeCode" required ng-model="addinfo.typeCode" ng-options="x.value as x.text for x in typeList"/>
+                                <div class="req_mesg" ng-show="horizontalCard.typeCode.$dirty && horizontalCard.typeCode.$invalid">
+                                    <span ng-show="horizontalCard.typeCode.$error.required">积分产品类别不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>产品名称:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="productName" required ng-model="addinfo.productName">
+                                <div class="req_mesg" ng-show="horizontalCard.productName.$dirty && horizontalCard.productName.$invalid">
+                                    <span ng-show="horizontalCard.productName.$error.required">产品名称不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>产品简称:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="productShorthand" maxlength="5" required ng-model="addinfo.productShorthand">
+                                <div class="req_mesg" ng-show="horizontalCard.productShorthand.$dirty && horizontalCard.productShorthand.$invalid">
+                                    <span ng-show="horizontalCard.productShorthand.$error.required">产品简称不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>兑换积分:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="excPoint" required ng-model="addinfo.excPoint">
+                                <div class="req_mesg" ng-show="horizontalCard.excPoint.$dirty && horizontalCard.excPoint.$invalid">
+                                    <span ng-show="horizontalCard.excPoint.$error.required">兑换积分不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>兑换价格:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="excPrice" required ng-model="addinfo.excPrice">
+                                <div class="req_mesg" ng-show="horizontalCard.excPrice.$dirty && horizontalCard.excPrice.$invalid">
+                                    <span ng-show="horizontalCard.excPrice.$error.required">兑换价格不能为空</span>
+                                </div>
+                            </div>
+                            <label style="margin-top: 10px;">元</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">兑换次数:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control"  ng-model="addinfo.excNum">
+                            </div>
+                            <label style="margin-top: 10px;">次/月&nbsp;&nbsp;&nbsp;<label style="color:red;">注:空为不限次数</label></label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>结算周期:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="settleDay" required ng-model="addinfo.settleDay">
+                                <div class="req_mesg" ng-show="horizontalCard.settleDay.$dirty && horizontalCard.settleDay.$invalid">
+                                    <span ng-show="horizontalCard.settleDay.$error.required">结算周期不能为空</span>
+                                </div>
+                            </div>
+                            <label style="margin-top: 10px;">天</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>最短有效时间:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="minDay" required ng-model="addinfo.minDay">
+                                <div class="req_mesg" ng-show="horizontalCard.minDay.$dirty && horizontalCard.minDay.$invalid">
+                                    <span ng-show="horizontalCard.minDay.$error.required">最短有效时间不能为空</span>
+                                </div>
+                            </div>
+                            <label style="margin-top: 10px;">天&nbsp;&nbsp;&nbsp;<label style="color:red;">注:低于该时间将不接受用户报单</label></label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="form-group control-label">
+                            <label class="col-sm-1 control-label"></label>
+                            <div class="col-sm-6">
+                                <button class="btn btn-primary btn-mr20" ng-disabled="horizontalCard.$invalid || submitting" type="button" ng-click='addBank()' >确定</button>
+                                <button class="btn btn-primary4" type="button" ng-click='cancel()'
+                                >返回</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="importDiscount" class="modal fade" tabindex="-1" role="dialog">
+        <form class="form-horizontal" id="form2" name="horizontalAdd" novalidate>
+            <div class="modal-dialog" style="width: 900px">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            &times;</button>
+                        <h3 class="modal-title">批量核销导入</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">导入文件：</label>
+                            <div class="col-sm-3 checkbox ">
+                                <input type="file" nv-file-select="" ng-model="fileSelect" uploader="uploader" multiple/>
+                                <table class="table">
+                                    <tbody>
+                                    <tr ng-repeat="item in uploader.queue">
+                                        <td>
+                                            <strong>{{ item.file.name }}</strong>
+                                        </td>
+                                        <td nowrap>
+                                            <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                                <span class="glyphicon glyphicon-trash"></span>删除
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-3 checkbox ">
+                                <a href="exchangeOrder/downloadTemplate" >批量核销导入模板下载</a>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-6">
+                                <button class="btn btn-primary btn-mr20" type="button" ng-click='importDiscount()'
+                                        id="btnSubmit" ng-disabled="uploader.queue.length==0||submitting">提交</button>
+                                <button class="btn btn-primary8" type="button" ng-click='cancel()'
+                                >取消</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

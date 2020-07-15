@@ -1,0 +1,105 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a href="index.html">主页</a></li>
+            <li>收单机构管理</li>
+            <li class="active"><strong>金额黑名单查询</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="queryBlacklistAmount">
+    <form class="form-horizontal" id="form-blacklistAmount-query">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>金额黑名单查询</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">路由ID：</label>
+                            <div class="col-sm-2">
+                                <input type="number" class="form-control" ng-model="baseInfo.jumpRuleId">
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-top: 30px">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-8">
+                                <button class="btn btn-primary6 btn-mr20"  ng-click="query()" ng-disabled="submitting">查询</button>
+                                <button class="btn btn-primary3 btn-mr20" ng-click="resetForm()">清空</button>
+                                <button class="btn btn-primary5 btn-mr20" ng-show="hasPermit('blacklistAmount.insert')" ng-click="addInfoModal()">新增</button>
+                                <a class="btn btn-primary4 btn-mr20" type="button" ui-sref="org.jumpRoute">返回</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>金额黑名单列表</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="tposition">
+                            <div class="gridStyle" ui-grid="blacklistAmountGrid" ui-grid-selection ui-grid-pagination
+                                 ui-grid-resize-columns ui-grid-pinning></div>
+                            <div ng-show="loadImg" class="timg"></div>
+                        </div>
+                    </div>
+                </div>
+                <div style="height:30px;"></div>
+            </div>
+        </div>
+    </form>
+
+    <div id="addInfoModal" class="modal fade form-horizontal" tabindex="3" role="dialog">
+        <div class="modal-dialog" style="height:400px;width: 700px">
+            <div class="modal-content" style="height:350px;width: 735px">
+            <form class="form-horizontal" name="horizontalAdd">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        &times;</button>
+                    <h3 class="modal-title">新增金额黑名单</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><i class="red_req">*</i>金额：</label>
+                        <div class="col-sm-4">
+                            <input class="form-control" name="amount" ng-model="addInfo.amount" maxlength="20"
+                             ng-pattern="/^(([0-9]\d{0,15}))(\.\d{1,2})?$/" required>
+                            <div class="req_mesg" ng-show="horizontalAdd.amount.$dirty && horizontalAdd.amount.$invalid">
+                                <span ng-show="horizontalAdd.amount.$error.required">金额不能为空</span>
+                                <span ng-show="horizontalAdd.amount.$error.pattern">金额格式不正确</span>
+                            </div>
+                        </div>
+                        <label class="col-sm-2 control-label"><i class="red_req">*</i>路由ID：</label>
+                        <div class="col-sm-4">
+                            <input class="form-control" name="jumpRuleId" ng-model="addInfo.jumpRuleId" maxlength="20"
+                             ng-pattern="/^([0-9]\d{0,15})$/" required>
+                            <div class="req_mesg" ng-show="horizontalAdd.jumpRuleId.$dirty && horizontalAdd.jumpRuleId.$invalid">
+                                <span ng-show="horizontalAdd.jumpRuleId.$error.required">路由ID不能为空</span>
+                                <span ng-show="horizontalAdd.jumpRuleId.$error.pattern">路由ID格式不正确</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="height:30px;"></div>
+                <div class="modal-footer">
+                    <div class="form-group control-label">
+                            <label class="col-sm-3 control-label"></label>
+                            <div class="col-sm-6">
+                                    <button class="btn btn-primary btn-mr20" type="button" ng-click='add()'
+                                    ng-disabled="horizontalAdd.$invalid"
+                                    >确定</button>
+                                    <button class="btn btn-primary4" type="button" ng-click='cancel()'
+                                    >返回</button>
+                            </div>
+                        </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

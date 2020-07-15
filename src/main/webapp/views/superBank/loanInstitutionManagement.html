@@ -1,0 +1,82 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a href="index.html">主页</a></li>
+            <li>超级银行家</li>
+            <li class="active"><strong>贷款机构管理</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="loanInstitutionManagementCtrl">
+    <form class="form-horizontal" id="form1">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>查询条件</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">贷款机构编号：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.id">
+                            </div>
+                            <label class="col-sm-2 control-label">贷款机构名称：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.loanProduct">
+                            </div>
+                            <label class="col-sm-2 control-label">贷款机构别称：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.loanAlias">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">是否上架：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="baseInfo.status" ng-options="x.value as x.text for x in statusAll">
+                                </select>
+                            </div>
+                            <label class="col-sm-2 control-label">奖励要求：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="baseInfo.rewardRequirements" ng-options="x.value as x.text for x in rewardRequirementsList">
+                                </select>
+                            </div>
+                            <label class="col-sm-2 control-label">奖金模式：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="baseInfo.profitType" ng-options="x.value as x.text for x in profitTypeList">
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-top: 30px">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-8">
+                                <button class="btn btn-primary6 btn-mr20"  ng-click="query()" ng-disabled="submitting">查询</button>
+                                <button class="btn btn-primary3 btn-mr20" type="button" ng-click="resetForm()">清空</button>
+                                <button class="btn btn-primary5 btn-mr20" type="button" ui-sref="superBank.addLoanInstitutionManagement"
+                                        ng-show="hasPermit('superBank.addLoanInstitutionManagement')">新增</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>查询列表</h5>
+                    </div>
+
+                    <div class="ibox-content">
+                        <div class="tposition">
+                            <div class="gridStyle" ui-grid="infoGrid" ui-grid-selection ui-grid-pagination
+                                 ui-grid-resize-columns ui-grid-pinning></div>
+                            <div ng-show="loadImg" class="timg"></div>
+                        </div>
+                    </div>
+                </div>
+                <div style="height:30px;"></div>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,82 @@
+<div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal"
+		aria-label="Close" ng-click="solutionModalClose()">
+		<span aria-hidden="true">&times;</span>
+	</button>
+	<h4 class="modal-title" id="myModalLabel">修改分润比例</h4>
+</div>
+<div class="modal-body" style="height: 300px;">
+	<form id="form1" method="" action="">
+		<div class="form-group" class="col-lg-12">
+			<label class="col-lg-2 control-label">分润方式：</label>
+			<select class="input-sm form-control input-s-sm inline" ng-model="info.profitType" ng-options="x.value as x.text for x in fr"/>
+		</div>
+		<div class="form-group col-lg-12" ng-show="info.profitType==5">
+			<input type="text" class="input"  ng-model="info.shareProfitPercent"/>%
+		</div>
+		<div ng-show="info.profitType==6">
+			<div class="form-group col-lg-12" >
+				<div class="col-lg-3">
+					<input type="number" ng-model="info.m1" type="text" class="form-control" disabled="disabled">
+				</div>
+				<label class="col-lg-1 control-label">万元&lt;</label>
+				<div class="col-lg-3">
+					<input type="number" ng-model="info.m2" type="text" class="form-control">
+				</div>
+				<label class="col-lg-1 control-label">%&lt;</label>
+				<div class="col-lg-3">
+					<input type="number" ng-model="info.m3" type="text" class="form-control">
+				</div>
+				<label class="col-lg-1 control-label">万元</label>
+			</div>
+			
+			<div class="form-group" class="col-lg-12">
+				<div class="col-lg-3">
+					<input type="number" ng-model="info.m3" type="text" class="form-control">
+				</div>
+				<label class="col-lg-1 control-label">万元&lt;</label>
+				<div class="col-lg-3">
+					<input type="number" ng-model="info.m4" type="text" class="form-control">
+				</div>
+				<label class="col-lg-1 control-label">%&lt;</label>
+				<div class="col-lg-3">
+					<input type="number" ng-model="info.m5" type="text" class="form-control">
+				</div>
+				<label class="col-lg-1 control-label">万元</label>
+			</div>
+			
+			<div class="form-group" class="col-lg-12">
+				<div class="col-lg-3">
+					<input type="number" ng-model="info.m5" type="text" class="form-control">
+				</div>
+				<label class="col-lg-1 control-label">万元&lt;</label>
+				<div class="col-lg-3">
+					<input type="number" ng-model="info.m6" type="text" class="form-control">
+				</div>
+				<label class="col-lg-1 control-label">%&lt;</label>
+				<div class="col-lg-3">
+					<input type="number" ng-model="info.m7" type="text" class="form-control">
+				</div>
+				<label class="col-lg-1 control-label">万元</label>
+			</div>
+			
+			<div class="form-group" class="col-lg-12">
+				<div class="col-lg-3">
+					<input type="number" ng-model="info.m7" type="text" class="form-control">
+				</div>
+				<label class="col-lg-1 control-label">万元&lt;</label>
+				<div class="col-lg-3">
+					<input type="number" ng-model="info.m8" type="text" class="form-control">
+				</div>
+				<label class="col-lg-1 control-label">%&lt;</label>
+				<div class="col-lg-3">
+					<input  ng-model="info.m9" type="text" class="form-control" disabled="disabled">
+				</div>
+				<label class="col-lg-1 control-label">万元</label>
+			</div>
+		</div>
+	</form>
+</div>
+<div class="modal-footer">
+	<button type="submit" class="btn btn-primary" ng-click="solutionModalOk()">确定</button>
+</div>

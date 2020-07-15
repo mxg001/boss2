@@ -1,0 +1,63 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>产品服务</a></li>
+			<li class="active"><strong>增加业务产品</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn"
+	ng-controller="addProductCtrl">
+	<form class="form-horizontal" id="form1" name="horizontal" novalidate>
+		<div class="form-group">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="tabs-container">
+						<uib-tabset> <uib-tab> <uib-tab-heading>
+						<span class="block m-t-xs"> <i class="fa fa-laptop"></i> <strong
+							class="font-bold">基本信息</strong>
+						</span> </uib-tab-heading>
+						<div class="panel-body">
+							<div ui-view="productBase"></div>
+						</div>
+						</uib-tab> <uib-tab> <uib-tab-heading> <span
+							class="block m-t-xs"> <i class="fa fa-desktop"></i> <strong
+							class="font-bold">服务明细</strong>
+						</span> </uib-tab-heading>
+						<div class="panel-body">
+							<div class="col-sm-6">
+							 <div class="gridStyle"  ui-grid="servicesGrid" ui-grid-selection ui-grid-resize-columns class="grid"></div>
+							 
+							</div>
+						</div>
+						</uib-tab> <uib-tab> <uib-tab-heading> <span
+							class="block m-t-xs"> <i class="fa fa-desktop"></i> <strong
+							class="font-bold">进件要求项明细</strong>
+						</span> </uib-tab-heading>
+						<div class="panel-body">
+							<div class="col-sm-4">
+							<div class="gridStyle" ui-grid="itemsGrid" ui-grid-selection ui-grid-resize-columns class="grid"></div>
+							</div>
+						</div>
+						</uib-tab> </uib-tabset>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-12 bgff">
+				<div class="col-sm-12">
+					<div class="col-sm-2"></div>
+					<div class="col-sm-6"><button ladda="loadingDemo" ng-click="submit()"  ng-show="hasPermit('businessProductDefine.insert')"  class="ladda-button ladda-button-demo btn btn-primary"
+												  ng-disabled="horizontal.$invalid || (baseInfo.limitHard=='1'&&gridApiHard.selection.getSelectedRows().length==0)
+										|| gridApiService.selection.getSelectedRows().length==0
+										|| gridApiItem.selection.getSelectedRows().length==0
+										 || subDisable"
+												  data-style="zoom-in">提交</button></div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+</div>

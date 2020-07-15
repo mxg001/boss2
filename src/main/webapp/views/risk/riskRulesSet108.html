@@ -1,0 +1,128 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>风控管理</a></li>
+			<li class="active"><strong>规则设置</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="riskRulesSetCtrl">
+	<form class="form-horizontal" id="form1">
+			<div class="row">
+				<div class="col-lg-12">
+						<div class="panel-body ibox float-e-margins">
+							<div class="ibox-content">
+							
+								<div class="form-group">
+									<label class="col-sm-2 control-label">规则编号：</label>
+									<div class="col-sm-2 checkbox" ng-bind="info.rulesNo"></div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">规则引擎：</label>
+									<div class="col-sm-10" style="float:left"><span style="float:left; padding:7px 5PX 0 0;">针对扫码业务，注册</span>
+										<input type="text" class="form-control" style="width:50px; float:left"  ng-model="values.dayLimit">
+										<div style="float:left; padding:7px 5PX 0 5PX;">天内,正常商户</div>
+										<input type="text" class="form-control" style="width:80px; float:left"  ng-model="values.dayNum">
+										<div style="float:left; padding:7px 0 0 5px">天内</div>
+										<input type="text" class="form-control" style="width:85px; float:left"  ng-model="values.beginTime">
+										<div style="float:left; padding:7px 0 0 5px">-</div>
+										<input type="text" class="form-control" style="width:85px; float:left"  ng-model="values.endTime">
+										<div style="float:left; padding:7px 0 0 5px">点交易累计笔数≥</div>
+										<input type="text" class="form-control" style="width:50px; float:left"  ng-model="values.transNum">
+										<div style="float:left; padding:7px 0 0 5px">笔</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">规则指令：</label>
+									<div class="col-sm-2 checkbox" ng-bind="info.rulesInstruction | formatDropping:rulesInstructions"></div>
+									<div class="col-sm-4">
+										<button class="btn btn-new" ng-hide="info.rulesInstruction==2 || info.rulesInstruction==3  || info.rulesInstruction==5" type="button"  ng-click="modifyRulesInstruction(info.rulesNo,info.rulesInstruction)" style="width: 120px" id="btnSubmit">修改指令</button>
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label class="col-sm-2 control-label">处理措施：</label>
+									<div class="col-sm-3">
+										<input type="text" class="form-control"  ng-model="info.treatmentMeasures">
+									</div>
+								</div>
+								
+									<div ui-view="riskRulesSetCommon"></div>
+								
+								<div class="form-group">
+									<label class="col-sm-2 control-label">备注：</label>
+									<div class="col-sm-5">
+										<textarea class="form-control" rows="5" ng-model="info.remark"></textarea>
+									</div>
+								</div>
+								
+								<!-- <div class="form-group">
+									<label class="col-sm-2 control-label">生效节点：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.efficientNodeNo" ng-options="x.value as x.text for x in nodesAll"/>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">预警方式：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.warningNo" ng-options="x.value as x.text for x in warnsAll"/>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">预警电话/邮箱：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" ng-model="info.warningInfo">
+									</div>
+								</div> -->
+								
+								<div class="form-group">
+									<label class="col-sm-2 control-label"></label>
+									<div class="col-lg-8">
+										<button class="btn btn-primary btn-mr20" ng-disabled="submitting" type="button" ng-click="commit()">提交</button>
+										<a class="btn btn-primary4" type="button"  ui-sref="risk.riskRulesMag">返回</a>
+									</div>
+								</div>
+									
+							</div>
+					</div>
+				</div>
+			</div>
+	</form>
+
+	<div id="modifyRulesInstructionModal" class="modal fade form-horizontal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" style="height:210px;width: 400px">
+			<div class="modal-content" >
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						&times;
+					</button>
+					<h3 class="modal-title">修改指令</h3>
+				</div>
+				<div class="modal-body" style="height:150px;width: 400px">
+					<form id="form1">
+						<div class="form-group">
+							<label class="col-sm-4 control-label">当前指令为：</label>
+							<div class="col-sm-6 checkbox" ng-bind="rulesInstruction  | formatDropping:rulesInstructions"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label">修改指令为：</label>
+							<div class="col-sm-6">
+								<select class="form-control" ng-model="rulesInstructionSelcet" ng-options="x.value as x.text for x in rulesInstructionModals"/>
+							</div>
+							<input type="hidden" class="form-control" ng-model="rulesNo">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer" style="height:60px;width: 400px">
+					<button type="button" ng-click="modifyRulesInstructionCommit()" ng-disabled="submitting" class="btn btn-primary btn-mr20">确定</button>
+					<button type="button" ng-click="modifyRulesInstructionColse()" ng-disabled="submitting" class="btn btn-primary11">关闭</button>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,131 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>活动管理</a></li>
+			<li class="active"><strong>会员系统</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="vipSysEditCtrl">
+	<form class="form-horizontal" id="form1" name="horizontal">
+		<div class="row">
+			<div class="col-lg-12" style="padding-bottom: 80px;">
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h3 class="modal-title" id="coupon_title"></h3>
+					</div>
+				<div class="ibox-content">
+					<div class="form-group">
+						<label class="col-sm-2 control-label"><i class="red_req">*</i>物品类型：</label>
+						<div class="col-sm-3">
+							<select class="form-control" name="couponType" required ng-disabled="isView"  ng-change="changeGoodsType()" ng-model="couponEntity.couponType" ng-options="x.value as x.text for x in goodsType"/>
+						</div>
+						<div class="req_mesg" ng-show="horizontal.couponType.$dirty && horizontal.couponType.$invalid">
+							<span ng-show="horizontal.couponType.$error.required">物品类型不能为空</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label"><i class="red_req">*</i>名称：</label>
+						<div class="col-sm-3">
+							<input type="text" class="form-control"
+										 ng-model='couponEntity.couponName'  maxlength="20" ng-disabled="isView" name="couponName" required />
+						</div>
+						<div class="req_mesg" ng-show="horizontal.couponName.$dirty && horizontal.couponName.$invalid">
+							<span ng-show="horizontal.couponName.$error.required">名称不能为空</span>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label"><i class="red_req">*</i>价值：</label>
+						<div class="col-sm-3">
+							<input type="number" class="form-control"
+								   ng-model='couponEntity.couponAmount'  ng-disabled="isView" ng-blur="isBigdecimal(couponEntity,'couponAmount')"   name="couponAmount" required>
+						</div>
+						<div class="req_mesg" ng-show="horizontal.couponAmount.$dirty && horizontal.couponAmount.$invalid">
+							<span ng-show="horizontal.couponAmount.$error.required">价值不能为空</span>
+						</div>
+						<label class="col-sm-2 control-label"><i class="red_req">*</i>优先级：</label>
+						<div class="col-sm-3">
+							<select class="form-control" required name="activityFirst" ng-disabled="isView"  ng-model="couponEntity.activityFirst" ng-options="x.value as x.text for x in priorities"/>
+						</div>
+						<div class="req_mesg" ng-show="horizontal.activityFirst.$dirty && horizontal.activityFirst.$invalid">
+							<span ng-show="horizontal.activityFirst.$error.required">优先级不能为空</span>
+						</div>
+					</div>
+
+					<div ng-switch="couponEntity.manYiJinShow">
+						<div class="form-group"  ng-switch-when="true"  >
+							<label class="col-sm-2 control-label"><i class="red_req">*</i>达标金额：</label>
+							<div class="col-sm-3">
+								<input type="number" class="form-control"
+											 ng-model='couponEntity.couponStandard' required ng-disabled="isView" ng-blur="isBigdecimal(couponEntity,'couponStandard')"   name="couponStandard" >
+							</div>
+							<div class="req_mesg" ng-show="horizontal.couponStandard.$dirty && horizontal.couponStandard.$invalid">
+								<span ng-show="horizontal.couponStandard.$error.required">达标金额不能为空</span>
+							</div>
+							<label class="col-sm-2 control-label"><i class="red_req">*</i>返现比例：</label>
+							<div class="col-sm-3">
+								<p class="form-control-static">
+									<input ng-model="couponEntity.backRate" required
+												 ng-blur="isBigdecimal(couponEntity,'backRate')" ng-disabled="isView" type="number"
+												 style="width: 50px;"  required> %
+								</p>
+							</div>
+							<div class="req_mesg" ng-show="horizontal.backRate.$dirty && horizontal.backRate.$invalid">
+								<span ng-show="horizontal.backRate.$error.required">返现比例不能为空</span>
+							</div>
+						</div>
+					</div>
+
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label"><i class="red_req">*</i>有效期：</label>
+						<div class="col-lg-3">
+							<p class="form-control-static">
+								从获得当天算起 <input ng-model="couponEntity.effectiveDays" required
+												 ng-blur="isDays(couponEntity,'effectiveDays')" ng-disabled="isView" type="number"
+												 style="width: 50px;" required> 天内使用有效
+							</p>
+						</div>
+						<div class="req_mesg" ng-show="horizontal.effectiveDays.$dirty && horizontal.effectiveDays.$invalid">
+							<span ng-show="horizontal.effectiveDays.$error.required">有效期不能为空</span>
+						</div>
+						<label class="col-sm-2 control-label"><i class="red_req">*</i>用途：</label>
+						<div class="col-lg-2" style="">
+							<p class="form-control-static">{{couponEntity.purpose}}<input type="hidden" ng-model="couponEntity.cancelVerificationCode" name="cancelVerificationCode"></p>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label"><i class="red_req">*</i>券说明：</label>
+						<div class="col-lg-8">
+							<input type="text" class="form-control"
+										 ng-model='couponEntity.couponExplain' required  ng-disabled="isView"   name="couponExplain">
+						</div>
+						<div class="req_mesg" ng-show="horizontal.couponExplain.$dirty && horizontal.couponExplain.$invalid">
+							<span ng-show="horizontal.couponExplain.$error.required">券说明不能为空</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label"></label>
+						<div class="col-sm-6">
+							<!--<button class="btn btn-primary8" type="button" ui-sref="func.buyReward({actId:6,edit:'edit'})">返回</button>-->
+							<button class="btn btn-primary8" type="button" ng-click="back()">返回</button>
+							<button class="btn btn-primary btn-mr20" type="button"
+									ng-show="!isView"
+									ng-click='submitCouponRecharge()' id="btnSubmit1"
+									ng-disabled="horizontal.$invalid || submitting||isView">确认</button>
+							<input type="hidden" ng-model="new_edit"/>
+						</div>
+					</div>
+				</div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+</div>

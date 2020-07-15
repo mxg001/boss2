@@ -1,0 +1,109 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>信用卡还款</a></li>
+            <li class="active"><strong>还款订单处理流水</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app ng-controller="processingWaterCreditRepayOrderCtrl">
+    <form class="form-horizontal" id="form1">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-content">
+                            <div class="ibox-title">
+                                <h5>还款订单处理流水查询</h5>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">任务流水号:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.planNo" onchange="keyChange()">
+                                </div>
+                                <label class="col-sm-2 control-label">状态:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.planStatus" ng-options="x.value as x.text for x in planStatusSelect">
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label">来源订单号:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.batchNo" onchange="keyChange()">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">用户编号:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.merchantNo" onchange="keyChange()">
+                                </div>
+                                <label class="col-sm-2 control-label">还款卡号:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.accountNo">
+                                </div>
+                                <label class="col-sm-2 control-label">类型:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.planType" ng-options="x.value as x.text for x in planTypeSelect">
+                                    <option value="" selected>全部</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">上游通道:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.acqCode" ng-options="x.value as x.text+'('+x.value+')' for x in acqCodeSelect">
+                                        <option value="" selected>全部</option>
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label">任务金额:</label>
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" ng-model="info.minPlanAmount" style="width:40%;display:inline-block;">
+                                    ~
+                                    <input type="text" class="form-control" ng-model="info.maxPlanAmount" style="width:40%;display:inline-block;">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">计划时间:</label>
+                                <div class="col-sm-5">
+                                    <input id="d5231" class="form-control" type="datetime" ng-model="info.planTimeBegin" onchange="" style="width:auto;display:inline-block;"
+                                           onFocus="var d5232=$dp.$('d5232');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss', changed:verifyTime(1,'#d5231','#d5232',31,isVerifyTime),onpicked:function(){d5232.focus();},maxDate:'#F{$dp.$D(\'d5232\')||\'%y-%M-%d\'}'})"/>
+                                    ~
+                                    <input id="d5232" class="form-control" type="datetime" ng-model="info.planTimeEnd" onchange="" style="width:auto;display:inline-block;"
+                                           onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss', changed:verifyTime(2,'#d5231','#d5232',31,isVerifyTime), minDate:'#F{$dp.$D(\'d5231\')}',maxDate:'%y-%M-%d 23:59:59'})"/>
+                                    <br/><span><font color="#999">备注：查询范围不能超过一个月</font></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-12">
+                                    <div class="col-sm-1"></div>
+                                    <button class="btn btn-primary6 btn-mr20" type="button"
+                                            id="btnSubmit" ng-click="query()">查询</button>
+                                    <button class="btn btn-primary3 btn-mr20" type="button" ng-click="clear()"
+                                            id="btnSubmit2">清空</button>
+                                    <button class="btn btn-primary7 btn-mr20" type="button"
+                                            ng-click="import()">导出</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-content">
+                            <div class="form-group">
+                                <div>任务流水总金额:<span ng-bind="planAmountTotal | currency:''"></span>元</div>
+                            </div>
+                            <div class="form-group">
+                                <div ui-grid="gridOptions" ui-grid-pagination ui-grid-selection
+                                	ui-grid-resize-columns ui-grid-pinning class="grid">
+                                	<div ng-show="loadImg" class="timg"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>

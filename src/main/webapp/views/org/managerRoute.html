@@ -1,0 +1,255 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>收单机构管理</a></li>
+			<li class="active"><strong>路由集群管理</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="managerRouteCtrl">
+	<form class="form-horizontal">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>路由集群查询</h5>
+					<!--<div ibox-tools></div>-->
+				</div>
+				<div class="ibox-content">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">集群编号：</label>
+						<div class="col-sm-2">
+							<input type="text" class="form-control" ng-model="info.groupCode">
+						</div>
+						<label class="col-sm-2 control-label">集群名称：</label>
+						<div class="col-sm-2">
+							<input type="text" class="form-control" ng-model="info.groupName">
+						</div>
+						<label class="col-sm-2 control-label">所属代理商：</label>
+						<div class="col-sm-2">
+							<select class="form-control" ng-model="info.agentNo" ng-options="x.agentNo as x.agentName for x in agentInfos"/>
+						</div>
+						<!-- <label class="col-sm-2 control-label">状态：</label>
+						<div class="col-sm-2">
+							<select class="form-control" ng-model="info.status" ng-options="x.value as x.text for x in statusAll"/>
+						</div> -->
+					</div>
+					<div class="form-group">
+						
+						<label class="col-sm-2 control-label">收单机构：</label>
+						<div class="col-sm-2">
+							<select class="form-control" ng-model="info.acqId" ng-change="queryByService()" ng-options="x.id as x.acqName for x in acqOrgs"/>
+						</div>
+						<label class="col-sm-2 control-label">收单服务：</label>
+						<div class="col-sm-2">
+							<select class="form-control" ng-model="info.acqServiceId" ng-options="x.id as x.serviceName for x in acqServices"/>
+						</div>
+						<label class="col-sm-2 control-label">集群类型：</label>
+						<div class="col-sm-2">
+							<select class="form-control" ng-model="info.routeType" ng-options="x.value as x.text for x in routeTypes"/>
+						</div>
+					</div>
+					<div class="form-group">
+						
+						<label class="col-sm-2 control-label">商户服务类型：</label>
+						<div class="col-sm-2">
+							<select class="form-control" ng-model="info.serviceType" ng-options="x.value as x.text for x in serviceTypeAll"/>
+						</div>
+						<label class="col-sm-2 control-label">是否优质：</label>
+						<div class="col-sm-2">
+							<select class="form-control" ng-model="info.mySettle" ng-options="x.value as x.text for x in boolAll"/>
+						</div>
+						<label class="col-sm-2 control-label">所属省份：</label>
+						<div class="col-sm-2">
+							<select class="form-control" ng-model="info.groupProvince" ng-options="x.name as x.name for x in provinceInfos"/>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">创建人：</label>
+						<div class="col-sm-2">
+							<input type="text" class="form-control"
+										 ng-model='info.createPerson'>
+						</div>
+
+						<label class="col-sm-2 control-label">创建时间：</label>
+						<div class="col-sm-5">
+							<input id="d5231" class="form-control" type="datetime" ng-model="info.createTimeBegin" onchange=""  style="width:auto;display:inline-block;"
+										 onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',changed:verifyTime(1,'#d5231','#d5232',31,isVerifyTime),onpicked:function(){d5232.focus();},maxDate:'#F{$dp.$D(\'d5232\')||\'%y-%M-%d\'}'})"/>
+							~
+							<input id="d5232" class="form-control" type="datetime"  ng-model="info.createTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+										 onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',changed:verifyTime(2,'#d5231','#d5232',31,isVerifyTime),minDate:'#F{$dp.$D(\'d5231\')}',maxDate:'%y-%M-%d 23:59:59'})"/>
+							<!--<br/><span><font color="#999">备注：查询范围不能超过一个月</font></span>-->
+						</div>
+
+
+
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label"></label>
+						<div class="col-sm-8">
+							<input type="button" class="btn btn-primary6 btn-mr20" ng-click="query()" value='查询'>
+							<input type="button" class="btn btn-primary3 btn-mr20" ng-click="reset()" value='清空'>
+							<input type="button" ng-show="hasPermit('managerRoute.insert')" class="btn btn-primary5" ui-sref="org.addRouteGroup" value='新增'>
+							<input type="button" ng-show="hasPermit('routeGroup.importDiscount')" class="btn btn-new btn-mr20" style="width:155px;margin-left: 20px;" ng-click="importDiscountShow()" value='批量导入收单商户号'>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>路由集群信息表</h5>
+					<!--<div ibox-tools></div>-->
+				</div>
+				<div class="ibox-content">
+					<div class="form-group">
+						<div class="gridStyle" ui-grid="routeGroupGrid" ui-grid-pagination ui-grid-resize-columns></div>
+					</div>
+				</div>
+				<div style="height: 50px"></div>
+			</div>	
+		</div>
+	</div>
+	</form>
+	<!-- S= 增加普通商户模态框   -->
+	<div id="addMerchantModal" class="modal fade" tabindex="-1" role="dialog">
+	   <div class="modal-dialog">
+	      <div class="modal-content">
+	         <div class="modal-header">
+	            <button type="button" class="close" data-dismiss="modal">
+	                  &times;
+	            </button>
+	            <h3 class="modal-title">路由集群增加普通商户</h3>
+	         </div>
+	         <div class="modal-body">
+				<form class="form-horizontal">
+				  <div class="form-group">
+				    <label class="col-sm-4 control-label">商户编号：</label>
+				    <div class="col-sm-5">
+				    	<input ng-blur="checkServiceType(merchantInfo.posMerchantNo)" type="text" class="form-control" ng-model="merchantInfo.posMerchantNo">
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label class="col-sm-4 control-label">商户服务类型：</label>
+				    <div class="col-sm-5">
+				      	<select class="form-control" ng-model="merchantInfo.serviceType" ng-options="x.serviceType as x.serviceName for x in serviceTypeAll1"/>
+				    </div>
+				  </div> 
+				</form>
+	         </div>
+	         <div class="modal-footer">
+			    <button type="button" ng-click="saveMerchant()" ng-disabled="submitting" class="btn btn-primary">确定</button>
+			    <button type="button" data-dismiss="modal" class="btn btn-primary8">取消</button>
+			 </div>
+	      </div>
+		</div>
+	</div>
+	<!-- E= 增加普通商户模态框   -->
+	<!-- S= 增加收单商户模态框   -->
+	<div id="addAcqMerchantModal" class="modal fade" tabindex="-1" role="dialog">
+	   <div class="modal-dialog">
+	      <div class="modal-content">
+	         <div class="modal-header">
+	            <button type="button" class="close" data-dismiss="modal">
+	                  &times;
+	            </button>
+	            <h3 class="modal-title">路由集群增加收单商户</h3>
+	         </div>
+	         <div class="modal-body">
+				<form class="form-horizontal">
+
+				  <div class="form-group">
+				    <label class="col-sm-4 control-label">收单机构商户编号：</label>
+				    <div class="col-sm-5">
+				    	<input type="text" class="form-control" ng-model="acqMerchantInfo.acqMerchantNo">
+				    </div>
+				  </div>
+				</form>
+	         </div>
+	         <div class="modal-footer">
+			    <button type="button" ng-click="saveAcqMerchant()" ng-disabled="submitting" class="btn btn-primary">确定</button>
+			    <button type="button" data-dismiss="modal" class="btn btn-primary8">取消</button>
+			 </div>
+	      </div>
+		</div>
+	</div>
+
+	<form class="form-horizontal" id="form2" name="horizontalAdd" novalidate>
+		<div id="importDiscount" class="modal fade" tabindex="-1" role="dialog">
+			<div class="modal-dialog" style="width: 900px">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							&times;</button>
+						<h3 class="modal-title">批量导入收单商户号</h3>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">导入文件：</label>
+							<div class="col-sm-3 checkbox ">
+								<input type="file" nv-file-select="" ng-model="fileSelect" uploader="uploader" multiple/>
+								<table class="table">
+									<tbody>
+									<tr ng-repeat="item in uploader.queue">
+										<td>
+											<strong>{{ item.file.name }}</strong>
+										</td>
+										<td nowrap>
+											<button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+												<span class="glyphicon glyphicon-trash"></span>删除
+											</button>
+										</td>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-3 checkbox ">
+								<a href="routeGroup/downloadTemplate" >收单商户号导入模板下载</a>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-6">
+								<button class="btn btn-primary btn-mr20" type="button" ng-click='importDiscount()'
+										id="btnSubmit" ng-disabled="uploader.queue.length==0||submitting">提交</button>
+								<button class="btn btn-primary8" type="button" ng-click='cancel()'
+								>取消</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<div id="myModal" class="modal fade" tabindex="-1" role="dialog">
+	   <div class="modal-dialog">
+	      <div class="modal-content">
+	         <div class="modal-header">
+	            <button type="button" class="close" data-dismiss="modal">
+	                  &times;
+	            </button>
+	            <h3 class="modal-title">消息对话框</h3>
+	         </div>
+	         <div class="modal-body">
+	         	 确定删除{{no}}集群吗？
+	         	 <input type="hidden" class="form-control" ng-model="id">
+	         </div>
+	         <div class="modal-footer">
+			    <button type="button" ng-click="commitDelModel()" class="btn btn-primary">确定</button>
+			    <button type="button" data-dismiss="modal" class="btn btn-primary8">取消</button>
+			 </div>
+	      </div>
+		</div>
+	</div>
+	<!-- E= 增加收单商户模态框   -->
+</div>

@@ -1,0 +1,44 @@
+<div class="form-group">
+	<label class="col-sm-3 control-label"><i class="red_req">*</i>单笔交易限额：</label>
+	<div class="col-sm-2">
+		<input type="number" class="form-control" name="transLimitMinAmount" ng-model="serviceQuotaInfo.transLimitMinAmount" ng-pattern="/^(([1-9]\d{0,9})|0)(\.\d{1,2})?$/" required>
+		<div class="req_mesg" ng-show="horizontal.transLimitMinAmount.$dirty && horizontal.transLimitMinAmount.$invalid">
+			<span ng-show="horizontal.transLimitMinAmount.$error.required">单笔交易最小额不能为空</span>
+			<span ng-show="horizontal.transLimitMinAmount.$error.pattern">金额格式不正确</span>
+		</div>
+	</div>
+	<label class="control-label" style="text-align: center; float: left">~</label>
+	<div class="col-sm-2">
+		<input type="number" class="form-control" name="transLimitMaxAmount" ng-model="serviceQuotaInfo.transLimitMaxAmount"  ng-pattern="/^(([1-9]\d{0,9})|0)(\.\d{1,2})?$/" required>
+		<div class="req_mesg" ng-show="horizontal.transLimitMaxAmount.$dirty && horizontal.transLimitMaxAmount.$invalid">
+			<span ng-show="horizontal.transLimitMaxAmount.$error.required">单笔交易最大额不能为空</span>
+			<span ng-show="horizontal.transLimitMaxAmount.$error.pattern">金额格式不正确</span>
+		</div>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-3 control-label"><i class="red_req">*</i>日成功交易总额阀值：</label>
+	<div class="col-sm-3">
+		<input type="number" class="form-control" name="dayTotalAmount" ng-model="serviceQuotaInfo.dayTotalAmount"  ng-pattern="/^(([1-9]\d{0,9})|0)(\.\d{1,2})?$/" required>
+		<div class="req_mesg" ng-show="horizontal.dayTotalAmount.$dirty && horizontal.dayTotalAmount.$invalid">
+			<span ng-show="horizontal.dayTotalAmount.$error.required">日成功交易总额阀值不能为空</span>
+			<span ng-show="horizontal.dayTotalAmount.$error.pattern">金额格式不正确</span>
+		</div>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-3 control-label"><i class="red_req">*</i>预警手机号：</label>
+	<div class="col-sm-3">
+		<input type="text" class="form-control" name="warningPhone" ng-model="serviceQuotaInfo.warningPhone" ng-pattern="/^1[3|4|5|7|8]\d{9}(,1[3|4|5|7|8]\d{9}){0,14}$/" required>
+		<div class="req_mesg" ng-show="horizontal.warningPhone.$dirty && horizontal.warningPhone.$invalid">
+			<span ng-show="horizontal.warningPhone.$error.required">预警手机号不能为空</span>
+			<span ng-show="horizontal.warningPhone.$error.pattern">手机号格式不正确</span>
+		</div>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-3 control-label">单笔交易限额客户端提示语：</label>
+	<div class="col-sm-3">
+		<textarea rows="5" cols="20" class="form-control" ng-model="serviceQuotaInfo.clintMsg"></textarea>
+	</div>
+</div>

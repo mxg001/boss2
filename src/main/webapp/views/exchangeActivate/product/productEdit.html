@@ -1,0 +1,136 @@
+<!-- head -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>超级兑(激活版)</a></li>
+            <li class="active"><strong>积分产品修改</strong></li>
+        </ol>
+    </div>
+</div>
+
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="exchangeActivateProductEditCtrl">
+    <form class="form-horizontal" id="form1" name="horizontalCard">
+        <div class="form-group">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>基本资料</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">机构名称:</label>
+                            <div class="col-sm-3">
+                                <select class="form-control" ng-change="changeOrgCode()" disabled ng-model="addinfo.orgCode" ng-options="x.value as x.text for x in orgList"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>积分产品类别:</label>
+                            <div class="col-sm-3">
+                                <select class="form-control" name="typeCode" disabled ng-model="addinfo.typeCode" ng-options="x.value as x.text for x in typeList"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>产品名称:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="productName" required ng-model="addinfo.productName">
+                                <div class="req_mesg" ng-show="horizontalCard.productName.$dirty && horizontalCard.productName.$invalid">
+                                    <span ng-show="horizontalCard.productName.$error.required">产品名称不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>券面价格:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="originalPrice" required ng-model="addinfo.originalPrice">
+                                <div class="req_mesg" ng-show="horizontalCard.originalPrice.$dirty && horizontalCard.originalPrice.$invalid">
+                                    <span ng-show="horizontalCard.originalPrice.$error.required">券面价格不能为空</span>
+                                </div>
+                            </div>
+                            <label style="margin-top: 10px;">元</label>
+                        </div>
+                        <!--<div class="form-group">-->
+                            <!--<label class="col-sm-2 control-label"><i class="red_req">*</i>产品简称:</label>-->
+                            <!--<div class="col-sm-3">-->
+                                <!--<input type="text" class="form-control" name="productShorthand" maxlength="5" required ng-model="addinfo.productShorthand">-->
+                                <!--<div class="req_mesg" ng-show="horizontalCard.productShorthand.$dirty && horizontalCard.productShorthand.$invalid">-->
+                                    <!--<span ng-show="horizontalCard.productShorthand.$error.required">产品简称不能为空</span>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>兑换积分:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="excPoint" required ng-model="addinfo.excPoint">
+                                <div class="req_mesg" ng-show="horizontalCard.excPoint.$dirty && horizontalCard.excPoint.$invalid">
+                                    <span ng-show="horizontalCard.excPoint.$error.required">兑换积分不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>兑换价格:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="excPrice" required ng-model="addinfo.excPrice">
+                                <div class="req_mesg" ng-show="horizontalCard.excPrice.$dirty && horizontalCard.excPrice.$invalid">
+                                    <span ng-show="horizontalCard.excPrice.$error.required">兑换价格不能为空</span>
+                                </div>
+                            </div>
+                            <label style="margin-top: 10px;">元</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>兑换次数:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="excNum" required  ng-model="addinfo.excNum">
+                                <div class="req_mesg" ng-show="horizontalCard.excNum.$dirty && horizontalCard.excNum.$invalid">
+                                    <span ng-show="horizontalCard.excNum.$error.required">兑换次数不能为空</span>
+                                </div>
+                            </div>
+                            <label style="margin-top: 10px;">次/月&nbsp;&nbsp;&nbsp;<label style="color:red;">注:-1为不限次数</label></label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>结算周期:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="settleDay" required ng-model="addinfo.settleDay">
+                                <div class="req_mesg" ng-show="horizontalCard.settleDay.$dirty && horizontalCard.settleDay.$invalid">
+                                    <span ng-show="horizontalCard.settleDay.$error.required">结算周期不能为空</span>
+                                </div>
+                            </div>
+                            <label style="margin-top: 10px;">天</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>最短有效时间:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="minDay" required ng-model="addinfo.minDay">
+                                <div class="req_mesg" ng-show="horizontalCard.minDay.$dirty && horizontalCard.minDay.$invalid">
+                                    <span ng-show="horizontalCard.minDay.$error.required">最短有效时间不能为空</span>
+                                </div>
+                            </div>
+                            <label style="margin-top: 10px;">天&nbsp;&nbsp;&nbsp;<label style="color:red;">注:低于该时间将不接受用户报单</label></label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>是否走线下核销渠道:</label>
+                            <div class="col-sm-5" style="margin-top:7px;" >
+                                <label><input type="radio" ng-model='addinfo.underlineWriteoff' name="finance"  ng-value="1"/>是</label>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <label><input type="radio" ng-model='addinfo.underlineWriteoff' name="finance"  ng-value="0"/>否</label>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-12 bgff">
+                <div class="col-sm-12">
+                    <div class="col-lg-3"></div>
+                    <div class="col-sm-6">
+                        <button class="btn btn-primary btn-mr20" type="button"
+                                id="btnSubmit4" ng-click="saveProduct()" ng-disabled="horizontalCard.$invalid || submitting">提交</button>
+                        <a class="btn btn-primary4" ui-sref="exchangeActivate.product" >返回</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

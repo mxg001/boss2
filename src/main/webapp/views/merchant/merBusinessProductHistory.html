@@ -1,0 +1,100 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>商户管理</a></li>
+			<li class="active"><strong>商户业务产品历史查询</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="merBusinessProductHistoryCtrl">
+	<form class="form-horizontal" id="form1">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="">
+						<div class="panel-body ibox float-e-margins">
+							<div class="ibox-title">
+								<h5>商户业务产品历史列表查询</h5>
+							</div>
+							<div class="ibox-content">
+								<div class="form-group">
+									<label class="col-sm-2 control-label">商户编号：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" name="info.merchantNo" ng-model="info.merchantNo">
+									</div>
+									<label class="col-sm-2 control-label">商户手机号：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" name="info.mobilephone" ng-model="info.mobilephone">
+									</div>
+								</div>
+								<div class="form-group">
+					
+									<label class="col-sm-2 control-label">操作类型：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.operationType" ng-options="x.value as x.text for x in operationTypeList"/>
+									</div>
+									
+									<label class="col-sm-2 control-label">操作人类型：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.operationPersonType" ng-options="x.value as x.text for x in operationPersonTypeList"/>
+									</div>
+									<label class="col-sm-2 control-label">操作人：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" name="info.operationPerson" ng-model="info.operationPerson">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">原业务产品：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.sourceProductType" ng-options="x.bpId as x.bpName for x in sourceProductTypeList"/>
+									</div>
+									
+									<label class="col-sm-2 control-label">新的业务产品：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.newProductType" ng-options="x.bpId as x.bpName for x in newProductTypeList"/>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">操作时间：</label>
+									<div class="col-sm-8">
+										<input type="datetime" style="width:auto;display:inline-block;" class="form-control" date-time ng-model="info.sTime" view="date" format="YYYY-MM-DD HH:mm:ss">
+										-
+										<div style="position: relative; display: inline-block"><input type="datetime" style="width:auto;display:inline-block;" class="form-control" date-time ng-model="info.eTime" view="date" format="YYYY-MM-DD HH:mm:ss">
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-lg-12">
+										<div class="col-sm-2"></div>
+										<button class="btn btn-primary6 btn-mr20" type="button"
+										ng-click="selectInfos()"	id="btnSubmit">查询</button><button class="btn btn-primary3" type="button"
+											ng-click="clear()" id="btnSubmit">清空</button>
+									</div>
+									
+								</div>
+							</div>
+
+						</div>
+						
+						
+						<div class="panel-body ibox float-e-margins">
+								<div class="ibox-title">
+									<h5>商户信息列表</h5>
+									<!--<div ibox-tools="" class="ng-scope">-->
+										<!--</div>-->
+									</div>
+								<div class="ibox-content">
+<!-- 									<table width="100%" datatable="" dt-options="dtOptions" dt-columns="dtColumns" class="row-border hover"></table> -->
+									<div ui-grid="gridOptions" ui-grid-resize-columns ui-grid-pagination ui-grid-selection ui-grid-pinning class="grid"></div>
+								</div>
+							</div>
+						<div style="height: 30px"></div>
+					</div>
+				</div>
+			</div>
+	</form>
+
+</div>

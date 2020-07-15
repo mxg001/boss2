@@ -1,0 +1,180 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>功能管理</a></li>
+			<li class="active"><strong>活动管理</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="buyRewardEditCtrl">
+	<form class="form-horizontal" id="form1" name="horizontal">
+		<div class="row">
+			<div class="col-lg-12" style="padding-bottom: 80px;">
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h3 class="modal-title" id="coupon_title"></h3>
+					</div>
+					<div class="ibox-title">
+						<h5>购买属性</h5>
+					</div>
+				<div class="ibox-content">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">每天发行数：</label>
+						<div class="col-sm-3">
+							<input type="text" class="form-control"
+								   ng-model='couponEntity.couponCount' ng-disabled="isView" ng-blur="isNum(couponEntity,'couponCount')" name="couponCount" required />
+						</div>
+						<label class="col-sm-3 control-label">商户每天可购买数：</label>
+						<div class="col-sm-3">
+							<input type="text" class="form-control"
+								   ng-model='couponEntity.purchaseCount' ng-disabled="isView" ng-blur="isNum(couponEntity,'purchaseCount')"  name="purchaseCount" required>
+						</div><span style="float: left;height: 36px;line-height: 36px;">-1表示不限</span>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">序列号：</label>
+						<div class="col-sm-3">
+							<input  type="text" class="form-control"
+									ng-disabled="isView" class="form-control"  ng-disabled="isView"  ng-blur="isNum(couponEntity,'orderBy')"  ng-model='couponEntity.orderBy' required/>
+						</div><span style="float: left;height: 36px;line-height: 36px;">*&nbsp;&nbsp;&nbsp;1-n正整数</span>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">券简介：</label>
+						<div class="col-sm-8" style="width: 500px;">
+								<textarea rows="5" cols="20" ng-disabled="isView" class="form-control"
+										  name="couponExplain" ng-model='couponEntity.couponExplain'></textarea>
+						</div>
+					</div>
+					<div class="ibox-title">
+						<h5>券属性</h5>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">名称：</label>
+						<div class="col-sm-3">
+							<input type="text" class="form-control"
+								   ng-model='couponEntity.couponName' ng-disabled="isView" name="couponName" required />
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">购买金额：</label>
+						<div class="col-sm-3">
+							<input type="text" class="form-control"
+								   ng-model='couponEntity.couponAmount' ng-disabled="isView" ng-blur="isBigdecimal(couponEntity,'couponAmount')" ng-change="totalAmount(couponEntity)"   name="couponAmount" required />
+						</div>
+						<label class="col-sm-2 control-label">赠送金额：</label>
+						<div class="col-sm-3">
+							<input type="text" class="form-control"
+								   ng-model='couponEntity.giftAmount'  ng-disabled="isView" ng-blur="isBigdecimal(couponEntity,'giftAmount')" ng-change="totalAmount(couponEntity)"  name="giftAmount" required>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">总价值金额：</label>
+						<div class="col-sm-3">
+							<input type="text" ng-disabled="true" class="form-control" id="totalAmount" required />
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">类型：</label>
+						<div class="col-lg-2">
+							<p class="form-control-static">购买鼓励金</p>
+							<input type="hidden" class="form-control"
+								   ng-model='couponEntity.couponCod'/>
+						</div>
+						<label class="col-sm-3 control-label">优先级：</label>
+						<div class="col-sm-3">
+							<select class="form-control" required ng-disabled="isView" ng-model="couponEntity.activityFirst">
+								<option value="A">A</option>
+								<option value="B">B</option>
+								<option value="C">C</option>
+								<option value="D">D</option>
+								<option value="E">E</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">有效期：</label>
+						<div class="col-lg-5">
+							<p class="form-control-static">
+								从获得奖励当天算起 <input ng-model="couponEntity.effectiveDays"
+												 ng-blur="isDays(couponEntity,'effectiveDays')" ng-disabled="isView" type="text"
+												 style="width: 50px;" required> 天内使用有效
+							</p>
+						</div>
+						<label class="col-sm-2 control-label">用途：</label>
+						<div class="col-lg-2" style="">
+							<p class="form-control-static">抵扣自选商户和提现手续费</p>
+							<input type="hidden" class="form-control"
+								   ng-model='couponEntity.cancelVerificationCode'/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">上架起止时间:</label>
+						<div class="col-lg-10" ng-show="!isView">
+							<button class="btn btn-primary5 btn-mr20" type="button" ng-click="addModal()">添加</button>
+							<button class="btn btn-primary btn-mr20"  type="button" ng-click="delteData()">删除</button>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-lg-1 control-label"></label>
+						<div class="col-lg-9">
+							<div style="height:200px"  ui-grid="formatGrid" ui-grid-selection ui-grid-resize-columns ui-grid-pinning></div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label"></label>
+						<div class="col-sm-6">
+							<!--<button class="btn btn-primary8" type="button" ui-sref="func.buyReward({actId:6,edit:'edit'})">返回</button>-->
+							<button class="btn btn-primary8" type="button" ng-click="back()">返回</button>
+							<button class="btn btn-primary btn-mr20" type="button"
+									ng-show="!isView"
+									ng-click='submitCouponRecharge()' id="btnSubmit1"
+									ng-disabled="horizontal.$invalid || submitting||isView">确认</button>
+							<input type="hidden" ng-model="new_edit"/>
+						</div>
+					</div>
+				</div>
+				</div>
+			</div>
+		</div>
+	</form>
+	<div id="addModal" class="modal fade form-horizontal" tabindex="4" role="dialog">
+		<div class="modal-dialog" style="height:450px;width: 900px">
+			<div class="modal-content" >
+				<form class="form-horizontal" name="addCard" novalidate>
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							&times;</button>
+						<h3 class="modal-title">添加上架起止时间</h3>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">开始时间:</label>
+							<div class="col-sm-3">
+								<input id="d5231" class="form-control" type="datetime" ng-model="info.startTime" onchange=""  style="width:auto;display:inline-block;"
+									   onFocus="var d5232=$dp.$('d5232');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5232.focus();},maxDate:'#F{$dp.$D(\'d5232\')}'})"/>
+							</div>
+							<label class="col-sm-2 control-label">结束时间:</label>
+							<div class="col-sm-3">
+								<input id="d5232" class="form-control" type="datetime"  ng-model="info.endTime" onchange=""  style="width:auto;display:inline-block;"
+									   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5231\')}'})"/>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<div class="form-group control-label">
+							<label class="col-sm-1 control-label"></label>
+							<div class="col-sm-6">
+								<button class="btn btn-primary btn-mr20" ng-show="modeState"  ng-disabled="addCard.$invalid" type="button" ng-click="saveModal('add')" >确定</button>
+								<button class="btn btn-primary btn-mr20" ng-show="!modeState" ng-disabled="addCard.$invalid" type="button" ng-click="saveModal('edit')" >确定</button>
+								<button class="btn btn-primary4" type="button" ng-click='addcancel()'>返回</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

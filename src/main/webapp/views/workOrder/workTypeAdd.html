@@ -1,0 +1,202 @@
+<!-- head -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>代理商工单</a></li>
+            <li class="active"><strong>新增工单类型
+            </strong></li>
+        </ol>
+    </div>
+</div>
+
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn"
+     ng-controller="workTypeAdd">
+    <form class="form-horizontal" id="form1" name="horizontal">
+        <div style="background: #fff; padding:50px 0;">
+            <div class="form-group">
+                <label class="col-sm-2 control-label"><i class="red_req">*</i>类型名称：</label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control"  name="name" placeholder="请输入工单类型名称(不超过20字)" required ng-model="info.name" maxlength="20">
+                </div>
+                <div class="req_mesg" ng-show="horizontal.name.$dirty && horizontal.name.$invalid">
+                    <span ng-show="horizontal.name.$error.required">类型名称不能为空</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">代理商是否可发起：</label>
+                <div class="col-sm-4 checkbox ">
+                    <label ><input type="radio"  name="agentShow" ng-model="info.agentShow" value="0" />否</label>
+                    <label ><input type="radio" name="agentShow" ng-model="info.agentShow" value="1" />是</label>
+                    <label style="color: silver;" class="control-label">(勾选否后代理商不可提交此类型的工单)</label>
+                </div>
+            </div>
+            <div class="form-group" >
+                <label class="col-sm-2 control-label" ><i class="red_req">*</i>回复方式：</label>
+                <div class="col-sm-6" style="width: 400px;">
+                    <select class="form-control" ng-model="info.replyType" name="replyType" required  ng-options="x.value as x.text for x in replyTypeSelect"/>
+                </div>
+                <div class="req_mesg" ng-show="horizontal.replyType.$dirty && horizontal.replyType.$invalid">
+                    <span ng-show="horizontal.replyType.$error.required">回复方式不能为空</span>
+                </div>
+            </div>
+            <div class="form-group" >
+                <label class="col-sm-2 control-label" style="float: left;"><i class="red_req">*</i>处理流程：</label>
+                <label style="color: silver;" class="control-label">添加该工单类型处理流程及对应归属的部门</label>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label"></label>
+                <div style="display: inline-block; padding-right: 10px; line-height: 50px; float:left"  ng-repeat="m in dealProcessArr">
+                    <div ng-click="editFlowInfo(m.index)">{{m.deptName}} 一></div>
+                </div>
+                <span class="glyphicon glyphicon-plus" ng-click="showAddFlowModal()" style="text-align: center;font-size: 25px;width: 50px;height: 50px;line-height: 48px;border: 1px solid #999; color:#999; border-radius: 50%; padding-left: 2px;" ></span>
+            </div>
+
+            <div class="form-group" >
+                <label class="col-sm-2 control-label" style="float: left;"><i class="red_req">*</i>类型说明：</label>
+                <div class="col-lg-8">
+                    <summernote type="text" required config="summeroptions" id="summernote" class="form-control" name="desc"  ng-model="info.desc" editable="editable" editor="editor" >
+                    </summernote>
+                    <div class="req_mesg" ng-show="horizontal.desc.$dirty && horizontal.desc.$invalid">
+                        <span ng-show="horizontal.desc.$error.required">类型说明不能为空</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" >
+                <label class="col-sm-2 control-label" style="float: left;">示例图片：</label>
+                <div class="col-sm-10" style="margin: 10px auto;text-align: center;">
+                    <div class="col-img" ng-if="imgList!=null && imgList.length>0" data-ng-repeat="x in imgList">
+                        <a style="width: 50%;" href="{{x.entity.realUrl}}" fancybox rel="detailImgs">
+                            <img width="150" height="100" ng-src="{{x.entity.realUrl}}"/>
+                        </a>
+                        <div style="text-align: center;">{{x.entity.fileName}}</div>
+                        <div style="text-align: center;"><button type="button" class="btn btn-danger btn-xs" ng-click="delImg($index)">
+                            <span class="glyphicon glyphicon-trash"></span> 删除
+                        </button></div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label"></label>
+                <span class="glyphicon glyphicon-plus" ng-click="showAddImgModal()" style="text-align: center;font-size: 25px;width: 50px;height: 50px;line-height: 48px;border: 1px solid #999; color:#999; border-radius: 50%; padding-left: 2px;" ></span>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label"></label>
+                <div class="col-sm-6">
+                    <button ng-disabled="horizontal.$invalid || submitting" class="btn btn-primary" type="button" ng-click='add()'>提交</button>
+                    <button class="btn btn-primary8" type="button" ui-sref="workOrder.workOrderType" >返回</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+    <form class="form-horizontal" id="addFlowForm" name="flowHorizontal" novalidate>
+        <div id="flowModal" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog" style="width: 900px">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title">请选择所属部门</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>所属部门：</label>
+                            <div class="col-sm-4">
+                                <select class="form-control" name="deptNo" required ng-model="flowInfo.deptNo"  ng-options="x.value as x.text for x in deptSelect"/>
+                            </div>
+                            <div class="req_mesg" ng-show="flowHorizontal.deptNo.$dirty && flowHorizontal.deptNo.$invalid">
+                                <span ng-show="flowHorizontal.deptNo.$error.required">所属部门不能空</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>流程说明：</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" name="flowDesc" ng-model="flowInfo.flowDesc" required >
+                            </div>
+                            <div class="req_mesg" ng-show="flowHorizontal.flowDesc.$dirty && flowHorizontal.flowDesc.$invalid">
+                                <span ng-show="flowHorizontal.flowDesc.$error.required">流程说明不能空</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group" ng-if="flowInfo.deptNo=='999'">
+                            <label class="col-sm-2 control-label">截止回复：</label>
+                            <div class="col-sm-4">
+                                <select class="form-control" name="endReplyDays" ng-model="flowInfo.endReplyDays" required  ng-options="x.value as x.text for x in endReplyDaysSelect"/>
+                            </div>
+                            <label style="color: silver;" class="control-label">截止回复天数按工作日自然天计算</label>
+                            <div class="req_mesg" ng-show="flowHorizontal.endReplyDays.$dirty && flowHorizontal.endReplyDays.$invalid">
+                                <span ng-show="flowHorizontal.endReplyDays.$error.required">流程说明不能空</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-6">
+                                <button class="btn btn-primary btn-mr20" ng-disabled="flowHorizontal.$invalid || submitting" type="button" ng-click='addFlow()'
+                                        id="btnSubmitFlow" >确定</button>
+                                <button class="btn btn-primary8" type="button" ng-click='hideAddFlowModal()'>取消</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+    <form class="form-horizontal" id="addImgForm" name="imgHorizontal" novalidate>
+        <div id="imgModal" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog" style="width: 900px">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title">图片上传</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label"><i class="red_req">*</i>选择图片：</label>
+                            <div class="col-lg-7">
+                                <input type="file" nv-file-select="" uploader="uploaderImg"   multiple  />
+                                <span style="margin: 3px;color: red;"><br>注意:仅支持上传10MB以内的jpg、png图片</span>
+                                <table class="table">
+                                    <tbody>
+                                    <tr ng-repeat="item in uploaderImg.queue">
+                                        <td>
+                                            <div ng-show="uploaderImg.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                                        </td>
+                                        <td nowrap>
+                                            <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                                <span class="glyphicon glyphicon-trash"></span> 删除
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="form-group" >
+                            <label class="col-sm-3 control-label"><i class="red_req">*</i>图片名称：</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control"
+                                       ng-model='imgInfo.fileName' name="fileName" required  />
+                                <div class="req_mesg" ng-show="imgHorizontal.fileName.$dirty && imgHorizontal.fileName.$invalid">
+                                    <span ng-show="imgHorizontal.fileName.$error.required">请输入图片名称</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-6">
+                                <button class="btn btn-primary btn-mr20" ng-disabled="imgHorizontal.$invalid || submitting" type="button" ng-click='addImg()'
+                                        id="btnSubmitImg" >确定</button>
+                                <button class="btn btn-primary8" type="button" ng-click='hideAddImgModal()'>取消</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+

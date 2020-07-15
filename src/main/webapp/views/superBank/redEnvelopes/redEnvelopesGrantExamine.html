@@ -1,0 +1,170 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>红包发放查询</a></li>
+            <li class="active"><strong>审核红包</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app ng-controller="redEnvelopesGrantExamineCtrl">
+    <form class="form-horizontal" id="form1">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-content">
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">红包ID:</label>
+                                <div class="col-sm-2 checkbox" ng-bind="info.id"></div>
+                                <label class="col-sm-1 control-label">用户ID:</label>
+                                <div class="col-sm-2 checkbox" ng-bind="info.pushUserCode"></div>
+                                <label class="col-sm-1 control-label">红包个数:</label>
+                                <div class="col-sm-2 checkbox" ng-bind="info.pushNum"></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">红包金额:</label>
+                                <div class="col-sm-2 checkbox" ng-bind="info.pushAmount  | currency:''"></div>
+                                <label class="col-sm-1 control-label">发放范围:</label>
+                                <div class="col-sm-2 checkbox" ng-bind="info.pushArea |formatDropping:pushAreaSelect"></div>
+                                <label class="col-sm-1 control-label">发放地点:</label>
+                                <div class="col-sm-2 checkbox" ng-bind="info.pushAddress"></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">红包说明:</label>
+                                <div class="col-sm-8">
+                                     <textarea class="form-control" rows="6" cols="10" disabled ng-model="info.remark"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-show="info.remarkStatus=='0'&&info.remark!=null" >
+                                <button class="btn btn-new btn-mr20" style="float:right;" type="button"  ng-click="modifyRemark()">屏蔽说明</button>
+                            </div>
+                            <div class="form-group" style="padding-bottom: 20px;">
+                                <label class="col-sm-1 control-label" >宣传图片:</label>
+                                <div class="col-img"  ng-repeat="m in imageList">
+                                    <div style="text-align:center;">ID:{{m.id}}
+                                        <span ng-show="m.status==0">(图片状态:显示)</span>
+                                        <span ng-show="m.status==1">(图片状态:已屏蔽)</span>
+                                    </div>
+                                    <div><a href="{{m.imgUrl}}" fancybox rel="group"> <img width="250px" height="150px" ng-src="{{m.imgUrl}}"/></a></div>
+                                    <div style="text-align:center;margin-top: 10px;" ng-show="m.status=='0'"><a  ng-click="modifyImage(m.id,1)">点击屏蔽</a></div>
+                                    <div style="text-align:center;margin-top: 10px;" ng-show="m.status=='1'"><a  ng-click="modifyImage(m.id,0)">点击开启</a></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-new btn-mr20" style="float:right;" type="button" ng-show="imageAllState==1" ng-click="modifyImageAll()">屏蔽全部图片</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-content">
+                            <div class="ibox-title">
+                                <h5>红包评论明细</h5>
+                            </div>
+                            <div class="form-group">
+                                <div ui-grid="gridDis" ui-grid-pagination ui-grid-selection ui-grid-resize-columns ui-grid-pinning class="grid">
+                                    <div ng-show="loadImg" class="timg"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-content">
+                            <button ng-show="info.statusRisk==0" class="btn btn-new btn-mr20"  type="button"  ng-click="modifyStatusRisk()">风控关闭红包</button>
+                            <button ng-show="info.statusRisk==1" class="btn btn-new btn-mr20"  type="button"  ng-click="openStatusRisk()">风控开启红包</button>
+                            <button class="btn btn-primary4 btn-mr20" ui-sref="red.redEnvelopesGrant" type="button">返回</button>
+                        </div>
+                    </div>
+                    <div style="height:60px"></div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div id="deleteModal" class="modal fade form-horizontal" tabindex="4" role="dialog">
+        <div class="modal-dialog" style="height:300px;width: 700px">
+            <div class="modal-content" style="height:300px;width: 700px">
+                <form class="form-horizontal" name="horizontalDelete">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            &times;</button>
+                        <h3 class="modal-title">删除评论</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label"></label>请再次确认是否删除
+                                {{discussInfo.userCode}}{{discussInfo.userNickName}}的评论，
+                                一旦删除，不可恢复！
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">原因：</label>
+                            <div class="col-sm-6">
+                                <select class="form-control" ng-model="discussInfo.reason" ng-options="x.value as x.text for x in discussDeleteReasonList">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">备注：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" ng-model="discussInfo.reamrk" />
+                            </div>
+                        </div>
+                        <div class="modal-footer" style="margin-top: 30px">
+                            <div class="form-group control-label">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-sm-6">
+                                    <button class="btn btn-primary btn-mr20" type="button" ng-click='deleteDiscuss(discussInfo)'
+                                    >确定</button>
+                                    <button class="btn btn-primary4" type="button" ng-click='cancel()'
+                                    >返回</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="riskModal" class="modal fade form-horizontal" tabindex="4" role="dialog">
+        <div class="modal-dialog" style="height:300px;width: 700px">
+            <div class="modal-content" style="height:300px;width: 700px">
+                <form class="form-horizontal" name="horizontalRisk">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            &times;</button>
+                        <h3 class="modal-title">关闭红包</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label"></label>
+                            请确认是否关闭本红包，关闭后用户不能再领取红包，红包广告也不在终端显示，
+                            红包剩余金额将归运营平台所有
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">原因：</label>
+                            <div class="col-sm-6">
+                                <select class="form-control" ng-model="redOrdersOption.reason" ng-options="x.value as x.text for x in riskCloseReasonLost">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer" style="margin-top: 30px">
+                            <div class="form-group control-label">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-sm-6">
+                                    <button class="btn btn-primary btn-mr20" type="button" ng-click='riskClose(redOrdersOption)'
+                                    >确定</button>
+                                    <button class="btn btn-primary4" type="button" ng-click='cancel()'
+                                    >返回</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>

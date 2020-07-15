@@ -1,0 +1,82 @@
+<div class="form-group">
+	<label class="col-sm-2 control-label"><i class="red_req">*</i>借记卡单笔交易限额：</label>
+	<div class="col-sm-3">
+		<div class="col-sm-5 pd0">
+			<input type="number" class="form-control" name="savingsSingleMinAmount" ng-model="serviceQuotaInfo.savingsSingleMinAmount" ng-pattern="/^(([1-9]\d{0,9})|0)(\.\d{1,2})?$/" required>
+			<div class="req_mesg" ng-show="horizontal.savingsSingleMinAmount.$dirty && horizontal.savingsSingleMinAmount.$invalid">
+				<span ng-show="horizontal.savingsSingleMinAmount.$error.required">借记卡单笔交易最小额不能为空</span>
+				<span ng-show="horizontal.savingsSingleMinAmount.$error.pattern">金额格式不正确</span>
+			</div>
+		</div>
+		<label class="col-sm-2 control-label" style="text-align: center;"> ~ </label>
+		<div class="col-sm-5 pd0">
+			<input type="number" class="form-control" name="savingsSingleMaxAmount" ng-model="serviceQuotaInfo.savingsSingleMaxAmount" ng-pattern="/^(([1-9]\d{0,9})|0)(\.\d{1,2})?$/" required>
+			<div class="req_mesg" ng-show="horizontal.savingsSingleMaxAmount.$dirty && horizontal.savingsSingleMaxAmount.$invalid">
+				<span ng-show="horizontal.savingsSingleMaxAmount.$error.required">借记卡单笔交易最大额不能为空</span>
+				<span ng-show="horizontal.savingsSingleMaxAmount.$error.pattern">金额格式不正确</span>
+			</div>
+		</div>
+	</div>
+	<label class="col-sm-3 control-label"><i class="red_req">*</i>借记卡日成功交易总额阀值：</label>
+	<div class="col-sm-3">
+		<input type="number" class="form-control" name="savingsDayTotalAmount" ng-model="serviceQuotaInfo.savingsDayTotalAmount" ng-pattern="/^(([1-9]\d{0,9})|0)(\.\d{1,2})?$/" required>
+		<div class="req_mesg" ng-show="horizontal.savingsDayTotalAmount.$dirty && horizontal.savingsDayTotalAmount.$invalid">
+			<span ng-show="horizontal.savingsDayTotalAmount.$error.required">借记卡日成功交易总额阀值不能为空</span>
+			<span ng-show="horizontal.savingsDayTotalAmount.$error.pattern">金额格式不正确</span>
+		</div>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label"><i class="red_req">*</i>贷记卡单笔交易限额：</label>
+	<div class="col-sm-3">
+		<div class="col-sm-5 pd0">
+			<input type="number" class="form-control" name="creditSingleMinAmount" ng-model="serviceQuotaInfo.creditSingleMinAmount" ng-pattern="/^(([1-9]\d{0,9})|0)(\.\d{1,2})?$/" required>
+			<div class="req_mesg" ng-show="horizontal.creditSingleMinAmount.$dirty && horizontal.creditSingleMinAmount.$invalid">
+				<span ng-show="horizontal.creditSingleMinAmount.$error.required">贷记卡单笔交易最小额不能为空</span>
+				<span ng-show="horizontal.creditSingleMinAmount.$error.pattern">金额格式不正确</span>
+			</div>
+		</div>
+		<label class="col-sm-2 control-label" style="text-align: center;"> ~ </label>
+		<div class="col-sm-5 pd0">
+			<input type="number" class="form-control" name="creditSingleMaxAmount" ng-model="serviceQuotaInfo.creditSingleMaxAmount" ng-pattern="/^(([1-9]\d{0,9})|0)(\.\d{1,2})?$/" required>
+			<div class="req_mesg" ng-show="horizontal.creditSingleMaxAmount.$dirty && horizontal.creditSingleMaxAmount.$invalid">
+				<span ng-show="horizontal.creditSingleMaxAmount.$error.required">贷记卡单笔交易最大额不能为空</span>
+				<span ng-show="horizontal.creditSingleMaxAmount.$error.pattern">金额格式不正确</span>
+			</div>
+		</div>
+	</div>
+	<label class="col-sm-3 control-label"><i class="red_req">*</i>贷记卡日成功交易总额阀值：</label>
+	<div class="col-sm-3">
+		<input type="number" class="form-control" name="creditDayTotalAmount" ng-model="serviceQuotaInfo.creditDayTotalAmount" ng-pattern="/^(([1-9]\d{0,9})|0)(\.\d{1,2})?$/" required>
+		<div class="req_mesg" ng-show="horizontal.creditDayTotalAmount.$dirty && horizontal.creditDayTotalAmount.$invalid">
+			<span ng-show="horizontal.creditDayTotalAmount.$error.required">贷记卡日成功交易总额阀值不能为空</span>
+			<span ng-show="horizontal.creditDayTotalAmount.$error.pattern">金额格式不正确</span>
+		</div>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label"><i class="red_req">*</i>所有卡种日成功交易总额阀值：</label>
+	<div class="col-sm-3">
+		<input type="number" class="form-control" name="dayTotalAmount" ng-model="serviceQuotaInfo.dayTotalAmount" ng-pattern="/^(([1-9]\d{0,9})|0)(\.\d{1,2})?$/" required>
+		<div class="req_mesg" ng-show="horizontal.dayTotalAmount.$dirty && horizontal.dayTotalAmount.$invalid">
+			<span ng-show="horizontal.dayTotalAmount.$error.required">所有卡种日成功交易总额阀值不能为空</span>
+			<span ng-show="horizontal.dayTotalAmount.$error.pattern">金额格式不正确</span>
+		</div>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label"><i class="red_req">*</i>预警手机号：</label>
+	<div class="col-sm-3">
+		<input type="text" class="form-control" name="warningPhone" ng-model="serviceQuotaInfo.warningPhone" ng-pattern="/^1[3|4|5|7|8]\d{9}(,1[3|4|5|7|8]\d{9}){0,14}$/" required>
+		<div class="req_mesg" ng-show="horizontal.warningPhone.$dirty && horizontal.warningPhone.$invalid">
+			<span ng-show="horizontal.warningPhone.$error.required">预警手机号不能为空</span>
+			<span ng-show="horizontal.warningPhone.$error.pattern">手机号格式不正确</span>
+		</div>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">单笔交易限额客户端提示语：</label>
+	<div class="col-sm-4">
+		<textarea rows="5" cols="20" class="form-control" ng-model="serviceQuotaInfo.clintMsg"></textarea>
+	</div>
+</div>

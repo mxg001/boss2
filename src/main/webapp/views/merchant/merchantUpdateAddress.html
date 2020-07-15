@@ -1,0 +1,42 @@
+<div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal"
+		aria-label="Close" ng-click="solutionModalClose()">
+		<span aria-hidden="true">&times;</span>
+	</button>
+	<h4 class="modal-title"  ng-if="mriId!=15" id="myModalLabel">修改经营地址</h4>
+	<h4 class="modal-title"  ng-if="mriId==15" id="myModalLabel">修改开户行地址</h4>
+</div>
+<div class="modal-body" style="height: 300px;">
+	<form id="form1" method="" action="">
+		<div class="form-group" ng-if="mriId!=15">
+			<label class="col-sm-2 control-label">原经营地址：</label>
+			<input type="text" class="form-control" ng-model="address" disabled="disabled">
+			<input type="hidden" class="form-control" ng-model="mriId">
+		</div>
+		<div class="form-group" ng-if="mriId==15">
+			<label class="col-sm-2 control-label">开户行地址：</label>
+			<input type="text" class="form-control" ng-model="address" disabled="disabled">
+			<input type="hidden" class="form-control" ng-model="mriId">
+		</div>
+		<div class="form-group">
+			<label ng-if="mriId!=15" class="col-sm-2 control-label"><i class="red_req">*</i>新经营地址：</label>
+			<label ng-if="mriId==15" class="col-sm-2 control-label"><i class="red_req">*</i>新开户行地址：</label>
+			<div class="col-sm-2">
+				<select class="form-control input-s-sm inline" ng-model="info.province" ng-change="getCities()" ng-options="x.name as x.name for x in provinceGroup"/>
+			</div>
+			<div class="col-sm-2">
+				<select class="form-control input-s-sm inline" ng-model="info.city" ng-change="getAreas()" ng-options="x.name as x.name for x in cityGroup"/>
+			</div>
+			<div class="col-sm-2">
+				<select class="form-control input-s-sm inline" ng-model="info.district" ng-options="x.name as x.name for x in areaGroup"/>
+			</div>
+			<div class="col-sm-4" ng-if="mriId!=15">
+				<input type="text" class="form-control" ng-model="info.addressa">
+			</div>
+		</div>
+	</form>
+</div>
+<div class="modal-footer">
+	<button type="button" class="btn btn-primary4 btn-mr20" data-dismiss="modal" ng-click="solutionModalClose()">关闭</button>
+	<button type="submit" class="btn btn-primary" ng-click="solutionModalOk()">确定</button>
+</div>

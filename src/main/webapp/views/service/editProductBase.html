@@ -1,0 +1,205 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>产品服务</a></li>
+			<li class="active"><strong>业务产品基本信息修改</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn"
+	ng-controller="editProductBaseCtrl">
+	<form class="form-horizontal" id="form1" name="horizontal" novalidate>
+		<div class="form-group">
+			<div class="row">
+				<div class="tabs-container tab_other">
+					<div class="col-lg-12">
+					  <uib-tabset>
+					  <uib-tab>
+		                    	<uib-tab-heading>
+		                    		 <span class="block m-t-xs">
+		                             	<i class="fa fa-laptop"></i>
+		                                <strong class="font-bold">基本信息</strong>
+		                             </span>
+		                        </uib-tab-heading>
+						<div class="panel-body">
+							<div class="form-group">
+								<label class="col-sm-2 control-label"><i class="red_req">*</i>业务产品名称：</label>
+								<div class="col-sm-2">
+									<input type="text" class="form-control" name="bpName" ng-model="baseInfo.bpName" required>
+									<div class="req_mesg" ng-show="horizontal.bpName.$dirty && horizontal.bpName.$invalid">
+										<span ng-show="horizontal.bpName.$error.required">业务产品名称不能为空</span>
+									</div>
+								</div>
+								<label class="col-sm-2 control-label"><i class="red_req">*</i>代理商展示名称：</label>
+								<div class="col-sm-2">
+									<input type="text" class="form-control" ng-model="baseInfo.agentShowName" name="agentShowName"  required>
+									<div class="req_mesg" ng-show="horizontal.agentShowName.$dirty && horizontal.agentShowName.$invalid">
+										<span ng-show="horizontal.agentShowName.$error.required">代理商展示名称不能为空</span>
+									</div>
+								</div>
+								<label class="col-sm-2 control-label"></label>
+									<div class="col-sm-2">
+										<label><input type="checkbox" ng-model='baseInfo.relyHardware'  ng-true-value="1" ng-false-value="0"/>
+											<span class=""><i class="red_req">*</i>依赖硬件</span>
+										</lable>
+									</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label"><i class="red_req">*</i>类型：</label>
+								<div class="col-sm-2">
+									<select class="form-control" ng-model='baseInfo.bpType' ng-options="x.value as x.text for x in type" >
+									</select>
+								</div>
+								
+								<label class="col-sm-2 control-label"></label>
+								<div class="col-sm-2">
+									<label><input type="checkbox" ng-model='baseInfo.notCheck' ng-true-value="'1'" ng-false-value="'0'"
+										 /><span class="">证件资料完整时无需人工审核</span></lable>
+								</div>
+								<div class="col-sm-2">
+									<label><input type="checkbox" ng-model='baseInfo.allowWebItem'  ng-true-value="1" ng-false-value="0" />
+									<span class="">允许在web端进件</span></lable>
+								</div>
+								<div class="col-sm-2">
+									<label><input type="checkbox" ng-model='baseInfo.allowIndividualApply'  ng-true-value="1" ng-false-value="0"/>
+									<span class="">允许单独申请</span></lable><!-- <span class="req_mesg">(此属性暂未生效)</span> -->
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label"><i class="red_req">*</i>可销售日期：</label>
+								<div class="col-sm-3">
+									<input type="text" class="form-control" name="saleStarttime" required date-time view="date"  min-view="date" format="YYYY-MM-DD" ng-model="baseInfo.saleStarttime"
+									>
+									<div class="req_mesg" ng-show="horizontal.saleStarttime.$dirty && horizontal.saleStarttime.$invalid">
+										<span ng-show="horizontal.saleStarttime.$error.required">销售日期不能为空</span>
+									</div>
+								</div>
+								<label class="col-sm-1 control-label">~</label>
+								<div class="col-sm-3">
+									<input type="text" class="form-control" date-time view="date" name="saleEndtime" required  min-view="date" format="YYYY-MM-DD" ng-model="baseInfo.saleEndtime"
+									>
+									<div class="req_mesg" ng-show="horizontal.saleEndtime.$dirty && horizontal.saleEndtime.$invalid">
+										<span ng-show="horizontal.saleEndtime.$error.required">销售日期不能为空</span>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label"><i class="red_req">*</i>可否代理：</label>
+								<div class="col-sm-2">
+									<select class="form-control" ng-model="baseInfo.proxy" ng-options="x.value as x.text for x in bool" >
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<!-- <label class="col-sm-2 control-label">自动开通关联业务产品：</label>
+								 <div class="col-sm-2">
+									<select class="form-control" ng-model="baseInfo.linkProduct" ng-options="x.value as x.text for x in otherProducts" >
+									</select>
+								</div> -->
+								<label class="col-sm-2 control-label" ng-hide="baseInfo.relyHardware == 0">自动开通关联业务产品：</label>
+									 <div class="col-sm-2">
+									<select class="form-control"  ng-hide="baseInfo.relyHardware == 0" ng-model="baseInfo.linkProduct" ng-options="x.value as x.text for x in otherProducts" >
+										</select>
+									</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">关联硬件产品：</label>
+								<div class="col-sm-4">
+									<select class="form-control" ng-model="baseInfo.limitHard" ng-options="x.value as x.text for x in isLimitHard" >
+									</select>
+								</div>	
+							</div>	
+							<div class="form-group">
+								<div class="col-sm-2"/>	
+								<div class="col-sm-4" ng-show="baseInfo.limitHard=='1'">
+									<div  class="gridStyle" ui-grid="hardsGrid" ui-grid-selection ui-grid-resize-columns class="grid"></div>
+								</div>	
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">业务产品简介：</label>
+								<div class="col-sm-8">
+								<textarea rows="5" cols="20" class="form-control" ng-model="baseInfo.remark" ></textarea>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">宣传图片：</label>
+								<div class="col-sm-4">
+									 <input type="file" nv-file-select="" uploader="uploaderImg" multiple />
+									 <div ng-hide="bpImgHide" style="float: right">
+									 	<input type="button" class="btn btn-primary2" type="button" ng-click='removeImg()' value="清除宣传图片" />
+									 	<br>
+									 	<img alt="" ng-src="{{baseInfo.bpImgUrl}}" style="width: 198px;height: 100px">
+									 </div>
+									<table class="table">
+							                     <tbody>
+							                         <tr ng-repeat="item in uploaderImg.queue">
+							                             <td>
+							                                 <strong>{{ item.file.name }}</strong>
+							                                 <div ng-show="uploaderImg.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+							                             </td>
+							                             <td ng-show="uploaderImg.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+							                             <td ng-show="uploaderImg.isHTML5">
+							                                 <div class="progress" style="margin-bottom: 0;">
+							                                     <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+							                                 </div>
+							                             </td>
+							                             <td class="text-center">
+							                                 <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+							                                 <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+							                                 <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+							                             </td>
+							                             <td nowrap>
+							                                <!--  <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+							                                     <span class="glyphicon glyphicon-upload"></span> Upload
+							                                 </button>
+							                                 <button type="button" class="btn btn-warning btn-xs" ng-click="item.cancel()" ng-disabled="!item.isUploading">
+							                                     <span class="glyphicon glyphicon-ban-circle"></span> Cancel
+							                                 </button> -->
+							                                 <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+							                                     <span class="glyphicon glyphicon-trash"></span> Remove
+							                                 </button>
+							                             </td>
+							                         </tr>
+							                     </tbody>
+							                 </table>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">业务产品介绍链接：</label>
+								<div class="col-sm-8">
+									<input type="text" class="form-control" ng-model="baseInfo.link" name="link" />
+								</div>
+							</div>
+						</div>
+						</uib-tab>
+						<uib-tab> <uib-tab-heading> <span
+							class="block m-t-xs"> <i class="fa fa-desktop"></i> <strong
+							class="font-bold">进件要求项明细</strong>
+						</span> </uib-tab-heading>
+						<div class="panel-body">
+							<div class="col-sm-4">
+							<div class="gridStyle" ui-grid="itemsGrid" ui-grid-selection  ui-grid-resize-columns class="grid"></div>
+							</div>
+						</div>
+						</uib-tab>
+						</uib-tabset>
+				</div>
+				</div>
+			</div>
+			<div class="col-lg-12 bgff">
+				<div class="col-sm-12">
+					<div class="col-sm-2"></div>
+					<div class="col-sm-6">
+						<button ladda="loadingDemo" ng-click="submit()" ng-show="hasPermit('businessProductDefine.edit')"  class="ladda-button ladda-button-demo btn btn-primary btn-mr20"
+								ng-disabled="horizontal.$invalid || subDisable" data-style="zoom-in">提交</button>
+						<button class="btn btn-primary4" type="button" ui-sref="service.queryProduct"
+											 id="btnSubmit">返回</button></div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+</div>

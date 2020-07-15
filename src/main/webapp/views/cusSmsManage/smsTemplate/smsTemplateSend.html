@@ -1,0 +1,77 @@
+<!-- head -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>短信发送管理</a></li>
+            <li class="active"><strong>短信模板发送</strong></li>
+        </ol>
+    </div>
+</div>
+
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="smsTemplateSendCtrl">
+    <form class="form-horizontal" id="form1" name="horizontalAdd">
+        <div class="form-group">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="ibox-title">
+                            <h5>短信模板发送</h5>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">短信编号:</label>
+                            <div class="col-sm-3 checkbox" ng-bind="info.id"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">短信模板:</label>
+                            <div class="col-sm-11 checkbox" ng-bind="info.template"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label"><i class="red_req">*</i>发送方式:</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" name="sendType" required ng-model="addInfo.sendType" ng-options="x.value as x.text for x in sendTypeSelect"/>
+                                <div class="req_mesg" ng-show="horizontalAdd.sendType.$dirty && horizontalAdd.sendType.$invalid">
+                                    <span ng-show="horizontalAdd.sendType.$error.required">发送方式不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label"><i class="red_req">*</i>手机号码/商户编号:</label>
+                            <div class="col-sm-11">
+                                <textarea class="form-control" rows="5" cols="15" name="sendStr" required  ng-model="addInfo.sendStr"
+                                          placeholder="手机号码和商户编号只能二选一,支持多个发送,多个以&quot;,&quot;间隔,最多100个."
+                                ></textarea>
+                                <div class="req_mesg" ng-show="horizontalAdd.sendStr.$dirty && horizontalAdd.sendStr.$invalid">
+                                    <span ng-show="horizontalAdd.sendStr.$error.required">手机号码/商户编号不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" ng-show="resultSta">
+                        <div class="ibox-title">
+                            <h5>发送结果</h5>
+                            <label style="float: right;font-size: 20px;margin-right: 20px;cursor:pointer;" ng-click="resultShow(false)">X</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label"></label>
+                            <div class="col-sm-11">
+                                <textarea class="form-control" rows="8" cols="15" style="white-space: pre;" readonly ng-model="errorMsg"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 bgff">
+                <div class="col-sm-12">
+                    <div class="col-lg-3"></div>
+                    <div class="col-sm-6">
+                        <button class="btn btn-primary btn-mr20" type="button" ng-click='submitInfo()'
+                                id="btnSubmit" ng-disabled="horizontalAdd.$invalid || submitting" >发送</button>
+                        <a class="btn btn-primary4" ui-sref="cusSms.smsTemplate" >返回</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

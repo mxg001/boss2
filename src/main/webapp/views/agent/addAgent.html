@@ -1,0 +1,381 @@
+<!-- head -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>代理商管理</a></li>
+			<li class="active"><strong>新增代理商</strong></li>
+		</ol>
+	</div>
+</div>
+
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn"  ng-controller="addAgentCtrl">
+	<form class="form-horizontal" id="form1" name="horizontal" novalidate>
+		<div class="form-group">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="tabs-container tab_other">
+						<uib-tabset active="active">
+							<uib-tab> 						
+								<uib-tab-heading>
+									<span class="block m-t-xs"> <i class="fa fa-laptop"></i> <strong class="font-bold">基本信息</strong></span> 
+								</uib-tab-heading>
+								<div class="panel-body">
+									<div ui-view="agentBase"/>
+								</div>	
+							</uib-tab> 
+							
+							<uib-tab  select="getBpList()"  > 
+								<uib-tab-heading> 
+									<span class="block m-t-xs"> <i class="fa fa-desktop"></i><strong class="font-bold">代理业务产品</strong></span> 
+								</uib-tab-heading>
+								<div class="panel-body">
+									<div class="form-group">
+										<label class="control-label">请选择业务产品：</label>
+									</div>
+									<div class="form-group">
+										<label class="control-label" style="float: left;">业务产品：</label>
+										<div style="float: left;width: 200px;">
+											<select  name="autocomplete-select" id="autocomplete-select1"
+													 ng-model="product.productType" ng-options="x.bpId as x.bpName for x in productTypes"
+													 style="width: 100%" chosen chosen-data="productTypes" chosen-keyup="getStates" ng-change="queryBusinessProduct()">
+											</select>
+										</div>
+									</div>
+				                    <div class="gridStyle"  ui-grid="bpList" ui-grid-resize-columns ui-grid-selection ui-grid-pinning/>
+									<div class="form-group">
+										<label class="control-label">已选业务产品：</label>
+									</div>
+									<div class="gridStyle"  ui-grid="addbpList" ui-grid-resize-columns ui-grid-pinning/>
+								</div>
+							</uib-tab>
+							
+							<uib-tab  select="getShareList()" > 
+								<uib-tab-heading> 
+									<span class="block m-t-xs"> 
+										<i class="fa fa-desktop"></i>
+										<strong class="font-bold">分润设置</strong>
+									</span> 
+								</uib-tab-heading>
+								<div class="panel-body">
+									<span style="color:red" ng-hide="bpTp">业务产品不能为空！ </span>
+									<div class="panel-body" ng-show="bpTp">
+										<a ng-show="bpTp" ng-click="shareBatchSet = !shareBatchSet">批量设置
+											<span ng-show="shareBatchSet" class="glyphicon glyphicon-menu-down"></span>
+											<span ng-show="!shareBatchSet" class="glyphicon glyphicon-menu-up"></span>
+										</a>
+										<div ng-show="!shareBatchSet">
+											<div style="float: left"> <span style="height: 36px;display: block;line-height: 36px;" >批量设置分润比例：</span></div>
+											<div style="float: left"> <span style="height: 36px;display: block;line-height: 36px;margin-left: 10px"  >设置值：</span></div>
+											<div class="col-sm-2">
+												<input type="text" class="form-control" ng-model="agent.setValue">
+											</div>
+											<div style="float: left"> <span style="height: 36px;display: block;line-height: 36px;" >%</span></div>
+											<div class="col-sm-3">
+												<button class="btn btn-new2 btn-mr20"  type="button" ng-click="batchSetShareProfitPercent()">确定设置</button>
+											</div>
+										</div>
+									</div>
+
+									<div ng-repeat="teamId in teamIds" style="margin-bottom: 30px" ng-show="bpTp">
+										<div style="margin-bottom: 5px">
+											<span ng-bind="teamId | formatDropping:teams"></span><span>分润设置</span>
+										</div>
+										<div class="gridStyle"  ui-grid="shareDataList[teamId]" ui-grid-resize-columns ui-grid-pinning/>
+									</div>
+
+									<div class="block m-t-xs">
+	                           			<strong>备注：</strong><br/>
+										交易分润＝（商户签约扣率－代理商成本扣率）* 代理商分润百分比 * 交易金额；<br/>
+										提现费分润＝（商户每笔提现手续费（如3.00元）－商户每笔提现代理商成本（如2.00元））*总笔数<br/>
+						   			</div>
+								</div>
+							</uib-tab>
+
+							<uib-tab select="getHappyBackType()">
+								<uib-tab-heading>
+									<span class="block m-t-xs"> 
+										<i class="fa fa-desktop"></i>
+										<strong class="font-bold">欢乐返活动</strong>
+									</span> 
+								</uib-tab-heading>
+								<div class="panel-body">
+									<!--<div class="gridStyle" ui-grid="happyBackGrid" ui-grid-resize-columns ui-grid-selection ui-grid-pinning/>-->
+									<div ng-repeat="teamId in happyTeams" style="margin-bottom: 30px">
+										<div style="margin-bottom: 5px">
+											<span ng-bind="teamId | formatDropping:teams" ng-show="showTitle"></span><span ng-show="showTitle" style="margin-left: 10px">欢乐返活动</span>
+										</div>
+										<div class="gridStyle"  ui-grid="happyBackDataList[teamId]" ui-grid-resize-columns ui-grid-selection ui-grid-pinning/>
+									</div>
+								</div>
+							</uib-tab>
+
+							<uib-tab>
+                                <uib-tab-heading>
+                                    <span class="block m-t-xs">
+                                        <i class="fa fa-desktop"></i>
+                                        <strong class="font-bold">新欢乐送活动</strong>
+                                    </span>
+                                </uib-tab-heading>
+                                <div class="panel-body">
+                                    <div class="gridStyle" ui-grid="newHappyBackGrid" ui-grid-resize-columns ui-grid-selection/>
+                                </div>
+                            </uib-tab>
+
+							<uib-tab>
+								<uib-tab-heading>
+                                    <span class="block m-t-xs">
+                                        <i class="fa fa-desktop"></i>
+                                        <strong class="font-bold">超级返活动</strong>
+                                    </span>
+								</uib-tab-heading>
+								<div class="panel-body">
+									<div class="gridStyle" ui-grid="superHappyBackGrid" ui-grid-resize-columns ui-grid-selection/>
+								</div>
+							</uib-tab>
+
+							<uib-tab  select="getShareList()"> 
+								<uib-tab-heading > 
+									<span class="block m-t-xs"> 
+									<i class="fa fa-desktop"></i>
+									<strong class="font-bold">商户服务管控费率</strong></span> 
+								</uib-tab-heading>
+								<div class="panel-body">
+								<span style="color:red" ng-hide="bpTp">业务产品不能为空！ </span>
+									<div class="gridStyle" ui-grid="rateList" ui-grid-resize-columns ui-grid-pinning/>
+			                        <div class="block m-t-xs">
+			                          <strong>备注：</strong><br/>
+										每笔固定金额1元，则填写商户费率1.00;<br/>
+										每笔扣率为0.1%则填写商户费率0.1%;<br/>
+										每笔扣率为0.1%，封顶3元，保底1元则填写商户费率1.00~0.1%~3.00;<br/>
+										每笔扣率为0.1%加上固定金额1元，则填写商户费率0.1%+1.00;<br/>
+										单笔阶梯扣率如10000.00元以下，扣率0.38%，10000.00元及以上扣率0.37%，则填写0.38%<10000.00<=0.37%.<br/>
+										每笔扣率为0.1%，封顶3元，则填写商户费率0.1%~3.00；<br/>
+									   </div>									
+								</div>
+							</uib-tab>
+							
+							<uib-tab select="getShareList()"> 
+								<uib-tab-heading> 
+									<span class="block m-t-xs"> 
+									<i class="fa fa-desktop"></i>
+									<strong class="font-bold">商户服务管控限额</strong></span> 
+								</uib-tab-heading>
+								<div class="panel-body">
+								<span style="color:red" ng-hide="bpTp">业务产品不能为空！ </span>
+									<div class="gridStyle" ui-grid="quotaList" ui-grid-resize-columns ui-grid-pagination ui-grid-pinning/>
+								</div>
+							</uib-tab>
+							
+							<uib-tab ng-show='agent.teamId=="200010"'> 
+								<uib-tab-heading >
+									<span class="block m-t-xs"> <i class="fa fa-desktop"></i> <strong class="font-bold">OEM定制配置</strong></span> 
+								</uib-tab-heading>
+								<div class="panel-body">								
+								    <div class="row">
+								        <div class="col-lg-12">
+								        	 <div class="ibox float-e-margins">
+								                <div class="ibox-title">
+								                    <h5>OEM-APP关于软件</h5>
+								                    <!--<div ibox-tools></div>-->
+								                </div>
+								                <div class="ibox-content">							                	
+								                    <div class="row">
+								                        <div class="col-sm-10">								                        	
+								                        	<div class="form-group">
+								                        		<label class="col-lg-4 control-label">LOGO：</label>
+	                           									<div class="col-lg-6">
+	                           										<input type="file" nv-file-select="" uploader="uploaderApp"  multiple/>
+																	<table class="table">
+												                        <tbody>
+												                            <tr ng-repeat="item in uploaderApp.queue">
+												                                <td>
+												                                    <strong>{{ item.file.name }}</strong>
+												                                    <div ng-show="uploaderApp.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+												                                </td>
+												                                <td ng-show="uploaderApp.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+												                                <td ng-show="uploaderApp.isHTML5">
+												                                    <div class="progress" style="margin-bottom: 0;">
+												                                        <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+												                                    </div>
+												                                </td>
+												                                <td class="text-center">
+												                                    <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+												                                    <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+												                                    <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+												                                </td>
+												                                <td nowrap>
+												                                   <!--  <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+												                                        <span class="glyphicon glyphicon-upload"></span> Upload
+												                                    </button>
+												                                    <button type="button" class="btn btn-warning btn-xs" ng-click="item.cancel()" ng-disabled="!item.isUploading">
+												                                        <span class="glyphicon glyphicon-ban-circle"></span> Cancel
+												                                    </button> -->
+												                                    <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+												                                        <span class="glyphicon glyphicon-trash"></span> Remove
+												                                    </button>
+												                                </td>
+												                            </tr>
+												                        </tbody>
+												                    </table>
+	                           									</div>
+	                      									 </div>
+	                      									 <div class="form-group">
+								                        		<label class="col-lg-4 control-label">说明：</label>
+	                           									<div class="col-lg-6">
+																	<textarea rows="5" cols="20" ng-model="agent.logoRemark" class="form-control"></textarea>
+																</div>
+	                      									 </div>                      									 	                   									 	                 									 								                       
+								                        </div>								                        					                     
+								                    </div>
+								                </div>
+								            </div>
+								            
+								            <div class="ibox float-e-margins">
+								                <div class="ibox-title">
+								                    <h5>代理商WEB</h5>
+								                    <!--<div ibox-tools></div>-->
+								                </div>
+								                <div class="ibox-content">
+								                    <div class="row">
+								                        <div class="col-sm-10">								                        	
+								                        	<div class="form-group">
+								                        		<label class="col-lg-4 control-label">LOGO：</label>
+	                           									<div class="col-lg-6">
+	                           									<input type="file" nv-file-select="" uploader="uploaderWeb"  multiple/>
+																	<table class="table">
+												                        <tbody>
+												                            <tr ng-repeat="item in uploaderWeb.queue">
+												                                <td>
+												                                    <strong>{{ item.file.name }}</strong>
+												                                    <div ng-show="uploaderWeb.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+												                                </td>
+												                                <td ng-show="uploaderWeb.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+												                                <td ng-show="uploaderWeb.isHTML5">
+												                                    <div class="progress" style="margin-bottom: 0;">
+												                                        <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+												                                    </div>
+												                                </td>
+												                                <td class="text-center">
+												                                    <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+												                                    <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+												                                    <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+												                                </td>
+												                                <td nowrap>
+												                                   <!--  <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+												                                        <span class="glyphicon glyphicon-upload"></span> Upload
+												                                    </button>
+												                                    <button type="button" class="btn btn-warning btn-xs" ng-click="item.cancel()" ng-disabled="!item.isUploading">
+												                                        <span class="glyphicon glyphicon-ban-circle"></span> Cancel
+												                                    </button> -->
+												                                    <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+												                                        <span class="glyphicon glyphicon-trash"></span> Remove
+												                                    </button>
+												                                </td>
+												                            </tr>
+												                        </tbody>
+												                    </table>
+	                           									</div>
+	                      									 </div>                      									                									 	                   									 	                 									 								                       
+								                        </div>					                        					                     
+								                    </div>
+								                </div>
+								            </div>
+								            							           
+								        </div>
+							       	</div>						       
+								</div>
+							</uib-tab> 
+						</uib-tabset>					
+					</div>
+				</div>
+			</div>
+			
+			<!-- 设置新的分润 -->
+			<div id="ladderFrModel" class="modal fade" tabindex="-1" role="dialog">
+			    <div class="modal-dialog" style="width: 900px">
+			       <div class="modal-content">
+			          <div class="modal-header">
+			             <button type="button" class="close" data-dismiss="modal">
+			                  &times;
+			            </button>
+			            <h3 class="modal-title">阶梯分润比例</h3>
+			         </div>
+			         <div class="modal-body">
+			         	<div class="form-group" class="col-lg-12">
+							<label class="col-lg-2 control-label">分润方式：</label>
+							<div class="col-lg-6"><select class="input-sm form-control input-s-sm inline col-lg-6" ng-model="info.entity.profitType" ng-options="x.value as x.text for x in fr"/></div>
+						</div>
+						<div class="form-group" ng-show="info.entity.profitType=='5'">
+							<label class="col-lg-2 control-label"></label>
+							<div class="col-lg-4"><input type="text" class="input form-control col-lg-8"  ng-model="info.entity.shareProfitPercent"/></div><div class="col-lg-4" style="padding:10px 0">%</div>
+						</div>
+						<div ng-show="info.entity.profitType=='6'">
+				         	<div class="form-group" class="col-lg-12">
+								<div class="col-lg-3">
+									<input type="number" ng-model="info.m1" type="text" class="form-control" disabled="disabled">
+								</div>
+								<label class="col-lg-1 control-label">万元&lt;</label>
+								<div class="col-lg-3">
+									<input type="number" ng-model="info.m2" type="text" class="form-control">
+								</div>
+								<label class="col-lg-1 control-label">%&lt;</label>
+								<div class="col-lg-3">
+									<input type="number" ng-model="info.m3" type="text" class="form-control">
+								</div>
+								<label class="col-lg-1 control-label">万元</label>
+							</div>
+							
+							<div class="form-group" class="col-lg-12">
+								<div class="col-lg-3">
+									<input type="number" ng-model="info.m3" type="text" class="form-control">
+								</div>
+								<label class="col-lg-1 control-label">万元&lt;</label>
+								<div class="col-lg-3">
+									<input type="number" ng-model="info.m4" type="text" class="form-control">
+								</div>
+								<label class="col-lg-1 control-label">%&lt;</label>
+								<div class="col-lg-3">
+									<input type="number" ng-model="info.m5" type="text" class="form-control">
+								</div>
+								<label class="col-lg-1 control-label">万元</label>
+							</div>
+							
+							<div class="form-group" class="col-lg-12">
+                                <div class="col-lg-3">
+                                    <input type="number" ng-model="info.m7" type="text" class="form-control">
+                                </div>
+                                <label class="col-lg-1 control-label">万元&lt;</label>
+                                <div class="col-lg-3">
+                                    <input type="number" ng-model="info.m8" type="text" class="form-control">
+                                </div>
+                                <label class="col-lg-1 control-label">%&lt;</label>
+                                <div class="col-lg-3">
+                                    <input  ng-model="info.m9" type="text" class="form-control" disabled="disabled">
+                                </div>
+                                <label class="col-lg-1 control-label">万元</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-6" align="center">
+                                <button class="btn btn-primary" type="button" ng-click="addShare(info.row)">确定</button>
+                                <button class="btn btn-primary8" type="button" data-dismiss="modal">取消</button>
+                            </div>
+                        </div>
+                     </div>
+                  </div>
+                </div>
+            </div>
+            <!-- 设置新的分润 -->
+
+            <div class="col-lg-12 bgff">
+                <div class="col-sm-12">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-6"><div style="padding: 0 15px;"><button class="btn btn-primary btn-rounded " ng-show="hasPermit('agent.insert')" type="button" id="btnSubmit" ng-click="submit()"
+                        ng-disabled="horizontal.$invalid || agent.province==null || agent.city==null || agent.area==null || addbpData.length==0 || subDisable">提交</button></div></div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

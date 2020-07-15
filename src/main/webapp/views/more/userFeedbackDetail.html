@@ -1,0 +1,80 @@
+<!-- head -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>管理中心</a></li>
+			<li class="active"><strong>用户反馈问题详情</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn"
+	ng-controller="userFeedbackDetailCtrl">
+	<form class="form-horizontal" id="form1" name="horizontal">
+		<div class="form-group">
+			<div class="ibox float-e-margins">
+				<div class="ibox-content">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">反馈用户：</label>
+						<div class="col-sm-3 checkbox" ng-bind="info.userName">
+						</div>
+						<label class="col-sm-2 control-label">反馈用户手机号：</label>
+						<div class="col-sm-3 checkbox" ng-bind="info.mobilephone">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">反馈用户类型：</label>
+						<div class="col-sm-3 checkbox" ng-bind="info.userType">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">问题类型：</label>
+						<div class="col-sm-3 checkbox" ng-bind="info.typeName">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">标题：</label>
+						<div class="col-sm-3 checkbox" ng-bind="info.title">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">内容：</label>
+						<div class="col-sm-3 checkbox" ng-bind="info.content">
+						</div>
+					</div>
+					<div class="form-group" style="padding-bottom: 20px;">
+						<label class="col-sm-2 control-label">截图：</label>
+					</div>
+					<div class="form-group" style="padding-bottom: 20px;">
+						<div class="col-img"  ng-repeat="m in tup">
+							<a href="{{m}}" fancybox rel="group">
+								<img width="250px" height="150px" ng-src="{{m}}"/>
+							</a>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label"><i ng-show="info.status==0 && hasPermit('userFeedback.dealResult')" class="red_req">*</i>处理结果：</label>
+						<div class="col-sm-2" ng-show="info.status==0 && hasPermit('userFeedback.dealResult')">
+							<textarea name="dealResult"  cols="80" maxlength="50"  rows="5" ng-model="info.dealResult" required></textarea>
+							<br/><span><font color="#999">注意：请输入50字以内的处理结果</font></span>
+							<div class="req_mesg" ng-show="horizontal.dealResult.$dirty && horizontal.dealResult.$invalid">
+								<span ng-show="horizontal.dealResult.$error.required">请输入处理结果</span>
+							</div>
+						</div>
+						<div class="col-sm-3 checkbox" ng-bind="info.dealResult" ng-show="info.status==1">
+						</div>
+						</div>
+					</div>
+					<div class="form-group"></div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label"></label>
+						<div class="col-sm-4">
+							<button ng-show="info.status==0 && hasPermit('userFeedback.dealResult')" ng-disabled="horizontal.$invalid || submitting" class="btn btn-primary btn-mr20" type="button" ng-click='submit()'>提交处理</button>
+							<a class="btn btn-primary8" ng-click="closePage()">关闭</a>
+						</div>
+					</div>
+				</div>
+			</div>
+	</form>
+</div>

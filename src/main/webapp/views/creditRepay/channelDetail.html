@@ -1,0 +1,115 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>信用卡还款</a></li>
+			<li class="active"><strong>通道详情</strong></li>
+		</ol>
+	</div>
+</div>
+
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	 ng-controller="channelDetailCtrl" ng-init="query()">
+	<form class="form-horizontal" id="form1" name="myForm">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="tabs-container tab_other">
+					<uib-tabset>
+						<uib-tab>
+							<uib-tab-heading>
+								<span class="block m-t-xs"> <i class="fa fa-laptop"></i> <strong
+										class="font-bold">基本信息</strong>
+								</span>
+							</uib-tab-heading>
+
+							<div class="panel-body ibox float-e-margins">
+								<div class="ibox-content">
+									<div class="form-group">
+										<label class="col-sm-2 control-label">通道编码：</label>
+										<div class="col-sm-2 checkbox" ng-bind="info.channelCode==null?'':info.channelCode"></div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label">通道名称：</label>
+										<div class="col-sm-2 checkbox" ng-bind="info.channelName==null?'':info.channelName"></div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label">通道开关：</label>
+										<div class="col-sm-2 checkbox" ng-bind="info.channelStatus==1?'开启':'关闭'"></div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label">还款支持起止时间：</label>
+										<div class="col-sm-2 checkbox"
+											 ng-bind="(info.allowBeginTime==null?'':info.allowBeginTime)+'-'+(info.allowEndTime==null?'':info.allowEndTime)"></div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label">单笔交易金额范围：</label>
+										<div class="col-sm-2 checkbox"
+											 ng-bind="(info.allowQuickMinAmount==null?'':info.allowQuickMinAmount)+'-'+(info.allowQuickMaxAmount==null?'':info.allowQuickMaxAmount)"></div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label">计划间隔分钟数：</label>
+										<div class="col-sm-2 checkbox" ng-bind="info.allowSplitMinute==null?'':info.allowSplitMinute"></div>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-lg-12 bgff">
+								<div class="col-sm-12">
+									<div class="col-lg-3"></div>
+									<div class="col-sm-6">
+										<a class="btn btn-primary4" ui-sref="creditRepay.channel" >返回</a>
+									</div>
+								</div>
+							</div>
+						</uib-tab>
+
+						<uib-tab>
+							<uib-tab-heading>
+								<span class="block m-t-xs"> <i class="fa fa-laptop"></i> <strong
+										class="font-bold">不支持银行</strong>
+								</span>
+							</uib-tab-heading>
+								<div class="panel-body ibox float-e-margins">
+									<div class="ibox-title">
+										<h5>不支持银行列表</h5>
+									</div>
+									<!--数据列表-->
+									<table id="dataList" class="table table-bordered table-striped table-hover dataTable"
+										   style="width: 450px;margin-left: 150px">
+										<thead>
+										<tr>
+											<th style="text-align: center">序号</th>
+											<th style="text-align: center">银行编码</th>
+											<th style="text-align: center">银行名称</th>
+										</tr>
+										</thead>
+										<tbody ng-repeat="entity in execludeCardList">
+										<tr>
+											<td>{{$index+1}}</td>
+											<td>{{entity.bankCode}}</td>
+											<td>{{entity.bankName}}</td>
+										</tr>
+										</tbody>
+									</table>
+								</div>
+								<div class="col-lg-12 bgff">
+									<div class="col-sm-12">
+										<div class="col-lg-3"></div>
+										<div class="col-sm-6">
+											<a class="btn btn-primary4" ui-sref="creditRepay.channel" >返回</a>
+										</div>
+									</div>
+								</div>
+								<div style="height:30px;"></div>
+							</div>
+
+						</uib-tab>
+
+					</uib-tabset>
+
+				</div>
+			</div>
+	</form>
+</div>

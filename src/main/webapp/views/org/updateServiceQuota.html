@@ -1,0 +1,50 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>收单机构管理</a></li>
+			<li class="active"><strong>修改收单服务限额</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="updateServiceQuotaCtrl">
+	<form class="form-horizontal" name="horizontal" id="form1">
+		<div class="form-group">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="ibox float-e-margins">
+						<div class="ibox-title">
+							<h5>修改收单服务限额</h5>
+							<!--<div ibox-tools></div>-->
+						</div>
+						<div class="ibox-content">
+							<div ng-switch="quotaIsCard">
+                        		<div ng-switch-when="1">
+                        			<!-- 限额区分卡种 -->
+                        			<div ui-view="serviceQuotaInfo">
+						       		</div>
+                        		</div>
+                        		<div ng-switch-when="2">
+                        			<!-- 限额不区分卡种 -->
+                        			<div ui-view="serviceCommonQuotaInfo">
+						        	</div>
+                        		</div>
+                        	</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-12 bgff">
+				<div class="col-sm-12">
+					<div class="col-sm-2"></div>
+					<div class="col-sm-8">
+						<button class="btn btn-primary btn-rounded btn-mr20" type="button" ng-disabled="((horizontal.$invalid && quotaIsCard ==1)||(horizontal.$invalid && quotaIsCard ==2))|| submitting" ng-click="update()">提交</button>
+						<button class="btn btn-primary4" type="button" ui-sref="org.groupService">返回</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

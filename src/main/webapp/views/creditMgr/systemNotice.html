@@ -1,0 +1,99 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li>主页</li>
+            <li>信用卡管家</li>
+            <li class="active"><strong>系统公告</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="systemNoticeCtrl">
+    <form class="form-horizontal" id="form1">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>公告查询</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">公告标题：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="info.title">
+                            </div>
+                            <label class="col-sm-2 control-label">下发对象：</label>
+                            <div class="col-sm-2">
+                                <select name="autocomplete-select" id="autocomplete-select" ng-model="info.orgId" ng-options="x.value as x.text for x in org"
+									style="width: 100%" chosen chosen-data="org">
+								</select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">公告状态：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="info.status" ng-options="x.value as x.text for x in statusSelect">
+                                	<option value="" selected>全部</option>
+                                </select>
+                            </div>
+                            <label class="col-sm-2 control-label">弹窗提示开关：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="info.popSwitch" ng-options="x.value as x.text for x in popSwitchSelect">
+                                	<option value="" selected>全部</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">创建时间：</label>
+                            <div class="col-sm-6">
+                                <input id="d5221" class="form-control" type="datetime" ng-model="info.startCreateTime" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){},maxDate:''})"/>
+                                ~
+                                <input id="d5222" class="form-control" type="datetime"  ng-model="info.endCreateTime" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',maxDate:''})"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">下发时间：</label>
+                             <div class="col-sm-6">
+                                <input id="sendTime" class="form-control" type="datetime" ng-model="info.startSendTime" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){},maxDate:''})"/>
+                                ~
+                                <input id="sendTime2" class="form-control" type="datetime"  ng-model="info.endSendTime" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',maxDate:''})"/>
+                             </div>
+                        </div>
+
+                        <div class="form-group" style="margin-top: 30px">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-8">
+                                <button class="btn btn-primary6 btn-mr20"  ng-click="query()" ng-disabled="submitting">查询</button>
+                                <button class="btn btn-primary3 btn-mr20" ng-click="resetForm()">清空</button>
+                                <button class="btn btn-primary5 btn-mr20" ng-show="hasPermit('creditMgr.addNotice')" ui-sref="creditMgr.addNotice">新增</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>公告列表</h5>
+                    </div>
+                   <div class="ibox-content">
+                        <div class="tposition">
+                            <div class="gridStyle" ui-grid="noticeBonusGrid" ui-grid-selection ui-grid-pagination
+                                 ui-grid-resize-columns ui-grid-pinning></div>
+                            <div ng-show="loadImg" class="timg"></div>
+                        </div>
+                       <div class="block m-t-xs">
+                           <strong>特别注意：</strong><br/>
+                           【弹窗公告提示开关】——开启：则弹窗形式下发用户，建议重要公告下发时打开；关闭：则不会弹窗告知用户，建议普通公告下发时关闭。
+                       </div>
+                    </div>
+                </div>
+                <div style="height:30px;"></div>
+            </div>
+        </div>
+    </form>
+</div>

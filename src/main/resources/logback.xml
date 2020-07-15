@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<property name="LOG_HOME" value="/opt/logs/boss2/" />
+
+	<!-- 控制台输出 -->
+	<appender name="STDOUT" class="cn.eeepay.boss.log.FilterConsoleAppender">
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS}[%thread] %level %logger{20} [%method,%line] %msg%n</pattern>
+		</encoder>
+	</appender>
+	
+	<appender name="FILE" class="cn.eeepay.boss.log.FilterRollingFileAppender">
+		<file>${LOG_HOME}/boss2.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- daily rollover -->
+			<fileNamePattern>${LOG_HOME}/boss2.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<!-- keep 30 days' worth of history -->
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %level %logger{20} [%method,%line] %msg%n</pattern>
+		</encoder>
+	</appender>
+	
+	<logger name="jdbc.sqltiming" level="info" />
+	<logger name="jdbc.audit" level="info" />
+	<logger name="jdbc.connection" level="info" />
+	<logger name="jdbc.resultset" level="info" />
+	<root level="info">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE" />
+	</root>
+</configuration> 

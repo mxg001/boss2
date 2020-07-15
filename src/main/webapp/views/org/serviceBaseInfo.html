@@ -1,0 +1,69 @@
+<div class="form-group">
+	<label class="col-sm-2 control-label"><i class="red_req">*</i>收单机构：</label>
+	<div class="col-sm-3">
+		<select class="form-control" ng-model="serviceBaseInfo.acqId" ng-options="x.id as x.acqName for x in acqOrgs" required/>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label"><i class="red_req">*</i>服务类型：</label>
+	<div class="col-sm-3">
+		<select class="form-control" ng-model="serviceBaseInfo.serviceType" ng-options="x.value as x.text for x in acqServiceTypes" required/>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label"><i class="red_req">*</i>服务名称：</label>
+	<div class="col-sm-3">
+		<input type="text" class="form-control" ng-model="serviceBaseInfo.serviceName" name="serviceName" required>
+		<div class="req_mesg" ng-show="horizontal.serviceName.$dirty && horizontal.serviceName.$invalid">
+			<span ng-show="horizontal.serviceName.$error.required">服务名称不能为空</span>
+		</div>
+	</div>
+</div>
+   <div class="form-group">
+	<label class="col-sm-2 control-label"><i class="red_req">*</i>费率区分银行卡种类：</label>
+	<div class="col-sm-3">
+		<select class="form-control" ng-model="serviceBaseInfo.feeIsCard" ng-options="x.value as x.text for x in boolAll" required/>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label"><i class="red_req">*</i>限额区分银行卡种类：</label>
+	<div class="col-sm-3">
+		<select class="form-control" ng-model="serviceBaseInfo.quotaIsCard" ng-options="x.value as x.text for x in boolAll" required/>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label"><i class="red_req">*</i>每日允许交易时间：</label>
+	<div class="col-sm-2">
+		<div class="input-group " clock-picker data-autoclose="true">
+           <input type="text" class="form-control" name="allowTransStartTime" ng-model="serviceBaseInfo.allowTransStartTime" required>
+           <span class="input-group-addon">
+               <span class="fa fa-clock-o"></span>
+           </span>
+        </div>
+	</div>   
+    <div class="col-sm-1" align="center">
+   	 -
+    </div>
+	<div class="col-sm-2">
+		<div class="input-group " clock-picker data-autoclose="true">
+            <input type="text" class="form-control" name="allowTransEndTime" ng-model="serviceBaseInfo.allowTransEndTime" required>
+            <span class="input-group-addon">
+                <span class="fa fa-clock-o"></span>
+            </span>
+        </div>
+	</div>
+	<div>
+		<div class="req_mesg" ng-show="horizontal.allowTransStartTime.$dirty && horizontal.allowTransStartTime.$invalid">
+			<span ng-show="horizontal.allowTransStartTime.$error.required">交易起始时间不能为空</span>
+		</div>
+		<div class="req_mesg" ng-show="horizontal.allowTransEndTime.$dirty && horizontal.allowTransEndTime.$invalid">
+			<span ng-show="horizontal.allowTransEndTime.$error.required">交易结束时间不能为空</span>
+		</div>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">备注：</label>
+	<div class="col-sm-5">
+		<textarea rows="5" cols="20" class="form-control" ng-model="serviceBaseInfo.serviceRemark"></textarea>
+	</div>
+</div>

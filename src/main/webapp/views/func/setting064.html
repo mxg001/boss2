@@ -1,0 +1,148 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading" ng-app ng-controller="settingCtrl">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>功能管理</a></li>
+            <li><a>功能控制总开关</a></li>
+            <li class="active"><strong>{{titleName}}</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app ng-controller="settingCtrl">
+    <form class="form-horizontal" id="form-cjtGoods-add" name="horizontal">
+        <div class="form-group">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="ibox-title">
+                            <h5>基本说明</h5>
+                            <!--<div ibox-tools></div>-->
+                        </div>
+                        <div class="ibox-content">
+                            <div class="form-group ">
+                                <label class="col-sm-2 control-label"><i class="red_req">*</i>开关名称：</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" name="functionName" ng-model="baseInfo.functionName" required maxlength="30"/>
+                                    <div class="req_mesg" ng-show="horizontal.functionName.$dirty && horizontal.functionName.$invalid">
+                                        <span ng-show="horizontal.functionName.$error.required">开关名称不能为空</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form-group ">
+                                <label class="col-sm-2 control-label">开关说明：</label>
+                                <div class="col-sm-8">
+                                    <textarea class="form-control" rows="5" cols="10" ng-model="baseInfo.remark" name="remark" maxlength="200"></textarea>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="ibox-title">
+                            <h5>业务配置</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="form-group ">
+                                <label class="col-sm-2 control-label"><i class="red_req">*</i>限制条件：</label>
+                                <div class="col-sm-8">
+                                    <div style="float:left; padding:7px 5PX 0 5PX;">商户激活通过 N 天内,刷卡笔数 N 笔内按照优享计划逻辑路由商户交易;</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">组织管控：</label>
+                                <div class="col-sm-8">
+                                    <button class="btn btn-primary5" style="float: right" ng-show="hasPermit('func.saveSettingList')" ng-click="teamAddModalShow()" >新增</button>
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2"></label>
+                                <div class="col-sm-8" style="height:280px" ui-grid="teamGrid" ui-grid-resize-columns ui-grid-pinning class="grid"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-12 bgff">
+                <div class="col-sm-12">
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-6">
+                        <button class="btn btn-new btn-mr20" type="button"
+                                ng-click="submit()" ng-disabled="horizontal.$invalid || submitting">提交</button>
+                        <button class="btn btn-primary4 btn-mr20" type="button"
+                                ui-sref="func.switch">返回</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div id="teamAddModal" class="modal fade form-horizontal" tabindex="3" role="dialog">
+        <form class="form-horizontal" id="form1" name="horizontalAdd">
+            <div class="modal-dialog" style="height:450px;width: 700px">
+                <div class="modal-content" style="height:450px;width: 700px">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            &times;</button>
+                        <h3 class="modal-title">组织管控</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group" ng-show="baseInfo.functionNumber==64">
+                            <label class="col-sm-3 control-label"><i class="red_req">*</i>激活天数：</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" ng-model="addInfo.activityNum"
+                                       ng-pattern="/^[1-9]\d*|0$/"
+                                       ng-required="baseInfo.functionNumber==64" name="activityNum" />
+                                <div class="req_mesg" ng-show="horizontalAdd.activityNum.$dirty && horizontalAdd.activityNum.$invalid">
+                                    <span ng-show="horizontalAdd.activityNum.$error.required">激活天数不能为空</span>
+                                    <span ng-show="horizontalAdd.activityNum.$error.pattern">激活天数格式不正确</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show="baseInfo.functionNumber==64">
+                            <label class="col-sm-3 control-label"><i class="red_req">*</i>刷卡笔数：</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" ng-model="addInfo.swipeNum"
+                                       ng-pattern="/^[1-9]\d*|0$/"
+                                       ng-required="baseInfo.functionNumber==64" name="swipeNum" />
+                                <div class="req_mesg" ng-show="horizontalAdd.swipeNum.$dirty && horizontalAdd.swipeNum.$invalid">
+                                    <span ng-show="horizontalAdd.swipeNum.$error.required">刷卡笔数不能为空</span>
+                                    <span ng-show="horizontalAdd.swipeNum.$error.pattern">刷卡笔数格式不正确</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label"><i class="red_req">*</i>组织选择：</label>
+                            <div class="col-sm-6">
+                                <select class="form-control" ng-model="addInfo.teamId" ng-change="hasSubTeam(addInfo.teamId)"
+                                        ng-options="x.value as x.text for x in teamType">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label"><i class="red_req">*</i>子组织：</label>
+                            <div class="col-sm-6">
+                                <select class="form-control" ng-model='addInfo.teamEntryId'
+                                        ng-options="x.value as x.text for x in subTeams">
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <div class="form-group control-label">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-6">
+                                <button class="btn btn-primary btn-mr20" type="button" ng-click='teamAdd()'
+                                        ng-disabled="horizontalAdd.$invalid"
+                                >确定</button>
+                                <button class="btn btn-primary8" type="button" ng-click='teamAddModalHide()'
+                                >返回</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

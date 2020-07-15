@@ -1,0 +1,256 @@
+<!-- head -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>黑名单资料管理</a></li>
+            <li class="active"><strong>黑名单资料详情</strong></li>
+        </ol>
+    </div>
+</div>
+<style>
+    .templateStyle{
+        margin-left:20px;
+        margin-top:7px;
+        float: left;
+        height:235px;
+        word-break:break-all;
+    }
+</style>
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="blackDataInfoTwoCtrl">
+    <form class="form-horizontal" id="form1" name="horizontalCard" ng-init="getBlackDataInfo();getTemplateList('')">
+        <div class="form-group">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+
+                    <div class="row">
+                        <div class="ibox-title">
+                            <h5>基本信息</h5>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label" >商户编号:</label>
+                            <div class="col-sm-2 checkbox"><p ng-bind="info.merchantNo"></p></div>
+                            <label class="col-sm-2 control-label" >商户名称:</label>
+                            <div class="col-sm-2 checkbox"><p ng-bind="info.merchantName"></p></div>
+                            <label class="col-sm-2 control-label" >商户手机号:</label>
+                            <div class="col-sm-2 checkbox" >
+                                <span ng-bind="info.merchantPhone"></span>
+                                <button type="button" ng-show="dataSta&&hasPermit('blackData.getDataProcessing')" ng-click="getDataProcessing()">显示</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label" >法人姓名:</label>
+                            <div class="col-sm-2 checkbox"><p ng-bind="info.lawyer"></p></div>
+                            <label class="col-sm-2 control-label" >发起时间:</label>
+                            <div class="col-sm-2 checkbox"><p ng-bind="info.createTime"></p></div>
+                            <label class="col-sm-2 control-label" >法人身份证:</label>
+                            <div class="col-sm-3 checkbox" >
+                                <span ng-bind="info.merchantIdCard"></span>
+                                <button type="button" ng-show="dataSta&&hasPermit('blackData.getDataProcessing')" ng-click="getDataProcessing()">显示</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label" >冻结记录创建人:</label>
+                            <div class="col-sm-2 checkbox"><p ng-bind="info.blackCreator"></p></div>
+                            <label class="col-sm-2 control-label" >黑名单备注:</label>
+                            <div class="col-sm-2 checkbox"><p ng-bind="info.blackCreateRemark"></p></div>
+                            <label class="col-sm-2 control-label" >处理状态:</label>
+                            <div class="col-sm-2 checkbox"><p ng-bind="info.riskLastDealStatus | formatDropping:dealStatuses"></p></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label" >一级代理商:</label>
+                            <div class="col-sm-2 checkbox"><p ng-bind="info.oneAgentName"></p></div>
+                            <label class="col-sm-2 control-label" >历史触发记录:</label>
+                            <div class="col-sm-2 checkbox"><p ng-bind="info.haveTriggerHis| formatDropping:haveHis"></p></div>
+                            <label class="col-sm-2 control-label" >组织名称:</label>
+                            <div class="col-sm-2 checkbox"><p ng-bind="info.teamName"></p></div>
+                        </div>
+
+                        <div class="ibox-title">
+                            <h5>商户回复</h5>
+                            <div style="margin-left:100px;">
+                                <a ng-show="dealReplyRecords.length > 1" ng-click="openReplyModal()">往来记录，{{dealReplyRecords.length}}条</a>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" >触发规则编号:</label>
+                            <div class="col-sm-2 checkbox"><p ng-bind="info.merRiskRulesNo"></p></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" >风控处理内容:</label>
+                            <div class="col-sm-10 checkbox">
+                                <textarea class="form-control" rows="4" cols="15" readonly ng-bind="dealRecord.riskDealMsg"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" >风控处理时间:</label>
+                            <div class="col-sm-2 checkbox"><p ng-bind="dealRecord.createTime"></p></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" ng-show="replyRecord.replierType==0" >商户回复:</label>
+                            <label class="col-sm-2 control-label" ng-show="replyRecord.replierType==1" >代理商回复:</label>
+                            <div class="col-sm-10 checkbox">
+                                <textarea class="form-control" rows="6" cols="15" readonly ng-bind="replyRecord.replyRemark"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                        	<label class="col-sm-2 control-label" ng-show="replyRecord.replierType==0" >商户回复时间:</label>
+                            <label class="col-sm-2 control-label" ng-show="replyRecord.replierType==1" >代理商回复时间:</label>
+                            <div class="col-sm-2 checkbox"><p ng-bind="replyRecord.createTime"></p></div>
+                        </div>
+                        <div class="form-group" ng-show="replyRecord.replierType==1">
+                                <label class="col-sm-2 control-label" >代理商名称:</label>
+                                <div class="col-sm-2 checkbox"><p ng-bind="replyRecord.merchantName"></p></div>
+                            </div>
+                        <div class="form-group" ng-show="replyRecord.filesList.length > 0">
+                            <label class="col-sm-2 control-label" >附件查看:</label>
+                            <div class="col-sm-10">
+                                <div class="col-sm-4" ng-repeat="item in replyRecord.filesList" >
+                                    <div class="templateStyle">
+                                        <div style="margin-top:20px">
+                                            <div style="width: 250px; padding: 0; margin:0; box-sizing: content-box; height: 150px; border: 1px solid #eee;" class="col-img">
+                                                <a href="{{item.imgUrl}}" fancybox rel="group" ng-if="item.type=='2'">
+                                                    <img width="250px" height="150px" ng-src="{{item.imgUrl}}"/>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div ng-show="type==1 && deal.riskDealMsg != null && !replyHtmlFlag">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" >风控最后处理内容:</label>
+                                <div class="col-sm-10 checkbox">
+                                    <textarea class="form-control" rows="4" cols="15" readonly ng-bind="deal.riskDealMsg"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" >风控最后处理时间:</label>
+                                <div class="col-sm-2 checkbox"><p ng-bind="deal.createTime"></p></div>
+                            </div>
+
+                        </div>
+
+                        <div ng-show="replyHtmlFlag">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" >风控回复:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="deal.riskDealTemplateNo" ng-options="x.templateNo as x.templateNo for x in templateList" ng-change="showMsg()">
+                                        <option value="">请选择</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" >回复内容:</label>
+                                <div class="col-sm-10 checkbox">
+                                    <textarea class="form-control" rows="4" cols="15" ng-model="deal.riskDealMsg"></textarea>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary btn-mr20" type="button" style="margin-left: 215px" ng-disabled="submitting" ng-click='submit()'>提交</button>
+                        </div>
+
+
+                        <div ng-show="hasPermit('blackData.log')&& logFlag">
+                            <div class="ibox-title">
+                                <h5>黑名单资料处理日志</h5>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label" ></label>
+                                <div class="col-lg-9">
+                                    <div  style="height: 300px;width: 590px" class="gridStyle" ui-grid="logGrid" ui-grid-selection class="grid" ui-grid-resize-columns></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-show="replyButton && info.riskLastDealStatus!='2' && hasPermit('blackData.deal') ">
+                            <button style="margin-left: 215px" class="btn btn-new btn-mr20" type="button" ng-click="showReplyHtml()" >回复</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 bgff">
+                <div class="col-sm-12">
+                    <div class="col-lg-3"></div>
+                    <div class="col-sm-6">
+                        <a class="btn btn-primary4" ui-sref="risk.blackDataQuery" >返回</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+    <div id="replyModal" class="modal fade form-horizontal" tabindex="4" role="dialog">
+        <div class="modal-dialog" style="height:800px;width: 1200px">
+            <div class="modal-content" >
+                <form class="form-horizontal" name="horizontalCard"  novalidate>
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            &times;</button>
+                        <h3 class="modal-title">往来记录</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div ng-repeat="item in dealReplyRecords">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" >触发规则编号:</label>
+                                <div class="col-sm-2 checkbox"><p ng-bind="item.rulesNo"></p></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" >风控处理内容:</label>
+                                <div class="col-sm-10 checkbox">
+                                    <textarea class="form-control" rows="4" cols="15" readonly ng-bind="item.dealMsg"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" >风控回复时间:</label>
+                                <div class="col-sm-2 checkbox"><p ng-bind="item.dealTime"></p></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" ng-show="item.replierType==0" >商户回复:</label>
+                                <label class="col-sm-2 control-label" ng-show="item.replierType==1" >代理商回复:</label>
+                                <div class="col-sm-10 checkbox">
+                                    <textarea class="form-control" rows="6" cols="15" readonly ng-bind="item.replyMsg"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" ng-show="item.replierType==0" >商户回复时间:</label>
+                                <label class="col-sm-2 control-label" ng-show="item.replierType==1" >代理商回复时间:</label>
+                                <div class="col-sm-2 checkbox"><p ng-bind="item.replyTime"></p></div>
+                            </div>
+                            <div class="form-group" ng-show="item.replierType==1">
+                                <label class="col-sm-2 control-label" >代理商名称:</label>
+                                <div class="col-sm-2 checkbox"><p ng-bind="item.merchantName"></p></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" ng-show="item.filesList.length > 0">附件查看:</label>
+                                <div class="col-sm-10">
+                                    <div class="col-sm-4" ng-repeat="item1 in item.filesList" >
+                                        <div class="templateStyle">
+                                            <div style="margin-top:20px">
+                                                <div style="width: 250px; padding: 0; margin:0; box-sizing: content-box; height: 150px; border: 1px solid #eee;" class="col-img">
+                                                    <a href="{{item1.imgUrl}}" fancybox rel="group" ng-if="item1.type=='2'">
+                                                        <img width="250px" height="150px" ng-src="{{item1.imgUrl}}"/>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group"  ng-if="$index!=info.dealReplyRecords.length-1">
+                                <label class="col-sm-1 control-label" ></label>
+                                <div class="col-sm-11">
+                                    <div style=" border-bottom: 1px solid #000000;"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,117 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a href="index.html">主页</a></li>
+            <li>超级推</li>
+            <li class="active"><strong>商户白名单</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="queryCjtWhiteMer">
+    <form class="form-horizontal" id="form-cjtWhiteMer-query">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>商户白名单查询</h5>
+                    </div>
+                    <div class="ibox-content">
+                       <div class="form-group">
+                            <label class="col-sm-2 control-label">商户编号：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.merchantNo" maxlength="30">
+                            </div>
+                            <label class="col-sm-2 control-label">商户名称：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.merchantName" maxlength="30">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">状态：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="baseInfo.status"
+                                    ng-options="x.value as x.text for x in statusList"></select>
+                            </div>
+                            <label class="col-sm-2 control-label">创建时间：</label>
+                            <div class="col-sm-6">
+                                <input id="d5223" class="form-control" type="datetime" ng-model="baseInfo.createTimeStart" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="var d5224=$dp.$('d5224');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5224.focus();},maxDate:'#F{$dp.$D(\'d5224\')}'})"/>
+                                ~
+                                <input id="d5224" class="form-control" type="datetime"  ng-model="baseInfo.createTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5223\')}'})"/>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group" style="margin-top: 30px">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-8">
+                                <button class="btn btn-primary6 btn-mr20"  ng-click="query()" ng-disabled="submitting">查询</button>
+                                <button class="btn btn-primary3 btn-mr20" type="button" ng-click="resetForm()">清空</button>
+                                <a class="btn btn-primary5 btn-mr20" type="button" ng-show="hasPermit('cjtWhiteMer.insert')" ng-click="addMerModal()">新增</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>商户白名单列表</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="tposition">
+                            <div class="gridStyle" ui-grid="cjtWhiteMerGrid" ui-grid-selection ui-grid-pagination
+                                 ui-grid-resize-columns ui-grid-pinning></div>
+                            <div ng-show="loadImg" class="timg"></div>
+                        </div>
+                    </div>
+                </div>
+                <div style="height:30px;"></div>
+            </div>
+        </div>
+    </form>
+
+    <div id="newInfoModal" class="modal fade form-horizontal" tabindex="3" role="dialog">
+    		<div class="modal-dialog" style="height:400px;width: 700px">
+    			<div class="modal-content" style="height:400px;width: 735px">
+    			<form class="form-horizontal" name="horizontalAcc">
+    				<div class="modal-header">
+    					<button type="button" class="close" data-dismiss="modal">
+    						&times;</button>
+    					<h3 class="modal-title">白名单管理</h3>
+    				</div>
+    				<div class="modal-body">
+    					<div class="form-group">
+    						<label class="col-sm-3 control-label"><i class="red_req">*</i>商户编号：</label>
+    						<div class="col-sm-6">
+                                <input class="form-control" name="merchantNo" ng-model="newInfo.merchantNo" maxlength="30" required>
+                                <div class="req_mesg" ng-show="horizontalAcc.merchantNo.$dirty && horizontal.merchantNo.$invalid">
+                                    <span ng-show="horizontal.merchantNo.$error.required">商户编号不能为空</span>
+                                </div>
+                            </div>
+    					</div>
+    					<div class="form-group">
+    						<label class="col-sm-3 control-label">备注：</label>
+    						<div class=" col-sm-6">
+    							<textarea class="form-control" ng-model="newInfo.remark" rows="5" cols="20"></textarea>
+    						</div>
+    					</div>
+    				</div>
+    				<div class="modal-footer">
+    					<div class="form-group control-label">
+    							<label class="col-sm-3 control-label"></label>
+    							<div class="col-sm-6">
+    									<button class="btn btn-primary btn-mr20" type="button" ng-click='submit()'
+    									ng-disabled="horizontalAcc.$invalid"
+    									>确定</button>
+    									<button class="btn btn-primary4" type="button" ng-click='cancel()'
+    									>返回</button>
+    							</div>
+    						</div>
+    				</div>
+    				</form>
+    			</div>
+    		</div>
+    	</div>
+</div>

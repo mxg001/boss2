@@ -1,0 +1,184 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>信用卡管家</a></li>
+			<li class="active"><strong>贷款管理</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	 ng-controller="queryLoanAndRewardCtrl">
+	<form class="form-horizontal" id="form1" name="horizontal">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="">
+					<div class="panel-body ibox float-e-margins">
+						<div class="ibox-title">
+							<h5>基本信息</h5>
+						</div>
+						<div class="ibox-content">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">商户名称</label>
+								<div class="col-sm-2">
+									<input type="text" class="form-control" ng-model="info.username">
+								</div>
+									<label class="col-sm-2 control-label">用户手机号：</label>
+								<div class="col-sm-2">
+									<input type="text" class="form-control" ng-model="info.phone">
+								</div>
+								<label class="col-sm-2 control-label">机构名称</label>
+								<div class="col-sm-2">
+									<input type="text" class="form-control" ng-model="info.orgName" >
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">订单号</label>
+								<div class="col-sm-2">
+									<input type="text" class="form-control" ng-model="info.orderNo" >
+								</div>
+								<label class="col-sm-2 control-label">订单状态：</label>
+								<div class="col-sm-2">
+									<select class="form-control" ng-model="info.status"
+											ng-options="x.value as x.text for x in statusaa"/>
+								</div>
+								<label class="col-sm-2 control-label">赠送状态：</label>
+								<div class="col-sm-2">
+									<select class="form-control" ng-model="info.givenStatus"
+											ng-options="x.value as x.text for x in riskStatusaa"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">组织名称</label>
+								<div class="col-sm-2">
+									<input type="text" class="form-control" ng-model="info.mechName" >
+								</div>
+								<label class="col-sm-2 control-label">赠送类型：</label>
+								<div class="col-sm-2">
+									<select class="form-control" ng-model="info.givenType"
+											ng-options="x.value as x.text for x in givenTypeaa"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">交易时间：</label>
+								<div class="col-sm-6">
+									<input id="d5221" class="form-control" type="datetime" ng-model="info.stransTime"
+										   onchange="" style="width:auto;display:inline-block;"
+										   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5222.focus();},maxDate:'#F{$dp.$D(\'d5222\')||\'%y-%M-%d\'}'})"/>
+									~
+									<input id="d5222" class="form-control" type="datetime" ng-model="info.etransTime"
+										   onchange="" style="width:auto;display:inline-block;"
+										   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5221\')}',maxDate:'%y-%M-%d 23:59:59'})"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">操作时间：</label>
+								<div class="col-sm-6">
+									<input id="d5223" class="form-control" type="datetime" ng-model="info.soperTime"
+										   onchange="" style="width:auto;display:inline-block;"
+										   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5224.focus();},maxDate:'#F{$dp.$D(\'d5224\')||\'%y-%M-%d\'}'})"/>
+									~
+									<input id="d5224" class="form-control" type="datetime" ng-model="info.eoperTime"
+										   onchange="" style="width:auto;display:inline-block;"
+										   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5223\')}',maxDate:'%y-%M-%d 23:59:59'})"/>
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="col-sm-2 control-label">赠送成功时间：</label>
+								<div class="col-sm-6">
+									<input id="d5225" class="form-control" type="datetime" ng-model="info.ssuccessTime"
+										   onchange="" style="width:auto;display:inline-block;"
+										   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5226.focus();},maxDate:'#F{$dp.$D(\'d5226\')||\'%y-%M-%d\'}'})"/>
+									~
+									<input id="d5226" class="form-control" type="datetime" ng-model="info.esuccessTime"
+										   onchange="" style="width:auto;display:inline-block;"
+										   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5225\')}',maxDate:'%y-%M-%d 23:59:59'})"/>
+								</div>
+							</div>
+						
+							<div class="form-group">
+								<div class="col-lg-12">
+									<div class="col-sm-2"></div>
+									<button class="btn btn-primary6 btn-mr20" type="button"
+											ng-click="selectInfo()" >查询
+									</button>
+									<button class="btn btn-primary3 btn-mr20" type="button"
+											ng-click="clear()" >清空
+									</button>
+									<a class="btn btn-new btn-mr20" ng-click="exportInfo()">导出</a>
+									<button class="btn btn-new btn-mr20" type="button"
+											ng-show="hasPermit('loanAndReward.sendBatch')"
+											ng-click="hardWardAddModel(2)" style="width: 120px" id="btnSubmit">批量赠送
+									</button>
+									<button class="btn btn-new btn-mr20" ng-show="hasPermit('cardAndReward.couponImportLoan')" type="button" ui-sref="creditMgr.couponImportLoan">导入赠送</button>
+								</div>
+
+							</div>
+						</div>
+					</div>
+
+
+					<div class="panel-body ibox float-e-margins">
+						<div class="ibox-title">
+							<h5>用户列表</h5>
+							<div class="ibox-content">
+								<div ui-grid="gridOptions" ui-grid-resize-columns ui-grid-pagination ui-grid-selection
+									 ui-grid-pinning class="grid"></div>
+									 <div ng-show="loadImg" class="timg"></div>
+							</div>
+						</div>
+					</div>
+					<div style="height: 30px; clear: both"></div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+    <div id="hardWardAddModel" class="modal fade form-horizontal" tabindex="4" role="dialog">
+        <div class="modal-dialog" style="height:450px;width: 900px">
+            <div class="modal-content" >
+                <form class="form-horizontal" name="horizontalCard" novalidate>
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            &times;</button>
+                        <h3 class="modal-title">赠送选择</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">赠送渠道:</label>
+                            <div class="col-sm-3">
+									<select class="form-control" ng-model='info.sendId'
+										ng-options="x.value as x.text for x in sendChannelList">
+									</select>                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">赠送券类型:</label>
+                            <div class="col-sm-3">
+									<select class="form-control" ng-model='info.sendTypeId'
+										ng-options="x.value as x.text for x in sendTypeList">
+									</select>                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="form-group control-label">
+                            <label class="col-sm-1 control-label"></label>
+                            <div class="col-sm-8">
+                                <button class="btn btn-new btn-mr20" ng-disabled="submitting" type="button" ng-click='addAgentAccountControl()'>赠送</button>
+                                <button class="btn btn-primary4" type="button" ng-click='cancel()'>返回</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+	
+	
+</div>
+
+

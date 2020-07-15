@@ -1,0 +1,149 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a href="index.html">主页</a></li>
+            <li>超级银行家</li>
+            <li class="active"><strong>贷款总金额设置</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="loanBonusCtrl">
+    <form class="form-horizontal" id="form1">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>贷款总奖金计算表</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">贷款机构别称：</label>
+                            <div class="col-sm-2">
+                                    <!--<select chosen  class="chosen-select" style="width:200px;" tabindex="4" ng-model="conf.sourceId" ng-options="loan.id as loan.companyName for loan in loanCompanies">
+
+                                    </select>-->
+								<select chosen="{width:'100%'}" id="autocomplete-select2" class="chosen-select" tabindex="5" ng-model="conf.sourceId" ng-options="loan.id as loan.loanAlias for loan in loanCompanies">
+									<option value=""></option>
+								</select>
+                            </div>
+                            
+                             <label class="col-sm-2 control-label">组织：</label>
+                            <div class="col-sm-2">
+                                    <select chosen="{width:'100%'}" id="autocomplete-select3" class="chosen-select" tabindex="6" ng-model="conf.orgId" ng-options="org.orgId as org.orgName for org in orgInfoListAll">
+                                       	
+                                    </select>
+                            </div>
+                             <label class="col-sm-2 control-label">是否外放组织：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="conf.isOpen" ng-options="x.value as x.text for x in isOpenList">
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group" style="margin-top: 30px">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-8">
+                                <button class="btn btn-primary6 btn-mr20"  ng-click="query()" ng-disabled="submitting">查询</button>
+                                <button class="btn btn-primary3 btn-mr20" type="button" ng-click="resetForm()">清空</button>
+                                <button class="btn btn-primary5 btn-mr20" type="button" ng-show="hasPermit('loanBonusConf.add')"
+                                        ng-click="addLoan()">新增</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>列表</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="tposition">
+                            <div class="gridStyle" ui-grid="loanBonusGrid" ui-grid-selection ui-grid-pagination
+                                 ui-grid-resize-columns ui-grid-pinning></div>
+                            <div ng-show="loadImg" class="timg"></div>
+                        </div>
+                    </div>
+                </div>
+                <div style="height:30px;"></div>
+            </div>
+        </div>
+    </form>
+    
+    <div id="addLoan" class="modal fade" tabindex="3" role="dialog">
+			<div class="modal-dialog" style="height:500px;width: 900px">
+				<div class="modal-content" style="height:500px;width: 900px">
+					
+					<div class="modal-body">
+						<div class="form-group" style="clear:left;margin-top:20px;">
+							<label style="float:left;width:30%;text-align:center;height:40px;line-height:40px;">所属组织：</label>
+							<div class="" style="float:left;height:40px;line-height:40px;width: 180px">
+								<select  chosen="{width:'100%'}" id="autocomplete-select6" class="chosen-select" tabindex="7" ng-model="loan.orgId" ng-options="org.orgId as org.orgName for org in orgInfoList">
+								</select>
+							</div>
+						</div>
+						<div class="form-group" style="clear:left;margin-top:20px;">
+								<label style="float:left;width:30%;text-align:center;height:40px;line-height:40px;">贷款机构别称：</label>
+									<div class="" style="float:left;height:40px;line-height:40px;width: 180px">
+										  <select  chosen="{width:'100%'}" id="autocomplete-select5" class="chosen-select" tabindex="7" ng-change="changeOps(loan.sourceId)"
+                                                   ng-model="loan.sourceId" ng-options="loan1.id as loan1.loanAlias for loan1 in companiesInAdd">
+                                              <option value=""></option>
+                                    	  </select>
+									</div>
+						</div>
+						<div class="form-group" style="clear:left;margin-top:20px;">
+								<label style="float:left;width:30%;text-align:center;height:40px;line-height:40px;">奖金方式：</label>
+									<div  style="float:left;height:40px;line-height:40px;" ng-bind="loan.profitType | formatDropping:profitTypeList">
+									</div>
+						</div>
+						<div class="form-group" style="clear:left;margin-top:20px;">
+								<label style="float:left;width:30%;text-align:center;height:40px;line-height:40px;">奖励要求：</label>
+									<div class="" style="float:left;height:40px;line-height:40px;" ng-bind="loan.rewardRequirements | formatDropping:rewardRequirementsList">
+									</div>					
+						</div>
+						<div class="form-group" style="clear:left;margin-top:20px;">
+								<label style="float:left;width:30%;text-align:center;height:40px;line-height:40px;">贷款机构给的总奖金：</label>
+									<div class="" style="float:left;height:40px;line-height:40px;">
+                                        <span ng-show="loan.profitType==1">{{loan.loanBonus}}</span>
+                                        <span ng-show="loan.profitType==2">放贷金额N*{{loan.loanBonus}}%</span>
+									</div>
+						</div>
+						<div class="form-group" style="clear:left;margin-top:20px;">
+							<label style="float:left;width:30%;text-align:center;height:40px;line-height:40px;">公司截留：</label>
+							<div class="" style="float:left;height:40px;line-height:40px;">
+                                <span ng-show="loan.profitType==1"><input type="text" style="height: 30px" class="form-group" ng-show="loan.profitType==1" ng-model="loan.companyBonus"> 元</span>
+                                <span ng-show="loan.profitType==2">放贷金额N* <input type="text" style="height: 30px" class="form-group" ng-model="loan.companyBonus"> %</span>
+							</div>
+						</div>
+						<div class="form-group" style="clear:left;margin-top:20px;">
+							<label style="float:left;width:30%;text-align:center;height:40px;line-height:40px;">品牌截留：</label>
+							<div class="" style="float:left;height:40px;line-height:40px;">
+                                <span ng-show="loan.profitType==1"><input type="text" style="height: 30px"  class="form-group" ng-model="loan.orgBonus"> 元</span>
+                                <span ng-show="loan.profitType==2">放贷金额N* <input type="text" style="height: 30px" class="form-group"   ng-model="loan.orgBonus"> %</span>
+							</div>
+						</div>
+						
+						<div class="form-group" style="clear:left;margin-top:20px;">
+								<label style="float:left;width:30%;text-align:center;height:40px;line-height:40px;">&nbsp;</label>
+									<div class="" style="float:left;height:40px;line-height:40px;">
+										<span style="color:red">备注：N为放贷金额</span>
+									</div>
+						</div>
+						
+						<div style="clear:left;margin-top:40px;">&nbsp;</div>
+						
+						<div class="form-group control-label">
+							<label class="col-sm-2 control-label" ></label>
+							<div class="col-sm-6">
+									<button class="btn btn-primary btn-mr20" type="button" ng-click='saveLoanCompany()'>确定</button>
+									<button class="btn btn-primary8 " type="button" ng-click='cancel()'>取消</button>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+    
+</div>

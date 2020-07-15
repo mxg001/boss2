@@ -1,0 +1,100 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>收单机构管理</a></li>
+			<li class="active"><strong>修改收单服务费率</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="updateServiceRateCtrl">
+	<form class="form-horizontal">
+		<div class="form-group">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="ibox float-e-margins">
+						<div class="ibox-title">
+							<h5>服务费率信息表</h5>
+							<!--<div ibox-tools></div>-->
+						</div>
+						<div class="ibox-content">
+							<div class="gridStyle" ui-grid="serviceRateGrid" ui-grid-resize-columns></div>
+                          	<div class="block m-t-xs">
+                           		<strong>备注：</strong><br/>
+									每笔固定金额1元，则填写商户费率1.00;<br>
+									每笔扣率为0.1%则填写商户费率0.1%;<br>
+									每笔扣率为0.1%，封顶3元，保底1元则填写商户费率1.00~0.1%~3.00;<br>
+									每笔扣率为0.1%加上固定金额1元，则填写商户费率0.1%+1.00;<br>
+									单笔阶梯扣率如10000.00元以下，扣率0.38%，10000.00元及以上扣率0.37%，则填写0.38%&lt;10000.00&lt;0.37%;<br>
+									每月阶梯扣率如10000.00元以下，扣率0.38%，10000.00元及以上扣率0.37%，则填写0.38%&lt;10000.00&lt;0.37%;<br>
+						   </div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-12 bgff">
+				<div class="col-sm-12">
+					<div class="col-sm-2"></div>
+					<div class="col-sm-6">
+						<button class="btn btn-primary4" type="button" ui-sref="org.groupService">返回</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 修改模态框（Modal） -->
+		<div id="updateModal" class="modal fade" tabindex="-1" role="dialog">
+		   <div class="modal-dialog" style="width: 1100px">
+		      <div class="modal-content">
+		         <div class="modal-header">
+		            <button type="button" class="close" data-dismiss="modal">
+		                  &times;
+		            </button>
+		            <h3 class="modal-title">修改服务费率</h3>
+		         </div>
+		         <div class="modal-body">
+					<form class="form-horizontal">
+						<div class="form-group">
+							<h4>历史费率</h4>
+							<div class="gridStyle" ui-grid="serviceRateLogGrid" ui-grid-resize-columns></div>
+						</div>
+						<div class="form-group">
+							<h4>新的费率设置</h4>
+							<div style="border: 1px solid #ccc;">
+								<div class="form-group">
+								    <label class="col-sm-2 control-label">银行卡种类：</label>
+								    <div class="col-sm-3">
+								      <p class="form-control-static">{{newInfo.cardRateType | formatDropping:cardType}}</p>
+								    </div>
+								</div>
+								<div class="form-group">
+								    <label class="col-sm-2 control-label">费率：</label>
+								    <div class="col-sm-3">
+										<select class="form-control" ng-model="newInfo.rateType" ng-options="x.value as x.text for x in rateTypes"/>
+									</div>
+									<div class="col-sm-3">
+										<input type="text" class="form-control" ng-model="newInfo.serviceRate">
+									</div>
+								</div>
+								<div class="form-group">
+								    <label class="col-sm-2 control-label">生效日期：</label>
+								    <div class="col-sm-3">
+										<input type="datetime" style="width:auto;display:inline-block;" class="form-control" date-time ng-model="newInfo.effectiveDate" view="date"   format="YYYY-MM-DD HH:mm:ss">
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-6" align="center">
+						        		<button class="btn btn-primary btn-mr20" type="button" ng-disabled="submitting" ng-click="update()">确定</button>
+						        		<button class="btn btn-primary8" type="button" data-dismiss="modal">取消</button>
+						        	</div>
+						        </div>
+							</div>
+						</div>
+					</form>
+		         </div>
+		      </div>
+			</div>
+		</div>
+	</form>
+</div>

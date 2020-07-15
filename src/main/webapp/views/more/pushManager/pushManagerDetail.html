@@ -1,0 +1,89 @@
+<!-- head -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>管理中心</a></li>
+            <li class="active"><strong>推送内容详情</strong></li>
+        </ol>
+    </div>
+</div>
+
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn"
+     ng-controller="msgDetailCtrl">
+    <form class="form-horizontal" id="form1" name="horizontal">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">推送标题：</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" name="pushTitle" ng-model="baseInfo.pushTitle" disabled >
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label"><i class="red_req">*</i>推送内容：</label>
+            <div class="col-sm-4">
+                <textarea rows="10" class="form-control"  name="pushContent" style="min-width: 350px;" cols="30" ng-model="baseInfo.pushContent" disabled></textarea>
+            </div>
+            <div class="req_mesg" ng-show="horizontal.pushContent.$dirty && horizontal.pushContent.$invalid">
+                <span ng-show="horizontal.pushContent.$error.required">推送内容不能为空</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">跳转链接：</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" name="jumpUrl" ng-model="baseInfo.jumpUrl" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-2 control-label"><i class="red_req">*</i>推送对象：</label>
+            <div class="col-lg-10 " >
+                <div class="col-sm-2" data-ng-repeat="o in pushObjArr" >
+                    <input type="checkbox"  name="pushObjCheckBox" disabled ng-checked="o.isChecked" value="{{o.value}}"/>
+                    <span ng-bind="o.text"></span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label"><i class="red_req">*</i>移动端类型：</label>
+            <div class="col-sm-2">
+                <select class="form-control" ng-model="baseInfo.mobileTerminalType" ng-options="x.value as x.text for x in mobileTypeArr" disabled/>
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label"><i class="red_req">*</i>目标用户：</label>
+            <div class="col-sm-8 checkbox ">
+                <label ><input type="radio"  name="targetUser" ng-model="baseInfo.targetUser" value="0" disabled/>全部</label>
+                <label ><input type="radio" name="targetUser" ng-model="baseInfo.targetUser" value="1" disabled/>部分</label>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label"><i class="red_req">*</i>推送时间：</label>
+            <div class="col-sm-8 checkbox ">
+                <label ><input type="radio"  name="dingshiOrNow"  ng-model="baseInfo.dingshiOrNow" value="0" disabled/>现在</label>
+                <label ><input type="radio" ng-click="showDateSelected(showDateSelectedFlag)" name="dingshiOrNow" ng-model="baseInfo.dingshiOrNow" value="1" disabled/>定时</label>
+
+
+                <label><input disabled ng-show="showDateSelectedFlag" name="pushTime"   id="d5224" class="form-control" type="datetime"  ng-model="baseInfo.pushTime" onchange="" style="width:auto;display:inline-block;"
+                              onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss'})"   /></label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label"></label>
+            <div class="col-sm-8">
+                <button class="btn btn-primary btn-mr20" type="button" ng-disabled="submitting" ng-show="showPushFlag" ng-click="toPush()">提交推送</button>
+                <a class="btn btn-primary4" type="button"  ui-sref="sys.pushManager">返回</a>
+            </div>
+        </div>
+    </form>
+</div>
+</div>
+    </form>
+</div>

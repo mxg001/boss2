@@ -1,0 +1,72 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li>主页</li>
+            <li>信用卡管家</li>
+            <li class="active"><strong>卡片详情</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="cardDetailCtrl">
+    <form class="form-horizontal" id="form1">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>基本信息</h5>
+                    </div>
+                    <div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">卡片ID：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.id"></div>
+							<label class="col-sm-2 control-label">卡号：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.cardNo"></div>
+							<label class="col-sm-2 control-label">所属组织：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.orgName"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">用户ID：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.userNo"></div>
+							<label class="col-sm-2 control-label">姓名：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.userName"></div>
+							<label class="col-sm-2 control-label">预留手机号：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.mobileNo"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">邮箱地址：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.mail"></div>
+							<label class="col-sm-2 control-label">总额度：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.totalAmount"></div>
+							<label class="col-sm-2 control-label">积分：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.creditScore"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">账单日：</label>
+							<div class="col-sm-2 checkbox">每月{{info.statementDate}}日</div>
+							<label class="col-sm-2 control-label">还款日：</label>
+							<div class="col-sm-2 checkbox">每月{{info.repaymentDate}}日</div>
+							<label class="col-sm-2 control-label">还款提醒（提前N天）：</label>
+							<div class="col-sm-2 checkbox">{{info.remindTime}}天</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">状态：</label>
+							<div class="col-sm-2 checkbox">{{info.cardStatus==1?"正常":"已删除"}}</div>
+							<label class="col-sm-2 control-label">创建时间：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.createTime | date:'yyyy-MM-dd HH:mm:ss'"></div>
+							<label class="col-sm-2 control-label">备注：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.remark"></div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group" style="margin-top: 30px">
+				    <label class="col-sm-2 control-label"></label>
+				    <div class="col-sm-8">
+						<a class="btn btn-primary4" ui-sref="creditMgr.cardManage" >返回</a>
+				    </div>
+				</div>
+             </div>
+        </div>
+    </form>
+</div>

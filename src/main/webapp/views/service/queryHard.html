@@ -1,0 +1,83 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>产品服务</a></li>
+			<li class="active"><strong>硬件产品查询</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="queryHardCtrl">
+	<form class="form-horizontal" id="form1">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>硬件产品条件查询</h5>
+						<!--<div ibox-tools></div>-->
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-1 control-label">硬件产品名称：</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control"
+									ng-model='baseInfo.typeName'>
+							</div>
+							<label class="col-sm-2 control-label">所属组织：</label>
+							<div class="col-sm-2">
+								<select class="form-control" ng-model='baseInfo.orgId'
+									ng-options="x.value as x.text for x in team">
+								</select>
+							</div>
+							<label class="col-sm-2 control-label">密钥类型：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model='baseInfo.secretType'
+                                    ng-options="x.value as x.text for x in secretTypeList">
+                                </select>
+                            </div>
+
+
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label">创建人：</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control"
+											 ng-model='baseInfo.createPerson'>
+							</div>
+							<label class="col-sm-2 control-label">机具PN号：</label>
+							<div class="col-sm-2">
+								<select class="form-control" ng-model='baseInfo.devicePn'
+										ng-options="x.value as x.text for x in devicePns">
+								</select>
+							</div>
+						</div>
+
+						 <div class="form-group" style="margin-top: 30px">
+                                <div class="col-lg-12">
+                                    <label class="col-sm-2 control-label"></label>
+                                    <button class="btn btn-primary6 btn-mr20" type="button" ng-click="query()" >查询</button>
+                                    <button class="btn btn-primary3 btn-mr20" type="button" ng-click="resetForm()" >清空</button>
+                                    <a class="btn btn-primary5 btn-mr20" type="button" ng-show="hasPermit('service.insertHard')" target="_blank" ui-sref="service.insertHard">新增</a>
+                                </div>
+                         </div>
+					</div>
+				</div>
+
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>硬件产品信息列表</h5>
+						<!--<div ibox-tools="" class="ng-scope"></div>-->
+					</div>
+					<div class="ibox-content">
+						<div class="gridStyle" ui-grid="productGrid" ui-grid-pagination ui-grid-resize-columns></div>
+					</div>
+				</div>
+				<div style="height: 50px"></div>
+			</div>
+		</div>
+	</form>
+
+</div>

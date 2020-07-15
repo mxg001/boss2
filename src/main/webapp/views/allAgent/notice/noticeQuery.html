@@ -1,0 +1,141 @@
+<!-- 超级银行家用户管理页面 -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>超级盟主</a></li>
+            <li class="active"><strong>公告管理</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app ng-controller="noticeAllAgentQueryCtrl">
+    <form class="form-horizontal" id="form1">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="">
+                    <div class="panel-body ibox float-e-margins">
+                        <div class="ibox-content">
+                            <div class="ibox-title">
+                                <h5>公告查询</h5>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">标题:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.title">
+                                </div>
+                                <label class="col-sm-2 control-label">下发品牌:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.oemNo" ng-options="x.value as x.text for x in oemList"/>
+                                </div>
+                                <label class="col-sm-2 control-label">状态:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.status" ng-options="x.value as x.text for x in statusSelect"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">下发机构:</label>
+                                <div class="col-sm-2">
+                                    <select name="autocomplete-select" id="autocomplete-select" ng-model="info.orgSet" ng-options="x.value as x.text for x in oneUserCodes"
+                                            style="width: 100%" chosen chosen-data="oneUserCodes" chosen-keyup="getStates">
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label">公告类型:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.type" ng-options="x.value as x.text for x in types"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">创建时间:</label>
+                                <div class="col-sm-5">
+                                    <input id="d5231" class="form-control" type="datetime" ng-model="info.createTimeBegin" onchange=""  style="width:auto;display:inline-block;"
+                                           onFocus="var d5232=$dp.$('d5232');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5232.focus();},maxDate:'#F{$dp.$D(\'d5232\')}'})"/>
+                                    ~
+                                    <input id="d5232" class="form-control" type="datetime"  ng-model="info.createTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+                                           onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5231\')}'})"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">下发时间:</label>
+                                <div class="col-sm-5">
+                                    <input id="d5244" class="form-control" type="datetime" ng-model="info.sendTimeBegin" onchange=""  style="width:auto;display:inline-block;"
+                                           onFocus="var d5245=$dp.$('d5245');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5245.focus();},maxDate:'#F{$dp.$D(\'d5245\')}'})"/>
+                                    ~
+                                    <input id="d5245" class="form-control" type="datetime"  ng-model="info.sendTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+                                           onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5244\')}'})"/>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-top: 30px">
+                                <div class="col-sm-8">
+                                    <label class="col-sm-2 control-label"></label>
+                                    <button class="btn btn-primary6 btn-mr20" type="button" ng-click="query()" >查询</button>
+                                    <button class="btn btn-primary3 btn-mr20" type="button" ng-click="clear()" >清空</button>
+                                    <a class="btn btn-primary5 btn-mr20" type="button" ng-show="hasPermit('noticeAllAgent.addNotice')" target="_blank" ui-sref="allAgent.noticeAdd">新增</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body ibox float-e-margins">
+                        <div class="ibox-title">
+                            <div class="ibox-content">
+                                <div class="ibox-title">
+                                    <h5>公告列表</h5>
+                                </div>
+                                <div class="form-group">
+                                    <div class="gridStyle" ui-grid="userGrid" ui-grid-selection ui-grid-pagination
+                                         ui-grid-resize-columns ui-grid-pinning></div>
+                                    <div ng-show="loadImg" class="timg"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="height:30px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+    <div id="userCodeSetModal" class="modal fade form-horizontal" tabindex="4" role="dialog">
+        <div class="modal-dialog" style="height:450px;width: 900px">
+            <div class="modal-content" >
+                <form class="form-horizontal" name="horizontalCard" novalidate>
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            &times;</button>
+                        <h3 class="modal-title">{{title}}预览公告</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label"></label>
+                            <label style="margin-top: 10px;"><i class="red_req">*</i>请输入接收预览公告的用户:</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label"></label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" rows="4" cols="15" name="userCodeSet"  required ng-model="addInfo.userCodeSet"
+                                          placeholder="请输入接收的盟主编号,多个用英文逗号隔开.如:M1001,M1002"></textarea>
+                                <div class="req_mesg" ng-show="horizontalCard.userCodeSet.$dirty && horizontalCard.userCodeSet.$invalid">
+                                    <span ng-show="horizontalCard.userCodeSet.$error.required">接收预览公告的用户不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label"></label>
+                            <label style="margin-top:10px;margin-left:15px;">输入的接收用户将会在APP上接收到预览公告</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="form-group control-label">
+                            <label class="col-sm-1 control-label"></label>
+                            <div class="col-sm-6">
+                                <button class="btn btn-primary btn-mr20" ng-disabled="horizontalCard.$invalid || submitting" type="button" ng-click='commitUserCodeSet()' >确定</button>
+                                <button class="btn btn-primary4" type="button" ng-click='closeUserCodeSetModal()'>返回</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

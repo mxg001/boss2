@@ -1,0 +1,305 @@
+<!-- head -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>超级兑(激活版)</a></li>
+            <li class="active"><strong>积分兑现组织新增</strong></li>
+        </ol>
+    </div>
+</div>
+
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="exchangeActivateOemAddCtrl">
+    <form class="form-horizontal" id="form1" name="horizontalCard">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="tabs-container tab_other">
+                        <uib-tabset>
+                            <uib-tab>
+                                <uib-tab-heading>
+									<span class="block m-t-xs"> <i class="fa fa-laptop"></i> <strong
+                                            class="font-bold">基本信息</strong>
+									</span>
+                                </uib-tab-heading>
+                                <div class="panel-body ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <h5>基本信息</h5>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label"><i class="red_req">*</i>组织名称:</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" name="oemName" required ng-model="addinfo.oemName">
+                                            <div class="req_mesg" ng-show="horizontalCard.oemName.$dirty && horizontalCard.oemName.$invalid">
+                                                <span ng-show="horizontalCard.oemName.$error.required">组织名称不能为空</span>
+                                            </div>
+                                        </div>
+                                        <label class="col-sm-2 control-label"><i class="red_req">*</i>对应V2代理商编号:</label>
+                                        <div class="col-sm-2">
+                                            <select  name="agentNo" id="autocomplete-select1" required
+                                                     ng-model="agentOem.agentNo" ng-options="x.value as x.text for x in agent"
+                                                     style="width: 100%" chosen chosen-data="agent" chosen-keyup="getStates" ng-change="changeAgentNode()">
+                                            </select>
+                                            <div class="req_mesg" ng-show="horizontalCard.agentNo.$dirty && horizontalCard.agentNo.$invalid">
+                                                <span ng-show="horizontalCard.agentNo.$error.required">对应V2代理商编号不能为空</span>
+                                            </div>
+                                        </div>
+                                        <label class="col-sm-2 control-label"><i class="red_req">*</i>商务邮箱:</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" name="mailbox" required ng-model="addinfo.mailbox">
+                                            <div class="req_mesg" ng-show="horizontalCard.mailbox.$dirty && horizontalCard.mailbox.$invalid">
+                                                <span ng-show="horizontalCard.mailbox.$error.required">商务邮箱不能为空</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label"><i class="red_req">*</i>公司编号:</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" name="companyNo" required ng-model="addinfo.companyNo">
+                                            <div class="req_mesg" ng-show="horizontalCard.companyNo.$dirty && horizontalCard.companyNo.$invalid">
+                                                <span ng-show="horizontalCard.companyNo.$error.required">公司编号不能为空</span>
+                                            </div>
+                                        </div>
+                                        <label class="col-sm-2 control-label"><i class="red_req">*</i>公司名称:</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" name="companyName" required ng-model="addinfo.companyName">
+                                            <div class="req_mesg" ng-show="horizontalCard.companyName.$dirty && horizontalCard.companyName.$invalid">
+                                                <span ng-show="horizontalCard.companyName.$error.required">公司名称不能为空</span>
+                                            </div>
+                                        </div>
+                                        <label class="col-sm-2 control-label"><i class="red_req">*</i>客服电话:</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" name="servicePhone" required ng-model="addinfo.servicePhone">
+                                            <div class="req_mesg" ng-show="horizontalCard.servicePhone.$dirty && horizontalCard.servicePhone.$invalid">
+                                                <span ng-show="horizontalCard.servicePhone.$error.required">客服电话不能为空</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label"><i class="red_req">*</i>微信公众号:</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" name="publicAccount" required ng-model="addinfo.publicAccount">
+                                            <div class="req_mesg" ng-show="horizontalCard.publicAccount.$dirty && horizontalCard.publicAccount.$invalid">
+                                                <span ng-show="horizontalCard.publicAccount.$error.required">微信公众号不能为空</span>
+                                            </div>
+                                        </div>
+                                        <label class="col-sm-2 control-label"><i class="red_req">*</i>公众号名称:</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" name="publicAccountName" required ng-model="addinfo.publicAccountName">
+                                            <div class="req_mesg" ng-show="horizontalCard.publicAccountName.$dirty && horizontalCard.publicAccountName.$invalid">
+                                                <span ng-show="horizontalCard.publicAccountName.$error.required">公众号名称不能为空</span>
+                                            </div>
+                                        </div>
+                                        <label class="col-sm-2 control-label"><i class="red_req">*</i>公众号appid:</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" name="appid" required ng-model="addinfo.appid">
+                                            <div class="req_mesg" ng-show="horizontalCard.appid.$dirty && horizontalCard.appid.$invalid">
+                                                <span ng-show="horizontalCard.appid.$error.required">公众号appid不能为空</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label"><i class="red_req">*</i>公众号secret:</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" name="secret" required ng-model="addinfo.secret">
+                                            <div class="req_mesg" ng-show="horizontalCard.secret.$dirty && horizontalCard.secret.$invalid">
+                                                <span ng-show="horizontalCard.secret.$error.required">公众号secret不能为空</span>
+                                            </div>
+                                        </div>
+                                        <label class="col-sm-2 control-label"><i class="red_req">*</i>公众号密文:</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" name="encodingAesKey" required ng-model="addinfo.encodingAesKey">
+                                            <div class="req_mesg" ng-show="horizontalCard.encodingAesKey.$dirty && horizontalCard.encodingAesKey.$invalid">
+                                                <span ng-show="horizontalCard.encodingAesKey.$error.required">公众号密文不能为空</span>
+                                            </div>
+                                        </div>
+                                        <label class="col-sm-2 control-label"><i class="red_req">*</i>公众号token:</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" name="wxToken" required ng-model="addinfo.wxToken">
+                                            <div class="req_mesg" ng-show="horizontalCard.wxToken.$dirty && horizontalCard.wxToken.$invalid">
+                                                <span ng-show="horizontalCard.wxToken.$error.required">公众号token不能为空</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">公众号ticket:</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" ng-model="addinfo.wxTicket">
+                                        </div>
+                                        <label class="col-sm-2 control-label">极光推送android key:</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" ng-model="addinfo.androidAppKey">
+                                        </div>
+                                        <label class="col-sm-2 control-label">极光推送android secret:</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" ng-model="addinfo.androidMasterSecret">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">极光推送ios key:</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" ng-model="addinfo.iosAppKey">
+                                        </div>
+                                        <label class="col-sm-2 control-label">极光推送ios secret:</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" ng-model="addinfo.iosMasterSecret">
+                                        </div>
+                                        <label class="col-sm-2 control-label">客户端appid:</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" ng-model="addinfo.clientAppid">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">客户端secret:</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" ng-model="addinfo.clientSecret">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">平台服务协议:</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" ng-model="addinfo.agreement">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">备注:</label>
+                                        <div class="col-sm-6">
+                                            <textarea class="form-control" rows="6" cols="10" ng-model="addinfo.remark"></textarea>
+                                        </div>
+                                    </div>
+                                    <div data-ng-repeat="imgItem in fileList" >
+                                        <div ng-if="$index%2==0">
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">
+                                                    <i class="red_req" ng-if="imgItem.isNeed=='1'">*</i>
+                                                    {{imgItem.propertyDesc}}:
+                                                </label>
+                                                <div class="col-sm-4" >
+                                                    <input type="file" nv-file-select="" uploader="imgItem.uploaderImg"   multiple  />
+                                                    <label style="color:red; float:left;">{{imgItem.propertyRemark}}</label>
+                                                    <table class="table" class="col-sm-4" >
+                                                        <tbody>
+                                                        <tr ng-repeat="item in imgItem.uploaderImg.queue">
+                                                            <td>
+                                                                <div ng-show="imgItem.uploaderImg.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                                                            </td>
+                                                            <td nowrap>
+                                                                <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                                                    <span class="glyphicon glyphicon-trash"></span> 删除
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div ng-if="fileList[$index+1]!=null">
+                                                    <label class="col-sm-2 control-label">
+                                                        <i class="red_req" ng-if="fileList[$index+1].isNeed=='1'">*</i>
+                                                        {{fileList[$index+1].propertyDesc}}:
+                                                    </label>
+                                                    <div class="col-sm-4" >
+                                                        <input type="file" nv-file-select="" uploader="fileList[$index+1].uploaderImg"   multiple  />
+                                                        <label style="color:red; float:left;">{{fileList[$index+1].propertyRemark}}</label>
+                                                        <table class="table" class="col-sm-4">
+                                                            <tbody>
+                                                            <tr ng-repeat="item in fileList[$index+1].uploaderImg.queue">
+                                                                <td>
+                                                                    <div ng-show="fileList[$index+1].uploaderImg.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                                                                </td>
+                                                                <td nowrap>
+                                                                    <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                                                        <span class="glyphicon glyphicon-trash"></span> 删除
+                                                                    </button>
+                                                                </td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </uib-tab>
+                            <uib-tab>
+                                <uib-tab-heading>
+									<span class="block m-t-xs"> <i class="fa fa-laptop"></i> <strong
+                                            class="font-bold">费率信息</strong>
+									</span>
+                                </uib-tab-heading>
+                                <div class="panel-body ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <h5>费率信息</h5>
+                                    </div>
+                                    <div data-ng-repeat="item in shareList" >
+                                        <div ng-if="$index%2==0">
+                                            <div class="form-group">
+                                                <!--元素1-->
+                                                <div ng-if="item.isNeed=='1'">
+                                                    <label class="col-sm-2 control-label">
+                                                        <i class="red_req">*</i>
+                                                        {{item.propertyDesc}}:
+                                                    </label>
+                                                    <div class="col-sm-2">
+                                                        <input class="form-control" name="{{item.propertyCode}}" required ng-model="item.configValue">
+                                                        <div class="req_mesg" ng-show="horizontalCard.{{item.propertyCode}}.$dirty && horizontalCard.{{item.propertyCode}}.$invalid">
+                                                            <span ng-show="horizontalCard.{{item.propertyCode}}.$error.required">{{item.propertyDesc}}不能为空</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div ng-if="item.isNeed!='1'">
+                                                    <label class="col-sm-2 control-label">
+                                                        {{item.propertyDesc}}:
+                                                    </label>
+                                                    <div class="col-sm-2">
+                                                        <input class="form-control" name="{{item.propertyCode}}" ng-model="item.configValue">
+                                                    </div>
+                                                </div>
+                                                <label class="col-sm-1" style="margin-top: 10px;" >{{item.propertyRemark}}</label>
+
+                                                <!--元素2-->
+                                                <div ng-if="shareList[$index+1]!=null">
+                                                    <div ng-if="shareList[$index+1].isNeed=='1'">
+                                                        <label class="col-sm-2 control-label">
+                                                            <i class="red_req">*</i>
+                                                            {{shareList[$index+1].propertyDesc}}:
+                                                        </label>
+                                                        <div class="col-sm-2">
+                                                            <input class="form-control" name="{{shareList[$index+1].propertyCode}}" required ng-model="shareList[$index+1].configValue">
+                                                            <div class="req_mesg" ng-show="horizontalCard.{{shareList[$index+1].propertyCode}}.$dirty && horizontalCard.{{shareList[$index+1].propertyCode}}.$invalid">
+                                                                <span ng-show="horizontalCard.{{shareList[$index+1].propertyCode}}.$error.required">{{shareList[$index+1].propertyDesc}}不能为空</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div ng-if="shareList[$index+1].isNeed!='1'">
+                                                        <label class="col-sm-2 control-label">
+                                                            {{shareList[$index+1].propertyDesc}}:
+                                                        </label>
+                                                        <div class="col-sm-2">
+                                                            <input class="form-control" name="{{shareList[$index+1].propertyCode}}" ng-model="shareList[$index+1].configValue">
+                                                        </div>
+                                                    </div>
+                                                    <label class="col-sm-1" style="margin-top: 10px;" >{{shareList[$index+1].propertyRemark}}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </uib-tab>
+                        </uib-tabset>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 bgff">
+                <div class="col-sm-12">
+                    <div class="col-lg-3"></div>
+                    <div class="col-sm-6">
+                        <button class="btn btn-primary btn-mr20" type="button" ng-click="savetype()" ng-disabled="horizontalCard.$invalid || submitting">提交</button>
+                        <a class="btn btn-primary4" ui-sref="exchangeActivate.exchangeOem" >返回</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

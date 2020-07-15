@@ -1,0 +1,203 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>超级兑</a></li>
+            <li class="active"><strong>超级兑用户详情</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="userManagementDetailCtrl">
+    <form class="form-horizontal" name="horizontal" novalidate>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="tabs-container tab_other">
+                        <uib-tabset>
+                            <uib-tab>
+                                <uib-tab-heading>
+									<span class="block m-t-xs"> <i class="fa fa-laptop"></i> <strong
+                                            class="font-bold">基本资料</strong>
+									</span>
+                                </uib-tab-heading>
+                                <div class="ibox-title">
+                                    <h5>基本资料</h5>
+                                </div>
+                                <div class="panel-body ibox float-e-margins">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label" >用户编号:</label>
+                                        <div class="col-sm-2 checkbox"><p ng-bind="info.merchantNo"></p></div>
+                                        <label class="col-sm-2 control-label" >组织名称:</label>
+                                        <div class="col-sm-2 checkbox"><p ng-bind="info.oemName"></p></div>
+                                        <label class="col-sm-2 control-label" >姓名:</label>
+                                        <div class="col-sm-2 checkbox"><p ng-bind="info.accountName"></p></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label" >手机号:</label>
+                                        <div class="col-sm-2 checkbox" >
+                                            <span ng-bind="info.mobileUsername"></span>
+                                            <button type="button" ng-show="dataSta&&hasPermit('userManagement.getDataProcessing')" ng-click="getDataProcessing()">显示</button>
+                                        </div>
+                                        <label class="col-sm-2 control-label" >微信号:</label>
+                                        <div class="col-sm-2 checkbox"><p ng-bind="info.weixinhao"></p></div>
+                                        <label class="col-sm-2 control-label" >昵称:</label>
+                                        <div class="col-sm-2 checkbox wbba"><p ng-bind="info.nickname"></p></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label" >代理状态:</label>
+                                        <div class="col-sm-2 checkbox" ng-bind="info.merActStatus |formatDropping:merActStatusSelect"></div>
+                                        <label class="col-sm-2 control-label" >身份:</label>
+                                        <div class="col-sm-2 checkbox" ng-bind="info.merCapa |formatDropping:merCapaSelect"></div>
+                                        <label class="col-sm-2 control-label" >入驻时间:</label>
+                                        <div class="col-sm-2 checkbox" ng-bind="info.createTime | date:'yyyy-MM-dd HH:mm:ss'"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label" >开户状态:</label>
+                                        <div class="col-sm-2 checkbox" ng-bind="info.merAccount |formatDropping:merAccountSelect"></div>
+                                        <label class="col-sm-2 control-label" >总收益：</label>
+                                        <div class="col-sm-2 checkbox"><p ng-bind="info.totalBalance"></p></div>
+                                        <label class="col-sm-2 control-label" >会员数量:</label>
+                                        <div class="col-sm-2 checkbox"><p ng-bind="info.subordinateMoney"></p></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label" >用户数量:</label>
+                                        <div class="col-sm-2 checkbox"><p ng-bind="info.subordinate"></p></div>
+                                        <label class="col-sm-2 control-label" >二级用户:</label>
+                                        <div class="col-sm-2 checkbox"><p ng-bind="info.parMerNo"></p></div>
+                                        <label class="col-sm-2 control-label" >成为超级用户时间:</label>
+                                        <div class="col-sm-2 checkbox" ng-bind="dateMap.vip2 | date:'yyyy-MM-dd HH:mm:ss'"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label" >成为会员时间:</label>
+                                        <div class="col-sm-2 checkbox" ng-bind="dateMap.vip3 | date:'yyyy-MM-dd HH:mm:ss'"></div>
+                                        <label class="col-sm-2 control-label" >成为黄金会员时间:</label>
+                                        <div class="col-sm-2 checkbox" ng-bind="dateMap.vip4 | date:'yyyy-MM-dd HH:mm:ss'"></div>
+                                        <label class="col-sm-2 control-label" >成为钻石会员时间:</label>
+                                        <div class="col-sm-2 checkbox" ng-bind="dateMap.vip5 | date:'yyyy-MM-dd HH:mm:ss'"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">用户节点：</label>
+                                        <div class="col-sm-6 checkbox" ng-bind="info.merNode"></div>
+                                    </div>
+                                </div>
+                                <div class="ibox-title">
+                                    <h5>结算信息</h5>
+                                </div>
+                                <div class="panel-body ibox float-e-margins">
+                                    <div class="form-group">
+                                        <label class="col-sm-1 control-label" >姓名:</label>
+                                        <div class="col-sm-2 checkbox"><p ng-bind="info.accountName"></p></div>
+                                        <label class="col-sm-1 control-label" >手机号:</label>
+                                        <div class="col-sm-2 checkbox" >
+                                            <span ng-bind="info.mobileNo"></span>
+                                            <button type="button" ng-show="dataSta&&hasPermit('userManagement.getDataProcessing')" ng-click="getDataProcessing()">显示</button>
+                                        </div>
+                                        <label class="col-sm-1 control-label" >身份证号:</label>
+                                        <div class="col-sm-3 checkbox" >
+                                            <span ng-bind="info.businessCode"></span>
+                                            <button type="button" ng-show="dataSta&&hasPermit('userManagement.getDataProcessing')" ng-click="getDataProcessing()">显示</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-1 control-label" >银行卡号:</label>
+                                        <div class="col-sm-2 checkbox"><p ng-bind="info.accountNo"></p></div>
+                                    </div>
+                                </div>
+                            </uib-tab>
+                            <uib-tab>
+                                <uib-tab-heading>
+									<span class="block m-t-xs">
+										<i class="fa fa-desktop"></i>
+										<strong class="font-bold">账户资料</strong>
+									</span>
+                                </uib-tab-heading>
+                                <div class="panel-body ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <h5>账户余额</h5>
+                                    </div>
+                                    <div class="ibox-content">
+                                        <div class="form-group">
+                                            <div class="gridStyle" style="height: 200px;" ui-grid="accountBalances" ui-grid-resize-columns/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <h5>账户明细</h5>
+                                    </div>
+                                    <div class="panel-body ibox float-e-margins">
+                                        <div class="form-group">
+                                            <label  class="col-sm-1 control-label">操作：</label>
+                                            <div class="col-sm-3">
+                                                <select class="form-control" ng-model="accountInfoRecord.debitCreditSide" ng-options="x.value as x.text for x in debitCreditSideList"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label">交易时间：</label>
+                                            <div class="col-sm-6">
+                                                <input id="d5221" class="form-control" type="datetime" ng-model="accountInfoRecord.recordTimeStart"
+                                                       onchange="" style="width:auto;display:inline-block;"
+                                                       onFocus="var d5222=$dp.$('d5222');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5222.focus();},maxDate:'#F{$dp.$D(\'d5222\')}'})"/>
+                                                ~
+                                                <input id="d5222" class="form-control" type="datetime" ng-model="accountInfoRecord.recordTimeEnd"
+                                                       onchange="" style="width:auto;display:inline-block;"
+                                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5221\')}'})"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-12">
+                                                <label class="col-sm-1 control-label"></label>
+                                                <button class="btn btn-primary6 btn-mr20" type="button" ng-disabled="submitting" ng-click="getUserAccountDetail()">查询</button>
+                                                <button class="btn btn-primary3" type="button" ng-click="clear()">清空</button>
+                                            </div>
+                                        </div>
+                                        <div class="ibox-content">
+                                            <div class="form-group">
+                                                <div class="gridStyle " style="height: 400px;" ui-grid="accountDetail" ui-grid-pagination ui-grid-resize-columns/>
+                                                <div ng-show="loadImg" class="timg"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </uib-tab>
+                            <uib-tab>
+                                <uib-tab-heading>
+									<span class="block m-t-xs">
+										<i class="fa fa-desktop"></i>
+										<strong class="font-bold">预冻结操作记录</strong>
+									</span>
+                                </uib-tab-heading>
+                                <div class="panel-body ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <h5>预冻结操作记录</h5>
+                                    </div>
+                                    <div class="ibox-content">
+                                        <div class="form-group">
+                                            <label class="col-lg-1 control-label"></label>
+                                            <div class="col-lg-9">
+                                                <div  style="height: 300px" class="gridStyle" ui-grid="userFreezeGrid" ui-grid-selection class="grid" ui-grid-resize-columns></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </uib-tab>
+                        </uib-tabset>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 bgff">
+                <div class="col-sm-12">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-6">
+                        <div style="padding: 0 15px;">
+                            <button class="btn btn-primary4 btn-mr20" ui-sref="exchange.userManagement" type="button">返回</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="height:50px"></div>
+    </form>
+</div>

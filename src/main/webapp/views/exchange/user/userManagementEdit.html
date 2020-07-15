@@ -1,0 +1,278 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>超级兑</a></li>
+            <li class="active"><strong>超级兑用户修改</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="userManagementEditCtrl">
+    <form class="form-horizontal" name="horizontal" novalidate>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="tabs-container tab_other">
+                        <uib-tabset>
+                            <uib-tab>
+                                <uib-tab-heading>
+									<span class="block m-t-xs"> <i class="fa fa-laptop"></i> <strong
+                                            class="font-bold">基本资料</strong>
+									</span>
+                                </uib-tab-heading>
+                                <div class="ibox-title">
+                                    <h5>基本资料</h5>
+                                </div>
+                                <div class="panel-body ibox float-e-margins">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label" >用户编号:</label>
+                                        <div class="col-sm-2 checkbox"><p ng-bind="info.merchantNo"></p></div>
+                                        <label class="col-sm-2 control-label" >组织名称:</label>
+                                        <div class="col-sm-2 checkbox"><p ng-bind="info.oemName"></p></div>
+                                        <label class="col-sm-2 control-label" >姓名:</label>
+                                        <div class="col-sm-2 checkbox"><p ng-bind="info.accountName"></p></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label" >手机号:</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" name="mobileUsername" required ng-model="info.mobileUsername">
+                                            <div class="req_mesg" ng-show="horizontal.mobileUsername.$dirty && horizontal.mobileUsername.$invalid">
+                                                <span ng-show="horizontal.mobileUsername.$error.required">手机号不能为空!</span>
+                                            </div>
+                                        </div>
+                                        <label class="col-sm-2 control-label" >微信号:</label>
+                                        <div class="col-sm-2 checkbox"><p ng-bind="info.weixinhao"></p></div>
+                                        <label class="col-sm-2 control-label" >昵称:</label>
+                                        <div class="col-sm-2 checkbox wbba"><p ng-bind="info.nickname"></p></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label" >代理状态:</label>
+                                        <div class="col-sm-2 checkbox" ng-bind="info.merActStatus |formatDropping:merActStatusSelect"></div>
+                                        <label class="col-sm-2 control-label" >身份:</label>
+                                        <div class="col-sm-2 checkbox" ng-bind="info.merCapa |formatDropping:merCapaSelect"></div>
+                                        <label class="col-sm-2 control-label" >入驻时间:</label>
+                                        <div class="col-sm-2 checkbox" ng-bind="info.createTime | date:'yyyy-MM-dd HH:mm:ss'"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label" >开户状态:</label>
+                                        <div class="col-sm-2 checkbox" ng-bind="info.merAccount |formatDropping:merAccountSelect"></div>
+                                        <label class="col-sm-2 control-label" >总收益：</label>
+                                        <div class="col-sm-2 checkbox"><p ng-bind="info.totalBalance"></p></div>
+                                        <label class="col-sm-2 control-label" >会员数量:</label>
+                                        <div class="col-sm-2 checkbox"><p ng-bind="info.subordinateMoney"></p></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label" >用户数量:</label>
+                                        <div class="col-sm-2 checkbox"><p ng-bind="info.subordinate"></p></div>
+                                        <label class="col-sm-2 control-label" >二级用户:</label>
+                                        <div class="col-sm-2 checkbox"><p ng-bind="info.parMerNo"></p></div>
+                                        <label class="col-sm-2 control-label" >成为超级用户时间:</label>
+                                        <div class="col-sm-2 checkbox" ng-bind="dateMap.vip2 | date:'yyyy-MM-dd HH:mm:ss'"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label" >成为会员时间:</label>
+                                        <div class="col-sm-2 checkbox" ng-bind="dateMap.vip3 | date:'yyyy-MM-dd HH:mm:ss'"></div>
+                                        <label class="col-sm-2 control-label" >成为黄金会员时间:</label>
+                                        <div class="col-sm-2 checkbox" ng-bind="dateMap.vip4 | date:'yyyy-MM-dd HH:mm:ss'"></div>
+                                        <label class="col-sm-2 control-label" >成为钻石会员时间:</label>
+                                        <div class="col-sm-2 checkbox" ng-bind="dateMap.vip5 | date:'yyyy-MM-dd HH:mm:ss'"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">用户节点：</label>
+                                        <div class="col-sm-6 checkbox" ng-bind="info.merNode"></div>
+                                    </div>
+                                </div>
+                                <div class="ibox-title">
+                                    <h5>结算信息</h5>
+                                </div>
+                                <div class="panel-body ibox float-e-margins">
+                                    <div class="form-group">
+                                        <label class="col-sm-1 control-label" >姓名:</label>
+                                        <div class="col-sm-2 checkbox"><p ng-bind="info.accountName"></p></div>
+                                        <label class="col-sm-1 control-label" >身份证号:</label>
+                                        <div class="col-sm-2 checkbox"><p ng-bind="info.businessCode"></p></div>
+                                        <label class="col-sm-1 control-label" >手机号:</label>
+                                        <div class="col-sm-2 checkbox"><p ng-bind="info.mobileNo"></p></div>
+                                        <label class="col-sm-1 control-label" >银行卡号:</label>
+                                        <div class="col-sm-2 checkbox"><p ng-bind="info.accountNo"></p></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-9 control-label" ></label>
+                                        <button class="col-sm-1 btn btn-new btn-mr20" ng-show="hasPermit('userManagement.updateSettlementCard')" ng-click="updateCardModal()">修改结算卡</button>
+                                    </div>
+                                </div>
+                            </uib-tab>
+                            <uib-tab>
+                                <uib-tab-heading>
+									<span class="block m-t-xs">
+										<i class="fa fa-desktop"></i>
+										<strong class="font-bold">账户资料</strong>
+									</span>
+                                </uib-tab-heading>
+                                <div class="panel-body ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <h5>账户余额</h5>
+                                    </div>
+                                    <div class="ibox-content">
+                                        <div class="form-group">
+                                            <div class="gridStyle" style="height: 200px;" ui-grid="accountBalances" ui-grid-resize-columns/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <h5>账户明细</h5>
+                                    </div>
+                                    <div class="panel-body ibox float-e-margins">
+                                        <div class="form-group">
+                                            <label  class="col-sm-1 control-label">操作：</label>
+                                            <div class="col-sm-3">
+                                                <select class="form-control" ng-model="accountInfoRecord.debitCreditSide" ng-options="x.value as x.text for x in debitCreditSideList"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label">交易时间：</label>
+                                            <div class="col-sm-6">
+                                                <input id="d5221" class="form-control" type="datetime" ng-model="accountInfoRecord.recordTimeStart"
+                                                       onchange="" style="width:auto;display:inline-block;"
+                                                       onFocus="var d5222=$dp.$('d5222');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5222.focus();},maxDate:'#F{$dp.$D(\'d5222\')}'})"/>
+                                                ~
+                                                <input id="d5222" class="form-control" type="datetime" ng-model="accountInfoRecord.recordTimeEnd"
+                                                       onchange="" style="width:auto;display:inline-block;"
+                                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5221\')}'})"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-12">
+                                                <label class="col-sm-1 control-label"></label>
+                                                <button class="btn btn-primary6 btn-mr20" type="button" ng-disabled="submitting" ng-click="getUserAccountDetail()">查询</button>
+                                                <button class="btn btn-primary3" type="button" ng-click="clear()">清空</button>
+                                            </div>
+                                        </div>
+                                        <div class="ibox-content">
+                                            <div class="form-group">
+                                                <div class="gridStyle " style="height: 400px;" ui-grid="accountDetail" ui-grid-pagination ui-grid-resize-columns/>
+                                                <div ng-show="loadImg" class="timg"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </uib-tab>
+                            <uib-tab>
+                                <uib-tab-heading>
+									<span class="block m-t-xs">
+										<i class="fa fa-desktop"></i>
+										<strong class="font-bold">预冻结操作记录</strong>
+									</span>
+                                </uib-tab-heading>
+                                <div class="panel-body ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <h5>预冻结操作记录</h5>
+                                    </div>
+                                    <div class="ibox-content">
+                                        <div class="form-group">
+                                            <label class="col-lg-1 control-label"></label>
+                                            <div class="col-lg-9">
+                                                <div  style="height: 300px" class="gridStyle" ui-grid="userFreezeGrid" ui-grid-selection class="grid" ui-grid-resize-columns></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </uib-tab>
+                        </uib-tabset>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 bgff">
+                <div class="col-sm-12">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-6">
+                        <div style="padding: 0 15px;">
+                            <button class="btn btn-primary btn-mr20" ng-disabled="horizontal.$invalid || submitting" ng-click="submit()"
+                                    type="button">提交</button>
+                            <button class="btn btn-primary4 btn-mr20" ui-sref="exchange.userManagement" type="button">返回</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="height:50px"></div>
+    </form>
+    <div id="updateCardModal" class="modal fade form-horizontal" tabindex="4" role="dialog">
+        <div class="modal-dialog" style="height:450px;width: 950px">
+            <div class="modal-content" style="height:450px;width: 950px">
+                <form class="form-horizontal" name="horizontalCard" novalidate>
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            &times;</button>
+                        <h3 class="modal-title">修改结算卡</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">新银行卡号：</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="cardNo" required
+                                       ng-blur="getCardInfo(newCard.cardNo)" ng-model="newCard.cardNo">
+                                <div class="req_mesg" ng-show="horizontalCard.cardNo.$dirty && horizontalCard.cardNo.$invalid">
+                                    <span ng-show="horizontalCard.cardNo.$error.required">银行卡号不能为空</span>
+                                </div>
+                                <div class="req_mesg" ng-show="cardMsg!='' && cardMsg!=null ">
+                                    <span>{{cardMsg}}</span>
+                                </div>
+                            </div>
+                            <label class="col-sm-2 control-label">银行名称:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" readonly ng-model="newCard.bankName">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">手机号:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="accountPhone" required ng-model="newCard.accountPhone">
+                                <div class="req_mesg" ng-show="horizontalCard.accountPhone.$dirty && horizontalCard.accountPhone.$invalid">
+                                    <span ng-show="horizontalCard.accountPhone.$error.required">手机号不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">开户行地址:</label>
+                            <div class="col-sm-2">
+                                <select class="form-control input-s-sm inline" ng-model="newCard.bankProvince" ng-change="getCities()" ng-options="x.name as x.name for x in provinceList"/>
+                            </div>
+                            <div class="col-sm-2">
+                                <select class="form-control input-s-sm inline" name="bankCity" required ng-model="newCard.bankCity" ng-change="getAreas()" ng-blur="getBankList(newCard.bankName,newCard.bankCity)" ng-options="x.name as x.name for x in cityList"/>
+                            </div>
+                            <div class="req_mesg" ng-show="horizontalCard.bankCity.$dirty && horizontalCard.bankCity.$invalid">
+                                <span ng-show="horizontalCard.bankCity.$error.required">地址不能为空</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">分行:</label>
+                            <div class="col-sm-4 chosen-mh">
+                                <select chosen="{width:'100%'}" name="cnapsNo" required id="autocomplete-select" chosen class="chosen-select" tabindex="6" ng-model="newCard.cnapsNo" ng-options="x as x.bankName for x in bankList">
+                                    <option value=""></option>
+                                </select>
+                                <div class="req_mesg" ng-show="horizontalCard.cnapsNo.$dirty && horizontalCard.cnapsNo.$invalid">
+                                    <span ng-show="horizontalCard.cnapsNo.$error.required">支行不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="form-group control-label">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-6">
+                                <button class="btn btn-primary btn-mr20" type="button" ng-click='updateUserCard()'
+                                >确定</button>
+                                <button class="btn btn-primary4" type="button" ng-click='cancel()'
+                                >返回</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

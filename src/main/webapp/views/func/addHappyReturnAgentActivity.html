@@ -1,0 +1,48 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a href="index.html">主页</a></li>
+			<li class="active"><strong>新增代理商</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="addHappyReturnAgentActivityCtrl">
+	<form class="form-horizontal" id="form1" name="horizontal" novalidate>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="">
+						<div class="panel-body ibox float-e-margins">
+							<div class="ibox-content">
+								<div class="form-group">
+									<label class="col-sm-2 control-label"><i class="red_req">*</i>代理商编号：</label>
+									<div class="col-sm-3">
+										<input type="text" class="form-control" ng-model="info.agentNo" ng-blur="getAgent()" name="agentNo" required>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">代理商名称：</label>
+									<div class="col-sm-3">
+										<input type="text" class="form-control" readonly ng-model="info.agentName" name="agentName" required>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-lg-12">
+										<div class="col-sm-2"></div>
+										<a class="btn btn-primary4" type="button" ui-sref="activity.selectHappyReturnAgentActivity({activityId:activityId})"
+										 	id="btnSubmit">返回</a>
+										<button class="btn btn-primary btn-rounded " ng-disabled="horizontal.$invalid || submitting" type="button"
+											
+											ng-click="commit()" id="btnSubmit">确定</button>
+									</div>
+									
+								</div>
+							</div>
+
+						</div>
+				</div>
+			</div>
+	</form>
+</div>

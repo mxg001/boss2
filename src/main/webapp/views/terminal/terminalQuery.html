@@ -1,0 +1,435 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>机具管理</a></li>
+			<li class="active"><strong>机具查询</strong></li>
+		</ol>
+	</div>
+</div>
+
+
+<script type="text/ng-template" id="adminModalContent.html">
+     <div class="modal-header">
+									        <h4 class="modal-title" id="myModalLabel1">机具下发</h4>
+									      </div>
+									      <div class="modal-body" style="height: 300px;">
+									       
+									        <form class="form-horizontal">
+									          <div class="form-group">
+									            <label class="col-sm-3 control-label">终端总数量：</label>
+												<div class="col-sm-2">
+													<p ng-bind="info.number"></p>
+												</div>
+									          </div>
+									          <div class="form-group">
+									            <label class="col-sm-3 control-label">代理商名称：</label>
+												<div class="col-sm-6">
+													<select name="autocomplete-select" id="autoSlt"  ng-model="info.agentNo" ng-options="x.value as x.text for x in agents" style="width:100%" chosen chosen-data="agents" chosen-keyup="getStates">
+													</select>
+												</div>
+									          </div>
+									        </form>
+									       
+									      </div>
+									      <div class="modal-footer">
+									        <button type="button" class="btn btn-default" ng-click="solutionModalClose()">关闭</button>
+									        <button type="button" class="btn btn-primary" ng-click="solutionModalOk()">确定</button>
+									      </div>
+</script>
+
+<script type="text/ng-template" id="adminModalContent1.html">
+     <div class="modal-header">
+									        <h4 class="modal-title" id="myModalLabel">机具绑定</h4>
+									      </div>
+									      <div class="modal-body" style="height: 300px;">
+									       
+									        <form class="form-horizontal">
+									          <div class="form-group">
+									            <label class="col-sm-2 control-label">终端总数量：</label>
+												<div class="col-sm-2">
+													<p ng-bind="info.number"></p>
+												</div>
+									          </div>
+									          <div class="form-group">
+									            <label class="col-sm-2 control-label">商户编号：</label>
+												<div class="col-sm-4">
+													<select ng-change="change(info.merId)" id="autocomplete-select3" chosen="{width:'100%'}" class="chosen-select" tabindex="4" ng-model="info.merId" ng-options="x.value as x.text for x in merLists">
+							            	         	<option value=""></option> 
+							                        </select> 
+												</div>
+									          </div>
+											  <div class="form-group">
+									            <label class="col-sm-2 control-label">商户名称：</label>
+												<div class="col-sm-4 chexkbox" ng-bind="merNames">
+												</div>
+									          </div>
+									          <div class="form-group">
+									            <label class="col-sm-2 control-label">业务产品：</label>
+												<div class="col-sm-4">
+													<select chosen="{width:'100%'}" id="autocomplete-select2" class="chosen-select" tabindex="5" ng-model="info.merBpId" ng-options="x.value as x.text for x in merBPLists">
+							            	         	<option value=""></option> 
+							                        </select> 
+												</div>
+									          </div>
+									        </form>
+									       
+									      </div>
+									      <div class="modal-footer">
+									        <button type="button" class="btn btn-default" ng-click="solutionModalClose()">关闭</button>
+									        <button type="button" class="btn btn-primary" ng-click="solutionModalOk()">确定</button>
+									      </div>
+</script>
+
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="terminalQueryCtrl">
+	<form class="form-horizontal" id="form1">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="">
+						<div class="panel-body ibox float-e-margins">
+							<div class="ibox-title">
+								<h5>机具信息多条列表查询</h5>
+							</div>
+							<div class="ibox-content">
+								<div class="form-group">
+									<label class="col-sm-2 control-label">机具SN号：</label>
+									<div class="col-sm-6">
+										<input type="text" class="form-control" style="width:auto;display:inline-block;" ng-model="info.snStart">-
+										<input type="text" class="form-control" style="width:auto;display:inline-block;" ng-model="info.snEnd">
+									</div>
+									<label class="col-sm-2 control-label">硬件产品种类:</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.type" ng-options="x.hpId as x.typeName for x in termianlTypes"/>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">商户名称/编号:</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" name="accountNo" ng-model="info.merchantName">
+									</div>
+									<label class="col-sm-2 control-label">所分配代理商名称:</label>
+									<div class="col-sm-2">
+										<select name="autocomplete-select" id="autocomplete-select4" ng-model="info.agentNo" ng-options="x.value as x.text for x in agents" style="width: 100%" chosen chosen-data="agents" chosen-keyup="getStates">
+										</select>
+									</div>
+									<label class="col-sm-2 control-label">包含下级:</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.bool" ng-options="x.value as x.text for x in bools"/>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">PSAM编号:</label>
+									<div class="col-sm-6">
+										<input type="text" class="form-control" style="width:auto;display:inline-block;" name="accountNo" ng-model="info.psamNo">-
+										<input type="text" class="form-control" style="width:auto;display:inline-block;" name="accountNo" ng-model="info.psamNo1">
+									</div>
+									<label class="col-sm-2 control-label">业务产品名称:</label>
+									<div class="col-sm-2">
+										<select chosen="{width:'100%'}" id="autocomplete-select5"  class="chosen-select" tabindex="4" ng-model="info.bpId" ng-options="x.value as x.text for x in bpListAll">
+							            	 <option value=""></option>
+							            </select>
+									</div>
+									</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">是否有密钥:</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.hasKey" ng-options="x.value as x.text for x in bools"/>
+									</div>
+									<label class="col-sm-2 control-label">机具状态:</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.openStatus" ng-options="x.value as x.text for x in terminalStates"/>
+									</div>
+									<label class="col-sm-2 control-label">机具活动类型:</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.activityType" ng-options="x.value as x.text for x in activityTypeListAll"/>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">申请时间：</label>
+									<div class="col-sm-6">
+										<input id="d5231" class="form-control" type="datetime" ng-model="info.startTimeBegin" onchange=""  style="width:auto;display:inline-block;"
+											   onFocus="var d5232=$dp.$('d5232');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5232.focus();},maxDate:'#F{$dp.$D(\'d5232\')}'})"/>
+										~
+										<input id="d5232" class="form-control" type="datetime"  ng-model="info.startTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+											   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5231\')}'})"/>
+									</div>
+									
+									<label class="col-sm-2 control-label">银联终端号：</label>
+									<div class="col-sm-2">
+										<input class="form-control" ng-model="info.terNo">
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label class="col-sm-2 control-label">所属盟主编号:</label>
+									<div class="col-sm-2">
+										<input class="form-control" ng-model="info.userCode">
+									</div>
+									
+									<div class="form-group">
+									<label class="col-sm-2 control-label">机具通道:</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.channel" ng-options="x.value as x.text for x in channelList"/>
+									</div>
+									<label class="col-sm-2 control-label">欢乐返子类型:</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.activityTypeNo"
+												ng-options="x.value as x.text for x in typeNos">
+										</select>
+									</div>
+								</div>
+								</div>
+								<div class="form-group">
+									<div class="col-lg-12">
+										<div class="col-sm-2"></div>
+										<button class="btn btn-primary6 btn-mr20" type="button" ng-click="selectInfo()"
+												id="btnSubmit22">查询</button><button class="btn btn-primary3 btn-mr20" type="button" ng-click="clear()"
+																				  id="btnSubmit2">清空</button>
+										<a class="btn btn-primary5 btn-mr20" type="button"  ui-sref="terminalUpdate({termId:-1})"
+										   ng-show="hasPermit('terminal.insert')" id="btnSubmit3">添加</a>
+										<a class="btn  btn-new btn-mr20" type="button"  ui-sref="gatherCodeManager()"
+										   ng-show="hasPermit('teminal.gatherCodeManager')" id="btnSubmit4">收款码管理</a>
+										<button class="btn btn-primary7 btn-mr20" type="button" ng-show="hasPermit('terminalInfo.importDetail')" ng-click="exportInfo()" >导出</button>
+									</div>
+
+								</div>
+								</div>
+
+							</div>
+						</div>
+						
+						
+						<div class="panel-body ibox float-e-margins">
+								<div class="ibox-title">
+									<h5>机具信息列表</h5>
+									</div>
+									<div style="background: #fff; text-align: right; overflow: hidden; padding: 10px 20px 0;">
+										<button class="btn btn-new2 btn-mr20" type="button"
+												ng-show="hasPermit('terminalInfo.importDiscount')" ng-click="importDiscountShow()">批量修改导入</button>
+										<button class="btn btn-new2 btn-mr20" type="button"
+											ng-show="hasPermit('terminal.updateTerminalSpecial')" ui-sref="updateAllTerActivity({specialStatus:1})">修改机具</button>
+									</div>
+							     <div style="background: #fff; text-align: right; overflow: hidden; padding: 10px 20px 0;">
+							      		<button class="btn btn-new2 btn-mr20" type="button"  ng-click="applyReturn()"
+										   ng-show="hasPermit('terminal.applyRecover')" >申请回收</button>
+							    		 <a class="btn btn-new2 btn-mr20" type="button"  ui-sref="addSecret"
+										   ng-show="hasPermit('terminal.addkey')" >生成密钥</a>
+									    <button class="btn btn-new2 btn-mr20" type="button"
+											ng-show="hasPermit('terminal.exportKey')" ng-click="exportKey()">密钥导入</button>
+							     		<button class="btn btn-new2 btn-mr20" type="button"
+											ng-show="hasPermit('terminal.exportCode')"	ng-click="exportExcel()">导出激活码</button>
+										<a class="btn btn-new2 btn-mr20" type="button"  ui-sref="termianlImport"
+										   ng-show="hasPermit('terminal.import')" >导入机具</a>
+										<button class="btn btn-new2 btn-mr20" type="button"
+											ng-show="hasPermit('terminal.issued')"	ng-click="distributionTerminal()">机具下发</button>
+										<button class="btn btn-new2 btn-mr20" type="button"
+											ng-show="hasPermit('terminal.binding')"	ng-click="bindingTerminal()">绑定</button>
+										<button class="btn btn-new2 btn-mr20" type="button"
+											ng-show="hasPermit('terminal.binding')"	ui-sref="termianlBindBatch">批量绑定</button>
+										<button class="btn btn-new2 btn-mr20" type="button"
+											ng-show="hasPermit('terminal.batchUnbundling')"	ng-click="batchUnbundling()">批量解绑</button>
+										<button class="btn btn-new2 btn-mr20" type="button"
+											ng-show="hasPermit('terminal.updateAllTerActivity')" ui-sref="updateAllTerActivity({specialStatus:0})">修改硬件种类及活动</button>
+									</div>
+								<div class="ibox-content">
+								<div class="tposition">
+									<div ui-grid="gridOptions" ui-grid-pagination ui-grid-exporter ui-grid-resize-columns ui-grid-selection ui-grid-pinning class="grid"></div>
+									<div ng-show="loadImg" class="timg"></div>
+								</div>
+								</div>
+							</div>
+						<div style="height: 30px;"></div>
+					</div>
+				</div>
+				</form>
+	<div id="importDiscount" class="modal fade" tabindex="-1" role="dialog">
+		<form class="form-horizontal" id="form6" name="horizontalAdd" novalidate>
+			<div class="modal-dialog" style="width: 1000px">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							&times;</button>
+						<h3 class="modal-title">批量修改导入-机具硬件产品类型</h3>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">模板下载:</label>
+							<div class="col-sm-3 checkbox ">
+								<a href="terminalInfo/downloadupdateTypeTemplate" >修改机具导入模板下载</a>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">导入文件:</label>
+							<div class="col-sm-3 checkbox ">
+								<input type="file" nv-file-select="" ng-model="fileSelect" uploader="uploaderTypeFile" multiple/>
+								<table class="table">
+									<tbody>
+									<tr ng-repeat="item in uploaderTypeFile.queue">
+										<td>
+											<strong>{{ item.file.name }}</strong>
+										</td>
+										<td nowrap>
+											<button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+												<span class="glyphicon glyphicon-trash"></span>删除
+											</button>
+										</td>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+							<label class="col-sm-4" style="margin-top:9px;color: red;">注:单次导入文件不超过30000条数据</label>
+							<div ng-show="loadImgA" class="timg"></div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-6">
+								<button class="btn btn-primary btn-mr20" type="button" ng-click='importDiscount()'
+										ng-disabled="importcommit||uploaderTypeFile.queue.length==0">提交</button>
+								<button class="btn btn-primary8 btn-mr20" type="button" ng-click='importDiscountcancel()'>取消</button>
+								<button class="btn btn-new2 btn-mr20" type="button" ng-click='getImportResult()'>获取导入结果</button>
+							</div>
+						</div>
+					</div>
+					<div ng-show="resultSta">
+						<div class="modal-body">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">处理结果:</label>
+								<div class="col-sm-10">
+									<textarea class="form-control" rows="6" cols="15" readonly ng-model="importResult.msg"></textarea>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">处理结果详情文件:</label>
+								<div class="col-sm-3 checkbox ">
+									<a ng-click="downloadResult()" >下载详情</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+				<!-- 导入密钥 -->
+		<div id="exportKeyModal" class="modal fade" tabindex="3" role="dialog">
+			<div class="modal-dialog" style="height:300px;width: 900px">
+				<div class="modal-content" style="height:300px;width: 900px">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							&times;</button>
+						<h3 class="modal-title">机具密钥信息</h3>
+					</div>
+					<div class="modal-body">
+						<div class="form-group control-label" style="overflow:hidden; padding-bottom:30px;">
+							<label class="col-sm-2 control-label">导入文件：</label>
+							<div class="col-sm-3">
+								<input type="file" nv-file-select="" ng-model="fileSelect" uploader="uploader" multiple/>
+								<table class="table">
+							        <tbody>
+										<tr ng-repeat="item in uploader.queue">
+											<td>
+												<strong>{{ item.file.name }}</strong>
+											</td>
+											<td nowrap>
+												<button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+													<span class="glyphicon glyphicon-trash"></span>删除
+												</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<a href="terminalInfo/downloadKeyTemplate">机具密钥导入模板</a>
+						</div>
+						<div class="form-group control-label">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-6">
+									<button class="btn btn-primary btn-mr20" ng-disabled="submitting || upload.queue.length==0" type="button" ng-click='uploadKey()'
+									>提交</button>
+									<button class="btn btn-primary4" type="button" ng-click='cancel()'
+									>返回</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- 显示激活码 -->
+		<div id="activeCodeModal" class="modal fade" tabindex="2" role="dialog">
+			<div class="modal-dialog" style="height:300px;width: 900px">
+				<div class="modal-content" style="height:300px;width: 900px">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							&times;</button>
+						<h3 class="modal-title">商户激活码信息</h3>
+					</div>
+					<div class="modal-body">
+						<div class="form-group control-label" style="overflow:hidden; padding-bottom:30px;">
+							<label class="col-sm-2 control-label">激活码：</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" 
+									ng-model='activeCodeStr'>
+							</div>
+						</div>
+						<div class="form-group control-label">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-6">
+									<button class="btn btn-primary4" type="button" ng-click='cancel()'
+									>返回</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+			<div id="activityModel" class="modal fade" tabindex="3" role="dialog">
+			<div class="modal-dialog form-horizontal" style="height:300px;width: 900px">
+				<div class="modal-content" style="height:300px;width: 900px">
+				<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							&times;</button>
+						<h3 class="modal-title">批量修改机具硬件种类及活动</h3>
+					</div>
+				<div class="modal-body">
+					<div class="form-group">
+							<label class="col-sm-2 control-label">机具SN号：</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" style="width:auto;display:inline-block;" ng-model="snStart">-
+								<input type="text" class="form-control" style="width:auto;display:inline-block;" ng-model="snEnd">
+							</div>
+					</div>
+					<div class="form-group">
+							<label class="col-sm-2 control-label">硬件产品种类：</label>
+							<div class="col-sm-4">									
+							<select class="form-control" ng-model="type" ng-options="x.hpId as x.typeName for x in termianlTypes"/>
+							</div>				
+					</div>	
+					<div class="form-group">
+							<label class="col-sm-2 control-label">活动：</label>
+							<div class="col-sm-4">
+										<select class="form-control" ng-model="activityType" ng-options="x.value as x.text for x in activityTypeListAll"/>
+								</div>									
+							</div>							
+					</div>										
+					<div class="form-group">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-6">
+									<button class="btn btn-primary btn-mr20" type="button" ng-click='updateAllTerActivity()'
+									>确定</button>
+									<button class="btn btn-primary8 " type="button" ng-click='activityModelCancel()'
+									>取消</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+</div>
+		

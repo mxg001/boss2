@@ -1,0 +1,313 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>超级盟主</a></li>
+            <li class="active"><strong>机具物料申购订单</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="machineBuyOrderQueryCtrl">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>机具物料申购订单查询</h5>
+                    <!--<div ibox-tools></div>-->
+                </div>
+                <div class="ibox-content">
+                    <form class="form-horizontal" id="form1">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">订单编号：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model='info.orderNo' required>
+                            </div>
+                            <label class="col-sm-2 control-label">申购盟主姓名：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model='info.realName' required>
+                            </div>
+                            <label class="col-sm-2 control-label">申购盟主编号：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model='info.userCode' required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">机构编号：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model='info.oneUserCode' required>
+                            </div>
+                            <label class="col-sm-2 control-label">机构名称：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model='info.oneUserName' required>
+                            </div>
+                            <label class="col-sm-2 control-label">订单状态：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="info.orderStatus" ng-options="x.value as x.text for x in orderStatuses"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">支付方式：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="info.transChannel" ng-options="x.value as x.text for x in transChanneles"/>
+                            </div>
+                            <label class="col-sm-2 control-label">所属品牌：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="info.brandCode" ng-options="x.value as x.text for x in allAgentOem"/>
+                            </div>
+                            <label class="col-sm-2 control-label">支付订单号：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model='info.transNo' required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">发货方：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="info.isPlatform" ng-options="x.value as x.text for x in isPlatformes"/>
+                            </div>
+                            <label class="col-sm-2 control-label">机具款项入账状态：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="info.entryStatus" ng-options="x.value as x.text for x in entryStatuses"/>
+                            </div>
+                            <label class="col-sm-2 control-label">机具分润入账状态：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="info.accStatus" ng-options="x.value as x.text for x in accStatuses"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">订单类型：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="info.sendType" ng-options="x.value as x.text for x in sendTypes"/>
+                            </div>
+                            <label class="col-sm-2 control-label">申购盟主推荐人编号：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model='info.parentId' required>
+                            </div>
+                            <label class="col-sm-2 control-label">代理商编号：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model='info.agentNo' required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">下单日期：</label>
+                            <div class="col-sm-5">
+                                <input id="d5231" class="form-control" type="datetime" ng-model="info.startTime" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="var d5232=$dp.$('d5232');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5232.focus();},maxDate:'#F{$dp.$D(\'d5232\')}'})"/>
+                                ~
+                                <input id="d5232" class="form-control" type="datetime"  ng-model="info.endTime" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5231\')}'})"/>
+                            </div>
+                            <label class="col-sm-2 control-label">售后状态：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="info.afterSaleStatus" ng-options="x.value as x.text for x in afterSaleStatuses"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">支付日期：</label>
+                            <div class="col-sm-5">
+                                <input id="d5666" class="form-control" type="datetime" ng-model="info.transStartTime" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="var d5667=$dp.$('d5667');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5667.focus();},maxDate:'#F{$dp.$D(\'d5667\')||\'%y-%M-%d\'}'})"/>
+                                ~
+                                <input id="d5667" class="form-control" type="datetime"  ng-model="info.transEndTime" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5666\')}',maxDate:'%y-%M-%d 23:59:59'})"/>
+                            </div>
+                            <label class="col-sm-2 control-label">支付状态：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="info.transStatus" ng-options="x.value as x.text for x in transStatuses"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">发货日期：</label>
+                            <div class="col-sm-5">
+                                <input id="d5668" class="form-control" type="datetime" ng-model="info.sendStartTime" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="var d5667=$dp.$('d5669');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5669.focus();},maxDate:'#F{$dp.$D(\'d5669\')||\'%y-%M-%d\'}'})"/>
+                                ~
+                                <input id="d5669" class="form-control" type="datetime"  ng-model="info.sendEndTime" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5668\')}',maxDate:'%y-%M-%d 23:59:59'})"/>
+                            </div>
+                            <label class="col-sm-2 control-label">商品类型：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="info.shipWay" ng-options="x.value as x.text for x in shipWayes"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">机具款项入账时间：</label>
+                            <div class="col-sm-5">
+                                <input id="d5670" class="form-control" type="datetime" ng-model="info.entryStartTime" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="var d5667=$dp.$('d5671');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5671.focus();},maxDate:'#F{$dp.$D(\'d5671\')||\'%y-%M-%d\'}'})"/>
+                                ~
+                                <input id="d5671" class="form-control" type="datetime"  ng-model="info.entryEndTime" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5670\')}',maxDate:'%y-%M-%d 23:59:59'})"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">机具分润入账时间：</label>
+                            <div class="col-sm-5">
+                                <input id="d5672" class="form-control" type="datetime" ng-model="info.shareStartTime" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="var d5667=$dp.$('d5673');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5673.focus();},maxDate:'#F{$dp.$D(\'d5673\')||\'%y-%M-%d\'}'})"/>
+                                ~
+                                <input id="d5673" class="form-control" type="datetime"  ng-model="info.shareEndTime" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5672\')}',maxDate:'%y-%M-%d 23:59:59'})"/>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-bottom: -10px;">
+                            <div class="col-sm-2"> </div>
+                            <div class="col-sm-10">
+                                <button class="btn btn-primary6 btn-rounded btn-mr20" type="button" ng-click="query()">查询</button>
+                                <button class="btn btn-primary3 btn-rounded btn-mr20" type="button" ng-click="clear()">清空</button>
+                                <button class="btn btn-new btn-mr20" type="button" ng-show="hasPermit('machineBuyOrder.exportMachineBuyOrder')" ng-click="export()">导出</button>
+                                <button class="btn btn-primary5 btn-mr20" type="button" ng-show="hasPermit('machineBuyOrder.sendSNButchUpload')" ng-click="sendSNButchModel()">批量发货</button>
+                                <button class="btn btn-primary5 btn-mr20" type="button" ng-show="hasPermit('machineBuyOrder.accountEntryMachineBuyOrder')" ng-click="accountEntryButchModel()">批量入账</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox-content">
+            </div>
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="col-sm-10 checkbox">总计：已发货
+                        <span style="color: red;" >{{pageCount.receivedCount==null?0:pageCount.receivedCount}}</span> 笔
+                        <span style="color: red;" >￥{{pageCount.receivedAmountCount==null?0:pageCount.receivedAmountCount}}</span>，待发货
+                        <span style="color: red;" >{{pageCount.waitSendCount==null?0:pageCount.waitSendCount}}</span> 笔
+                        <span style="color: red;" >￥{{pageCount.waitSendAmountCount==null?0:pageCount.waitSendAmountCount}}</span>，机具款项已入账
+                        <span style="color: red;" >￥{{pageCount.entryAmountCount==null?0:pageCount.entryAmountCount}}</span>、未入账
+                        <span style="color: red;" >￥{{pageCount.goodsTotalCount==null?0:pageCount.goodsTotalCount}}</span>，机具分润已入账
+                        <span style="color: red;" >￥{{pageCount.shareAmountCount==null?0:pageCount.shareAmountCount}}</span>、未入账
+                        <span style="color: red;" >￥{{pageCount.shareNoAmountCount==null?0:pageCount.shareNoAmountCount}}</span>，已发货机具
+                        <span style="color: red;" >￥{{pageCount.snCount==null?0:pageCount.snCount}}</span>台
+                    </div>
+                    <div class="gridStyle" ui-grid="servicesGrid" ui-grid-selection ui-grid-pinning ui-grid-pagination ui-grid-resize-columns></div>
+                    <div ng-show="loadImg" class="timg"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="height: 30px;"></div>
+
+    <div id="sendSNButchModel" class="modal fade" tabindex="3"
+         role="dialog">
+        <form class="form-horizontal" id="form3">
+            <div class="modal-dialog" style="height: 400px; width: 900px">
+                <div class="modal-content" style="height: 300px; width: 900px">
+                    <div class="ibox-title">
+                        <button type="button" class="close" data-dismiss="modal">×</button>
+                        <h5>批量发货</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="ibox-content">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" style="text-align:left;">1.下载批量发货模板文件</label>
+                                <div class="col-sm-3" style="margin: 7px 0 0 0;">
+                                    <a href="machineBuyOrder/downloadTemplate" >批量新增模板</a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" style="text-align:left;">2.上传填好的模板文件</label>
+                                <div class="col-sm-3">
+                                    <input type="file" nv-file-select="" ng-model="fileSelect"
+                                           uploader="uploader" multiple />
+                                    <table class="table">
+                                        <tbody>
+                                        <tr ng-repeat="item in uploader.queue">
+                                            <td><strong>{{ item.file.name }}</strong></td>
+                                            <td nowrap>
+                                                <button type="button" class="btn btn-danger btn-xs"
+                                                        ng-click="item.remove()">
+                                                    <span class="glyphicon glyphicon-trash"></span>删除
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <div ng-show="loadImg" class="timg"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group control-label">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-6">
+                                <button class="btn btn-primary btn-mr20" type="button" ng-click='submit()'>提交</button>
+                                <button class="btn btn-primary8 " type="button" ng-click='cancelSendSNButchModel()'>返回</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div id="sendSNResultButchModel" class="modal fade" tabindex="3"
+         role="dialog">
+        <form class="form-horizontal" id="form2">
+            <div class="modal-dialog" style="height: 400px; width: 900px">
+                <div class="modal-content" style="height: 600px; width: 900px">
+                    <div class="modal-body">
+                        <div class="ibox-content">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" style="text-align:left;">批量发货处理已完成</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" style="text-align:left;">发货成功订单：<ng-cell-text style="color: red;">{{successCount}}</ng-cell-text>笔</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" style="text-align:left;">发货失败订单：<ng-cell-text style="color: red;">{{errorCount}}</ng-cell-text>笔</label>
+                            </div>
+                            <div class="panel-body ibox float-e-margins">
+                                <label class="col-sm-3 control-label" style="text-align:left;">发货失败订单如下</label>
+                                <div class="ibox-content">
+                                    <div class="gridStyle" ui-grid="sendSNGrid" style="height: 300px;"  ui-grid-pinning ui-grid-resize-columns></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group control-label">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-6">
+                                <button class="btn btn-primary8 " type="button" ng-click='cancelSendSNButchModel()'>返回</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div id="accountEntryButchModel" class="modal fade" tabindex="3"
+         role="dialog">
+        <form class="form-horizontal" id="form4">
+            <div class="modal-dialog" style="height: 400px; width: 600px">
+                <div class="modal-content" style="height: 300px; width: 600px">
+                    <div class="ibox-title">
+                        <button type="button" class="close" data-dismiss="modal">×</button>
+                        <h5>批量入账</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="ibox-content">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">入账日期：</label>
+                                <div class="col-sm-3">
+                                    <input class="form-control" type="datetime"  ng-model="time" onchange=""  style="width:auto;display:inline-block;"
+                                           onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd'})"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group control-label">
+                            <div class="col-sm-8">
+                                <button class="btn btn-primary btn-mr20" type="button" ng-click='submitAccountEntry()'>提交</button>
+                                <button class="btn btn-primary8 " type="button" ng-click='cancelSendSNButchModel()'>返回</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

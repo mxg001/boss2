@@ -1,0 +1,94 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a href="index.html">主页</a></li>
+			<li><a>产品服务</a></li>
+			<li class="active"><strong>硬件产品修改</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	 ng-controller="updateHardCtrl">
+	<form class="form-horizontal" id="form1" name="horizontal" novalidate>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="">
+					<div class="panel-body ibox float-e-margins">
+						<div class="ibox-content">
+								<div class="form-group">
+							<label class="col-sm-2 control-label">硬件产品ID：</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control"
+									ng-model='info.hpId' disabled="disabled">
+							</div>
+							</div>	
+							<div class="form-group">
+								<label class="col-sm-2 control-label"><i class="red_req">*</i>机具型号：</label>
+								<div class="col-sm-3">
+									<input type="text" class="form-control" ng-model="info.model"  required>
+								</div>
+								<label class="col-sm-2 control-label"><i class="red_req">*</i>硬件产品名称：</label>
+								<div class="col-sm-3">
+									<input type="text" class="form-control" ng-model="info.typeName"  required>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label"><i class="red_req">*</i>生产厂商英文标识：</label>
+								<div class="col-sm-3">
+									<input type="text" class="form-control" ng-model="info.facturerCode"  required>
+								</div>
+								<label class="col-sm-2 control-label"><i class="red_req">*</i>生产厂商：</label>
+								<div class="col-sm-3">
+									<input type="text" class="form-control"  ng-model="info.manufacturer"  required>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label"><i class="red_req">*</i>版本号：</label>
+								<div class="col-sm-2">
+									<input type="text" class="form-control"  ng-model="info.versionNu"  required>
+								</div>
+								 <label class="col-sm-2 control-label"><i class="red_req">*</i>所属组织：</label>
+                           		 <div class="col-sm-2">
+                              		 <select class="form-control" ng-model='info.orgId' ng-change="hasSubTeam(info.orgId)"
+										ng-options="x.value as x.text for x in team">
+									</select>
+                                </div>
+								<label class="col-sm-2 control-label" ng-show="showSubTeams"><i class="red_req">*</i>所属子组织：</label>
+								<div class="col-sm-2" ng-show="showSubTeams">
+									<select class="form-control" ng-model='info.teamEntryId'
+											ng-options="x.value as x.text for x in subTeams">
+										<option value="">全部</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+                                 <label class="col-sm-2 control-label">机具密钥类型：</label>
+								<div class="col-sm-3">
+									<select class="form-control" ng-model='info.secretType'
+											ng-options="x.value as x.text for x in secretTypeList">
+									</select>
+								</div>
+								<label class="col-sm-2 control-label">机具PN号：</label>
+								<div class="col-sm-2">
+									<select class="form-control" ng-model='info.devicePn'
+											ng-options="x.value as x.text for x in devicePNTypeLists">
+									</select>
+								</div>
+                            </div>
+							<div class="form-group">
+								<div class="col-lg-12">
+									<div class="col-sm-2"></div>
+									<button class="btn btn-primary btn-rounded " ng-disabled="horizontal.$invalid || submitting" type="button"
+											ng-click="commit()" id="btnSubmit">提交</button>
+								</div>
+
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+	</form>
+</div>

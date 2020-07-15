@@ -1,0 +1,117 @@
+<div class="row border-bottom">
+    <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <span minimaliza-sidebar></span>
+            <form role="search" class="navbar-form-custom"
+				action="search_results.html">
+				<div class="form-group">
+					<span class="logotitle">BOSS系统<i>V2.2.001</i></span>
+				</div>
+			</form>
+        </div>
+        <ul class="nav navbar-top-links navbar-right">
+			<li>
+				<a ng-click="userUpPwdOpen()">
+					<i class="fa fa-asterisk"></i> 修改密码
+				</a>
+			</li>
+			<li  class="dropdown">
+				<a data-toggle="dropdown">
+					<i class="fa fa-bell"></i>
+					<span class="label label-primary" ng-class="{'label-danger':exportListSize > 0,'label-primary':exportListSize == 0}" id="msgSize">{{exportListSize}}</span>
+				</a>
+				<div class="dropdown-menu dropdown-alerts" style="width:500px">
+					<ul class="msglist" ng-repeat="item in exportList">
+						<div>
+							<li>
+								<a ng-click="exportManageClick(item.id)" >
+									<span class="glyphicon glyphicon-envelope" style="color: rgb(255, 184, 0);">
+										<span ng-if="item.fileName!=null">新的文件'{{item.fileName}}'已生成，请前往下载</span>
+										<span ng-if="item.fileName==null">新的文件下载ID'{{item.id}}'已生成，请前往下载</span>
+									</span>
+								</a>
+							</li>
+						</div>
+					</ul>
+				</div>
+
+			</li>
+           <li>
+                <a ng-click="logout()">
+                    <i class="fa fa-sign-out"></i> 退出
+                </a>
+            </li>
+            <!--<li>-->
+                <!--<a ng-click="$root.rightSidebar = !$root.rightSidebar">-->
+                    <!--<i class="fa fa-tasks"></i>-->
+                <!--</a>-->
+            <!--</li>-->
+        </ul>
+		
+
+		
+    </nav>
+</div>
+		<!-- add user -->
+	<form class="form-horizontal" id="form2" name="horizontalUpdate" novalidate>
+		<div id="updatePwd" class="modal fade" tabindex="-1" role="dialog">
+			<div class="modal-dialog" style="width: 700px;">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							&times;</button>
+						<h3 class="modal-title">修改密码</h3>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">原密码:</label>
+							<div class="col-sm-6">
+								<input type="password" class="form-control"
+									ng-model='userInfo.password' name="password" required>
+								<div class="req_mesg" ng-show="horizontalUpdate.password.$dirty && horizontalUpdate.password.$invalid">
+									<span ng-show="horizontalUpdate.password.$error.required">原密码不能为空</span>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">新密码：</label>
+							<div class="col-sm-6">
+								<input type="password" class="form-control" ng-model="userInfo.newPwd" name="newPwd"  ng-pattern="/^(\d|[A-Za-z0-9]){6,16}$/" required/>
+								<div class="req_mesg" ng-show="horizontalUpdate.newPwd.$dirty && horizontalUpdate.newPwd.$invalid">
+									<span ng-show="horizontalUpdate.newPwd.$error.required">新密码不能为空</span>
+									<span ng-show="horizontalUpdate.newPwd.$error.pattern">密码是有英文、数字大于6位低于16位</span>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">再次输入新密码:</label>
+							<div class="col-sm-6">
+								<input type="password" class="form-control" ng-model="userInfo.newPwds" name="newPwds"  ng-pattern="/^(\d|[A-Za-z0-9]){6,16}$/" required/>
+								<div class="req_mesg" ng-show="horizontalUpdate.newPwds.$dirty && horizontalUpdate.newPwds.$invalid">
+									<span ng-show="horizontalUpdate.newPwds.$error.required">再次输入新密码不能为空</span>
+									<span ng-show="horizontalUpdate.newPwds.$error.pattern">密码是有英文、数字大于6位低于16位</span>
+								</div>
+							</div>
+						</div>
+<!-- 						-->
+						<div class="form-group">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-6">
+								<button class="btn btn-primary btn-mr20" type="button" ng-click='submitNewUserPwd()'
+									id="btnSubmit" ng-disabled="horizontalUpdate.$invalid ||submitting">提交</button>
+									<button class="btn btn-primary8" type="button" ng-click='cancel()'
+									>取消</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</form>
+
+<div class="bottomalert" role="alert" ng-show="windowSta">
+	<button type="button" class="close" ng-click="clickTitle()" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	<h3>信息</h3>
+	<p>您有新的下载任务已经完成,请点击右上角消息,查看下载内容.</p>
+	<div class="btmbtn"><button type="button" ng-click="clickTitle()" class="btn-primary btn-new" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">知道了</span></button></div>
+</div>

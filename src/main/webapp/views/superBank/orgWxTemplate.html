@@ -1,0 +1,242 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a href="index.html">主页</a></li>
+            <li>超级银行家</li>
+            <li class="active"><strong>微信消息模板管理</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="orgWxTemplateCtrl">
+    <form class="form-horizontal" id="form1">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="tabs-container tab_other">
+                    <uib-tabset>
+                        <uib-tab>
+                            <uib-tab-heading>
+									<span class="block m-t-xs"> <i class="fa fa-laptop"></i> <strong
+                                            class="font-bold">微信消息模板管理</strong>
+									</span>
+                            </uib-tab-heading>
+                            <div class="ibox-title">
+                                <h5>微信消息模板管理</h5>
+                            </div>
+                            <div class="panel-body ibox float-e-margins">
+                                <div class="ibox-content">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">组织：</label>
+                                        <div class="col-sm-2">
+                                            <select chosen="{width:'100%'}" id="autocomplete-select3"
+                                                    class="chosen-select" tabindex="3" ng-model="baseInfo.orgId"
+                                                    ng-options="org.orgId as org.orgName for org in orgInfoListAll">
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" style="margin-top: 30px">
+                                        <label class="col-sm-2 control-label"></label>
+                                        <div class="col-sm-8">
+                                            <button class="btn btn-primary6 btn-mr20" ng-click="query()"
+                                                    ng-disabled="submitting">查询
+                                            </button>
+                                            <button class="btn btn-primary5 btn-mr20" type="button"
+                                                    ng-click="addOrgWxTemplate()">新增
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <h5>列表</h5>
+                                    </div>
+                                    <div class="ibox-content">
+                                        <div class="tposition">
+                                            <div class="gridStyle" ui-grid="orgWxTemplateGrid" ui-grid-selection
+                                                 ui-grid-pagination
+                                                 ui-grid-resize-columns ui-grid-pinning></div>
+                                            <div ng-show="loadImg" class="timg"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </uib-tab>
+                        <uib-tab>
+                            <uib-tab-heading>
+									<span class="block m-t-xs">
+										<i class="fa fa-desktop"></i>
+										<strong class="font-bold">字典模板</strong>
+									</span>
+
+                            </uib-tab-heading>
+                            <div class="panel-body ibox float-e-margins">
+                                <div class="ibox-content">
+                                    <div class="tposition">
+                                        <div class="gridStyle" ui-grid="sysOptionTemplateGrid" ui-grid-selection
+                                             ui-grid-pagination
+                                             ui-grid-resize-columns ui-grid-pinning></div>
+                                        <div ng-show="loadImg" class="timg"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </uib-tab>
+                    <uib-tab>
+                        <uib-tab-heading>
+                                    <span class="block m-t-xs">
+                                        <i class="fa fa-desktop"></i>
+                                        <strong class="font-bold">组织功能屏蔽管理</strong>
+                                    </span>
+                        </uib-tab-heading>
+                        <div class="ibox-content">
+                            <div class="form-group" style="margin-top: 30px">
+                                <label class="col-sm-2 control-label">组织：</label>
+                                <div class="col-sm-2">
+                                    <select chosen="{width:'100%'}" id="autocomplete-select7"
+                                            class="chosen-select" tabindex="3" ng-model="baseInfo.orgId"
+                                            ng-options="org.orgId as org.orgName for org in orgInfoListAll">
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label">类型：</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control"  ng-model="baseInfo.type" ng-options="x.value as x.text for x in typeAll">
+                                    </select>
+                                </div>
+                                    <label class="col-sm-2 control-label">功能ID：</label>
+                                    <div class="col-sm-2" >
+                                        <input type="text" class="form-control" ng-model="baseInfo.sourceId">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-top: 30px">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-sm-8">
+                                    <button class="btn btn-primary6 btn-mr20" ng-click="queryOrgSourcConfList()"
+                                            ng-disabled="submitting">查询
+                                    </button>
+                                    <button class="btn btn-primary5 btn-mr20" type="button"
+                                            ng-click="addOrgSourceConf()">新增
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="panel-body ibox float-e-margins">
+                                <div class="ibox-content">
+                                    <div class="tposition">
+                                        <div class="gridStyle" ui-grid="orgSourceGrid" ui-grid-selection ui-grid-pagination
+                                             ui-grid-resize-columns ui-grid-pinning></div>
+                                        <div ng-show="loadImg" class="timg"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                 </uib-tab>
+           </uib-tabset>
+            </div>
+                </div>
+        <div style="height:30px;"></div>
+</form>
+
+<div id="addOrgWxTemplate" class="modal fade" tabindex="3" role="dialog">
+    <form class="form-horizontal" name="horizontal" >
+        <div class="modal-dialog" style="height:400px;width: 900px">
+            <div class="modal-content" style="height:400px;width: 900px">
+
+                <div class="ibox-content">
+                    <div class="form-group" style="clear:left;margin-top:20px;">
+                        <label style="float:left;width:30%;text-align:center;height:40px;line-height:40px;">所属组织：</label>
+                        <div class="" style="float:left;height:40px;line-height:40px;width: 180px">
+                            <select chosen="{width:'100%'}" id="autocomplete-select4" class="chosen-select" tabindex="6" ng-model="baseInfo.orgId" ng-options="org.orgId as org.orgName for org in orgInfoList">
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="clear:left;margin-top:20px;">
+                        <label style="float:left;width:30%;text-align:center;height:40px;line-height:40px;">场景类型：</label>
+                        <div class="inDiv" style="float:left;height:40px;line-height:40px;">
+                            <input type="text" ng-model="baseInfo.type" class="form-control" style="width:auto;display:inline-block;" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="clear:left;margin-top:20px;">
+                        <label style="float:left;width:30%;text-align:center;height:40px;line-height:40px;">模板ID：</label>
+                        <div class="inDiv" style="float:left;height:40px;line-height:40px;">
+                            <input type="text" ng-model="baseInfo.templateId" class="form-control" style="width:auto;display:inline-block;" required>
+                        </div>
+                    </div>
+
+                    <div style="clear:left;margin-top:40px;">
+                        &nbsp;
+                    </div>
+
+                    <div style="clear:left;margin-top:40px;">
+                        <label class="col-sm-2 control-label"></label>
+                        <div class="col-sm-6">
+                            <button class="btn btn-primary btn-mr20" type="button" ng-disabled='horizontal.$invalid' ng-click='saveOrgWxTemplate()'>确定</button>
+                            <button class="btn btn-primary4 " type="button" ng-click='cancel()'>返回</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div id="addOrgSourceConf" class="modal fade" tabindex="3" role="dialog">
+    <form class="form-horizontal" name="horizontal" >
+        <div class="modal-dialog" style="height:400px;width: 900px">
+            <div class="modal-content" style="height:400px;width: 900px">
+
+                <div class="ibox-content">
+                    <div class="form-group" style="clear:left;margin-top:20px;">
+                        <label style="float:left;width:30%;text-align:center;height:40px;line-height:40px;">所属组织：</label>
+                        <div class="" style="float:left;height:40px;line-height:40px;width: 180px">
+                            <select chosen="{width:'100%'}" id="autocomplete-select5" class="chosen-select" tabindex="6" ng-model="baseInfo.orgId" ng-options="org.orgId as org.orgName for org in orgInfoList">
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="clear:left;margin-top:20px;">
+                        <label style="float:left;width:30%;text-align:center;height:40px;line-height:40px;">类型：</label>
+                        <div class="" style="float:left;height:40px;line-height:40px;width: 180px">
+                            <select class="form-control" ng-change="changeSource()" ng-model="baseInfo.type" ng-options="x.value as x.text for x in typeList">
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="clear:left;margin-top:20px;">
+                        <label style="float:left;width:30%;text-align:center;height:40px;line-height:40px;">功能ID：</label>
+                        <div class="" style="float:left;height:40px;line-height:40px;width: 180px">
+                            <select chosen="{width:'100%'}" id="autocomplete-select6" class="chosen-select" tabindex="6" ng-model="baseInfo.sourceId" ng-options="base.id as base.loanAlias for base in listAll">
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="clear:left;margin-top:20px;">
+                        <label style="float:left;width:30%;text-align:center;height:40px;line-height:40px;">应用位置：</label>
+                        <div class="" style="float:left;height:40px;line-height:40px;width: 180px">
+                            <select class="form-control" ng-model="baseInfo.application" ng-options="x.value as x.text for x in applicationList">
+                            </select>
+                        </div>
+                    </div>
+
+                    <div style="clear:left;margin-top:40px;">
+                        &nbsp;
+                    </div>
+
+                    <div style="clear:left;margin-top:40px;">
+                        <label class="col-sm-2 control-label"></label>
+                        <div class="col-sm-6">
+                            <button class="btn btn-primary btn-mr20" type="button" ng-disabled='horizontal.$invalid' ng-click='saveOrgSourceConf()'>确定</button>
+                            <button class="btn btn-primary4 " type="button" ng-click='cancelOrg()'>返回</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+</div>

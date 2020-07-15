@@ -1,0 +1,80 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>商户管理</a></li>
+			<li class="active"><strong>商户迁移审核</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="migrateCheckCtrl">
+	<form class="form-horizontal" id="form1">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="">
+						<div class="panel-body ibox float-e-margins">
+							<div class="ibox-title">
+								<h5>商户转移审核</h5>
+							</div>
+							<div class="ibox-content">
+								<div class="form-group">
+									<label class="col-sm-2 control-label">申请订单：</label>
+									<div class="col-sm-2 checkbox" ng-bind="info.id"/>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">目标一级代理商：</label>
+									<div class="col-sm-2 checkbox" ng-bind="info.agentNo"/>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">目标直属代理商：</label>
+									<div class="col-sm-2 checkbox" ng-bind="info.agentNode"/>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">申请人：</label>
+									<div class="col-sm-2 checkbox" ng-bind="info.createPerson"/>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">申请时间：</label>
+									<div class="col-sm-2 checkbox" ng-bind="info.createTime  | date:'yyyy-MM-dd HH:mm:ss'"/>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">关联OA单号：</label>
+									<div class="col-sm-2 checkbox" ng-bind="info.oaNo"/>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">审核意见：</label>
+									<div class="col-sm-8 control-label">
+										<textarea maxlength="100" rows="5" class="form-control" ng-model="info.remark"></textarea>
+									</div>
+<!-- 										<textarea ng-model="info.remark" class="form-control ng-pristine ng-valid ng-empty ng-touched" maxlength="100" rows="5"></textarea>
+ -->								</div>
+								<div class="panel-body ibox float-e-margins">
+								<div class="ibox-title">
+									<h5>商户转移信息列表</h5>
+									</div>
+								<div class="ibox-content">
+									<div ui-grid="gridOptions" style="width: 60%" ui-grid-resize-columns ui-grid-pagination ui-grid-selection ui-grid-pinning class="grid"></div>
+								</div>
+								<div class="form-group">
+									<div class="col-lg-12">
+										<div class="col-sm-2"></div>
+										<button class="btn btn-primary7 btn-mr20" type="button"	ng-click="check('2')" id="btnSubmit">审核通过</button>
+										<button class="btn btn-primary12 btn-mr20" type="button" ng-click="check('3')"	id="btnSubmit">审核不通过</button>
+										<a class="btn btn-primary4" ui-sref="merchant.migrate">返回</a>
+										
+									</div>
+								</div>
+							</div>
+							</div>
+							
+							
+							</div>
+						<div style="height: 30px"></div>
+					</div>
+				</div>
+			</div>
+	</form>
+</div>

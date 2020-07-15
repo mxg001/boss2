@@ -1,0 +1,421 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li class="active"><strong>欢乐返活动设置</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="happyReturnSetUpCtrl">
+	<form class="form-horizontal" id="form1" name="horizontal">
+		<div class="row">
+			<div class="col-lg-12" style="padding-bottom: 80px;">
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>欢乐返活动列表</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">活动期间：</label>
+							<div class="col-sm-8">
+								<input id="d5554" class="form-control" type="datetime" ng-model="info.startTime" onchange=""  style="width:auto;display:inline-block;"
+									   onFocus="var d5555=$dp.$('d5555');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5555.focus();},maxDate:'#F{$dp.$D(\'d5555\')}'})"/>
+								-
+								<input id="d5555" class="form-control" type="datetime"  ng-model="info.endTime" onchange=""  style="width:auto;display:inline-block;"
+									   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5554\')}'})"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">累计交易时间：</label>
+							<div class="col-sm-10" style="float:left">
+								<input type="text" class="form-control" style="float:left; width:100px" ng-model="info.cumulateTransDay">
+								<div style="float:left; padding:7px 0 0 10px"> 天（自激活那天开始计算）</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">累计交易金额：</label>
+							<div class="col-sm-10" style="float:left">
+								<div style="float:left; padding:7px 10px 0 10px"> &lt; </div>
+								<input type="text" class="form-control" style="float:left; width:120px" ng-model="info.cumulateAmountMinus">
+								<div style="float:left; padding:7px 0 0 10px"> , 扣一级代理商 N 元（累计交易是指pos刷卡交易，N的具体值如列表所示）</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">累计交易金额：</label>
+							<div class="col-sm-10" style="float:left">
+								<div style="float:left; padding:7px 10px 0 10px"> ≥ </div>
+								<input type="text" class="form-control" style="float:left; width:120px" ng-model="info.cumulateAmountAdd">
+								<div style="float:left; padding:7px 0 0 10px"> , 再奖一级代理商 M 元（累计交易是指pos刷卡交易，M的具体值如列表所示）</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-7">
+								<button class="btn btn-primary btn-mr20 "
+									ng-disabled="submitting" type="button"
+									ng-show="hasPermit('activity.addHlfActivity')"
+									ng-click="commit()" id="btnSubmit">提交</button>
+								<button class="btn btn-primary4 btn-mr20" type="button"
+									ng-click="submitCancel()">取消</button>
+								<a class="btn btn-new2 btn-mr20" type="button"
+								   ng-show="hasPermit('activity.selectHappyReturnRewardActivity')" target="_blank"
+								   ui-sref="activity.selectHappyReturnRewardActivity">0元个性化活动配置</a>
+								<button class="btn btn-new2 btn-mr20" type="button"
+										 ng-click="repeatRegistAddModel()">重复注册活动配置</button>
+							</div>
+						</div>
+					</div>
+					<div class="ibox-title">
+						<h5>查询</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">硬件产品：</label>
+							<div class="col-sm-2">
+								<select name="autocomplete-select" id="autocomplete-select" ng-model="queryInfo.hardId" ng-options="x.value as x.text for x in hardes"
+										style="width: 100%;" chosen chosen-data="hardes" chosen-keyup="getStates" >
+								</select>
+							</div>
+							<label class="col-sm-2 control-label">所属组织：</label>
+							<div class="col-lg-2">
+								<select class="form-control input-s-sm inline" ng-model="queryInfo.teamId" ng-options="x.value as x.text for x in team">
+									<option value="" selected>全部</option>
+								</select>
+							</div>
+							<label class="col-sm-2 control-label">是否默认活动：</label>
+							<div class="col-sm-2">
+								<select class="form-control input-s-sm inline" ng-model="queryInfo.defaultStatus" ng-options="x.value as x.text for x in bool">
+									<option value="" selected>全部</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">参与活跃商户活动：</label>
+							<div class="col-sm-2">
+								<select class="form-control input-s-sm inline" ng-model="queryInfo.isMerchant">
+									<option value="" selected>全部</option>
+									<option value="1">参与</option>
+									<option value="0">不参与</option>
+								</select>
+							</div>
+							<label class="col-sm-2 control-label">参与代理商奖励活动：</label>
+							<div class="col-sm-2">
+								<select class="form-control input-s-sm inline" ng-model="queryInfo.isAgent">
+									<option value="" selected>全部</option>
+									<option value="1">参与</option>
+									<option value="0">不参与</option>
+								</select>
+							</div>
+							<label class="col-sm-2 control-label">欢乐返子类型编号：</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" ng-model="queryInfo.activityTypeNo">
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-lg-12">
+								<div class="col-sm-1"></div>
+								<button class="btn btn-primary6 btn-mr20" type="button" ng-click="query009New()">查询</button>
+								<button class="btn btn-primary3 btn-mr20" type="button" ng-click="clear009()">清空</button>
+								<button class="btn btn-new btn-mr20" type="button" ng-click="export009()">导出</button>
+							</div>
+						</div>
+					</div>
+					<div class="panel-body ibox float-e-margins">
+						<div class="ibox-title">
+							<h5>硬件设备列表</h5>
+							<div
+								style="background: #fff; text-align: right; overflow: hidden; padding: 10px 20px 0;">
+								<button class="btn btn-new2 btn-mr20" type="button"
+									ng-show="hasPermit('activity.addHlfHardWare')"
+									ng-click="hardWardAddModel()">添加</button>
+							</div>
+						</div>
+
+						<div class="tabs-container tab_other">
+							<uib-tabset active="active">
+								<uib-tab> <uib-tab-heading> <span
+										class="block m-t-xs"><strong class="font-bold">欢乐返</strong></span>
+								</uib-tab-heading>
+									<div class="ibox-content">
+										<div ui-grid="gridOptions009" ui-grid-resize-columns
+											 ui-grid-pagination ui-grid-pinning class="grid"></div>
+									</div>
+								</uib-tab>
+								<uib-tab> <uib-tab-heading>
+								<span class="block m-t-xs"><strong class="font-bold">欢乐返-循环送</strong></span>
+								</uib-tab-heading>
+								<div class="ibox-content">
+									<div ui-grid="gridOptions008" ui-grid-resize-columns
+										ui-grid-pagination ui-grid-pinning class="grid"></div>
+								</div>
+								</uib-tab>
+								<uib-tab> <uib-tab-heading>
+									<span class="block m-t-xs"><strong class="font-bold">新欢乐送活动</strong></span>
+								</uib-tab-heading>
+									<div class="ibox-content">
+										<div ui-grid="gridOptions010" ui-grid-resize-columns
+											 ui-grid-pagination ui-grid-pinning class="grid"></div>
+									</div>
+								</uib-tab>
+								<uib-tab> <uib-tab-heading>
+									<span class="block m-t-xs"><strong class="font-bold">超级返活动</strong></span>
+								</uib-tab-heading>
+									<div class="ibox-content">
+										<div ui-grid="gridOptions011" ui-grid-resize-columns
+											 ui-grid-pagination ui-grid-pinning class="grid"></div>
+									</div>
+								</uib-tab>
+							</uib-tabset>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+<!--	<div id="hardWardAddModel" class="modal fade" tabindex="-1" role="dialog">-->
+	<div id="hardWardAddModel" class="modal fade form-horizontal" tabindex="4" role="dialog">
+		<form class="form-horizontal" id="form2">
+			<div class="modal-dialog" style="width:1000px;">
+				<div class="modal-content">
+					<div class="modal-body">
+						<div ng-show="saveStatus==0">
+							<div class="form-group" >
+								<label class="col-sm-2 control-label">硬件产品查询条件:</label>
+								<div class="col-sm-3">
+									<input type="text" class="form-control" ng-model="activityTypeStr">
+								</div>
+								<div class="col-sm-2">
+									<button class="btn btn-primary6 btn-mr20" type="button" ng-click="getharPro()">查询</button>
+								</div>
+							</div>
+							<div class="form-group" >
+								<label class="col-sm-2 control-label">硬件产品查询结果:</label>
+								<label class="col-sm-3 control-label"></label>
+								<label class="col-sm-3 control-label">已选择硬件产品及所属组织:</label>
+							</div>
+							<div class="form-group" >
+								<div class="col-sm-5">
+									<div  class="gridStyle" ui-grid="queryHardIdGrid" style="height: 200px;" ui-grid-selection ui-grid-resize-columns></div>
+								</div>
+								<div class="col-sm-7">
+									<div  class="gridStyle" ui-grid="hardIdGrid" style="height: 200px;" ui-grid-resize-columns></div>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group" ng-show="saveStatus==1">
+							<label class="col-sm-2 control-label">硬件产品：</label>
+							<div class="col-sm-5">
+								<select class="form-control" id="hardId" ng-model="hardWare.hardId"
+										ng-options="x.hpId as x.typeName for x in termianlTypes">
+									<option value="" disabled selected>请选择</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">欢乐返类型：</label>
+							<div class="col-sm-5">
+								<select class="form-control" id="activityCode" ng-change="checkActivityCode(hardWare.activityCode)"  ng-model="hardWare.activityCode"
+									ng-options="x.value as x.text for x in types">
+									<option value="" disabled selected>请选择</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">欢乐返子类型：</label>
+							<div class="col-sm-5">
+								<select name="autocomplete-select" id="autocomplete-select2" class="form-control" ng-change="checkActivityAmount(hardWare.activityTypeNo)" ng-model="hardWare.activityTypeNo"
+										chosen="{width:'100%'}" class="chosen-select"
+										ng-options="x.value as x.text for x in typeNos">
+									<option value="" disabled selected>请选择</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group" ng-show="arcStatus&&subType=='1'">
+							<label class="col-sm-2 control-label">0元个性化活动：</label>
+							<div class="col-sm-5">
+								<select class="form-control" ng-model="hardWare.activityRewardConfigId"
+										ng-options="x.value as x.text for x in typeRewardConfig">
+									<option value="" disabled selected>请选择</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group" ng-show="subType=='1'">
+							<label class="col-sm-2 control-label">返盟主金额:</label>
+							<div class="col-sm-5">
+								<input type="text" ng-model="hardWare.cashLastAllyAmount"
+									   class="form-control" style="width: auto; display: inline-block;">
+							</div>
+						</div>
+						<div class="form-group" ng-show="!arcStatus&&subType=='1'">
+                            <label class="col-sm-2 control-label">是否取默认活动内容：</label>
+                            <div class="col-sm-5">
+                                <select class="form-control" ng-model="hardWare.defaultStatus"
+                                        ng-options="x.value as x.text for x in bool">
+                                </select>
+                            </div>
+                        </div>
+                        <div ng-show="hardWare.defaultStatus==0&&subType=='1'">
+							<div class="ibox-title" ng-show="hardWare.activityCode=='009'">
+								<h5>首次注册满奖不满扣配置</h5>
+							</div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">累计交易奖励时间:</label>
+                                <div class="col-sm-3" style="float:left">
+                                    <input type="number" ng-model="hardWare.cumulateTransDay"
+                                           class="form-control" style="display: inline-block;float:left;">
+                                </div>
+                                <div class="col-sm-6" style="float:left; padding:7px 0 0 10px"> 天（自激活那天开始计算）</div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">累计交易扣费时间:</label>
+                                <div class="col-sm-3" style="float:left">
+                                    <input type="number" ng-model="hardWare.cumulateTransMinusDay"
+                                           class="form-control" style="display: inline-block;float:left;">
+                                </div>
+                                <div class="col-sm-6" style="float:left; padding:7px 0 0 10px"> 天（自激活那天开始计算）</div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">累计交易金额:</label>
+                                <div class="col-sm-4" style="float:left">
+                                    <div style="float:left; padding:7px 10px 0 10px"> &lt; </div>
+                                    <input type="text" ng-model="hardWare.cumulateAmountMinus"
+                                           class="form-control" style="width: auto; display: inline-block;">
+                                </div>
+                                <div class="col-sm-5" style="float:left; padding:7px 0 0 10px"> , 扣一级代理商 N 元（累计交易是指pos刷卡交易，N的具体值如列表所示）</div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">累计交易金额:</label>
+                                <div class="col-sm-4" style="float:left">
+                                    <div style="float:left; padding:7px 10px 0 10px"> ≥ </div>
+                                    <input type="text" ng-model="hardWare.cumulateAmountAdd"
+                                           class="form-control" style="width: auto; display: inline-block;">
+                                </div>
+                                <div class="col-sm-5" style="float:left; padding:7px 0 0 10px"> , 再奖一级代理商 M 元（累计交易是指pos刷卡交易，M的具体值如列表所示）</div>
+                            </div>
+                        </div>
+						<div ng-show="hardWare.defaultStatus==0&&hardWare.activityCode=='009'&&subType=='1'">
+							<div class="ibox-title">
+								<h5>重复注册满奖不满扣配置</h5>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">累计交易奖励时间:</label>
+								<div class="col-sm-3" style="float:left">
+									<input type="number" ng-model="hardWare.repeatCumulateTransDay"
+										   class="form-control" style="display: inline-block;float:left;">
+								</div>
+								<div class="col-sm-6" style="float:left; padding:7px 0 0 10px"> 天（自激活那天开始计算）</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">累计交易扣费时间:</label>
+								<div class="col-sm-3" style="float:left">
+									<input type="number" ng-model="hardWare.repeatCumulateTransMinusDay"
+										   class="form-control" style="display: inline-block;float:left;">
+								</div>
+								<div class="col-sm-6" style="float:left; padding:7px 0 0 10px"> 天（自激活那天开始计算）</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">累计交易金额:</label>
+								<div class="col-sm-4" style="float:left">
+									<div style="float:left; padding:7px 10px 0 10px"> &lt; </div>
+									<input type="text" ng-model="hardWare.repeatCumulateAmountMinus"
+										   class="form-control" style="width: auto; display: inline-block;">
+								</div>
+								<div class="col-sm-5" style="float:left; padding:7px 0 0 10px"> , 扣一级代理商 N 元（累计交易是指pos刷卡交易，N的具体值如列表所示）</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">累计交易金额:</label>
+								<div class="col-sm-4" style="float:left">
+									<div style="float:left; padding:7px 10px 0 10px"> ≥ </div>
+									<input type="text" ng-model="hardWare.repeatCumulateAmountAdd"
+										   class="form-control" style="width: auto; display: inline-block;">
+								</div>
+								<div class="col-sm-5" style="float:left; padding:7px 0 0 10px"> , 再奖一级代理商 M 元（累计交易是指pos刷卡交易，M的具体值如列表所示）</div>
+							</div>
+						</div>
+						<div class="form-group control-label">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-6">
+								<button class="btn btn-primary btn-mr20" type="button"
+									ng-click='saveHardWare()'>确定</button>
+								<button class="btn btn-primary8 " type="button"
+									ng-click='cancel()'>返回</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<div id="repeatRegistAddModel" class="modal fade" tabindex="3"
+		 role="dialog">
+		<form class="form-horizontal" id="form4">
+			<div class="modal-dialog" style="height: 450px; width: 900px">
+				<div class="modal-content" style="height: 450px; width: 900px">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							&times;</button>
+						<h3 class="modal-title">重复注册满奖不满扣全局配置</h3>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">活动时间：</label>
+							<div class="col-sm-8">
+								<input id="d6554" class="form-control" type="datetime" ng-model="repeatRegist.startTime" onchange=""  style="width:auto;display:inline-block;"
+									   onFocus="var d6555=$dp.$('d6555');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){d6555.focus();},maxDate:'#F{$dp.$D(\'d6555\')}'})"/>
+								-
+								<input id="d6555" class="form-control" type="datetime"  ng-model="repeatRegist.endTime" onchange=""  style="width:auto;display:inline-block;"
+									   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d6554\')}'})"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">累计交易奖励时间：</label>
+							<div class="col-sm-10" style="float:left">
+								<input type="text" class="form-control" style="float:left; width:100px" ng-model="repeatRegist.cumulateTransDay">
+								<div style="float:left; padding:7px 0 0 10px"> 天（自激活那天开始计算）</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">累计交易扣费时间：</label>
+							<div class="col-sm-10" style="float:left">
+								<input type="text" class="form-control" style="float:left; width:100px" ng-model="repeatRegist.cumulateTransMinusDay">
+								<div style="float:left; padding:7px 0 0 10px"> 天（自激活那天开始计算）</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">累计交易金额：</label>
+							<div class="col-sm-10" style="float:left">
+								<div style="float:left; padding:7px 10px 0 10px"> &lt; </div>
+								<input type="text" class="form-control" style="float:left; width:120px" ng-model="repeatRegist.cumulateAmountMinus">
+								<div style="float:left; padding:7px 0 0 10px"> 元（不达标扣代理商N元，累计是指POS刷卡交易的金额）</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">累计交易金额：</label>
+							<div class="col-sm-10" style="float:left">
+								<div style="float:left; padding:7px 10px 0 10px"> ≥ </div>
+								<input type="text" class="form-control" style="float:left; width:120px" ng-model="repeatRegist.cumulateAmountAdd">
+								<div style="float:left; padding:7px 0 0 10px"> 元（达标奖励代理商M元，累计是指POS刷卡交易的金额）</div>
+							</div>
+						</div>
+						<div class="form-group control-label">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-6">
+								<button class="btn btn-primary btn-mr20" type="button"
+										ng-click='commitRepeatRegistAddModel()'>保存</button>
+								<button class="btn btn-primary8 " type="button"
+										ng-click='cancelRepeatRegistAddModel()'>取消</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

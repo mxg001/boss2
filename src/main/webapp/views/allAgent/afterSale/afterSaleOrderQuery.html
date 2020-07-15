@@ -1,0 +1,168 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>超级盟主</a></li>
+            <li class="active"><strong>申购售后订单</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="afterSaleOrderQueryCtrl">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>申购售后订单查询</h5>
+                    <!--<div ibox-tools></div>-->
+                </div>
+                <div class="ibox-content">
+                    <form class="form-horizontal" id="form1">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">售后编号：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model='info.orderNo' required>
+                            </div>
+                            <label class="col-sm-2 control-label">订单编号：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model='info.payOrder' required>
+                            </div>
+                            <label class="col-sm-2 control-label">售后类型：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="info.saleType" ng-options="x.value as x.text for x in saleTypes"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">售后状态：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="info.status" ng-options="x.value as x.text for x in statuses"/>
+                            </div>
+                            <label class="col-sm-2 control-label">售后归属：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="info.ascription" ng-options="x.value as x.text for x in ascriptiones"/>
+                            </div>
+                            <label class="col-sm-2 control-label">处理人：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="info.handler" ng-options="x.value as x.text for x in handleres"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">商品类型：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="info.shipWay" ng-options="x.value as x.text for x in shipWayes"/>
+                            </div>
+                            <label class="col-sm-2 control-label">提交日期：</label>
+                            <div class="col-sm-5">
+                                <input id="d5666" class="form-control" type="datetime" ng-model="info.applyStartTime" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="var d5667=$dp.$('d5667');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5667.focus();},maxDate:'#F{$dp.$D(\'d5667\')||\'%y-%M-%d\'}'})"/>
+                                ~
+                                <input id="d5667" class="form-control" type="datetime"  ng-model="info.applyEndTime" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5666\')}',maxDate:'%y-%M-%d 23:59:59'})"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">处理日期：</label>
+                            <div class="col-sm-5">
+                                <input id="d5668" class="form-control" type="datetime" ng-model="info.dealStartTime" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="var d5667=$dp.$('d5669');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5669.focus();},maxDate:'#F{$dp.$D(\'d5669\')||\'%y-%M-%d\'}'})"/>
+                                ~
+                                <input id="d5669" class="form-control" type="datetime"  ng-model="info.dealEndTime" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5668\')}',maxDate:'%y-%M-%d 23:59:59'})"/>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-bottom: -10px;">
+                            <div class="col-sm-2"> </div>
+                            <div class="col-sm-10">
+                                <button class="btn btn-primary6 btn-rounded btn-mr20" type="button" ng-click="query()">查询</button>
+                                <button class="btn btn-primary3 btn-rounded btn-mr20" type="button" ng-click="clear()">清空</button>
+                                <button class="btn btn-new btn-mr20" type="button" ng-show="hasPermit('machineBuyOrder.exportMachineBuyOrder')" ng-click="export()">导出</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox-content">
+            </div>
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="col-sm-10 checkbox">总计：待平台处理
+                        <span style="color: red;" >{{pageCount.waitPlatformCount==null?0:pageCount.waitPlatformCount}}</span> 单，待机构处理
+                        <span style="color: red;" >{{pageCount.waitAgencyCount==null?0:pageCount.waitAgencyCount}}</span>单，机构大于3小于等于7天未处理
+                        <span style="color: red;" >{{pageCount.agencyMoreThreeCount==null?0:pageCount.agencyMoreThreeCount}}</span> 单，机构大于7天未处理
+                        <span style="color: red;" >{{pageCount.agencyMoreSevenCount==null?0:pageCount.agencyMoreSevenCount}}</span>单
+                    </div>
+                    <div class="gridStyle" ui-grid="servicesGrid" ui-grid-selection ui-grid-pinning ui-grid-pagination ui-grid-resize-columns></div>
+                    <div ng-show="loadImg" class="timg"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="height: 30px;"></div>
+
+    <div id="processModel" class="modal fade" tabindex="3"
+         role="dialog">
+        <form class="form-horizontal" id="form3">
+            <div class="modal-dialog" style="height: 750px; width: 900px">
+                <div class="modal-content" style="height: 750px; width: 900px">
+                    <div class="ibox-title">
+                        <button type="button" class="close" data-dismiss="modal">×</button>
+                        <h5>立即处理</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="ibox-content">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><i class="red_req">*</i>处理结果：</label>
+                                <div class="col-sm-8" style="margin: 7px 0 0 0;">
+                                    <textarea class="form-control ng-pristine ng-untouched ng-valid ng-empty" rows="6" cols="10" ng-model="baseInfo.dealDesc"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">图片凭证：</label><label style="color: silver;" class="control-label">(最多仅能上传3张图片)</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">&nbsp;</label>
+                                <div class="col-sm-10" >
+                                    <input id="uploaderImg" type="file" nv-file-select="" uploader="uploaderImgList" multiple style="margin: 10px auto;display: none;" />
+                                    <ul id="imageUL" style="list-style-type:none">
+                                        <li ng-repeat="item in uploaderImgList.queue" class="col-sm-5">
+                                            <table class="table" class="col-sm-4" >
+                                                <tbody>
+                                                <tr>
+                                                    <td style="width: 15%">
+                                                        <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                                            <span class="glyphicon glyphicon-trash"></span> 删除
+                                                        </button>
+                                                    </td>
+                                                    <td style="width: 80%;text-align: center;">
+                                                        <div ng-show="uploaderImgList.isHTML5" ng-thumb="{ file: item._file, height: 100, maxWidth: 100 }"></div>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </li>
+                                    </ul>
+                                    <br>
+                                </div>
+                                <label class="col-sm-3 control-label"></label>
+                                <span class="glyphicon glyphicon-plus" style="text-align: center;font-size: 45px;width: 100px;height: 100px;line-height: 100px;border: 1px solid silver;padding-left: 5px;" onclick="$('#uploaderImg').click();"></span>
+                            </div>
+                        </div>
+                        <div class="form-group control-label">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-6">
+                                <button class="btn btn-primary btn-mr20" type="button" ng-click='submit()'>提交</button>
+                                <button class="btn btn-primary8 " type="button" ng-click='cancelProcessModel()'>返回</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

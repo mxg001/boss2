@@ -1,0 +1,107 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a href="index.html">主页</a></li>
+            <li>盛钱包-超级推</li>
+            <li class="active"><strong>代理商-超级推收益明细查询</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="queryAgentCjtProfitDetail">
+    <form class="form-horizontal" id="form-cjtProfitDetail-query">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>代理商-超级推收益明细查询</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">收益代理商编号/名称：</label>
+                            <div class="col-sm-2">
+                                <select name="autocomplete-select" id="autocomplete-select" ng-model="baseInfo.merchantNo" chosen-data="merchantList"
+                                 ng-options="x.value as x.text for x in merchantList" style="width: 100%" chosen  chosen-keyup="getMerchantSelect">
+                                </select>
+                            </div>
+                            <label class="col-sm-2 control-label">交易商户编号：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.fromMerchantNo" maxlength="30">
+                            </div>
+                            <label class="col-sm-2 control-label">交易订单编号/订单编号：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.profitFromOrderNo" maxlength="30">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                             <label class="col-sm-2 control-label">收益类型：</label>
+                             <div class="col-sm-2">
+                                 <select class="form-control" ng-model="baseInfo.profitType"
+                                     ng-options="x.value as x.text for x in profitTypeList"></select>
+                             </div>
+                            <label class="col-sm-2 control-label">收益创建时间：</label>
+                            <div class="col-sm-6">
+                                <input id="d5223" class="form-control" type="datetime" ng-model="baseInfo.createTimeStart" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="var d5224=$dp.$('d5224');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5224.focus();},maxDate:'#F{$dp.$D(\'d5224\')}'})"/>
+                                ~
+                                <input id="d5224" class="form-control" type="datetime"  ng-model="baseInfo.createTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5223\')}'})"/>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                              <label class="col-sm-2 control-label">收益入账时间：</label>
+                              <div class="col-sm-6">
+                                  <input id="d5225" class="form-control" type="datetime" ng-model="baseInfo.rechargeTimeStart" onchange=""  style="width:auto;display:inline-block;"
+                                         onFocus="var d5226=$dp.$('d5226');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5226.focus();},maxDate:'#F{$dp.$D(\'d5226\')}'})"/>
+                                  ~
+                                  <input id="d5226" class="form-control" type="datetime"  ng-model="baseInfo.rechargeTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+                                         onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5225\')}'})"/>
+                              </div>
+                              <label class="col-sm-2 control-label">收益入账状态：</label>
+                              <div class="col-sm-2">
+                                  <select class="form-control" ng-model="baseInfo.rechargeStatus"
+                                      ng-options="x.value as x.text for x in rechargeStatusList"></select>
+                               </div>
+                          </div>
+                          <div class="form-group" ng-show="hasPermit('cjtProfitDetail.updateAgentProfitAutoSwitch')">
+                                <label class="col-sm-2 control-label">收益自动入账开关：</label>
+                                <div class="col-sm-2">
+                                    <switch class="switch switch-s" ng-model="profitAutoSwitch" ng-change="updateProfitAutoSwitch()" />
+                                </div>
+                            </div>
+
+                        <div class="form-group" style="margin-top: 30px">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-8">
+                                <button class="btn btn-primary6 btn-mr20"  ng-click="query()" ng-disabled="submitting">查询</button>
+                                <button class="btn btn-primary3 btn-mr20" type="button" ng-click="resetForm()">清空</button>
+                                <button class="btn btn-primary7 btn-mr20" type="button" ng-show="hasPermit('cjtProfitDetail.agentExport')" ng-click="export()">导出</button>
+                                <button class="btn btn-new btn-mr20" type="button" ng-show="hasPermit('cjtProfitDetail.rechargeAgentBatch')" ng-click="rechargeBatch()">奖金批量入账</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>超级推收益明细列表</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="col-sm-10 checkbox">
+                            收益总金额 <span style="color: red;" >{{totalMap.totalProfitAmount==null ? 0 : totalMap.totalProfitAmount}}</span> 元，
+                            已入账总金额 <span style="color: red;" >{{totalMap.totalSuccessProfitSAmount==null ? 0 : totalMap.totalSuccessProfitSAmount}}</span> 元，
+                            未入账总金额 <span style="color: red;" >{{totalMap.totalFailProfitSAmount==null ? 0 : totalMap.totalFailProfitSAmount}}</span> 元，
+                        </div>
+                        <div class="tposition">
+                            <div class="gridStyle" ui-grid="cjtProfitDetailGrid" ui-grid-selection ui-grid-pagination
+                                 ui-grid-resize-columns ui-grid-pinning></div>
+                            <div ng-show="loadImg" class="timg"></div>
+                        </div>
+                    </div>
+                </div>
+                <div style="height:30px;"></div>
+            </div>
+        </div>
+    </form>
+</div>

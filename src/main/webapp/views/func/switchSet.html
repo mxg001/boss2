@@ -1,0 +1,61 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a href="index.html">主页</a></li>
+			<li><a>功能管理</a></li>
+			<li class="active"><strong>代理商管理</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app ng-controller="switchSetCtrl">
+	<form class="form-horizontal" id="form1">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="">
+						<div class="panel-body ibox float-e-margins">
+							<div class="ibox-content">
+								<div class="form-group">
+									<label class="col-sm-2 control-label">代理商名称：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" ng-model="info.agentName" />
+									</div>
+									<label class="col-sm-2 control-label">代理商编号：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" ng-model="info.agentNo">
+									</div>
+									<label class="col-sm-2 control-label" ng-show="blacklist==''">是否直营：</label>
+									<div class="col-sm-2" ng-show="blacklist==''">
+										<select class="form-control" ng-model="info.teamId" ng-options="x.value as x.text for x in targetTypes"/>
+									</div>
+									<label class="col-sm-2 control-label" ng-show="blacklist!=''">是否包含下级：</label>
+									<div class="col-sm-2" ng-show="blacklist!=''">
+										<select class="form-control" ng-model="info.containsLower" ng-options="x.value as x.text for x in containsLowerJson"/>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-lg-12">
+										<div class="col-sm-2"></div>
+										<button class="btn btn-primary6 btn-mr20" type="button" ng-click="selectByParam()" id="btnSubmit">查询</button>
+										<a class="btn btn-primary5 btn-mr20" type="button" ng-show="hasPermit('func.insert')" ui-sref="func.addAgentFunctionManager({functionNumber:functionNumber,blacklist:blacklist})" id="btnAdd">新增</a>
+										<a class="btn btn-primary5 btn-mr20" type="button" ng-show="hasPermit('func.insertBatch')" ui-sref="func.addButchAgentFunctionManager({functionNumber:functionNumber,blacklist:blacklist})" id="btnAddList">批量添加</a>
+										<button class="btn btn-primary10 btn-mr20" type="button" ng-show="hasPermit('func.deleteBatch')" ng-click="del()" id="btnDeleteList">批量删除</button>
+										<a class="btn btn-primary4" type="button" ui-sref="func.switch({functionNumber:functionNumber})" id="btnGoBack">返回</a>
+										<a class="btn btn-primary7 btn-mr20" type="button" ng-click="exportConfig()" id="btnExport">导出</a>
+									</div>
+									
+								</div>
+								<div class="form-group">
+									<div ui-grid="switchSetTable" ui-grid-resize-columns ui-grid-pagination ui-grid-selection ui-grid-pinning class="grid"></div>
+								</div>
+								
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+	</form>
+	<iframe id="download" style="display: none" src=""></iframe>
+</div>

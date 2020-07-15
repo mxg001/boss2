@@ -1,0 +1,144 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>收单机构管理</a></li>
+			<li class="active"><strong>收单机构商户修改</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="acqMerchantUpCtrl">
+	<form class="form-horizontal" id="form1"  name="horizontal" novalidate>
+			<div class="row">
+				<div class="col-lg-12">
+						<div class="panel-body ibox float-e-margins">
+							<div class="ibox-title">
+								<h5>基本信息</h5>
+							</div>
+							<div class="ibox-content">
+								<div class="form-group">
+									<label class="col-sm-2 control-label">代理商：</label>
+									<div class="col-sm-2" ng-bind="info.agentName">
+<!-- 										<select chosen="{width:'100%'}" class="chosen-select" tabindex="4" ng-model="info.agentNo" ng-options="x.value as x.text for x in agents"> -->
+<!-- 							            	<option value=""></option> -->
+<!-- 							            </select> -->
+									</div>
+									<label class="col-sm-2 control-label"><i class="red_req">*</i>收单机构：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-change="aceId(info.acqOrgId)" ng-model="info.acqOrgId" ng-options="x.value as x.text for x in acqOrgs"/>
+									</div>
+									<label class="col-sm-2 control-label"><i class="red_req">*</i>收单机构商户编号：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" ng-model="info.acqMerchantNo" ng-pattern="/^[a-zA-Z0-9]*$/" name="acqMerchantNo" required>
+										<div class="req_mesg" ng-show="horizontal.acqMerchantNo.$dirty && horizontal.acqMerchantNo.$invalid">
+											<span ng-show="horizontal.acqMerchantNo.$error.required">收单机构商户编号不能为空</span>
+											<span ng-show="horizontal.acqMerchantNo.$error.pattern">请输入合法数字</span>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									
+									<label class="col-sm-2 control-label"><i class="red_req">*</i>收单机构商户名称：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" ng-model="info.acqMerchantName" ng-pattern="/^[\u4E00-\u9FA5A-Za-z0-9]+$/" name="acqMerchantName" required>
+										<div class="req_mesg" ng-show="horizontal.acqMerchantName.$dirty && horizontal.acqMerchantName.$invalid">
+											<span ng-show="horizontal.acqMerchantName.$error.required">收单机构商户名称不能为空</span>
+											<span ng-show="horizontal.acqMerchantName.$error.pattern">请输入字母或数字或汉字</span>
+										</div>
+									</div>
+									<label class="col-sm-2 control-label"><i class="red_req">*</i>MCC：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" ng-model="info.mcc" name="mcc" ng-pattern="/^[0-9]*$/" required>
+										<div class="req_mesg" ng-show="horizontal.mcc.$dirty && horizontal.mcc.$invalid">
+											<span ng-show="horizontal.mcc.$error.required">MCC不能为空</span>
+											<span ng-show="horizontal.mcc.$error.pattern">请输入合法数字</span>
+										</div>
+									</div>
+									<label class="col-sm-2 control-label">收单机构对应的普通商户：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" ng-blur="getOneAgentNo()" ng-model="info.merchantNo">
+									</div>
+								</div>
+									
+								<div class="form-group">
+									<label class="col-sm-2 control-label">收单服务名称：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.acqServiceId" ng-options="x.value as x.text for x in acqServices"/>
+									</div>
+									<div class="col-sm-2">
+										<a ui-sref="org.groupServiceDetail({id:info.acqServiceId})" target="_blank" class="checkbox">收单服务详情</a>
+									</div>
+									<label class="col-sm-2 control-label"><i class="red_req">*</i>收单商户类别：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.acqMerchantType" ng-options="x.value as x.text for x in acqMerchantTypes"/>
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label class="col-sm-3 control-label">收单机构对应收单商户进件编号：</label>
+									<div class="col-sm-3">
+										<input type="text" class="form-control" ng-model="info.acqMerchantCode " name="acqMerchantCode" >
+									</div>
+									<label class="col-sm-2 control-label">是否特殊商户：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.special" ng-options="x.value as x.text for x in specialSelect">
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">来源途径:</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.source" ng-options="x.value as x.text for x in sourceList"/>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="col-sm-2 control-label"></label>
+									<div class="col-sm-4">
+										<button type="button" class="btn btn-primary btn-mr20" ng-disabled="horizontal.$invalid || submitting" ng-click="commit()">提交</button>
+										<a type="button" class="btn btn-primary4" ui-sref="org.orgMer">返回</a>
+									</div>
+								</div>
+								
+							</div>
+					</div>
+					
+					
+					<!-- <div class="panel-body ibox float-e-margins">
+							<div class="ibox-title">
+								<h5>实体商户</h5>
+							</div>
+							<div class="ibox-content">
+								<div class="form-group">
+									<label class="col-sm-2 control-label">实名商户编号:</label>
+									<div class="col-sm-2">
+										<input type="text" ng-mouseleave="mouseLeave(info.merchantNo)" class="form-control" ng-model="info.merchantNo">
+									</div>
+									<div class="col-sm-2">
+										<a ui-sref="merchant.queryMerDetail({mertId:info.merchantNo})" target="_blank" class="checkbox">商户详情</a>
+									</div>
+									<label class="col-sm-2 control-label">商户服务类型:</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.merchantServiceType" ng-options="x.value as x.text for x in serviceTypes"/>
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<div class="col-sm-4">
+										<button type="button" class="btn btn-primary" ng-click="commit()">提交</button>
+										<a type="button" class="btn btn-primary" ui-sref="org.orgMer">返回</a>
+									</div>
+									
+								</div>
+									
+							</div>
+					</div> -->
+					
+					
+				</div>
+			</div>
+	</form>
+</div>

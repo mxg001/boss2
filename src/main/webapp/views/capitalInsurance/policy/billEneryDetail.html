@@ -1,0 +1,127 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>对账管理</a></li>
+			<li class="active"><strong>对账信息详情</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app ng-controller="billEneryDetailCtrl">
+	<form class="form-horizontal" id="form1">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>核对信息</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">ID：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.id"></div>
+							<label class="col-sm-2 control-label">对账批次号：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.batchNo"></div>
+							<label class="col-sm-2 control-label">订单类型：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.orderType | formatDropping:orderTypeList"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">保险订单号：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.sysOrderNo"></div>
+							<label class="col-sm-2 control-label">对账状态：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.checkStatus  | formatDropping:checkStatusList"></div>
+							<label class="col-sm-2 control-label">创建时间：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.createTime | date:'yyyy-MM-dd'"></div>
+						</div>
+					</div>
+				</div>
+
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>平台信息</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">承保单位：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.insurer | formatDropping:insurerList"></div>
+							<label class="col-sm-2 control-label">产品编码：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.productNo"></div>
+							<label class="col-sm-2 control-label">投保状态：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.insureStatus | formatDropping:insureStatusList"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">保险订单号：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.sysOrderNo"></div>
+							<label class="col-sm-2 control-label">保险单号：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.sysBillNo"></div>
+							<label class="col-sm-2 control-label">被保险人：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.holder"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">保费-成本价：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.sysAmount"></div>
+							<label class="col-sm-2 control-label">售价：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.billAmount"></div>
+							<label class="col-sm-2 control-label">保额：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.insureAmount"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">一级代理商编号:</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.oneAgentNo"></div>
+							<label class="col-sm-2 control-label">一级代理商名称:</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.oneAgentName"></div>
+						</div>
+					</div>
+				</div>
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>上游信息</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">承保单位：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.insurer | formatDropping:insurerList"></div>
+							<label class="col-sm-2 control-label">产品编码：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.productNo"></div>
+							<label class="col-sm-2 control-label">投保状态：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.insureStatus | formatDropping:insureStatusList"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">保险订单号：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.acqOrderNo"></div>
+							<label class="col-sm-2 control-label">保险单号：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.acqBillNo"></div>
+							<label class="col-sm-2 control-label">被保险人：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.holder"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">保费-成本价：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.acqAmount"></div>
+							<label class="col-sm-2 control-label">保额：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.insureAmount"></div>
+							<label class="col-sm-2 control-label">投保时间：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.insureTime | date:'yyyy-MM-dd'"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">保险起期：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.effectiveStime | date:'yyyy-MM-dd'"></div>
+							<label class="col-sm-2 control-label">保险止期：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.effectiveEtime | date:'yyyy-MM-dd'"></div>
+							<label class="col-sm-2 control-label">保单生成日期：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.billTime | date:'yyyy-MM-dd'"></div>
+						</div>
+					</div>
+				</div>
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-content">
+						<div class="form-group">
+							<a class="btn btn-primary4 btn-rounded" type="button" ui-sref="policy.billEneryQuery">返回</a>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</form>
+</div>

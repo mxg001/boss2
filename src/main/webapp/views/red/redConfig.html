@@ -1,0 +1,145 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>超级银行家-红包</a></li>
+			<li class="active"><strong>红包管理</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="redConfigCtrl">
+	<form class="form-horizontal" id="form1" name="horizontal">
+		<div class="row">
+			<div class="col-lg-12" style="padding-bottom:80px;">
+				<div class="panel-body ibox float-e-margins">
+
+					<div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">红包配置id：</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" ng-model="baseInfo.id">
+							</div>
+							<label class="col-sm-2 control-label">业务类型：</label>
+							<div class="col-sm-2">
+								<select class="form-control" ng-model="baseInfo.bus_type" ng-options="x.value as x.text for x in redBusTypes">
+								</select>
+							</div>
+							<label class="col-sm-2 control-label">发放人类型：</label>
+							<div class="col-sm-2">
+								<select class="form-control" ng-model="baseInfo.push_type" ng-options="x.value as x.text for x in redPushTypes">
+								</select>
+							</div>
+
+						</div>
+
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">发放范围：</label>
+							<div class="col-sm-2">
+								<select class="form-control" ng-model="baseInfo.push_area" ng-options="x.value as x.text for x in redPushAreas">
+								</select>
+							</div>
+							<label class="col-sm-2 control-label">接收人数类型：</label>
+							<div class="col-sm-2">
+								<select class="form-control" ng-model="baseInfo.receive_type" ng-options="x.value as x.text for x in redReceiveTypes">
+								</select>
+							</div>
+							<label class="col-sm-2 control-label">红包配置状态：</label>
+							<div class="col-sm-2">
+								<select class="form-control" ng-model="baseInfo.status" ng-options="x.value as x.text for x in redStatusList">
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+
+							<label class="col-sm-2 control-label">发放人组织：</label>
+							<div class="col-sm-2">
+								<select chosen="{width:'100%'}" id="autocomplete-select2" class="chosen-select" tabindex="5" ng-model="baseInfo.push_org_id" ng-options="org.orgId as org.orgName for org in orgs">
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="col-lg-12">
+								<div class="col-sm-2"></div>
+								<button class="btn btn-primary6 btn-mr20" type="button"
+										ng-click="query()" >查询
+								</button>
+								<button class="btn btn-primary3 btn-mr20" type="button"
+										ng-click="clear()" id="">清空
+								</button>
+								<button class="btn btn-primary5" type="button"
+										ng-show="hasPermit('red.addRedConfig')"
+										 ui-sref="red.addRedConfig" >新增
+								</button>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>红包配置列表</h5>
+
+						<div class="ibox-content">
+							<div ui-grid="redConfigGrid" ui-grid-resize-columns ui-grid-pagination ui-grid-selection
+								 ui-grid-pinning class="grid"></div>
+							<div ng-show="loadImg" class="timg"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+
+	<!-- 模态框（Modal）修改状态 -->
+	<form class="form-horizontal" id="form3" name="updateResStatus" novalidate>
+	<div id="updateResStatusModal" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog" style="width:400px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						&times;
+					</button>
+					<h3 class="modal-title">修改状态</h3>
+				</div>
+				<div class="modal-body">
+
+						<div class="form-group">
+
+							<label class="col-sm-5 control-label">红包配置id：</label>
+							<div class="col-sm-6">
+								<span>{{updateRedInfo.id}}</span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-5 control-label">状态：</label>
+							<div class="col-sm-6">
+								<select class="form-control" ng-model="updateRedInfo.status"
+										ng-options="x.value as x.text for x in redStatusList"/>
+							</div>
+						</div>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" ng-click="updateStatus()"
+							class="btn btn-primary btn-mr20">确定
+					</button>
+					<button type="button" ng-click="cancel()"
+							class="btn btn-primary8">关闭
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	</form>
+
+
+
+</div>

@@ -1,0 +1,169 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>收单机构管理</a></li>
+			<li class="active"><strong>收单服务管理</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="groupServiceCtrl">
+	<form class="form-horizontal">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>收单服务查询</h5>
+					<!--<div ibox-tools></div>-->
+				</div>
+				<div class="ibox-content">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">收单机构：</label>
+						<div class="col-sm-2">
+							<select class="form-control" ng-model="info.acqId" ng-options="x.id as x.acqName for x in acqOrgs"/>
+						</div>
+						<label class="col-sm-2 control-label">服务类型：</label>
+						<div class="col-sm-2">
+							<select class="form-control" ng-model="info.serviceType" ng-options="x.value as x.text for x in acqServiceTypeAll"/>
+						</div>
+						<label class="col-sm-2 control-label">服务名称：</label>
+						<div class="col-sm-2">
+							<input type="text" class="form-control" ng-model="info.serviceName">
+						</div>
+					</div>
+				    <div class="form-group">
+						<label class="col-sm-2 control-label">费率区分银行卡种类：</label>
+						<div class="col-sm-2">
+							<select class="form-control" ng-model="info.feeIsCard" ng-options="x.value as x.text for x in boolAll"/>
+						</div>
+						<label class="col-sm-2 control-label">限额区分银行卡种类：</label>
+						<div class="col-sm-2">
+							<select class="form-control" ng-model="info.quotaIsCard" ng-options="x.value as x.text for x in boolAll"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label"></label>
+						<div class="col-sm-8">
+							<input type="button" class="btn btn-primary6 btn-mr20" ng-click="query()" value='查询'/>
+							<input type="button" class="btn btn-primary3 btn-mr20" ng-click="reset()" value='清空'/>
+							<input type="button" class="btn btn-primary5" ui-sref="org.addGroupService" value='新增'/>
+							<input type="button" class="btn btn-new2 btn-mr20" style="margin-left: 20px;" ng-show="hasPermit('warningPeople.csWarningPeople')" ui-sref="org.csWarningPeople" value='预警人员管理'/>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>收单服务信息表</h5>
+					<!--<div ibox-tools></div>-->
+				</div>
+				<div class="ibox-content">
+					<div class="form-group">
+						<div class="gridStyle" ui-grid="groupServiceGrid" ui-grid-pagination ui-grid-pinning ui-grid-resize-columns></div>
+					</div>
+				</div>
+			</div>	
+		</div>
+	</div>
+	</form>
+
+	<form class="form-horizontal" id="form2"  novalidate>
+		<div id="hardWardAddModel" class="modal fade" tabindex="-1" role="dialog">
+			<div class="modal-dialog" style="width: 1100px;height: 800px;">
+				<div class="modal-content" style="width: 1100px;height:400px;margin-top:120px;">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							&times;</button>
+						<h2 class="modal-title">定时关闭服务</h2>
+					</div>
+					<div class="modal-body">
+
+						<div class="form-group">
+							<div class="form-group">
+								<label class="col-sm-3 control-label">指定日期关闭:</label>
+                                <div class="col-sm-5">
+                                    <input id="d5231" class="form-control" type="datetime" ng-model="timeInfo.timeStartTime" onchange=""  style="width:auto;display:inline-block;"
+                                           onFocus="var d5232=$dp.$('d5232');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5232.focus();},maxDate:'#F{$dp.$D(\'d5232\')}'})"/>
+                                    ~
+                                    <input id="d5232" class="form-control" type="datetime"  ng-model="timeInfo.timeEndTime" onchange=""  style="width:auto;display:inline-block;"
+                                           onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5231\')}'})"/>
+                                </div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">周期性关闭:</label>
+                                <div class="col-sm-5">
+                                    <input id="d5233" class="form-control" type="datetime" ng-model="timeInfo.periodicityStartTime" onchange=""  style="width:auto;display:inline-block;"
+                                           onFocus="var d5234=$dp.$('d5234');WdatePicker({skin:'whyGreen',dateFmt:'HH:mm:ss',onpicked:function(){d5234.focus();},maxDate:'#F{$dp.$D(\'d5234\')}'})"/>
+                                    ~
+                                    <input id="d5234" class="form-control" type="datetime"  ng-model="timeInfo.periodicityEndTime" onchange=""  style="width:auto;display:inline-block;"
+                                           onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'HH:mm:ss',minDate:'#F{$dp.$D(\'d5233\')}'})"/>
+                                </div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">服务关闭时,客户端提示语:</label>
+							<div class="col-sm-5" >
+								<textarea type="text" class="form-control" style="height: 100px;" ng-model="timeInfo.closePrompt"/>
+							</div> 
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">定时任务是否开启:</label>
+							<div class="col-sm-3">
+								<label>
+									<input type="radio" ng-model='timeInfo.timeSwitch'  ng-value="1"/>
+									开启
+								</label>
+								<label>
+									<input type="radio" ng-model='timeInfo.timeSwitch'  ng-value="0"/>
+									关闭
+								</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label"></label>
+							<div class="col-sm-6">
+								<button class="btn btn-primary8" type="button" ng-click="cancel()">取消</button>
+								<button class="btn btn-primary btn-mr20" type="button" ng-click="saveTime()">确认</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<form class="form-horizontal" id="form3"  novalidate>
+		<div id="openModel" class="modal fade" tabindex="-1" role="dialog">
+			<div class="modal-dialog" style="width: 1100px;height: 800px;">
+				<div class="modal-content" style="width: 700px;height:400px;margin-top:120px;margin-left:200px;">
+					<div class="modal-header">
+						<button type="button" class="close" ng-click="openModelcancel(false)" data-dismiss="modal">
+							&times;</button>
+						<h2 class="modal-title">关闭服务</h2>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label class="col-sm-3 control-label">服务关闭时,客户端提示语:</label>
+							<div class="col-sm-6" >
+								<textarea type="text" class="form-control" style="height: 100px;" ng-model="openInfo.closePrompt"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label"></label>
+							<div class="col-sm-6">
+								<button class="btn btn-primary8" type="button" ng-click="openModelcancel(false)">取消</button>
+								<button class="btn btn-primary btn-mr20" type="button" ng-click="closeService()">确认</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

@@ -1,0 +1,132 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading" ng-controller="terminalUpdateOrAddCtrl">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>机具管理</a></li>
+			<li class="active"><strong>{{title}}</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="terminalUpdateOrAddCtrl">
+	<form class="form-horizontal" id="form1" name="horizontal" novalidate>
+		<div class="row">
+			<div class="col-lg-12">
+
+				<div class="panel-body ibox float-e-margins">
+
+					<div class="ibox-title">
+						<h5>机具信息</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+								<label class="col-sm-2 control-label">机具通道:</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.channel" ng-options="x.value as x.text for x in channelList"/>
+									</div>
+					    </div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><i class="red_req">*</i>硬件产品：</label>
+							<div class="col-sm-3">
+								<select class="form-control" ng-model="info.type" ng-change="changeClear()" ng-options="x.hpId as x.typeName for x in bpTypes" required></select>
+							</div>
+						</div>
+						
+						<div class="form-group" ng-hide="info.type==13 || info.type==19">
+							<label class="col-sm-2 control-label"><i class="red_req">*</i>PSAM编号：</label>
+							<div class="col-sm-3">
+								<input type="text" class="form-control" name="psamNo" ng-model="info.psamNo" required>
+								<div class="req_mesg" ng-show="horizontal.psamNo.$dirty && horizontal.psamNo.$invalid">
+									<span ng-show="horizontal.psamNo.$error.required">PSAM编号不能为空</span>
+								</div>
+							</div>
+						</div>
+						
+						<div class="form-group" ng-hide="info.type==13 || info.type==19">
+							<label class="col-sm-2 control-label"><i class="red_req">*</i>机器SN号：</label>
+							<div class="col-sm-3">
+								<input type="text" class="form-control" name="sn" ng-model="info.sn" required>
+								<div class="req_mesg" ng-show="horizontal.sn.$dirty && horizontal.sn.$invalid">
+									<span ng-show="horizontal.sn.$error.required">机器SN号不能为空</span>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">活动：</label>
+							<div class="col-sm-7">
+								<div class="gridStyle"  ui-grid="activityTypeGrid" ui-grid-resize-columns />
+							</div>
+						</div>
+						<div class="form-group" ng-show="isActivityHardware">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>请选择欢乐返子类型：</label>
+                            <div class="col-sm-4">
+                                <select class="form-control" ng-model="subType" ng-change="changeSubTypeList()" ng-options="x.value as x.text for x in subTypeList"></select>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show="isActivityHardware">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-7">
+                                <div class="gridStyle"  ui-grid="activityHlfGrid" style="height: 300px" ui-grid-resize-columns />
+                            </div>
+                        </div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-lg-12 bgff">
+			<div class="col-sm-12">
+				<div class="col-sm-2"></div>
+				<div class="col-sm-6">
+					<button class="btn btn-primary btn-rounded btn-mr20" type="button" ng-click="commitDate()"
+							id="btnSubmit" ng-disabled="horizontal.$invalid || submitting || info.type==13">提交</button>
+					<a class="btn btn-primary4 btn-mr20 " type="button" ui-sref="terminal.terminalQuery"
+					   id="btnSubmit">返回</a>
+				   <button class="btn btn-new btn-rounded " style="width:120px; padding:7px 0;" type="button" ng-click="creatActiveCode()"
+						id="btnSubmit" >生成激活码</button>
+				</div>
+			</div>
+		</div>
+	</form>
+	<form class="form-horizontal" id="form2" name="horizontalAdd" novalidate>
+		<div id="activeCode" class="modal fade" tabindex="-1" role="dialog">
+			<div class="modal-dialog" style="width: 900px">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							&times;</button>
+						<h3 class="modal-title">生成激活码</h3>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><i class="red_req">*</i>生成激活码数量：</label>
+							<div class="col-sm-5">
+								<input type="number" class="form-control"
+									ng-model='codeNumber' name="codeNumber" required ng-maxlength="4"/>
+									
+								<div class="req_mesg" ng-show="horizontalAdd.codeNumber.$dirty && horizontalAdd.codeNumber.$invalid">
+								<span>长度不能超过4位</span>
+								</div>
+								<div class="req_mesg" ng-show="horizontalAdd.codeNumber.$dirty && horizontalAdd.codeNumber.$invalid">
+									<span ng-show="horizontalAdd.codeNumber.$error.required">数量不能为空</span>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-6">
+								<button class="btn btn-primary btn-mr20" type="button" ng-click='submitActiveCode()'
+									id="btnSubmit" ng-disabled="horizontalAdd.$invalid || submitting">提交</button>
+									<button class="btn btn-primary8" type="button" ng-click='cancel()'
+									>取消</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

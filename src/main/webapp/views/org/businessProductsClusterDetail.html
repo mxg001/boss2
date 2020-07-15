@@ -1,0 +1,63 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>收单机构管理</a></li>
+			<li class="active"><strong>{{title}}</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	 ng-controller="bpClusterDetailCtrl">
+	<form class="form-horizontal">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>{{title}}</h5>
+				</div>
+				<div class="ibox-content">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">业务产品：</label>
+						<div class="col-sm-2 checkbox" ng-bind="info.bpName">
+						</div>
+						<label class="col-sm-2 control-label">商户服务：</label>
+						<div class="col-sm-2 checkbox" ng-bind="info.serviceName">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">启用自动按地点匹配集群：</label>
+						<input ng-model="info.startPc" type="checkbox" class="checkbox" disabled ng-true-value="1" ng-false-value="2"/>
+					</div>
+					<div class="form-group" ng-show="info.startPc==1">
+						<label class="col-sm-2 control-label">收单机构：</label>
+						<div class="col-sm-2 checkbox" ng-bind="info.acqName">
+						</div>
+					</div>
+					<div class="form-group" ng-show="info.startPc==1">
+						<label class="col-sm-2 control-label">收单服务类型：</label>
+						<div class="col-sm-2 checkbox" ng-bind="info.acqServiceType | formatDropping:acqServiceTypes">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">默认集群编号：</label>
+						<div class="col-sm-2 checkbox" ng-bind="info.defGroupCode">
+						</div>
+						<label class="col-sm-2 control-label">集群名称：</label>
+						<div class="col-sm-2 checkbox" ng-bind="info.groupName">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label"></label>
+						<div class="col-sm-4">
+							<a type="button" class="btn btn-primary4" ui-sref="org.bpClusterQuery">返回</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</form>
+</div>

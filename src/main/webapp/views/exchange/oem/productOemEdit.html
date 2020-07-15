@@ -1,0 +1,131 @@
+<!-- head -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>超级兑</a></li>
+            <li class="active"><strong>OEM产品编辑</strong></li>
+        </ol>
+    </div>
+</div>
+
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn"
+     ng-controller="productOemEditCtrl">
+    <form class="form-horizontal" id="form1" name="horizontalCard">
+        <div class="form-group">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>基本资料</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>组织名称:</label>
+                            <div class="col-sm-3">
+                                <select class="form-control" name="oemNo" required
+                                        ng-model="addinfo.oemNo" ng-options="x.value as x.text for x in oemList"/>
+                                <div class="req_mesg" ng-show="horizontalCard.oemNo.$dirty && horizontalCard.oemNo.$invalid">
+                                    <span ng-show="horizontalCard.oemNo.$error.required">组织名称不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>机构名称:</label>
+                            <div class="col-sm-3">
+                                <select class="form-control" ng-change="changeOrgCode()" name="orgCode" required
+                                        ng-model="addinfo.orgCode" ng-options="x.value as x.text for x in orgList"/>
+                                <div class="req_mesg" ng-show="horizontalCard.orgCode.$dirty && horizontalCard.orgCode.$invalid">
+                                    <span ng-show="horizontalCard.orgCode.$error.required">机构名称不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>积分产品类别:</label>
+                            <div class="col-sm-3">
+                                <select class="form-control" ng-disabled="!selectState.type" ng-change="changeTypeCode()" required
+                                        name="typeCode" ng-model="addinfo.typeCode" ng-options="x.value as x.text for x in typeList"/>
+                                <div class="req_mesg" ng-show="horizontalCard.typeCode.$dirty && horizontalCard.typeCode.$invalid">
+                                    <span ng-show="horizontalCard.typeCode.$error.required">积分产品类别不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>产品名称:</label>
+                            <div class="col-sm-3" ng-show="selectState.pro" >
+                                <select  name="pId" id="autocomplete-select1"
+                                         ng-model="addinfo.pId" required ng-options="x.value as x.text for x in productList"
+                                         style="width: 100%" chosen chosen-data="pId" chosen-keyup="getStates"
+                                         ng-change="productChange()" >
+                                </select>
+                                <div class="req_mesg" ng-show="horizontalCard.pId.$dirty && horizontalCard.pId.$invalid">
+                                    <span ng-show="horizontalCard.pId.$error.required">产品名称不能为空</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-3" ng-show="!selectState.pro">
+                                <select class="form-control" disabled name="proId" required
+                                        ng-model="addinfo.pId" ng-options="x.value as x.text for x in productList"/>
+                                <div class="req_mesg" ng-show="horizontalCard.proId.$dirty && horizontalCard.proId.$invalid">
+                                    <span ng-show="horizontalCard.proId.$error.required">产品名称不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">券面价格:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" readonly ng-model="proInfo.originalPrice">
+                            </div>
+                            <label class="col-sm-1" style="margin-top: 10px;" >元</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">积分兑换:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" readonly ng-model="proInfo.excPoint">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">兑换价格:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" readonly ng-model="proInfo.excPrice">
+                            </div>
+                            <label class="col-sm-1" style="margin-top: 10px;" >元</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">兑换次数:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" readonly ng-model="proInfo.excNum">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">结算周期:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" readonly ng-model="proInfo.settleDay">
+                            </div>
+                            <label class="col-sm-1" style="margin-top: 10px;" >天</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>品牌价格:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="brandPrice" required ng-model="addinfo.brandPrice">
+                                <div class="req_mesg" ng-show="horizontalCard.brandPrice.$dirty && horizontalCard.brandPrice.$invalid">
+                                    <span ng-show="horizontalCard.brandPrice.$error.required">品牌价格不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-12 bgff">
+                <div class="col-sm-12">
+                    <div class="col-lg-3"></div>
+                    <div class="col-sm-6">
+                        <button class="btn btn-primary btn-mr20" type="button"
+                                id="btnSubmit4" ng-click="saveOemProduct()" ng-disabled="horizontalCard.$invalid || submitting">提交</button>
+                        <a class="btn btn-primary4" type="button" ui-sref="exchange.productOem({oemNo:oemNoOne})" >返回</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

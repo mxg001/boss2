@@ -1,0 +1,142 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a href="#/service/addService">主页</a></li>
+			<li><a>三方数据查询</a></li>
+			<li class="active"><strong>交易汇总报表</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="TradeSumInfoQueryCtrl">
+	<div id="recordedModal" class="modal fade form-horizontal" tabindex="3" role="dialog">
+		<div class="modal-dialog" style="height:300px;width: 700px">
+			<div class="modal-content" style="height:300px;width: 750px">
+			<form class="form-horizontal" name="horizontal">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h3 class="modal-title" id="opTypeTitle">三方收益入账</h3>
+				</div> 
+				<div class="modal-body">
+					<div class="form-group">
+						<label class="col-sm-3 control-label">入账月份：</label>
+						<div class="col-sm-3">
+								<input id="d5224" class="form-control" type="datetime" ng-model="recordedTime" onchange=""  style="width:auto;display:inline-block;"
+											   onFocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM',minDate:'2019-01',maxDate:'%y-%M-%d'})"/>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<div class="form-group control-label">
+							<div class="col-sm-5">
+									<button class="btn btn-primary btn-mr20" type="button" ng-disabled="isdisabled"  ng-click='recordedOk()'  >确定</button>
+									<button class="btn btn-primary8" type="button" ng-click='cancel()' >返回</button>
+							</div>
+						</div>
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	
+	<form class="form-horizontal" id="form1">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="">
+						<div class="panel-body ibox float-e-margins">
+							<div class="ibox-title">
+								<h5>查询条件</h5>
+							</div>
+							<div class="ibox-content">
+							<div class="form-group">
+									<label class="col-sm-1 control-label">代理商：</label>
+									<div class="col-sm-2">
+										<select chosen="{width:'100%'}"  class="chosen-select" tabindex="4" ng-model="info.agentNo" ng-options="x.value as x.text for x in agentList">
+							            	 <option value=""></option>
+							            </select>
+									</div>
+										<label class="col-sm-2 control-label">是否包含下级：</label>
+									<div class="col-sm-1">
+										<select class="form-control" ng-model="info.showLower" ng-options="x.value as x.text for x in showLowerSelect">
+							            </select>
+									</div>
+									<label class="col-sm-2 control-label">入账状态：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.incomeStatus" ng-options="x.value as x.text for x in incomeStatusList">
+							            </select>
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label class="col-sm-1 control-label">所属组织：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.agentOem" ng-options="x.value as x.text for x in agentOemList" ng-change="getTeamEntryIdList()"> 
+										</select>
+									</div>
+									<label class="col-sm-2 control-label">所属子组织：</label>
+									<div class="col-sm-2">
+											<select class="form-control"  ng-model="info.teamEntryId"
+													ng-options="x.value as x.text for x in teamEntryIdList">
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label">统计日期：</label>
+									<div class="col-sm-5">
+										<input id="d5221" class="form-control" type="datetime" ng-model="info.startTime" onchange=""  style="width:auto;display:inline-block;"
+											   onFocus="var d5222=$dp.$('d5222');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd',
+											   changed:verifyTime(1,'#d5221','#d5222',0),onpicked:function(){d5222.focus();},maxDate:'#F{$dp.$D(\'d5222\')||\'%y-%M-%d\'}'})"/>
+										~
+										<input id="d5222" class="form-control" type="datetime"  ng-model="info.endTime" onchange=""  style="width:auto;display:inline-block;"
+											   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd',
+											   changed:verifyTime(2,'#d5221','#d5222',0),minDate:'#F{$dp.$D(\'d5221\')}',maxDate:'%y-%M-%d 23:59:59'})"/>
+									</div>
+									<label class="col-sm-1 control-label">入账日期：</label>
+									<div class="col-sm-5">
+										<input id="d5223" class="form-control" type="datetime" ng-model="info.recordedStartTime" onchange=""  style="width:auto;display:inline-block;"
+											   onFocus="var d5224=$dp.$('d5224');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd',
+											   changed:verifyTime(1,'#d5223','#d5224',0),onpicked:function(){d5224.focus();},maxDate:'#F{$dp.$D(\'d5224\')||\'%y-%M-%d\'}'})"/>
+										~
+										<input id="d5224" class="form-control" type="datetime"  ng-model="info.recordedEndTime" onchange=""  style="width:auto;display:inline-block;"
+											   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd',
+											   changed:verifyTime(2,'#d5223','#d5224',0),minDate:'#F{$dp.$D(\'d5223\')}',maxDate:'%y-%M-%d 23:59:59'})"/>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<div class="col-lg-12">
+										<label class="col-sm-2 control-label"></label>
+										<button class="btn btn-primary6 btn-mr20" type="button" ng-click="selectInfo()" id="btnSubmit">查询</button>
+                                        <button class="btn btn-primary3 btn-mr20" type="button" ng-click="clear()" id="btnSubmit">清空</button>
+                                        <button class="btn btn-primary7 btn-mr20" ng-show="hasPermit('TradeSumInfo.export')" type="button" ng-click="exportInfo()" >导出</button>
+                                        <button class="btn btn-new btn-mr20" type="button" ng-show="hasPermit('TradeSumInfo.recorded')" ng-click="recordedModal()" >三方收益入账</button>
+									</div>
+									
+								</div>
+							</div>
+
+						</div>
+						
+						
+						<div class="panel-body ibox float-e-margins">
+								<div class="ibox-title">
+									<h5>交易汇总信息列表</h5>
+								<div class="ibox-content">
+									<div class="form-group">
+										<div class="col-sm-6 checkbox">总计:交易量<span ng-bind="gridOptions.tradeSum"></span>元；商户总数<span ng-bind="gridOptions.merSum"></span>；激活总数<span ng-bind="gridOptions.activeSum"></span>；三方收益已入账<span ng-bind="gridOptions.recordedSum"></span>元，未入账<span ng-bind="gridOptions.threeIncomeSum-gridOptions.recordedSum"></span>元</div>
+										
+										
+									</div>
+									<div ui-grid="gridOptions" ui-grid-pagination ui-grid-selection ui-grid-resize-columns ui-grid-pinning class="grid"></div>
+								</div>
+							</div>
+                            <div style="height:30px"></div>
+					</div>
+				</div>
+			</div>
+	</form>
+
+</div>

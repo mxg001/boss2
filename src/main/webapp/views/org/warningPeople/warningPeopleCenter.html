@@ -1,0 +1,17 @@
+<div class="ibox float-e-margins">
+    <div class="ibox-title">
+        <h5>预警人员列表</h5>
+    </div>
+    <div class="ibox-content">
+        <div class="form-group">
+            <div class="col-sm-2 checkbox">合计:<span ng-bind="total"></span>人</div>
+            <div class="col-sm-2 checkbox">剩余名额:<span ng-bind="remaining"></span>人</div>
+        </div>
+        <div class="form-group">
+            <div ui-grid="warningPeopleGrid" ui-grid-pagination ui-grid-selection
+                 ui-grid-resize-columns ui-grid-pinning class="grid">
+                <div ng-show="loadImg" class="timg"></div>
+            </div>
+        </div>
+    </div>
+</div>

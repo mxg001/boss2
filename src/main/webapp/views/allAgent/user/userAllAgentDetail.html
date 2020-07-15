@@ -1,0 +1,183 @@
+<!-- head -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>超级盟主</a></li>
+            <li class="active"><strong>盟主管理详情</strong></li>
+        </ol>
+    </div>
+</div>
+
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="userAllAgentDetailCtrl">
+    <form class="form-horizontal" id="form1" name="horizontalCard">
+        <div class="form-group">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="ibox-title">
+                            <h5>基础信息</h5>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">盟主编号:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.userCode"></div>
+                            <label class="col-sm-2 control-label">姓名:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.realName"></div>
+                            <label class="col-sm-2 control-label">注册手机:</label>
+                            <div class="col-sm-2 checkbox" >
+                                <span ng-bind="info.mobile"></span>
+                                <button type="button" ng-show="dataSta&&hasPermit('userAllAgent.getDataProcessing')" ng-click="getDataProcessing()">显示</button>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">是否认证:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.idCardNoState |formatDropping:idCardNoStateSelect"></div>
+                            <label class="col-sm-2 control-label">直营商户:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.sumMer"></div>
+                            <label class="col-sm-2 control-label">发展盟主:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.sumUser"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">所属品牌:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.brandName"></div>
+                            <label class="col-sm-2 control-label">所属机构对应代理商编码:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.oneAgentNo"></div>
+                            <label class="col-sm-2 control-label">所属机构对应代理商名称:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.oneAgentName"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">注册日期:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.createTime | date:'yyyy年MM月dd日 HH:mm:ss'"></div>
+                            <label class="col-sm-2 control-label">所属大盟主对应代理商编码:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.twoAgentNo"></div>
+                            <label class="col-sm-2 control-label">所属大盟主对应代理商名称:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.twoAgentName"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">用户类型:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.userType |formatDropping:userTypeSelect"></div>
+                            <label class="col-sm-2 control-label">盟主身份:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.grade |formatDropping:gradeSelect"></div>
+                            <label class="col-sm-2 control-label">标准分润比例:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.gradeStr"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">用户节点:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.userNode"></div>
+                            <label class="col-sm-2 control-label">昵称:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.nickName"></div>
+                            <label class="col-sm-2 control-label">身份证号码:</label>
+                            <div class="col-sm-3 checkbox" >
+                                <span ng-bind="info.idCardNo"></span>
+                                <button type="button" ng-show="dataSta&&hasPermit('userAllAgent.getDataProcessing')" ng-click="getDataProcessing()">显示</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">VIP分润比例:</label>
+                            <div class="col-sm-2 checkbox">{{info.vipShareRatio==null?"":"万分之"+info.vipShareRatio}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="ibox-title">
+                            <h5>绑定银行卡</h5>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">银行卡号:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.card.account"></div>
+                            <label class="col-sm-2 control-label">开户银行:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.card.bankName"></div>
+                            <label class="col-sm-2 control-label">开户地区:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.card.address"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">预留手机:</label>
+                            <div class="col-sm-2 checkbox" >
+                                <span ng-bind="info.card.mobile"></span>
+                                <button type="button" ng-show="dataSta&&hasPermit('userAllAgent.getDataProcessing')" ng-click="getDataProcessing()">显示</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="ibox-title">
+                            <h5>账户明细</h5>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">收支类别：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="baseInfo.transType" ng-options="x.value as x.text for x in transTypes"/>
+                            </div>
+                            <label class="col-sm-2 control-label">日期：</label>
+                            <div class="col-sm-5">
+                                <input id="d5668" class="form-control" type="datetime" ng-model="baseInfo.startDate" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="var d5667=$dp.$('d5669');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd',onpicked:function(){d5669.focus();},maxDate:'#F{$dp.$D(\'d5669\')||\'%y-%M-%d\'}'})"/>
+                                ~
+                                <input id="d5669" class="form-control" type="datetime"  ng-model="baseInfo.endDate" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd',minDate:'#F{$dp.$D(\'d5668\')}',maxDate:'%y-%M-%d'})"/>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-bottom: -10px;">
+                            <div class="col-sm-2"> </div>
+                            <div class="col-sm-10">
+                                <button class="btn btn-primary6 btn-rounded btn-mr20" type="button" ng-click="queryDetail()">查询</button>
+                                <button class="btn btn-primary3 btn-rounded btn-mr20" type="button" ng-click="clearDetail()">清空</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-1 control-label"></label>
+                            <label class="col-sm-10 checkbox">分润账户明细</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-1 control-label"></label>
+                            <div class="col-sm-10 checkbox">总收入：
+                                <span style="color: red;" >￥{{pageDividedCount.totalAmount==null?0:pageDividedCount.totalAmount}}</span> ，其中可提现金额：
+                                <span style="color: red;" >￥{{(pageDividedCount.canDrawAmount==null?0:(pageDividedCount.canDrawAmount-(pageDividedCount.remainAmount==null?0:pageDividedCount.remainAmount))>=0?(pageDividedCount.canDrawAmount-(pageDividedCount.remainAmount==null?0:pageDividedCount.remainAmount)):0).toFixed(2)}}</span>、留存金额：
+                                <span style="color: red;" >￥{{pageDividedCount.remainAmount==null?0:pageDividedCount.remainAmount}}</span> ，已提现金额：
+                                <span style="color: red;" >￥{{pageDividedCount.withdrawAmount==null?0:pageDividedCount.withdrawAmount}}</span>(总收入仅展示最近6个月的数据)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-1 control-label"></label>
+                            <div class="col-lg-9">
+                                <div style="height:200px" class="gridStyle" ui-grid="dividedGrid" ui-grid-selection ui-grid-pinning ui-grid-resize-columns></div>
+                                <div ng-show="loadImg1" class="timg"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-1 control-label"></label>
+                            <label class="col-sm-10 checkbox">机具款项账户明细</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-1 control-label"></label>
+                            <div class="col-sm-10 checkbox">总收入：
+                                <span style="color: red;" >￥{{pageMachineCount.totalAmount==null?0:pageMachineCount.totalAmount}}</span> ，账户可提现余额：
+                                <span style="color: red;" >￥{{pageMachineCount.canDrawAmount==null?0:pageMachineCount.canDrawAmount}}</span>，已提现金额：：
+                                <span style="color: red;" >￥{{pageMachineCount.withdrawAmount==null?0:pageMachineCount.withdrawAmount}}</span> (总收入仅展示最近6个月的数据)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-1 control-label"></label>
+                            <div class="col-lg-9">
+                                <div style="height:200px" class="gridStyle" ui-grid="machineGrid" ui-grid-selection ui-grid-pinning ui-grid-resize-columns></div>
+                                <div ng-show="loadImg2" class="timg"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 bgff">
+                <div class="col-sm-12">
+                    <div class="col-lg-3"></div>
+                    <div class="col-sm-6">
+                        <a class="btn btn-primary4" ui-sref="allAgent.allyManage" >返回</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

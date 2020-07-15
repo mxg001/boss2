@@ -1,0 +1,68 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>商户管理</a></li>
+			<li class="active"><strong>审核人管理</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="auditorManagerCtrl">
+	<form class="form-horizontal" id="form1">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>审核人查询</h5>
+						<div ibox-tools></div>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">审核人：</label>
+							<div class="col-sm-2">
+								<select class="form-control" ng-model='baseInfo.auditorId'
+										ng-options="x.id as x.userName for x in auditorList">
+								</select>
+							</div>
+							<label class="col-sm-2 control-label">业务产品：</label>
+							<div class="col-sm-2">
+								<select class="form-control" ng-model='baseInfo.bpId'
+										ng-options="x.bpId as x.bpName for x in bpList">
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+								<label class="col-sm-2 control-label">状态：</label>
+								<div class="col-sm-2">
+									<select class="form-control" ng-model='baseInfo.status'
+										ng-options="x.value as x.text for x in statusAll">
+								</select>
+								</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2"></label>
+							<div class="col-sm-6">
+								<button class="btn btn-primary6 btn-mr20" type="button" ng-click='query()'>查询</button>
+								<button class="btn btn-primary3 btn-mr20" type="button" ng-click="resetForm()">清空</button>
+								<a class="btn btn-new" type="button" ng-show="hasPermit('auditorManager.insert')" style="width: 120px" ui-sref="merchant.auditorManagerSet">设置规则</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>审核人列表</h5>
+						<div ibox-tools="" class="ng-scope"></div>
+					</div>
+					<div class="ibox-content">
+						<div class="gridStyle" ui-grid="auditorTable" ui-grid-pagination ui-grid-pinning ui-grid-resize-columns></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

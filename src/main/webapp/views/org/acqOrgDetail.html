@@ -1,0 +1,88 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>收单机构管理</a></li>
+			<li class="active"><strong>收单机构配置详情</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="acqOrgDetailCtrl">
+	<form class="form-horizontal" id="form1">
+			<div class="row">
+				<div class="col-lg-12">
+						<div class="panel-body ibox float-e-margins">
+							<div class="ibox-title">
+								<h5>收单机构配置详情</h5>
+							</div>
+							<div class="ibox-content">
+								<div class="form-group">
+									<label class="col-sm-2 control-label">收单机构名称：</label>
+									<div class="col-sm-2 checkbox" ng-bind="info.acqName">
+									</div>
+									<label class="col-sm-2 control-label">结算方式：</label>
+									<div class="col-sm-2 checkbox" ng-bind="info.settleType |  formatDropping:rey">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">允许实时T0>T1：</label>
+									<div class="col-sm-2 checkbox" ng-bind="info.realtimeT0greatert1 | formatDropping:isBool">
+									</div>
+									<label class="col-sm-2 control-label">允许T0日额>T1日额：</label>
+									<div class="col-sm-2 checkbox" ng-bind="info.dayamountT0greatert1 | formatDropping:isBool">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">冲量提醒阀值(T1-T0)：</label>
+									<div class="col-sm-2 checkbox" ng-bind="info.valvesAmount | currency:''">
+									</div>
+									<label class="col-sm-2 control-label">日切时间点：</label>
+									<div class="col-sm-2 checkbox" ng-bind="info.dayAlteredTime">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">默认收单商户每日限额：</label>
+									<div class="col-sm-2 checkbox" ng-bind="info.acqDefDayamount | currency:''">
+									</div>
+									<label class="col-sm-2 control-label">负责人手机号：</label>
+									<div class="col-sm-2 checkbox" ng-bind="info.phone">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">分润结算账户：</label>
+									<div class="col-sm-2 checkbox" ng-bind="info.settleAccountId | formatDropping:settleAccount">
+									</div>
+									<label class="col-sm-2 control-label">收单服务日成功交易总额阀值：</label>
+									<div class="col-sm-2 checkbox" ng-bind="info.acqSuccessAmount | currency:''">
+									</div>
+								</div>
+ 								<!--================ by sober ================== -->
+								<div class="form-group">
+									<label class="col-sm-2 control-label">IP：</label>
+									<div class="col-sm-2 checkbox" ng-bind="info.host">
+									</div>
+									<label class="col-sm-2 control-label">端口：</label>
+									<div class="col-sm-2 checkbox" ng-bind="info.port">
+									</div>
+								</div>
+								<!--============================================= -->
+								<div class="form-group">
+									<label class="col-sm-4 control-label">本收单机构的交易只能在本机构出款：</label>
+									<div class="col-sm-2">
+										<input type="checkbox" class="checkbox" ng-model="info.acqTransHaveOut"/>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-lg-12">
+											<a class="btn btn-primary4" type="button"  ui-sref="org.acqOrg">返回</a>
+									</div>
+								</div>
+							</div>
+					</div>
+				</div>
+			</div>
+	</form>
+</div>

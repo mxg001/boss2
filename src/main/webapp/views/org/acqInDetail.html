@@ -1,0 +1,273 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>商户管理</a></li>
+			<li class="active"><strong>收单商户进件管理详情</strong></li>
+		</ol>
+	</div>
+</div>
+
+
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="acqInDetailCtrl">
+	<form class="form-horizontal" id="form1">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="tabs-container tab_other">
+							<div class="panel-body ibox float-e-margins">
+		
+								<div class="ibox-title">
+									<h5>基本信息</h5>
+								</div>
+								
+								<div class="ibox-content">
+									
+									<div class="form-group">
+										<label class="col-sm-2 control-label">收单进件编号：</label>
+										<div class="col-sm-2 checkbox" ng-bind="info.acqIntoNo">
+										</div>
+										
+										<label class="col-sm-2 control-label">进件来源：</label>
+										<div class="col-sm-2 checkbox" ng-bind="info.intoSource">
+										</div>
+									</div>
+									
+									<div class="form-group">
+										<label class="col-sm-2 control-label">所属代理商编号：</label>
+										<div class="col-sm-2 checkbox" ng-bind="info.agentNo">
+										</div>
+										
+										<label class="col-sm-2 control-label">所属代理商名称：</label>
+										<div class="col-sm-2 checkbox" ng-bind="info.agentName">
+										</div>
+									</div>
+		
+									<div class="form-group">
+										<label class="col-sm-2 control-label">所属一级代理商编号：</label>
+										<div class="col-sm-2 checkbox" ng-bind="info.oneAgentNo">
+										</div>
+										<label class="col-sm-2 control-label">所属一级代理商名称：</label>
+										<div class="col-sm-2 checkbox" ng-bind="info.oneAgentName">
+	 									</div>
+									</div>
+									
+									<div class="form-group">
+										<label class="col-sm-2 control-label">审核状态：</label>
+										<div class="col-sm-2 checkbox" ng-bind="info.auditStatus |formatDropping:auditStatuss">
+										</div>
+										<label class="col-sm-2 control-label">MCC码：</label>
+										<div class="col-sm-2 checkbox" ng-bind="info.mcc">
+	 									</div>
+									</div>
+									
+									<div class="form-group">
+										<label class="col-sm-2 control-label">进件日期：</label>
+										<div class="col-sm-2 checkbox" ng-bind="info.createTimeStr"></div>
+										<label class="col-sm-2 control-label">商户类型：</label>
+										<div class="col-sm-3 checkbox">
+											<div ng-bind="merchantTypes(info.merchantType)" style="float: left"></div>
+										</div>
+									</div>
+								
+									<div class="form-group">
+										<label class="col-sm-2 control-label">法人姓名：</label>
+										<div class="col-sm-2 checkbox">
+											<div ng-bind="info.legalPerson" style="float: left"></div>
+											<!--<div ng-show="flag==2" style="padding-left: 80px"><input type="checkbox" ng-click="rdts2(42)">不通过</div>-->
+										</div>
+
+										<label class="col-sm-2 control-label">法人身份证号码：</label>
+										<div class="col-sm-3 checkbox">
+											<div ng-bind="info.legalPersonId" style="float: left"></div>
+											<!--<div ng-show="flag==2" style="padding-left: 200px"><input type="checkbox" ng-click="rdts2(44)">不通过</div>-->
+										</div>
+									</div>
+									
+									<div class="form-group">
+										<label class="col-sm-2 control-label">身份证有效期：</label>
+										<div class="col-sm-4 checkbox">
+											<div ng-bind="info.persionId" style="float: left"></div>
+											<!--<div ng-show="flag==2" style="padding-left: 200px"><input type="checkbox" ng-click="rdts2(45)">不通过</div>-->
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-sm-2 control-label">普通商户编号：</label>
+										<div class="col-sm-2 checkbox" ng-bind="info.generalMerchantNo"></div>
+										<label class="col-sm-2 control-label">普通商户名称：</label>
+										<div class="col-sm-2 checkbox" ng-bind="info.generalMerchantName">
+										</div>
+									</div>
+
+								</div>
+							</div>
+							
+							<div class="panel-body ibox float-e-margins">
+									<div class="ibox-title">
+										<h5>经营信息</h5>
+									</div>
+									<div class="ibox-content">
+			
+										<div class="form-group">
+											<label class="col-sm-2 control-label">经营地址：</label>
+											<div class="col-sm-4 checkbox">
+												<div ng-bind="info.allAddress" style="float: left"></div>
+												<!--<div ng-show="flag==2" style="margin-left: 250px"><input type="checkbox" ng-click="rdts2(7)">不通过</div>-->
+											</div>
+										</div>
+			
+										<div class="form-group"><!-- ng-hide="info.merchantType==1 "-->
+											<label class="col-sm-2 control-label">经营范围：</label>
+											<div>
+												<div class="col-sm-1 checkbox" ng-bind="info.oneScope"></div>
+												<div class="col-sm-2 checkbox" ng-bind="info.twoScope"></div>
+												<!--<div ng-show="flag==2" style="margin-left: 250px"><input type="checkbox" ng-click="rdts2(37)">不通过</div>-->
+											</div>
+
+										</div>
+										
+										<div class="form-group">
+											<label class="col-sm-2 control-label">营业执照名称：</label>
+											<div class="col-sm-4 checkbox">
+												<div ng-bind="info.charterName" style="float: left"></div>
+												<!--<div ng-show="flag==2" style="margin-left: 250px"><input type="checkbox" ng-click="rdts2(38)">不通过</div>-->
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label">营业执照编号：</label>
+											<div class="col-sm-4 checkbox" >
+												<div ng-bind="info.charterNo" style="float: left"></div>
+												<!--<div ng-show="flag==2" style="margin-left: 250px"><input type="checkbox" ng-click="rdts2(34)">不通过</div>-->
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label">营业执照有效期：</label>
+											<div class="col-sm-4 checkbox">
+												<div ng-bind="info.charterValidStr" style="float: left"></div>
+												<!--<div ng-show="flag==2" style="margin-left: 250px"><input type="checkbox" ng-click="rdts2(35)">不通过</div>-->
+											</div>
+										</div>
+									</div>
+								</div>
+							
+							<div class="panel-body ibox float-e-margins">
+									<div class="ibox-title">
+										<h5>账户信息</h5>
+									</div>
+									<div class="ibox-content">
+			
+										<div class="form-group">
+											<label class="col-sm-2 control-label">账户类型：</label>
+											<div class="col-sm-3 checkbox" >
+												<div ng-bind="accountTypes(info.accountType)" style="float: left"></div>
+												<!--<div ng-show="flag==2" style="margin-left: 200px"><input type="checkbox" ng-click="rdts2(1)">不通过</div>-->
+											</div>
+										</div>
+										
+										<div class="form-group">
+											<label class="col-sm-2 control-label">银行卡号：</label>
+											<div class="col-sm-3 checkbox" >
+												<div ng-bind="info.bankNo" style="float: left"></div>
+												<!--<div ng-show="flag==2" style="margin-left: 200px"><input type="checkbox" ng-click="rdts2(3)">不通过</div>-->
+											</div>
+										</div>
+										
+										<div class="form-group">
+											<label class="col-sm-2 control-label">开户名：</label>
+											<div class="col-sm-3 checkbox" >
+												<div ng-bind="info.accountName" style="float: left"></div>
+												<!--<div ng-show="flag==2" style="margin-left: 200px"><input type="checkbox" ng-click="rdts2(2)">不通过</div>-->
+											</div>
+										</div>
+										
+										<div class="form-group">
+											<label class="col-sm-2 control-label">开户银行：</label>
+											<div class="col-sm-3 checkbox" >
+												<div ng-bind="info.accountBank" style="float: left"></div>
+												<!--<div ng-show="flag==2" style="margin-left: 200px"><input type="checkbox" ng-click="rdts2(4)">不通过</div>-->
+											</div>
+										</div>
+										
+											<div class="form-group">
+											<label class="col-sm-2 control-label">开户地区：</label>
+											<div class="col-sm-3 checkbox">
+												<div ng-bind="info.accountAddress" style="float: left"></div>
+												<!--<div ng-show="flag==2" style="margin-left: 200px"><input type="checkbox" ng-click="rdts2(4)">不通过</div>-->
+											</div>
+										</div>
+										
+										<div class="form-group">
+											<label class="col-sm-2 control-label">所属支行：</label>
+											<div class="col-sm-6 checkbox" >
+												<div ng-bind="info.bankBranch" style="float: left"></div>
+												<!--<div ng-show="flag==2" style="margin-left: 300px"><input type="checkbox" ng-click="rdts2(4)">不通过</div>-->
+											</div>
+										</div>
+										
+										<div class="form-group">
+											<label class="col-sm-2 control-label">联行号：</label>
+											<div class="col-sm-2 checkbox" ng-bind="info.lineNumber">
+											</div>
+										</div>
+										
+									</div>
+								</div>
+				
+							
+							<div class="panel-body ibox float-e-margins">
+								<div class="ibox-title">
+									<h5>资质文件</h5>
+								</div>
+								<div class="ibox-content">
+									<div class="form-group" style="padding-bottom: 20px;">
+										<div class="col-img"  ng-repeat="m in listMris">
+											<div>{{m.itemName}}</div>
+										 	<div><a href="{{m.content}}" fancybox rel="group" title="{{m.remark}}"> <img width="250px" height="150px" ng-src="{{m.content}}"/></a></div>
+											<div ng-show="flag==2"><input type="checkbox" ng-click="rdts(1,m.id,m.fileType)">不通过</div> 
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							
+							
+							<div class="panel-body ibox float-e-margins">
+		
+								<div class="ibox-title">
+									<h5>审核记录</h5>
+								</div>
+								<div class="ibox-content">
+									<div class="gridStyle auditDetail" style="height: 200px;" ui-grid-resize-columns ui-grid="merchantRecords"/>
+									
+									<div class="form-group" ng-if="flag==2">
+										<label class="col-sm-2 control-label">审核意见：</label>
+										<div class="col-sm-6">
+											<textarea ng-keydown="upds()" ng-model="info.examinationOpinions" class="form-control" rows="5"></textarea>
+										</div>
+									</div>
+								</div>
+								
+								
+							</div>
+				</div>
+			</div>
+		</div>
+			<div class="col-lg-12 bgff" >
+				<div class="col-sm-12">
+					<button class="btn btn-new btn-mr20" style="width: 130px;" type="button"
+					ng-click="commitInfo(1)" ng-disabled="submitting" id="btnSubmit" ng-if="flag==2">审核通过</button>
+					<button class="btn btn-new btn-mr20" style="width: 130px;" type="button"
+						ng-click="commitInfo(2)" ng-disabled="submitting" id="btnSubmit" ng-if="flag==2">审核不通过</button>
+					<a class="btn btn-primary4 btn-mr20" style="width: 130px;" type="button" ui-sref="org.orgIn"
+					id="btnSubmit">返回</a>
+					<button class="btn btn-new btn-mr20 " style="width: 190px;" type="button"
+						ng-click="commitInfo(3)" ng-disabled="submitting" id="btnSubmit" ng-if="flag==2">审核通过并审核下一条</button>
+					<button class="btn btn-new btn-mr20" style="width: 190px;" type="button"
+						ng-click="commitInfo(4)" ng-disabled="submitting" id="btnSubmit" ng-if="flag==2">审核不通过并审核下一条</button>
+				</div>	
+			</div>
+	</form>
+</div>

@@ -1,0 +1,251 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>机具管理</a></li>
+			<li class="active"><strong>活动考核机具</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app ng-controller="terActivityCheckCtrl">
+	<form class="form-horizontal" id="form1">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="">
+						<div class="ibox float-e-margins">
+							<div class="ibox-title">
+								<h5>活动考核机具查询</h5>
+							</div>
+							<div class="ibox-content">
+								<div class="form-group">
+									<label class="col-sm-2 control-label">SN号：</label>
+									<div class="col-sm-5">
+										<input type="text" class="form-control" style="width:auto;display:inline-block;" ng-model="info.snStart">-
+										<input type="text" class="form-control" style="width:auto;display:inline-block;" ng-model="info.snEnd">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">一级代理商：</label>
+									<div class="col-sm-2">
+										<select name="autocomplete-select" id="autocomplete-select1" ng-model="info.oneAgentNo" ng-options="x.value as x.text for x in oneAgents" style="width: 100%" chosen chosen-data="oneAgents" chosen-keyup="oneAgentStates">
+										</select>
+									</div>
+									<label class="col-sm-2 control-label">所属代理商：</label>
+									<div class="col-sm-2">
+										<select name="autocomplete-select" id="autocomplete-select2" ng-model="info.agentNo" ng-options="x.value as x.text for x in agents" style="width: 100%" chosen chosen-data="agents" chosen-keyup="agentsStates">
+										</select>
+									</div>
+									<label class="col-sm-2 control-label">包含下级:</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.bool" ng-options="x.value as x.text for x in bools">
+											<option value="">请选择</option>
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">业务产品:</label>
+									<div class="col-sm-2">
+										<select chosen="{width:'100%'}" id="autocomplete-select5"  class="chosen-select" tabindex="4" ng-model="info.bpId" ng-options="x.value as x.text for x in bpListAll">
+											<option value=""></option>
+										</select>
+									</div>
+									<label class="col-sm-2 control-label">欢乐返子类型:</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.activityTypeNo" ng-options="x.value as x.text for x in typeNos">
+											<option value="">全部</option>
+										</select>
+									</div>
+									<label class="col-sm-2 control-label">硬件产品:</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.type" ng-options="x.value as x.text for x in pns">
+											<option value="">全部</option>
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">机具状态:</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.openStatus" ng-options="x.value as x.text for x in openStatus">
+											<option value="">全部</option>
+										</select>
+									</div>
+									<label class="col-sm-2 control-label">激活状态:</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.status" ng-options="x.value as x.text for x in status">
+											<option value="">全部</option>
+										</select>
+									</div>
+									<label class="col-sm-2 control-label">考核达标状态:</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.checkStatus" ng-options="x.value as x.text for x in checkStatus">
+											<option value="">全部</option>
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">列表排序:</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.order" ng-options="x.value as x.text for x in orders">
+											<option value="">默认排序</option>
+										</select>
+									</div>
+									<label class="col-sm-2 control-label">考核日期：</label>
+									<div class="col-sm-6">
+										<input id="d5231" class="form-control" type="datetime" ng-model="info.checkTimeBegin" onchange=""  style="width:auto;display:inline-block;"
+											   onFocus="var d5232=$dp.$('d5232');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5232.focus();},maxDate:'#F{$dp.$D(\'d5232\')}'})"/>
+										~
+										<input id="d5232" class="form-control" type="datetime"  ng-model="info.checkTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+											   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5231\')}'})"/>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">考核剩余天数：</label>
+									<div class="col-sm-5">
+										<input type="text" class="form-control" style="width:120px;display:inline-block;" ng-model="info.daysStart">-
+										<input type="text" class="form-control" style="width:120px;display:inline-block;" ng-model="info.daysEnd">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<div class="col-sm-12">
+										<div class="col-sm-1"></div>
+										<button class="btn btn-primary6 btn-mr20" type="button" ng-click="query()">查询</button>
+										<button class="btn btn-primary3 btn-mr20" type="button" ng-click="clear()" id="btnSubmit2">清空</button>
+										<button class="btn btn-primary7 btn-mr20" type="button" ng-show="hasPermit('terminalInfo.exportTerminalAct')" ng-click="export()">导出</button>
+										<button class="btn btn-new2 btn-mr20" type="button" ng-show="hasPermit('terminalInfo.changeDueDays')" ng-click="showModal()">更改考核期限</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="ibox float-e-margins">
+							<div class="ibox-title">
+								<h5>活动考核机具列表</h5>
+							</div>
+							<div class="ibox-content">
+								<div class="tposition">
+									 <div ui-grid="gridOptions" ui-grid-pagination ui-grid-selection ui-grid-resize-columns ui-grid-pinning class="grid"></div>
+									<div ng-show="loadImg" class="timg"></div>
+								</div>
+							</div>
+
+						</div>
+					
+					</div>
+				</div>
+			</div>
+	</form>
+	<!-- settleModal -->
+	<form class="form-horizontal" id="form3" name="settleModal" novalidate>
+	<div id="settleModal" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog" style="width: 900px">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						&times;</button>
+					<h3 class="modal-title">批量结算返回信息</h3>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label class="col-sm-5 control-label"></label>
+						<div class="col-sm-6">
+								<button class="btn btn-primary8" type="button" ng-click='settleModalHide()'>关闭</button>
+						</div>
+					</div>
+			</div>
+		</div>
+	</div>
+	</div>
+	
+	</form>
+
+
+	<div id="updateDueDays" class="modal fade" tabindex="-1" role="dialog">
+		<form class="form-horizontal" id="form6" name="horizontalAdd" novalidate>
+			<div class="modal-dialog" style="width: 800px">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							&times;</button>
+						<h3 class="modal-title">修改考核期限</h3>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label class="col-sm-3 control-label">下载导入模板:</label>
+							<div class="col-sm-3 checkbox ">
+								<a href="terminalInfo/downloadUpdateDueDaysTemplate" >下载模板</a>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">导入模板完成更改:</label>
+							<div class="col-sm-6 checkbox ">
+								<input type="file" nv-file-select="" ng-model="fileSelect" uploader="uploader" multiple/>
+								<table class="table">
+									<tbody>
+									<tr ng-repeat="item in uploader.queue" width="200px">
+										<td >
+											<strong>{{ item.file.name }}</strong>
+										</td>
+										<td nowrap>
+											<button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+												<span class="glyphicon glyphicon-trash"></span>删除
+											</button>
+										</td>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+							<!--<label class="col-sm-4" style="margin-top:9px;color: red;margin-left: 100px;">注:单次导入文件不超过10000条数据</label>-->
+							<div ng-show="loadImgA" style="position: absolute; left: 0; top:0;right:0;bottom:0; background: rgba(255,255,255,0.8);">
+								<div class="timg"></div>
+								<p style="    position: absolute;left: 0;top: 62%;text-align: center;width: 100%;">正在导入中，请不要关闭浏览器...</p>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-6">
+								<button class="btn btn-primary btn-mr20" type="button" ng-click='import()'
+										ng-disabled="importcommit||uploaderTypeFile.queue.length==0">确定</button>
+								<button class="btn btn-primary8 btn-mr20" type="button" ng-click='closeModal()'>取消</button>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</form>
+	</div>
+
+
+	<div id="importResultButchModel" class="modal fade" tabindex="-1" role="dialog">
+		<form class="form-horizontal" id="form2">
+			<div class="modal-dialog" style="height: 400px; width: 900px">
+				<div class="modal-content" style="height: 600px; width: 900px">
+					<div class="modal-body">
+						<div class="ibox-content">
+							<div class="form-group">
+								<label class="col-sm-8 control-label" style="text-align:left;">成功导入 {{successCount}} 台，导入失败 {{errorCount}} 台</label>
+							</div>
+							<div class="panel-body ibox float-e-margins">
+								<label class="col-sm-3 control-label" style="text-align:left;"></label>
+								<div class="ibox-content">
+									<div class="gridStyle" ui-grid="serviceGrid" style="height: 300px;"  ui-grid-pinning ui-grid-resize-columns></div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group control-label">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-6">
+								<button class="btn btn-primary8 " type="button" ng-click='cancelImportButchModel()'>返回</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+</div>

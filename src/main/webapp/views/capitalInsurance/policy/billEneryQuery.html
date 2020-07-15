@@ -1,0 +1,120 @@
+<!-- 超级银行家用户管理页面 -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>对账管理</a></li>
+            <li class="active"><strong>对账信息详情查询</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app ng-controller="billEneryQueryCtrl">
+    <form class="form-horizontal" id="form1">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="">
+                    <div class="panel-body ibox float-e-margins">
+                        <div class="ibox-content">
+                            <div class="ibox-title">
+                                <h5>对账信息详情</h5>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">对账批次号:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.batchNo">
+                                </div>
+                               <label class="col-sm-2 control-label">创建时间:</label>
+                                <div class="col-sm-5">
+                               <input id="d5241" class="form-control" type="datetime" ng-model="info.createTime" onchange=""  style="width:auto;display:inline-block;"
+                                           onFocus="var d5242=$dp.$('d5242');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5242.focus();},maxDate:'#F{$dp.$D(\'d5242\')}'})"/>
+                                    ~
+                                    <input id="d5242" class="form-control" type="datetime"  ng-model="info.createTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+                                           onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5241\')}'})"/>
+
+                                </div>
+                            </div>
+                             <div class="form-group">
+                                <label class="col-sm-2 control-label">承保单位:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.insurer" ng-options="x.value as x.text for x in insurerList"></select>
+                                </div>
+                                <label class="col-sm-2 control-label">对账状态:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.checkStatus" ng-options="x.value as x.text for x in checkStatusList"></select>
+                                </div>
+                                <label class="col-sm-2 control-label">对账订单类型:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.orderType" ng-options="x.value as x.text for x in orderTypeList"></select>
+                                </div>
+                            </div>
+                             <div class="form-group">
+                                <label class="col-sm-2 control-label">上游保险订单号:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.acqOrderNo">
+                                </div>
+                                <label class="col-sm-2 control-label">平台保险订单号:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.sysOrderNo">
+                                </div>
+                                <label class="col-sm-2 control-label">汇总状态:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.reportStatus" ng-options="x.value as x.text for x in reportStatusList"></select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">投保时间:</label>
+                                <div class="col-sm-8">
+                                    <input id="d5243" class="form-control" type="datetime" ng-model="info.insureTime" onchange=""  style="width:auto;display:inline-block;"
+                                           onFocus="var d5242=$dp.$('d5244');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5244.focus();},maxDate:'#F{$dp.$D(\'d5244\')}'})"/>
+                                    ~
+                                    <input id="d5244" class="form-control" type="datetime"  ng-model="info.insureTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+                                           onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5243\')}'})"/>
+                              	 <span><font color="#999">备注：查询范围不能超过三个月</font></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">一级代理商:</label>
+                                <div class="col-sm-2">
+                                    <select  name="oneAgentNo" id="autocomplete-select2"
+                                             ng-model="info.oneAgentNo" ng-options="x.value as x.text for x in oneAgentList"
+                                             style="width:100%" chosen chosen-data="oneAgentNo" chosen-keyup="getOneStates">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">保单生成时间:</label>
+                                <div class="col-sm-8">
+                                    <input id="d667" class="form-control" type="datetime" ng-model="info.billTimeBegin" onchange=""  style="width:auto;display:inline-block;"
+                                           onFocus="var d668=$dp.$('d668');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){d668.focus();},maxDate:'#F{$dp.$D(\'d668\')}'})"/>
+                                    ~
+                                    <input id="d668" class="form-control" type="datetime"  ng-model="info.billTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+                                           onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d667\')}'})"/>
+                                    <span><font color="#999">备注：查询范围不能超过三个月</font></span>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-top: 30px">
+                                <div class="col-sm-8">
+                                    <label class="col-sm-2 control-label"></label>
+                                    <button class="btn btn-primary6 btn-mr20" type="button" ng-click="queryByParam()" >查询</button>
+                                    <button class="btn btn-primary3 btn-mr20" type="button" ng-click="clear()" >清空</button>
+                                    <button class="btn btn-primary7 btn-mr20" type="button" ng-show="hasPermit('billEntry.export')"  ng-click="exportInfo()">导出</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body ibox float-e-margins">
+                        <div class="ibox-title">
+                            <div class="ibox-content">
+                                <div class="gridStyle" ui-grid="billEneryGrid" ui-grid-selection ui-grid-pagination
+                                     ui-grid-resize-columns ui-grid-pinning></div>
+                                <div ng-show="loadImg" class="timg"></div>
+                            </div>
+                        </div>
+                        <div style="height:30px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

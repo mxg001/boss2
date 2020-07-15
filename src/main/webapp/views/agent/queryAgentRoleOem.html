@@ -1,0 +1,135 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>代理商管理</a></li>
+			<li class="active"><strong>代理商角色</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="queryAgentRoleOemCtrl">
+	<form class="form-horizontal" id="form1">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>角色条件查询</h5>
+						<!--<div ibox-tools="" class="ng-scope">-->
+						<!--<div class="ibox-tools dropdown" dropdown="">-->
+						<!--</div>-->
+						<!--</div>-->
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">角色名称：</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" ng-model="info.role_name">
+							</div>
+						</div>
+						<div class="col-lg-12 bgff">
+							<div class="col-sm-2"></div>
+							<div class="col-sm-10">
+								<button class="btn btn-primary6 btn-mr20" ng-click="query()">查询</button>
+								<button class="btn btn-primary3 btn-mr20" type="button" ng-click="clear()">清空</button>
+								<button class="btn btn-new btn-mr20" type="button" ng-show="hasPermit('agent.addAgentRoleOem')" ng-click="addAgentRoleOemModal()">新增</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>角色信息列表</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="tposition">
+							<div class="gridStyle grid" ui-grid="agentGrid" ui-grid-selection  ui-grid-resize-columns ui-grid-pagination ui-grid-pinning></div>
+							<div ng-show="loadImg" class="timg"></div>
+						</div>
+					</div>
+					<div style="clear: both; height: 30px;"></div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<div id="addAgentRoleOemModal" class="modal fade" tabindex="3"
+		 role="dialog">
+		<form class="form-horizontal" id="form3">
+			<div class="modal-dialog" style="height: 500px; width: 800px">
+				<div class="modal-content" style="height: 500px; width: 800px">
+					<div class="ibox-title">
+						<button type="button" class="close" data-dismiss="modal">×</button>
+						<h5>代理商角色</h5>
+					</div>
+					<div class="modal-body">
+						<div class="ibox-content">
+							<div class="form-group">
+								<label class="col-lg-3 control-label"><i class="red_req">*</i>角色名称：</label>
+								<div class="col-lg-4">
+									<select class="form-control" ng-model="baseInfo.role_id" ng-options="x.value as x.text for x in agentRoleList"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-3 control-label"><i class="red_req">*</i>代理商类型：</label>
+								<div class="col-lg-4">
+									<select class="form-control" ng-model="baseInfo.agent_type" ng-options="x.value as x.text for x in allAgentType"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-3 control-label">所属品牌：</label>
+								<div class="col-lg-4">
+									<select class="form-control" ng-model="baseInfo.agent_oem" ng-options="x.value as x.text for x in allAgentOem"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-3 control-label">备注：</label>
+								<div class="col-sm-6" style="margin: 7px 0 0 0;">
+									<textarea class="form-control ng-pristine ng-untouched ng-valid ng-empty" rows="3" cols="8" ng-model="baseInfo.remark"></textarea>
+								</div>
+							</div>
+						</div>
+						<div class="form-group control-label">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-6">
+								<button class="btn btn-primary btn-mr20" type="button" ng-click='addAgentRoleOemSubmit()'>提交</button>
+								<button class="btn btn-primary8 " type="button" ng-click='cancelAgentRoleOemModal()'>返回</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<div id="userAgentRoleOemModel" class="modal fade" tabindex="3"
+		 role="dialog">
+		<form class="form-horizontal" id="form2">
+			<div class="modal-dialog" style="height: 400px; width: 900px">
+				<div class="modal-content" style="height: 650px; width: 900px">
+					<div class="ibox-title">
+						<button type="button" class="close" data-dismiss="modal">×</button>
+						<h5>用户清单</h5>
+					</div>
+					<div class="modal-body">
+						<div class="ibox-content">
+							<div class="tposition">
+								<div class="gridStyle grid" ui-grid="agentUserGrid" ui-grid-resize-columns ui-grid-pinning></div>
+								<div ng-show="loadImg2" class="timg"></div>
+							</div>
+						</div>
+						<label class="control-label">用户数量：{{agentUserlist.length}}个</label>
+						<div class="form-group control-label">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-6">
+								<button class="btn btn-primary8 " type="button" ng-click='closeUserAgentRoleOemModel()'>关闭</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

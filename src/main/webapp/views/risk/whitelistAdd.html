@@ -1,0 +1,54 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>风控管理</a></li>
+			<li class="active"><strong>白名单新增</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="whitelistAddCtrl">
+	<form class="form-horizontal" id="form1" name="horizontal">
+			<div class="row">
+				<div class="col-lg-12">
+						<div class="panel-body ibox float-e-margins">
+							<div class="ibox-content">
+								<div class="form-group">
+									<label class="col-sm-2 control-label"><i class="red_req">*</i>白名单类型：</label>
+									<div class="col-sm-4">
+										<select class="form-control" ng-model="info.rollType" ng-options="x.value as x.text for x in whitelistTypes" required/>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label"><i class="red_req">*</i>商户编号/身份证号：</label>
+									<div class="col-sm-4">
+										<input type="text" class="form-control" ng-model="info.rollNo" name="rollNo" required>
+										<input type="hidden" ng-model="info.rollBelong">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">备注：</label>
+									<div class="col-sm-4">
+										<textarea class="form-control" rows="5" cols="20" ng-model="info.remark"></textarea>
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label class="col-sm-2 control-label"></label>
+									<div class="col-lg-10">
+										<button class="btn btn-primary btn-mr20" ng-disabled="horizontal.$invalid || submitting" type="button" ng-click="commit()">提交</button>
+										<a class="btn btn-primary4" type="button"  ui-sref="risk.whitelistMag">返回</a>
+									</div>
+									
+								</div>
+							</div>
+					</div>
+				</div>
+			</div>
+	</form>
+
+
+</div>

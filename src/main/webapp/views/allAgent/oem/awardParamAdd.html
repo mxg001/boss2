@@ -1,0 +1,397 @@
+<!-- head -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>超级盟主</a></li>
+            <li class="active"><strong>奖项参数设置新增</strong></li>
+        </ol>
+    </div>
+</div>
+<style>
+    .fontClass{
+        margin-top:7px;
+    }
+    .textClass{
+        height:36px;
+        color:#666;
+        width:150px;
+    }
+</style>
+
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="awardParamAddCtrl">
+    <form class="form-horizontal" id="form1" name="horizontalCard">
+        <div class="form-group">
+            <div class="col-lg-12">
+                <div class="tabs-container tab_other">
+                    <uib-tabset>
+                        <uib-tab>
+                            <uib-tab-heading>
+									<span class="block m-t-xs"> <i class="fa fa-laptop"></i> <strong
+                                            class="font-bold">基本信息</strong>
+									</span>
+                            </uib-tab-heading>
+                            <div class="panel-body ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <h5>基础信息</h5>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label"><i class="red_req">*</i>所属品牌商:</label>
+                                    <div class="col-sm-3">
+                                        <select class="form-control" name="brandCode" required ng-model="addInfo.brandCode" ng-options="x.value as x.text for x in allAgentOem"/>
+                                        <div class="req_mesg" ng-show="horizontalCard.brandCode.$dirty && horizontalCard.brandCode.$invalid">
+                                            <span ng-show="horizontalCard.brandCode.$error.required">所属组织不能为空</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ibox-title">
+                                    <h5>提现配置</h5>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label"><i class="red_req">*</i>盟主分润提现产品服务id:</label>
+                                    <div class="col-sm-3">
+                                        <select class="form-control" name="outServiceId" required ng-model="addInfo.outServiceId" ng-options="x.value as x.text for x in serviceList"/>
+                                        <div class="req_mesg" ng-show="horizontalCard.outServiceId.$dirty && horizontalCard.outServiceId.$invalid">
+                                            <span ng-show="horizontalCard.outServiceId.$error.required">盟主分润提现产品服务id不能为空</span>
+                                        </div>
+                                    </div>
+                                    <label style="padding-top:7px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注:服务ID在"boss-产品服务管理-服务种类查询"中获取</label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label"><i class="red_req">*</i>直营商户交易提现手续费分润:</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" name="cost" required ng-model="addInfo.cost" ng-pattern="/^([1-9]\d{0,9}|0)(\.\d{1,2})?$/" >
+                                        <div class="req_mesg" ng-show="horizontalCard.cost.$dirty && horizontalCard.cost.$invalid">
+                                            <span ng-show="horizontalCard.cost.$error.required">直营商户交易提现手续费分润不能为空</span>
+                                            <span ng-show="horizontalCard.cost.$error.pattern">直营商户交易提现手续费分润格式不符</span>
+                                        </div>
+                                    </div>
+                                    <label style="padding-top:7px;">元&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注:给直属上级盟主的T0交易提现手续费分润,设置的金额即为分润金额</label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label"><i class="red_req">*</i>账户提现手续费:</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" name="accFee" required ng-model="addInfo.accFee" ng-pattern="/^([1-9]\d{0,9}|0)(\.\d{1,2})?$/" >
+                                        <div class="req_mesg" ng-show="horizontalCard.accFee.$dirty && horizontalCard.accFee.$invalid">
+                                            <span ng-show="horizontalCard.accFee.$error.required">账户提现手续费不能为空</span>
+                                            <span ng-show="horizontalCard.accFee.$error.pattern">账户提现手续费格式不符</span>
+                                        </div>
+                                    </div>
+                                    <label style="padding-top:7px;">元&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注:仅用于APP提现页面显示使用</label>
+                                </div>
+                            </div>
+                        </uib-tab>
+
+                        <!-- 标准分润收益阶梯配置 -->
+                        <uib-tab>
+                            <uib-tab-heading>
+									<span class="block m-t-xs"> <i class="fa fa-laptop"></i> <strong
+                                            class="font-bold">标准分润收益阶梯配置</strong>
+									</span>
+                            </uib-tab-heading>
+                            <div class="panel-body ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <h5>标准分润收益阶梯配置</h5>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-lg-10" >
+                                        <div style="float:right" >
+                                            <button class="btn btn-primary5 btn-mr20" type="button" ng-click="addModal(1)">添加</button>
+                                            <button class="btn btn-primary btn-mr20"  type="button" ng-click="delteData(1)">删除</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-1 control-label"></label>
+                                    <div class="col-lg-9">
+                                        <div style="height:300px"  ui-grid="tradeGrid" ui-grid-selection ui-grid-resize-columns ui-grid-pinning></div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label"><i class="red_req">*</i>允许机构调整分润等级:</label>
+                                    <div class="col-sm-5" style="margin-top:7px;">
+                                        <label><input type="radio" ng-model='addInfo.oneAgentStatus' name="oneAgentStatus"  ng-value="0"/>否</label>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                        <label><input type="radio" ng-model='addInfo.oneAgentStatus' name="oneAgentStatus"  ng-value="1"/>是</label>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label"><i class="red_req">*</i>允许大盟主调整分润等级:</label>
+                                    <div class="col-sm-5" style="margin-top:7px;" >
+                                        <label><input type="radio" ng-model='addInfo.twoAgentStatus' name="twoAgentStatus"  ng-value="0"/>否</label>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                        <label><input type="radio" ng-model='addInfo.twoAgentStatus' name="twoAgentStatus"  ng-value="1"/>是</label>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label"><i class="red_req">*</i>允许盟主调整分润比例:</label>
+                                    <div class="col-sm-5" style="margin-top:7px;" >
+                                        <label><input type="radio" ng-model='addInfo.userStatus' name="userStatus"  ng-value="0"/>否</label>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                        <label><input type="radio" ng-model='addInfo.userStatus' name="userStatus"  ng-value="1"/>是</label>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-1 control-label"></label>
+                                    <div class="col-sm-11" style="margin-top:7px;" >
+                                         <label>注:以上涉及到的团队月流水均指：该盟主整个垂直链条下无限级盟主所有商户的交易流水,从下往上逐层计算出来的和.</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </uib-tab>
+
+                        <!-- VIP分润收益阶梯配置 -->
+                        <uib-tab>
+                            <uib-tab-heading>
+									<span class="block m-t-xs"> <i class="fa fa-laptop"></i> <strong
+                                            class="font-bold">VIP分润收益阶梯配置</strong>
+									</span>
+                            </uib-tab-heading>
+                            <div class="panel-body ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <h5>VIP分润收益阶梯配置</h5>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-lg-10" >
+                                        <div style="float:right" >
+                                            <button class="btn btn-primary5 btn-mr20" type="button" ng-click="addModal(3)">添加</button>
+                                            <button class="btn btn-primary btn-mr20"  type="button" ng-click="delteData(3)">删除</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-1 control-label"></label>
+                                    <div class="col-lg-9">
+                                        <div style="height:300px"  ui-grid="vipGrid" ui-grid-selection ui-grid-resize-columns ui-grid-pinning></div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-1 control-label"></label>
+                                    <div class="col-sm-11" style="margin-top:7px;" >
+                                        <label>注:VIP收款&云闪付的交易分润使用VIP分润阶梯计算</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </uib-tab>
+
+                        <!-- 成长津贴/王者奖金配置 -->
+                        <uib-tab>
+                            <uib-tab-heading>
+									<span class="block m-t-xs"> <i class="fa fa-laptop"></i> <strong
+                                            class="font-bold">成长津贴/王者奖金配置</strong>
+									</span>
+                            </uib-tab-heading>
+                            <div class="panel-body ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <h5>成长津贴配置</h5>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <div style="float:left;">
+                                            <label class="fontClass">发展</label>
+                                            <input type="text"  class="textClass" required ng-model="addInfo.diamonds.adoNum">
+                                            <label class="fontClass">名或以上团队月流水 >= </label>
+                                            <input type="text"  class="textClass" required ng-model="addInfo.diamonds.adoAmount">
+                                            <label class="fontClass">万元的直属盟主,获得万分之</label>
+                                            <input type="text"  class="textClass" required ng-model="addInfo.diamonds.adoRate">
+                                            <label class="fontClass">奖励,封顶</label>
+                                            <input type="text"  class="textClass" required ng-model="addInfo.diamonds.adoLimit">
+                                            <label class="fontClass">元</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ibox-title">
+                                    <h5>王者奖金配置</h5>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label"><i class="red_req">*</i>成为黄金盟主条件:</label>
+                                    <div class="col-sm-10">
+                                        <div style="float:left;">
+                                            <label class="fontClass">发展</label>
+                                            <input type="text"  class="textClass" required ng-model="addInfo.diamonds.goldNum">
+                                            <label class="fontClass">名或以上团队月流水 >= </label>
+                                            <input type="text"  class="textClass" required ng-model="addInfo.diamonds.goldAmount">
+                                            <label class="fontClass">万元的直属盟主;获得奖励:发展数 x </label>
+                                            <input type="text"  class="textClass" required ng-model="addInfo.diamonds.goldAward">
+                                            <label class="fontClass">元</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label"><i class="red_req">*</i>成为铂金盟主条件:</label>
+                                    <div class="col-sm-10">
+                                        <div style="float:left;">
+                                            <label class="fontClass">发展</label>
+                                            <input type="text"  class="textClass" required ng-model="addInfo.diamonds.ptNum">
+                                            <label class="fontClass">名或以上团队月流水 >= </label>
+                                            <input type="text"  class="textClass" required ng-model="addInfo.diamonds.ptAmount">
+                                            <label class="fontClass">万元的直属盟主;获得奖励:发展数 x </label>
+                                            <input type="text"  class="textClass" required ng-model="addInfo.diamonds.ptAward">
+                                            <label class="fontClass">元</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label"><i class="red_req">*</i>成为黑金盟主条件:</label>
+                                    <div class="col-sm-10">
+                                        <div style="float:left;">
+                                            <label class="fontClass">发展</label>
+                                            <input type="text"  class="textClass" required ng-model="addInfo.diamonds.bgoldNum">
+                                            <label class="fontClass">名或以上团队月流水 >= </label>
+                                            <input type="text"  class="textClass" required ng-model="addInfo.diamonds.bgoldAmount">
+                                            <label class="fontClass">万元的直属盟主;获得奖励:发展数 x </label>
+                                            <input type="text"  class="textClass" required ng-model="addInfo.diamonds.bgoldAward">
+                                            <label class="fontClass">元</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label"><i class="red_req">*</i>成为钻石盟主条件:</label>
+                                    <div class="col-sm-10">
+                                        <div style="float:left;">
+                                            <label class="fontClass">发展</label>
+                                            <input type="text"  class="textClass" required ng-model="addInfo.diamonds.diamoNum">
+                                            <label class="fontClass">名或以上团队月流水 >= </label>
+                                            <input type="text"  class="textClass" required ng-model="addInfo.diamonds.diamoAmount">
+                                            <label class="fontClass">万元的直属盟主;获得奖励:发展数 x </label>
+                                            <input type="text"  class="textClass" required ng-model="addInfo.diamonds.diamoAward">
+                                            <label class="fontClass">元</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-1 control-label"></label>
+                                    <div class="col-sm-11" style="margin-top:7px;" >
+                                        <label>注:以上涉及到的团队月流水均指：该盟主整个垂直链条下无限级盟主所有商户的交易流水,从下往上逐层计算出来的和.</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </uib-tab>
+
+                        <!-- 荣耀奖金收益阶梯配置 -->
+                        <uib-tab>
+                            <uib-tab-heading>
+									<span class="block m-t-xs"> <i class="fa fa-laptop"></i> <strong
+                                            class="font-bold">荣耀奖金收益阶梯配置</strong>
+									</span>
+                            </uib-tab-heading>
+                            <div class="panel-body ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <h5>荣耀奖金收益阶梯配置</h5>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-lg-10" >
+                                        <div style="float:right" >
+                                            <button class="btn btn-primary5 btn-mr20" type="button" ng-click="addModal(2)">添加</button>
+                                            <button class="btn btn-primary btn-mr20"  type="button" ng-click="delteData(2)">删除</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-1 control-label"></label>
+                                    <div class="col-lg-9">
+                                        <div style="height:300px"  ui-grid="rewardGrid" ui-grid-selection ui-grid-resize-columns ui-grid-pinning></div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-1 control-label"></label>
+                                    <div class="col-sm-11" style="margin-top:7px;" >
+                                        <label>注:以上涉及到的团队月流水均指：该盟主整个垂直链条下无限级盟主所有商户的交易流水,从下往上逐层计算出来的和.</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </uib-tab>
+                    </uib-tabset>
+                </div>
+            </div>
+
+            <div class="col-lg-12 bgff">
+                <div class="col-sm-12">
+                    <div class="col-lg-3"></div>
+                    <div class="col-sm-6">
+                        <button class="btn btn-primary btn-mr20" type="button" ng-click="submitData()" ng-disabled="horizontalCard.$invalid || submitting">提交</button>
+                        <a class="btn btn-primary4" ui-sref="allAgent.awardParam" >返回</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div id="addModal" class="modal fade form-horizontal" tabindex="4" role="dialog">
+        <div class="modal-dialog" style="height:450px;width: 900px">
+            <div class="modal-content" >
+                <form class="form-horizontal" name="addCard" novalidate>
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            &times;</button>
+                        <h3 class="modal-title">{{title}}</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>{{ladderGradeStr}}:</label>
+                            <div class="col-sm-3">
+                                <select class="form-control" name="ladderGrade" required ng-model="ladderInfo.ladderGrade" ng-options="x.value as x.text for x in levelSelectStr"/>
+                                <div class="req_mesg" ng-show="addCard.ladderGrade.$dirty && addCard.ladderGrade.$invalid">
+                                    <span ng-show="addCard.ladderGrade.$error.required">{{ladderGradeStr}}不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>阶梯开始金额:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="minNum" required ng-model="ladderInfo.minNum"  ng-pattern="/^([1-9]\d{0,9}|0)(\.\d{1,2})?$/" >
+                                <div class="req_mesg" ng-show="addCard.minNum.$dirty && addCard.minNum.$invalid">
+                                    <span ng-show="addCard.minNum.$error.required">阶梯开始金额不能为空</span>
+                                    <span ng-show="addCard.minNum.$error.pattern">阶梯开始金额格式不符</span>
+                                </div>
+                            </div>
+                            <label  class="fontClass" style="color: red">{{unit}}</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>阶梯结束金额:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="maxNum" required ng-model="ladderInfo.maxNum" ng-pattern="/^([1-9]\d{0,9}(\.\d{1,2})?|0(\.\d{1,2})?|-1)$/">
+                                <div class="req_mesg" ng-show="addCard.maxNum.$dirty && addCard.maxNum.$invalid">
+                                    <span ng-show="addCard.maxNum.$error.required">阶梯结束金额不能为空</span>
+                                    <span ng-show="addCard.maxNum.$error.pattern">阶梯开始金额格式不符</span>
+                                </div>
+                            </div>
+                            <label  class="fontClass" style="color: red">{{unit}}</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>收益比例:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="val" required ng-model="ladderInfo.val" ng-pattern="/^([1-9]\d{0,9}|0)(\.\d+)?$/" >
+                                <div class="req_mesg" ng-show="addCard.val.$dirty && addCard.val.$invalid">
+                                    <span ng-show="addCard.val.$error.required">收益比例不能为空</span>
+                                    <span ng-show="addCard.val.$error.pattern">收益比例格式不符</span>
+                                </div>
+                            </div>
+                            <label  class="fontClass" style="color: red">单位:万分</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"></label>
+                            <label class="col-sm-7" style="color:red">注:阶梯配置中,如金额填写为“-1”,代表该金额为无穷大</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="form-group control-label">
+                            <label class="col-sm-1 control-label"></label>
+                            <div class="col-sm-6">
+                                <button class="btn btn-primary btn-mr20" ng-show="modeState"  ng-disabled="addCard.$invalid" type="button" ng-click="saveModal('add')" >确定</button>
+                                <button class="btn btn-primary btn-mr20" ng-show="!modeState" ng-disabled="addCard.$invalid" type="button" ng-click="saveModal('edit')" >确定</button>
+
+                                <button class="btn btn-primary4" type="button" ng-click='cancel()'
+                                >返回</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

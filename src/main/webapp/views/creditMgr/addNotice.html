@@ -1,0 +1,150 @@
+<!-- head -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>信用卡管家</a></li>
+			<li class="active"><strong>新增公告</strong></li>
+		</ol>
+	</div>
+</div>
+
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="cmAddNoticeCtrl">
+	<form class="form-horizontal" id="form1" name="horizontal">
+		<div class="form-group">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>基本信息</h5>
+					<!--<div ibox-tools></div>-->
+				</div>
+				<div class="ibox-content">
+					<div class="row">
+						<div class="form-group col-sm-12">
+							<label class="col-lg-2 control-label"><i class="red_req">*</i>公告标题：</label>
+							<div class="col-lg-7">
+								<input type="text" class="form-control" name="title" ng-model="baseInfo.title" required maxlength="20"/>
+								<div class="req_mesg" ng-show="horizontal.title.$dirty && horizontal.title.$invalid">
+									<span ng-show="horizontal.title.$error.required">公告标题不能为空</span>
+								</div>
+								<div class="col-lg-6">
+									注意：公告标题长度不能超过20个字
+								</div>
+							</div>
+						</div>
+						<div class="form-group col-sm-12">
+							<label class="col-lg-2 control-label"><i class="red_req">*</i>公告内容：</label>
+							<div class="col-lg-7">
+								<textarea type="text" class="form-control" name="content" ng-model="baseInfo.content"
+									style="height: 150px;" required >
+								</textarea>
+								<div class="req_mesg" ng-show="horizontal.content.$dirty && horizontal.content.$invalid">
+									<span ng-show="horizontal.content.$error.required">公告内容不能为空</span>
+								</div>
+							</div>
+							<div class="col-lg-3">
+								注意：公告内容内不能添加图片，只能编辑文字，需要插入图片请在消息图片中上传，公告内容最大长度5000字。
+							</div>
+						</div>
+						<div class="form-group col-sm-12">
+							<label class="col-lg-2 control-label">链接（http开头）：</label>
+							<div class="col-lg-7">
+								<input type="text" class="form-control" name="link" ng-model="baseInfo.link"
+									   placeholder="示例：http://mp.weixin.qq.com/s?src=11&timestamp=1516668131&ver=653&signature=nCAW06GZ3W0ubJX-SrmditErwkory8BNLaW3FjdAloi5ctgeCFi7zmFVU5dSYIWYsEjm5IJ6r94DE1YYCgrzaLaQqF4*5ADEmso4P3WyPJNvp2SJrffuEp8KN8LJdrI0&new=1"/>
+							</div>
+						</div>
+						<div class="form-group col-sm-12">
+							<label class="col-lg-2 control-label">消息图片：</label>
+							<div class="col-lg-7">
+								<input type="file" nv-file-select="" uploader="uploaderImg" multiple  />
+								<table class="table">
+									<tbody>
+									<tr ng-repeat="item in uploaderImg.queue">
+										<td>
+											<strong>{{ item.file.name }}</strong>
+											<div ng-show="uploaderImg.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+										</td>
+										<td ng-show="uploaderImg.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+										<td ng-show="uploaderImg.isHTML5">
+											<div class="progress" style="margin-bottom: 0;">
+												<div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+											</div>
+										</td>
+										<td nowrap>
+											<button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+												<span class="glyphicon glyphicon-trash"></span> 删除
+											</button>
+										</td>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+							<div class="form-group col-sm-12" style="padding: 0;">
+								<label class="col-lg-2 control-label"></label>
+								<div class="col-lg-10">图片大小建议360*720PX，高度320固定，长度可自适应。只能添加一张图片</div>
+							</div>
+
+							<div class="form-group col-sm-12">
+								<label class="col-lg-2 control-label">图片位置：</label>
+								<div class="col-lg-7">
+									<label style="margin-right: 20px;margin-top: 6px"><input type="" value="0" name="imagePosition" ng-model="baseInfo.picPosition"/>置顶</label>
+									<label style="margin-top: 6px"><input type="radio" value="1" name="imagePosition" ng-model="baseInfo.picPosition"/>底部</label>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>下发对象</h5>
+				</div>
+				<div class="ibox-content">
+					<div class="row" style="height:400px;">
+						<div class="form-group col-sm-12">
+							<div class="form-group  col-sm-12">
+								<label class="col-lg-2 control-label"><i class="red_req">*</i>下发组织：</label>
+								<div  class="col-lg-10" style="padding: 0">
+									<label  class="col-lg-12" style="padding: 5px 15px 0;"><input type="checkbox" ng-true-value="1" ng-false-value="0" name="orgAll" ng-change="changeOrgAll()" ng-model="orgAll"/>全部</label>
+									<div class="col-lg-3" ng-repeat="org in orgInfoList">
+										<label><input type="checkbox" ng-true-value="1" ng-false-value="0"  ng-checked="org.checkStatus" ng-model="org.checkStatus" name="orgName" />{{org.orgName}}</label>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group col-sm-12">
+							<label class="col-sm-2 control-label">公告定时上线时间：</label>
+							<div class="col-sm-2">
+								<input id="d5223" class="form-control" type="datetime" ng-model="baseInfo.sendTimeStr" onchange=""  style="width:auto;display:inline-block;"
+									   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss'})"/>
+							</div>
+							<div class="col-sm-6" style="line-height: 36px;">
+								注意：到达设定时间后该公告自动下发，如未设置则必须手动下发公告。
+							</div>
+						</div>
+						<div class="form-group col-sm-12">
+							<label class="col-sm-2 control-label">备注：</label>
+							<div class="col-sm-6">
+								<textarea class="form-control" ng-model="baseInfo.remark" style="height: 150px;"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-12 bgff">
+				<div class="col-sm-12">
+					<div class="col-sm-3"></div>
+					<div class="col-sm-6">
+						<button class="btn btn-new btn-mr20" type="button"
+								 ng-click="submit(1)" ng-disabled="horizontal.$invalid || submitting">立即发布</button>
+						<button class="btn btn-new btn-mr20" type="button"
+								 ng-click="submit(0)" ng-disabled="horizontal.$invalid || submitting">先保存，稍后发布</button>
+						<button class="btn btn-primary4 btn-mr20" type="button"
+								 ui-sref="creditMgr.systemNotice">返回</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

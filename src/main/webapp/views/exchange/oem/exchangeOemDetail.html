@@ -1,0 +1,481 @@
+<!-- head -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>超级兑</a></li>
+            <li class="active"><strong>积分兑换组织详情</strong></li>
+        </ol>
+    </div>
+</div>
+
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn"
+     ng-controller="exchangeOemEditCtrl">
+    <form class="form-horizontal" id="form1" name="horizontalCard">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="tabs-container tab_other">
+                        <uib-tabset>
+                            <uib-tab>
+                                <uib-tab-heading>
+									<span class="block m-t-xs"> <i class="fa fa-laptop"></i> <strong
+                                            class="font-bold">基本信息</strong>
+									</span>
+                                </uib-tab-heading>
+                                <div class="panel-body ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <h5>基本信息</h5>
+                                    </div>
+                                    <div class="form-group">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label"><i class="red_req">*</i>组织名称:</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" name="oemName" readonly ng-model="addinfo.oemName">
+                                        </div>
+                                        <label class="col-sm-2 control-label">对应V2代理商编号:</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" readonly ng-model="agentOem.agentNo">
+                                        </div>
+                                        <label class="col-sm-2 control-label"><i class="red_req">*</i>商务邮箱:</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" name="mailbox" readonly ng-model="addinfo.mailbox">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label"><i class="red_req">*</i>公司编号:</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" name="companyNo" readonly ng-model="addinfo.companyNo">
+                                        </div>
+                                        <label class="col-sm-2 control-label"><i class="red_req">*</i>公司名称:</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" name="companyName" readonly ng-model="addinfo.companyName">
+                                        </div>
+                                        <label class="col-sm-2 control-label"><i class="red_req">*</i>客服电话:</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" name="servicePhone" readonly ng-model="addinfo.servicePhone">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label"><i class="red_req">*</i>微信公众号:</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" name="publicAccount" readonly ng-model="addinfo.publicAccount">
+                                        </div>
+                                        <label class="col-sm-2 control-label"><i class="red_req">*</i>公众号名称:</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" name="publicAccountName" readonly ng-model="addinfo.publicAccountName">
+                                        </div>
+                                        <label class="col-sm-2 control-label"><i class="red_req">*</i>公众号appid:</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" name="appid" readonly ng-model="addinfo.appid">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label"><i class="red_req">*</i>公众号secret:</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" name="secret" readonly ng-model="addinfo.secret">
+                                        </div>
+                                        <label class="col-sm-2 control-label"><i class="red_req">*</i>公众号密文:</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" name="encodingAesKey" readonly ng-model="addinfo.encodingAesKey">
+                                        </div>
+                                        <label class="col-sm-2 control-label"><i class="red_req">*</i>公众号token:</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" name="wxToken" readonly ng-model="addinfo.wxToken">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">公众号ticket:</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" readonly ng-model="addinfo.wxTicket">
+                                        </div>
+                                        <label class="col-sm-2 control-label">极光推送android key:</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" readonly ng-model="addinfo.androidAppKey">
+                                        </div>
+                                        <label class="col-sm-2 control-label">极光推送android secret:</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" readonly ng-model="addinfo.androidMasterSecret">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">极光推送ios key:</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" readonly ng-model="addinfo.iosAppKey">
+                                        </div>
+                                        <label class="col-sm-2 control-label">极光推送ios secret:</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" readonly ng-model="addinfo.iosMasterSecret">
+                                        </div>
+                                        <label class="col-sm-2 control-label">客户端appid:</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" readonly ng-model="addinfo.clientAppid">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">客户端secret:</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" readonly ng-model="addinfo.clientSecret">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">平台服务协议:</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" readonly ng-model="addinfo.agreement">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">备注:</label>
+                                        <div class="col-sm-6">
+                                            <textarea class="form-control" rows="6" cols="10" readonly ng-model="addinfo.remark"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </uib-tab>
+                            <uib-tab>
+                                <uib-tab-heading>
+									<span class="block m-t-xs"> <i class="fa fa-laptop"></i> <strong
+                                            class="font-bold">图片配置</strong>
+									</span>
+                                </uib-tab-heading>
+                                <div class="panel-body ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <h5>图片配置</h5>
+                                    </div>
+                                    <div data-ng-repeat="imgItem in fileList" >
+                                        <div ng-if="$index%2==0">
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">
+                                                    <i class="red_req" ng-if="imgItem.isNeed=='1'">*</i>
+                                                    {{imgItem.propertyDesc}}:
+                                                </label>
+                                                <div class="col-sm-4" ng-if="fileListDefault[$index].configValue!=null&&fileListDefault[$index].configValue!=''">
+                                                    <div class="col-img">
+                                                        <a href="{{fileListDefault[$index].configValue}}" fancybox rel="group">
+                                                            <img width="250px" height="150px" ng-src="{{fileListDefault[$index].configValue}}"/>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4" ng-if="fileListDefault[$index].configValue==null||fileListDefault[$index].configValue==''"></div>
+                                                <div ng-if="fileList[$index+1]!=null">
+                                                    <label class="col-sm-2 control-label">
+                                                        <i class="red_req" ng-if="fileList[$index+1].isNeed=='1'">*</i>
+                                                        {{fileList[$index+1].propertyDesc}}:
+                                                    </label>
+                                                    <div class="col-sm-4" ng-if="fileListDefault[$index+1].configValue!=null&&fileListDefault[$index+1].configValue!=''">
+                                                        <div class="col-img">
+                                                            <a href="{{fileListDefault[$index+1].configValue}}" fancybox rel="group">
+                                                                <img width="250px" height="150px" ng-src="{{fileListDefault[$index+1].configValue}}"/>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </uib-tab>
+                            <uib-tab>
+                                <uib-tab-heading>
+									<span class="block m-t-xs"> <i class="fa fa-laptop"></i> <strong
+                                            class="font-bold">代理升级方案</strong>
+									</span>
+                                </uib-tab-heading>
+                                <div class="panel-body ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <h5>代理升级方案</h5>
+                                    </div>
+                                    <div data-ng-repeat="item in agentList" >
+                                        <div ng-if="$index%2==0">
+                                            <div class="form-group">
+                                                <!--元素1-->
+                                                <div ng-if="item.isNeed=='1'">
+                                                    <label class="col-sm-2 control-label">
+                                                        <i class="red_req">*</i>
+                                                        {{item.propertyDesc}}:
+                                                    </label>
+                                                    <div class="col-sm-2">
+                                                        <input class="form-control" name="{{item.propertyCode}}" readonly ng-model="item.configValue">
+                                                    </div>
+                                                </div>
+                                                <div ng-if="item.isNeed!='1'">
+                                                    <label class="col-sm-2 control-label">
+                                                        {{item.propertyDesc}}:
+                                                    </label>
+                                                    <div class="col-sm-2">
+                                                        <input class="form-control" name="{{item.propertyCode}}" readonly  ng-model="item.configValue">
+                                                    </div>
+                                                </div>
+                                                <label class="col-sm-1" style="margin-top: 10px;">{{item.propertyRemark}}</label>
+
+                                                <!--元素2-->
+                                                <div ng-if="agentList[$index+1]!=null">
+                                                    <div ng-if="agentList[$index+1].isNeed=='1'">
+                                                        <label class="col-sm-2 control-label">
+                                                            <i class="red_req">*</i>
+                                                            {{agentList[$index+1].propertyDesc}}:
+                                                        </label>
+                                                        <div class="col-sm-2">
+                                                            <input class="form-control" name="{{agentList[$index+1].propertyCode}}" readonly ng-model="agentList[$index+1].configValue">
+                                                        </div>
+                                                    </div>
+                                                    <div ng-if="agentList[$index+1].isNeed!='1'">
+                                                        <label class="col-sm-2 control-label">
+                                                            {{agentList[$index+1].propertyDesc}}:
+                                                        </label>
+                                                        <div class="col-sm-2">
+                                                            <input class="form-control" name="{{agentList[$index+1].propertyCode}}" readonly ng-model="agentList[$index+1].configValue">
+                                                        </div>
+                                                    </div>
+                                                    <label class="col-sm-1" style="margin-top: 10px;" >{{agentList[$index+1].propertyRemark}}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <h5>免抵押额度</h5>
+                                    </div>
+                                    <div data-ng-repeat="item in mortList" >
+                                        <div ng-if="$index%2==0">
+                                            <div class="form-group">
+                                                <!--元素1-->
+                                                <div ng-if="item.isNeed=='1'">
+                                                    <label class="col-sm-2 control-label">
+                                                        <i class="red_req">*</i>{{item.propertyDesc}}:
+                                                    </label>
+                                                    <div class="col-sm-2">
+                                                        <input class="form-control" name="{{item.propertyCode}}" readonly ng-model="item.configValue">
+                                                    </div>
+                                                </div>
+                                                <div ng-if="item.isNeed!='1'">
+                                                    <label class="col-sm-2 control-label">
+                                                        {{item.propertyDesc}}:
+                                                    </label>
+                                                    <div class="col-sm-2">
+                                                        <input class="form-control" name="{{item.propertyCode}}"  readonly ng-model="item.configValue">
+                                                    </div>
+                                                </div>
+                                                <label class="col-sm-1" style="margin-top: 10px;" >{{item.propertyRemark}}</label>
+                                                <!--元素2-->
+                                                <div ng-if="mortList[$index+1]!=null">
+                                                    <div ng-if="mortList[$index+1].isNeed=='1'">
+                                                        <label class="col-sm-2 control-label">
+                                                            <i class="red_req">*</i>
+                                                            {{mortList[$index+1].propertyDesc}}:
+                                                        </label>
+                                                        <div class="col-sm-2">
+                                                            <input class="form-control" name="{{mortList[$index+1].propertyCode}}" readonly ng-model="mortList[$index+1].configValue">
+                                                        </div>
+                                                    </div>
+                                                    <div ng-if="mortList[$index+1].isNeed!='1'">
+                                                        <label class="col-sm-2 control-label">
+                                                            <i class="red_req" ng-if="mortList[$index+1].isNeed=='1'">*</i>
+                                                            {{mortList[$index+1].propertyDesc}}:
+                                                        </label>
+                                                        <div class="col-sm-2">
+                                                            <input class="form-control" name="{{mortList[$index+1].propertyCode}}" readonly ng-model="mortList[$index+1].configValue">
+                                                        </div>
+                                                    </div>
+                                                    <label class="col-sm-1" style="margin-top: 10px;" >{{mortList[$index+1].propertyRemark}}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </uib-tab>
+                            <uib-tab>
+                                <uib-tab-heading>
+									<span class="block m-t-xs"> <i class="fa fa-laptop"></i> <strong
+                                            class="font-bold">代理分润比例管理</strong>
+									</span>
+                                </uib-tab-heading>
+                                <div class="panel-body ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <h5>代理分润比例</h5>
+                                    </div>
+                                    <div data-ng-repeat="item in shareList" >
+                                        <div ng-if="$index%2==0">
+                                            <div class="form-group">
+                                                <!--元素1-->
+                                                <div ng-if="item.isNeed=='1'">
+                                                    <label class="col-sm-2 control-label">
+                                                        <i class="red_req">*</i>
+                                                        {{item.propertyDesc}}:
+                                                    </label>
+                                                    <div class="col-sm-2">
+                                                        <input class="form-control" name="{{item.propertyCode}}" readonly ng-model="item.configValue">
+                                                    </div>
+                                                </div>
+                                                <div ng-if="item.isNeed!='1'">
+                                                    <label class="col-sm-2 control-label">
+                                                        {{item.propertyDesc}}:
+                                                    </label>
+                                                    <div class="col-sm-2">
+                                                        <input class="form-control" name="{{item.propertyCode}}" readonly ng-model="item.configValue">
+                                                    </div>
+                                                </div>
+                                                <label class="col-sm-1" style="margin-top: 10px;" >{{item.propertyRemark}}</label>
+
+                                                <!--元素2-->
+                                                <div ng-if="shareList[$index+1]!=null">
+                                                    <div ng-if="shareList[$index+1].isNeed=='1'">
+                                                        <label class="col-sm-2 control-label">
+                                                            <i class="red_req">*</i>
+                                                            {{shareList[$index+1].propertyDesc}}:
+                                                        </label>
+                                                        <div class="col-sm-2">
+                                                            <input class="form-control" name="{{shareList[$index+1].propertyCode}}" readonly ng-model="shareList[$index+1].configValue">
+                                                        </div>
+                                                    </div>
+                                                    <div ng-if="shareList[$index+1].isNeed!='1'">
+                                                        <label class="col-sm-2 control-label">
+                                                            {{shareList[$index+1].propertyDesc}}:
+                                                        </label>
+                                                        <div class="col-sm-2">
+                                                            <input class="form-control" name="{{shareList[$index+1].propertyCode}}" readonly ng-model="shareList[$index+1].configValue">
+                                                        </div>
+                                                    </div>
+                                                    <label class="col-sm-1" style="margin-top: 10px;" >{{shareList[$index+1].propertyRemark}}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </uib-tab>
+                            <uib-tab>
+                                <uib-tab-heading>
+									<span class="block m-t-xs"> <i class="fa fa-laptop"></i> <strong
+                                            class="font-bold">兑换分润比例管理</strong>
+									</span>
+                                </uib-tab-heading>
+                                <div class="panel-body ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <h5>兑换分润比例</h5>
+                                    </div>
+                                    <div data-ng-repeat="item in exchangeList" >
+                                        <div ng-if="$index%2==0">
+                                            <div class="form-group">
+                                                <!--元素1-->
+                                                <div ng-if="item.isNeed=='1'">
+                                                    <label class="col-sm-2 control-label">
+                                                        <i class="red_req">*</i>
+                                                        {{item.propertyDesc}}:
+                                                    </label>
+                                                    <div class="col-sm-2">
+                                                        <input class="form-control" name="{{item.propertyCode}}" readonly ng-model="item.configValue">
+                                                    </div>
+                                                </div>
+                                                <div ng-if="item.isNeed!='1'">
+                                                    <label class="col-sm-2 control-label">
+                                                        {{item.propertyDesc}}:
+                                                    </label>
+                                                    <div class="col-sm-2">
+                                                        <input class="form-control" name="{{item.propertyCode}}" readonly ng-model="item.configValue">
+                                                    </div>
+                                                </div>
+                                                <label class="col-sm-1" style="margin-top: 10px;" >{{item.propertyRemark}}</label>
+
+                                                <!--元素2-->
+                                                <div ng-if="exchangeList[$index+1]!=null">
+                                                    <div ng-if="exchangeList[$index+1].isNeed=='1'">
+                                                        <label class="col-sm-2 control-label">
+                                                            <i class="red_req">*</i>
+                                                            {{exchangeList[$index+1].propertyDesc}}:
+                                                        </label>
+                                                        <div class="col-sm-2">
+                                                            <input class="form-control" name="{{exchangeList[$index+1].propertyCode}}" readonly ng-model="exchangeList[$index+1].configValue">
+                                                        </div>
+                                                    </div>
+                                                    <div ng-if="exchangeList[$index+1].isNeed!='1'">
+                                                        <label class="col-sm-2 control-label">
+                                                            {{exchangeList[$index+1].propertyDesc}}:
+                                                        </label>
+                                                        <div class="col-sm-2">
+                                                            <input class="form-control" name="{{exchangeList[$index+1].propertyCode}}" readonly ng-model="exchangeList[$index+1].configValue">
+                                                        </div>
+                                                    </div>
+                                                    <label class="col-sm-1" style="margin-top: 10px;" >{{exchangeList[$index+1].propertyRemark}}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </uib-tab>
+                            <uib-tab>
+                                <uib-tab-heading>
+									<span class="block m-t-xs"> <i class="fa fa-laptop"></i> <strong
+                                            class="font-bold">等级名称别名配置</strong>
+									</span>
+                                </uib-tab-heading>
+                                <div class="panel-body ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <h5>等级名称别名配置</h5>
+                                    </div>
+                                    <div data-ng-repeat="item in merList" >
+                                        <div ng-if="$index%2==0">
+                                            <div class="form-group">
+                                                <!--元素1-->
+                                                <div ng-if="item.isNeed=='1'">
+                                                    <label class="col-sm-2 control-label">
+                                                        <i class="red_req">*</i>
+                                                        {{item.propertyDesc}}:
+                                                    </label>
+                                                    <div class="col-sm-2">
+                                                        <input class="form-control" name="{{item.propertyCode}}" readonly maxlength="6" ng-model="item.configValue">
+                                                    </div>
+                                                </div>
+                                                <div ng-if="item.isNeed!='1'">
+                                                    <label class="col-sm-2 control-label">
+                                                        {{item.propertyDesc}}:
+                                                    </label>
+                                                    <div class="col-sm-2">
+                                                        <input class="form-control" name="{{item.propertyCode}}" readonly maxlength="6" ng-model="item.configValue">
+                                                    </div>
+                                                </div>
+                                                <label class="col-sm-1" style="margin-top: 10px;" >{{item.propertyRemark}}</label>
+
+                                                <!--元素2-->
+                                                <div ng-if="merList[$index+1]!=null">
+                                                    <div ng-if="merList[$index+1].isNeed=='1'">
+                                                        <label class="col-sm-2 control-label">
+                                                            <i class="red_req">*</i>
+                                                            {{merList[$index+1].propertyDesc}}:
+                                                        </label>
+                                                        <div class="col-sm-2">
+                                                            <input class="form-control" name="{{merList[$index+1].propertyCode}}" readonly maxlength="6" ng-model="merList[$index+1].configValue">
+                                                        </div>
+                                                    </div>
+                                                    <div ng-if="merList[$index+1].isNeed!='1'">
+                                                        <label class="col-sm-2 control-label">
+                                                            {{merList[$index+1].propertyDesc}}:
+                                                        </label>
+                                                        <div class="col-sm-2">
+                                                            <input class="form-control" name="{{merList[$index+1].propertyCode}}" readonly maxlength="6" ng-model="merList[$index+1].configValue">
+                                                        </div>
+                                                    </div>
+                                                    <label class="col-sm-1" style="margin-top: 10px;" >{{merList[$index+1].propertyRemark}}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </uib-tab>
+                        </uib-tabset>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 bgff">
+                <div class="col-sm-12">
+                    <div class="col-lg-3"></div>
+                    <div class="col-sm-6">
+                        <a class="btn btn-primary4" ui-sref="exchange.exchangeOem" >返回</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

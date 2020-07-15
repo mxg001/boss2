@@ -1,0 +1,151 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a href="index.html">主页</a></li>
+            <li>预警人员管理</li>
+            <li class="active"><strong>出款服务预警阀值设置</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="moneyWarningSetCtrl">
+    <form class="form-horizontal" id="form-advertiseTotal-query">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>条件查询</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">出款服务ID：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.serviceId" maxlength="20">
+                            </div>
+                            <label class="col-sm-2 control-label">收单机构：</label>
+                            <div class="col-sm-2">
+                                <select chosen="{width:'100%'}" id="autocomplete-select2" class="chosen-select" tabindex="5"
+                                 ng-model="baseInfo.acqId" ng-options="x.value as x.text for x in acqOrgs">
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">服务类型：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="baseInfo.serviceType"
+                                    ng-options="x.value as x.text for x in moneyServiceTypeAll
+                                    "></select>
+                            </div>
+                            <label class="col-sm-2 control-label">服务名称：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.serviceName" maxlength="30">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">状态：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="baseInfo.warnStatus"
+                                    ng-options="x.value as x.text for x in warnStatusAll"></select>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-top: 30px">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-8">
+                                <button class="btn btn-primary6 btn-mr20"  ng-click="query()" ng-disabled="submitting">查询</button>
+                                <button class="btn btn-primary3 btn-mr20" type="button" ng-click="resetForm()">清空</button>
+                                <button class="btn btn-primary5 btn-mr20" type="button" ng-show="hasPermit('warningSet.updateWaringInfo')"
+                                                                    ui-sref="money.addWarningSet">新增</button>
+                                <button class="btn btn-primary7 btn-mr20" type="button" ng-show="hasPermit('warningSet.exportInfo')" ng-click="exportInfo()">导出</button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>列表</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="tposition">
+                            <div class="gridStyle" ui-grid="warnGrid" ui-grid-pagination
+                                 ui-grid-resize-columns ui-grid-pinning></div>
+                            <div ng-show="loadImg" class="timg"></div>
+                        </div>
+                    </div>
+                </div>
+                <div style="height:50px;"></div>
+            </div>
+        </div>
+    </form>
+
+    <div id="updateModal" class="modal fade form-horizontal" tabindex="3" role="dialog">
+    		<div class="modal-dialog" style="height:300px;width: 700px">
+    			<div class="modal-content" style="height:300px;width: 700px">
+    			<form class="form-horizontal" name="horizontalUpdate">
+    				<div class="modal-header">
+    					<button type="button" class="close" data-dismiss="modal">
+    						&times;</button>
+    					<h3 class="modal-title">修改</h3>
+    				</div>
+    				<div class="modal-body">
+    					<div class="form-group">
+    						<label class="col-sm-2 control-label"><i class="red_req">*</i>结算中异常笔数：</label>
+    						<div class=" col-sm-4">
+    						    <input type="text" class="form-control" name="exceptionNumber" ng-model="warnInfo.exceptionNumber" maxlength="30"
+    						        ng-pattern="/^([1-9])\d{0,10}$/" required>
+    						    <div class="req_mesg" ng-show="horizontalUpdate.exceptionNumber.$dirty && horizontalUpdate.exceptionNumber.$invalid">
+                                    <span ng-show="horizontalUpdate.exceptionNumber.$error.required">结算中异常笔数不能为空</span>
+                                    <span ng-show="horizontalUpdate.exceptionNumber.$error.pattern">结算中异常笔数只能是正整数</span>
+                                </div>
+    						</div>
+    						<label class="col-sm-2 control-label"><i class="red_req">*</i>结算失败异常笔数：</label>
+                                <div class=" col-sm-4">
+                                    <input type="text" class="form-control" name="failurExceptionNumber" ng-model="warnInfo.failurExceptionNumber" maxlength="30"
+                                        ng-pattern="/^([1-9])\d{0,10}$/" required>
+                                    <div class="req_mesg" ng-show="horizontalUpdate.failurExceptionNumber.$dirty && horizontalUpdate.failurExceptionNumber.$invalid">
+                                        <span ng-show="horizontalUpdate.failurExceptionNumber.$error.required">结算失败异常笔数不能为空</span>
+                                        <span ng-show="horizontalUpdate.failurExceptionNumber.$error.pattern">结算失败异常笔数只能是正整数</span>
+                                    </div>
+                                </div>
+    					</div>
+    					<div class="form-group" ng-show="warnInfo.warnTimeType==2">
+    					    <label class="col-sm-2 control-label"><i class="red_req">*</i>预警时间：</label>
+                            <div class="col-sm-4">
+                                <div class="input-group " clock-picker data-autoclose="true">
+                                    <input type="text" class="form-control" ng-model="warnInfo.warnStartTime" ng-required="warnInfo.warnTimeType==2">
+                                    <span class="input-group-addon">
+                                        <span class="fa fa-clock-o"></span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="input-group " clock-picker data-autoclose="true">
+                                    <input type="text" class="form-control" ng-model="warnInfo.warnEndTime" ng-required="warnInfo.warnTimeType==2">
+                                    <span class="input-group-addon">
+                                        <span class="fa fa-clock-o"></span>
+                                    </span>
+                                </div>
+                            </div>
+    					</div>
+    				</div>
+    				<div class="modal-footer">
+    					<div class="form-group control-label">
+    							<label class="col-sm-2 control-label"></label>
+    							<div class="col-sm-6">
+    									<button class="btn btn-primary btn-mr20" type="button" ng-click='updateWarn()'
+    									ng-disabled="horizontalUpdate.$invalid"
+    									>确定</button>
+    									<button class="btn btn-primary8" type="button" ng-click='cancel()'
+    									>取消</button>
+    							</div>
+    						</div>
+    				</div>
+    				</form>
+    			</div>
+    		</div>
+    	</div>
+</div>

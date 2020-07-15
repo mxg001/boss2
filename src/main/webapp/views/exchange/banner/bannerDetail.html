@@ -1,0 +1,102 @@
+<!-- head -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>超级兑</a></li>
+            <li class="active"><strong>banner广告详情</strong></li>
+        </ol>
+    </div>
+</div>
+
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="bannerEditCtrl">
+    <form class="form-horizontal" id="form1" name="horizontalCard">
+        <div class="form-group">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="ibox-title">
+                        <h5>banner广告详情</h5>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>所属组织:</label>
+                            <div class="col-sm-3">
+                                <select class="form-control" name="oemNo" readonly ng-model="addInfo.oemNo" ng-options="x.value as x.text for x in oemList"/>
+                                <div class="req_mesg" ng-show="horizontalCard.oemNo.$dirty && horizontalCard.oemNo.$invalid">
+                                    <span ng-show="horizontalCard.oemNo.$error.required">所属组织不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>banner位置:</label>
+                            <div class="col-sm-3">
+                                <select class="form-control" name="applyType" readonly ng-model="addInfo.applyType" ng-options="x.value as x.text for x in applyTypeSelect"/>
+                                <div class="req_mesg" ng-show="horizontalCard.applyType.$dirty && horizontalCard.applyType.$invalid">
+                                    <span ng-show="horizontalCard.applyType.$error.required">banner位置不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>图片:</label>
+                            <div class="col-img" ng-if="addInfo.imgUrl!=null&&addInfo.imgUrl!=''" >
+                                <a href="{{addInfo.imgUrl}}" fancybox rel="group">
+                                    <img width="250px" height="150px" ng-src="{{addInfo.imgUrl}}"/>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>广告名称:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="bannerName" readonly ng-model="addInfo.bannerName">
+                                <div class="req_mesg" ng-show="horizontalCard.bannerName.$dirty && horizontalCard.bannerName.$invalid">
+                                    <span ng-show="horizontalCard.bannerName.$error.required">广告名称不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>权重:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="showNo" readonly ng-model="addInfo.showNo">
+                                <div class="req_mesg" ng-show="horizontalCard.showNo.$dirty && horizontalCard.showNo.$invalid">
+                                    <span ng-show="horizontalCard.showNo.$error.required">权重不能为空</span>
+                                </div>
+                            </div>
+                            <label class="col-sm-2 control-label" style="color: red">注:数字越小,就越优先显示</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>上/下线时间:</label>
+                            <div class="col-sm-5">
+                                <input id="d5231" class="form-control" type="datetime" ng-model="addInfo.upTime" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="var d5232=$dp.$('d5232');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5232.focus();},maxDate:'#F{$dp.$D(\'d5232\')}'})"/>
+                                ~
+                                <input id="d5232" class="form-control" type="datetime"  ng-model="addInfo.downTime" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5231\')}'})"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">链接地址:</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" readonly ng-model="addInfo.link">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">备注:</label>
+                            <div class="col-sm-7">
+                                <textarea class="form-control" rows="4" cols="15"  readonly ng-model="addInfo.remark"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 bgff">
+                <div class="col-sm-12">
+                    <div class="col-lg-3"></div>
+                    <div class="col-sm-6">
+                        <a class="btn btn-primary4" ui-sref="exchange.banner" >返回</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

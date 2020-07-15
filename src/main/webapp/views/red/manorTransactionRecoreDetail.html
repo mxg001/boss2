@@ -1,0 +1,171 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li class="active"><strong>领地买卖详情</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="manorTransactionRecoreDetailCtrl">
+	<form class="form-horizontal" id="form1" name="horizontal">
+		<div class="row">
+			<div class="col-lg-12" style="padding-bottom: 80px;">
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>订单数据</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">订单编号：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.orderNo"></div>
+							<label class="col-sm-2 control-label">转让时间：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.payDate | date:'yyyy-MM-dd HH:mm:ss'"></div>
+							<label class="col-sm-2 control-label">订单状态：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.status| formatDropping:statusList"></div>
+							
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">记账状态：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.accountStatus | formatDropping:accountStatusList"></div>
+							<label class="col-sm-2 control-label">领地：</label>
+							<div class="col-sm-1 checkbox" ng-bind="infoDetail.provinceName"></div>
+							<div class="col-sm-1 checkbox" ng-bind="infoDetail.cityName"></div>
+							<div class="col-sm-1 checkbox" ng-bind="infoDetail.regionName"></div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label">原领主所属组织：</label>
+							<div class="col-sm-1 checkbox" ng-bind="infoDetail.oldLordsOrgName"></div>
+							<label class="col-sm-2 control-label">原领主用户编号：</label>
+							<div class="col-sm-1 checkbox" ng-bind="infoDetail.oldLordsUserCode"></div>
+							<label class="col-sm-2 control-label">原领主用户姓名：</label>
+							<div class="col-sm-1 checkbox" ng-bind="infoDetail.userName "></div>
+							<label class="col-sm-2 control-label">原领主用户手机号：</label>
+							<div class="col-sm-1 checkbox" ng-bind="infoDetail.phone "></div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label">新领主所属组织：</label>
+							<div class="col-sm-1 checkbox" ng-bind="infoDetail.newLordsOrgName"></div>
+							<label class="col-sm-2 control-label">新领主用户编号：</label>
+							<div class="col-sm-1 checkbox" ng-bind="infoDetail.newLordsUserCode"></div>
+							<label class="col-sm-2 control-label">新领主用户姓名：</label>
+							<div class="col-sm-1 checkbox" ng-bind="infoDetail.newUserName"></div>
+							<label class="col-sm-2 control-label">新领主用户手机号：</label>
+							<div class="col-sm-1 checkbox" ng-bind="infoDetail.newPhone "></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">原领主买入时间：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.oldPayDate | date:'yyyy-MM-dd HH:mm:ss'"></div>
+							<label class="col-sm-2 control-label">原领主买入价格：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.oldPayPrice "></div>
+							<label class="col-sm-2 control-label">溢价：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.premiumPrice "></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">原领主领地收益：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.oldTotalProfit"></div>
+							<label class="col-sm-2 control-label">原领主转让收益：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.tradeProfit"></div>
+							<label class="col-sm-2 control-label">新领主购买价格：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.price"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">支付方式：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.payMethod |formatDropping:payMethodList"></div>
+							<label class="col-sm-2 control-label">收款通道：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.payChannel |formatDropping:payChannelStatusList"></div>
+							<label class="col-sm-2 control-label">收款通道商户号：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.payChannelNo "></div>
+							<label class="col-sm-2 control-label">收款流水号：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.payOrderNo "></div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label">原领主转让溢价分成百分比%：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.premiumTerritory "></div>
+							<label class="col-sm-2 control-label">领地溢价分润百分比%：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.premiumProfit"></div>
+							<label class="col-sm-2 control-label">品牌截留奖金：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.orgBonusConf "></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">领地交易手续费：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.tradeFee "></div>
+							<label class="col-sm-2 control-label">领地交易手续费率：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.tradeFeeConfStr"></div>
+						</div>
+					</div>
+				</div>
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>分润数据</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">一级编号：</label>
+							<div class="col-sm-1 checkbox" ng-bind="infoDetail.oneUserCode"></div>
+							<label class="col-sm-2 control-label">一级名称：</label>
+							<div class="col-sm-1 checkbox" ng-bind="infoDetail.oneUserName "></div>
+							<label class="col-sm-2 control-label">一级身份：</label>
+							<div class="col-sm-1 checkbox" ng-bind="infoDetail.oneUserType | formatDropping:userTypeList"></div>
+							<label class="col-sm-2 control-label">一级分润：</label>
+							<div class="col-sm-1 checkbox" ng-bind="infoDetail.oneUserProfit "></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">二级编号：</label>
+							<div class="col-sm-1 checkbox" ng-bind="infoDetail.twoUserCode"></div>
+							<label class="col-sm-2 control-label">二级名称：</label>
+							<div class="col-sm-1 checkbox" ng-bind="infoDetail.twoUserName "></div>
+							<label class="col-sm-2 control-label">二级身份：</label>
+							<div class="col-sm-1 checkbox" ng-bind="infoDetail.twoUserType | formatDropping:userTypeList"></div>
+							<label class="col-sm-2 control-label">二级分润：</label>
+							<div class="col-sm-1 checkbox" ng-bind="infoDetail.twoUserProfit "></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">三级编号：</label>
+							<div class="col-sm-1 checkbox" ng-bind="infoDetail.thrUserCode"></div>
+							<label class="col-sm-2 control-label">三级名称：</label>
+							<div class="col-sm-1 checkbox" ng-bind="infoDetail.thrUserName "></div>
+							<label class="col-sm-2 control-label">三级身份：</label>
+							<div class="col-sm-1 checkbox" ng-bind="infoDetail.thrUserType | formatDropping:userTypeList"></div>
+							<label class="col-sm-2 control-label">三级分润：</label>
+							<div class="col-sm-1 checkbox" ng-bind="infoDetail.thrUserProfit "></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">四级编号：</label>
+							<div class="col-sm-1 checkbox" ng-bind="infoDetail.fouUserCode"></div>
+							<label class="col-sm-2 control-label">四级名称：</label>
+							<div class="col-sm-1 checkbox" ng-bind="infoDetail.fouUserName"></div>
+							<label class="col-sm-2 control-label">四级身份：</label>
+							<div class="col-sm-1 checkbox" ng-bind="infoDetail.fouUserType | formatDropping:userTypeList"></div>
+							<label class="col-sm-2 control-label">四级分润：</label>
+							<div class="col-sm-1 checkbox" ng-bind="infoDetail.fouUserProfit "></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">品牌商名称：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.oldLordsOrgName"></div>
+							<label class="col-sm-2 control-label">品牌商分润：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.orgProfit"></div>
+							<label class="col-sm-2 control-label">平台分润：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.plateProfit"></div>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-7">
+								<button class="btn btn-primary4" type="button"
+									ui-sref="red.manorTransactionRecore">返回</button>
+							</div>
+						</div>
+			   </div>
+			</div>
+		</div>
+	</form>
+
+</div>

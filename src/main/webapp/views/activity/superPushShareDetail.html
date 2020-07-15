@@ -1,0 +1,55 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>微创业商户查询</a></li>
+			<li class="active"><strong>分润详情</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="superPushShareDetailCtrl">
+	<form class="form-horizontal" id="form1" name="horizontal">
+		<div class="row">
+			<div class="col-lg-12" style="padding-bottom:80px;">
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>基本信息</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label" ng-hide="activityTimeHide">统计日期：</label>
+								<div class="col-sm-2" ng-hide="activityTimeHide">
+									<input type="datetime" class="form-control" style="width:auto;display:inline-block;"
+									  date-time ng-model="baseInfo.transTimeStart" date-change="changeMinMax" max-date="maxDate"  view="date"  min-view="date" format="YYYY-MM-DD"  >
+								</div>
+								<div class="col-sm-2" ng-hide="activityTimeHide">
+									<input type="datetime" class="form-control" style="width:auto;display:inline-block;"
+									  date-time ng-model="baseInfo.transTimeEnd" date-change="changeMinMax" max-date="maxDate"  view="date"  min-view="date" format="YYYY-MM-DD"  >
+								</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2"></label>
+							<div class="col-sm-10">
+								<button class="btn btn-primary6 btn-mr20" type="button" ng-click='query()' id="btnSubmit">查询</button>
+								<button class="btn btn-primary3 btn-mr20" type="button" ng-click="resetForm()">清空</button>
+								<button class="btn btn-new btn-mr20" type="button" ng-click='exportExcel()' id="btnSubmit">导出</button>
+								<button class="btn btn-primary4 btn-mr20" type="button" ui-sref="activity.superPush">返回</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+					</div>
+					<div class="ibox-content">
+						<div class="gridStyle" ui-grid="superPushShareGrid"
+							ui-grid-pagination ui-grid-resize-columns ui-grid-pinning></div>
+					</div>
+				</div>
+		</div>
+		</div>
+	</form>
+</div>

@@ -1,0 +1,93 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>风控管理</a></li>
+			<li class="active"><strong>实名认证</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="authCardCtrl">
+	<form class="form-horizontal" id="form1">
+			<div class="row">
+				<div class="col-lg-12">
+						<div class="panel-body ibox float-e-margins">
+							<div class="ibox-content">
+							
+								<div class="form-group">
+									<label class="col-sm-1 control-label">商户编号：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" ng-model="info.merchantNo">
+									</div>
+								
+									<label class="col-sm-2 control-label">商户名称：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" ng-model="info.merchantName">
+									</div>
+									
+									<label class="col-sm-2 control-label">银行卡号：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" ng-model="info.cardNo">
+									</div>
+									
+								</div>
+								
+								<div class="form-group">
+									<label class="col-sm-1 control-label">持卡人：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" ng-model="info.userName">
+									</div>
+									<label class="col-sm-2 control-label">认证状态：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.status">
+										<option value="">全部</option>
+										<option value="1">成功</option>
+										<option value="0">失败</option>
+											<option value="2">失效</option>
+										</select>
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label class="col-sm-1 control-label">创建时间：</label>
+									<div class="col-sm-6">
+										<input type="datetime" style="width:auto;display:inline-block;" ng-model="info.sdate" class="form-control" date-time ng-model="info.sTime" min-view="date" view="date" format="YYYY-MM-DD">
+										~
+										<div style="position: relative; display: inline-block"><input type="datetime" ng-model="info.edate" class="form-control" style="width:auto;display:inline-block;" date-time ng-model="info.eTime" view="date"  min-view="date" format="YYYY-MM-DD"></div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-lg-12">
+										<label class="col-sm-1 control-label"></label>
+										<button class="btn btn-primary6 btn-mr20" type="button" ng-click="query()">查询</button>
+										<button class="btn btn-primary3 btn-mr20" type="button" ng-click="reset()">清空</button>
+										 <button class="btn btn-primary7" type="button"  ng-click="exportInfo()">导出</button>
+											<!-- ng-show="hasPermit('riskRoll.export')" -->
+									</div>
+									
+								</div>
+								<div class="form-group">
+									<button class="btn btn-new btn-rounded col-lg-4" style="width:100px; padding:6px 0;" type="button" 
+										id="btnSubmit" ng-click="toggle()" ng-hide="myVar1">认证统计</button>
+									<div class="btn col-lg-8" id="authCardCount" style="text-align: left;" ng-hide="myVar">
+										总共认证卡数：<span >{{totalCount}}</span>
+										成功：<span>{{sucCount}}</span>
+									</div>
+								</div>
+								
+								<div class="">
+									<div ui-grid="blacklistGrid" ui-grid-pagination ui-grid-selection ui-grid-resize-columns class="grid"></div>
+								</div>
+							</div>
+							
+					</div>
+				</div>
+			</div>
+			
+			
+	</form>
+
+</div>

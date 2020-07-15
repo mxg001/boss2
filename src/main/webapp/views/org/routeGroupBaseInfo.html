@@ -1,0 +1,109 @@
+<div class="form-group">
+	<label class="col-sm-2 control-label"><i class="red_req">*</i>收单机构:</label>
+	<div class="col-sm-2">
+		<select class="form-control" ng-change="queryByService()" ng-model="info.acqId" ng-options="x.id as x.acqName for x in acqOrgs" required/>
+	</div>
+	<label class="col-sm-2 control-label"><i class="red_req">*</i>收单服务:</label>
+	<div class="col-sm-2">
+		<select class="form-control" ng-model="info.acqServiceId" ng-options="x.id as x.serviceName for x in acqServices" required/>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">所属代理商：</label>
+	<div class="col-sm-2">
+		<select class="form-control" ng-model="info.agentNo" ng-options="x.agentNo as x.agentName for x in agentInfos"/>
+	</div>
+    <label class="col-sm-2 control-label"><i class="red_req">*</i>商户服务类型：</label>
+    <div class="col-sm-2">
+      	<select class="form-control" ng-model="info.serviceType" name="serviceType" ng-options="x.value as x.text for x in newServiceTypes" required/>
+    </div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label"><i class="red_req">*</i>所属省份：</label>
+	<div class="col-sm-2">
+		<select class="form-control" ng-model="info.groupProvince" ng-options="x.name as x.name for x in provinceInfos" ng-change="getCities()" required/>
+	</div>
+    <label class="col-sm-2 control-label"><i class="red_req">*</i>所属地级市：</label>
+    <div class="col-sm-2">
+      	<select class="form-control" ng-model="info.groupCity" ng-options="x.name as x.name for x in cities" required/>
+    </div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">集群后缀：</label>
+	<div class="col-sm-2">
+		<input class="form-control" ng-model="info.routeLast">
+	</div>
+    <label class="col-sm-2 control-label"><i class="red_req">*</i>是否优质：</label>
+	<div class="col-sm-2">
+		<select class="form-control" ng-model="info.mySettle" ng-options="x.value as x.text for x in bool" required/>
+	</div>
+</div>
+<!-- <div class="form-group">
+	<label class="col-sm-2 control-label">允许交易时间：</label>
+	<div class="col-sm-2">
+		<div class="input-group " clock-picker data-autoclose="true">
+               <input type="text" class="form-control" ng-model="info.allowTransStartTime" >
+               <span class="input-group-addon">
+                   <span class="fa fa-clock-o"></span>
+               </span>
+           </div>
+       </div>   
+       <div class="col-sm-2" align="center">
+       	-
+       </div>
+	<div class="col-sm-2">
+		<div class="input-group " clock-picker data-autoclose="true">
+               <input type="text" class="form-control" ng-model="info.allowTransEndTime">
+               <span class="input-group-addon">
+                   <span class="fa fa-clock-o"></span>
+               </span>
+           </div>
+	</div>
+</div> -->
+<div class="form-group">
+	<label class="col-sm-2 control-label"><i class="red_req">*</i>默认收单商户每日限额：</label>
+	<div class="col-sm-2">
+         <input type="text" class="form-control" name="defAcqDayAmount" ng-pattern="/^(([1-9]\d{0,9}))(\.\d{1,2})?$/" ng-model="info.defAcqDayAmount" required>
+		<div class="req_mesg" ng-show="horizontal.defAcqDayAmount.$dirty && horizontal.defAcqDayAmount.$invalid">
+			<span ng-show="horizontal.defAcqDayAmount.$error.required">默认收单商户每日限额不能为空</span>
+			<span ng-show="horizontal.defAcqDayAmount.$error.pattern">请输入正确的限额</span>
+		</div>
+    </div>   
+    <label class="col-sm-2 control-label">备用集群编号：</label>
+	<div class="col-sm-2">
+		<input type="text" class="form-control" ng-model="info.backupsGroupCode">
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label"><i class="red_req">*</i>预警手机号：</label>
+	<div class="col-sm-2">
+		<input type="text" class="form-control" ng-model="info.warnMobile" name="mobilephone"  ng-pattern="/^1[3|4|5|7|8]\d{9}(,1[3|4|5|7|8]\d{9}){0,2}$/" required/>
+		<span class="req_mesg">(多个手机号码用英文逗号分隔)</span>
+		<div class="req_mesg" ng-show="horizontal.mobilephone.$dirty && horizontal.mobilephone.$invalid">
+			<span ng-show="horizontal.mobilephone.$error.required">手机号不能为空</span>
+			<span ng-show="horizontal.mobilephone.$error.pattern">请输入正确的手机号码</span>
+		</div>
+    </div>  
+	<label class="col-sm-2 control-label">集群类型：</label>
+	<div class="col-sm-2">
+		<select class="form-control" ng-model="info.routeType" ng-options="x.value as x.text for x in routeTypes"/>
+		
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">映射集群：</label>
+	<div class="col-sm-2">
+		<input type = 'text' id="searchField"  ng-change="changeKeyValue(searchField)" ng-model="searchField" style = 'width:300px' ng-click = 'closeSelect()'/>  
+		<div  ng-hide="closeGroupSelect">    
+        	<select style = 'width:300px' ng-click="click(x)" ng-model="x" multiple>    
+            	<option ng-repeat=" x in datas" >{{x.group_code+x.group_name}}</option>    
+        	</select>    
+    	</div>  
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">集群描述：</label>
+	<div class="col-sm-6">
+		<textarea rows="5" cols="20" class="form-control" ng-model="info.routeDescribe"/>
+	</div>
+</div>

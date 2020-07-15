@@ -1,0 +1,18 @@
+<div class="form-group">
+									<label class="col-sm-2 control-label">适用范围：</label>
+									<div class="col-sm-2">
+									    <input  type="checkbox" name="全部" ng-click="selectAll($event)" ng-model="allState">全部
+										<div ng-repeat="dict in allScope">
+									   	<input  type="checkbox" name="{{dict.teamName}}" ng-click="updateSelection($event,dict.teamId)" ng-disabled="allState" ng-model="dict.state">{{dict.teamName}}
+									   	</div>
+									</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">商户类型：</label>
+	<div class="col-sm-2">
+		<input  type="checkbox" name="全部" ng-click="selectMerTypeAll($event)" ng-model="allMerType">全部
+		<div ng-repeat="merType in merTypeList">
+			<input  type="checkbox" name="{{merType.text}}" ng-click="updateMerTypeSelection($event,merType.value)" ng-disabled="allMerType" ng-model="merType.state">{{merType.text}}
+		</div>
+	</div>
+</div>

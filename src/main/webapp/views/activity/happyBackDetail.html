@@ -1,0 +1,118 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>活动查询</a></li>
+			<li class="active"><strong>欢乐返商户详情</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="happyBackDetailCtrl">
+	<form class="form-horizontal" id="form1" name="horizontal">
+		<div class="row">
+			<div class="col-lg-12" style="padding-bottom:80px;">
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>激活订单信息</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">激活订单号：</label>
+								<div class="col-sm-2 checkbox" ng-bind="mbp.activeOrder">
+							</div>
+							<label class="col-sm-2 control-label">商户名称：</label>
+								<div class="col-sm-2 checkbox" ng-bind="mbp.merchantName">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">商户编号：</label>
+								<div class="col-sm-2 checkbox" ng-bind="mbp.merchantNo">
+							</div>
+							<label class="col-sm-2 control-label">所属代理商名称：</label>
+								<div class="col-sm-2 checkbox" ng-bind="mbp.agentName">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">欢乐返类型：</label>
+								<div class="col-sm-2 checkbox" ng-bind="mbp.activiyName">
+							</div>
+							<label class="col-sm-2 control-label">欢乐返子类型编号：</label>
+								<div class="col-sm-2 checkbox" ng-bind="mbp.activityTypeNo">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">欢乐返子类型：</label>
+								<div class="col-sm-2 checkbox" ng-bind="mbp.activityTypeName">
+							</div>
+							<label class="col-sm-2 control-label">硬件产品ID：</label>
+								<div class="col-sm-2 checkbox" ng-bind="mbp.hardId">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">所属组织：</label>
+								<div class="col-sm-2 checkbox" ng-bind="mbp.teamName">
+							</div>
+							<label class="col-sm-2 control-label">所属子组织：</label>
+								<div class="col-sm-2 checkbox" ng-bind="mbp.teamEntryName">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">交易金额：</label>
+								<div class="col-sm-2 checkbox" ng-bind="mbp.transTotal">
+							</div>
+							<label class="col-sm-2 control-label">所属代理商编号：</label>
+								<div class="col-sm-2 checkbox" ng-bind="mbp.agentNo">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">活动状态：</label>
+								<div class="col-sm-2 checkbox" ng-bind="statusTypes(mbp.status)">
+							</div>
+							<label class="col-sm-2 control-label">累计交易：</label>
+								<div class="col-sm-2 checkbox" ng-bind="mbp.cumulateTransAmount">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">互斥不补贴：</label>
+							<div class="col-sm-2 checkbox" ng-bind="exclusionStatuss(mbp.isExclusion)">
+							</div>
+						</div>
+
+						<div class="panel-body ibox float-e-margins">
+							<div class="ibox-title">
+								<h5>代理商返现明细</h5>
+							</div>
+							<div class="ibox-content">
+								<div class="gridStyle auditDetail" style="height: 200px;" ui-grid-resize-columns ui-grid="agentCashBackDetail"/>
+							</div>
+
+						</div>
+						<div class="panel-body ibox float-e-margins">
+							<div class="ibox-title">
+								<h5>代理商满奖明细</h5>
+							</div>
+							<div class="ibox-content">
+								<div class="gridStyle auditDetail" style="height: 200px;" ui-grid-resize-columns ui-grid="agentFullPrizeDetail"/>
+							</div>
+
+						</div>
+						<div class="panel-body ibox float-e-margins">
+							<div class="ibox-title">
+								<h5>代理商不满扣明细</h5>
+							</div>
+							<div class="ibox-content">
+								<div class="gridStyle auditDetail" style="height: 200px;" ui-grid-resize-columns ui-grid="agentNoFullBuckleDetail"/>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+		</div>
+		</div>
+	</form>
+</div>

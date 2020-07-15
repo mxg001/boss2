@@ -1,0 +1,167 @@
+<!-- head -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>超级兑</a></li>
+            <li class="active"><strong>积分兑换订单修改</strong></li>
+        </ol>
+    </div>
+</div>
+
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="exchangeEditCtrl">
+    <form class="form-horizontal" id="form1" name="horizontalCard">
+        <div class="form-group">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="ibox-title">
+                            <h5>报单产品信息</h5>
+                        </div>
+                        <div class="form-group" >
+                            <label class="col-sm-2 control-label">订单号:</label>
+                            <div class="col-sm-3">
+                                <input class="form-control" readonly ng-model="addinfo.orderNo">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>机构名称:</label>
+                            <div class="col-sm-3">
+                                <select class="form-control" ng-change="changeOrgCode()" name="orgCode" disabled
+                                        ng-model="addinfo.orgCode" ng-options="x.value as x.text for x in orgList"/>
+                                <div class="req_mesg" ng-show="horizontalCard.orgCode.$dirty && horizontalCard.orgCode.$invalid">
+                                    <span ng-show="horizontalCard.orgCode.$error.required">机构名称不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>积分产品类别:</label>
+                            <div class="col-sm-3">
+                                <select class="form-control" ng-disabled="!selectState.type" ng-change="changeTypeCode()" required
+                                        name="typeCode" ng-model="addinfo.typeCode" ng-options="x.value as x.text for x in typeList"/>
+                                <div class="req_mesg" ng-show="horizontalCard.typeCode.$dirty && horizontalCard.typeCode.$invalid">
+                                    <span ng-show="horizontalCard.typeCode.$error.required">积分产品类别不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>产品名称:</label>
+                            <div class="col-sm-3" ng-show="selectState.pro" >
+                                <select  name="productId" id="autocomplete-select3"
+                                         ng-model="addinfo.productId" required ng-options="x.value as x.text for x in productList"
+                                         style="width: 100%" chosen chosen-data="productId" chosen-keyup="getStates" >
+                                </select>
+                                <div class="req_mesg" ng-show="horizontalCard.productId.$dirty && horizontalCard.productId.$invalid">
+                                    <span ng-show="horizontalCard.productId.$error.required">产品名称不能为空</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-3" ng-show="!selectState.pro">
+                                <select class="form-control" disabled name="proId" required
+                                        ng-model="addinfo.productId" ng-options="x.value as x.text for x in productList"/>
+                                <div class="req_mesg" ng-show="horizontalCard.proId.$dirty && horizontalCard.proId.$invalid">
+                                    <span ng-show="horizontalCard.proId.$error.required">产品名称不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show="mapConfig.need_logistics_info==1" >
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>物流信息:</label>
+                            <div class="col-sm-3">
+                                <input class="form-control" ng-model="addinfo.logisticsInfo">
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show="mapConfig.need_exec_num==1" >
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>兑换数量:</label>
+                            <div class="col-sm-3">
+                                <input class="form-control" ng-model="addinfo.execNum">
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show="mapConfig.need_redeem_code==1" >
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>兑换码:</label>
+                            <div class="col-sm-3">
+                                <input class="form-control" ng-model="addinfo.redeemCode">
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show="mapConfig.need_express_date==1" >
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>有效期:</label>
+                            <div class="col-sm-5">
+                                <input id="d5231" class="form-control" type="datetime" ng-model="addinfo.validityDateStart" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="var d5232=$dp.$('d5232');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd',onpicked:function(){d5232.focus();},maxDate:'#F{$dp.$D(\'d5232\')}'})"/>
+                                ~
+                                <input id="d5232" class="form-control" type="datetime"  ng-model="addinfo.validityDateEnd" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd',minDate:'#F{$dp.$D(\'d5231\')}'})"/>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show="mapConfig.need_remak==1" >
+                            <label class="col-sm-2 control-label">备注:</label>
+                            <div class="col-sm-7">
+                                <textarea class="form-control" rows="4" cols="15" ng-model="addinfo.productRemark"></textarea>
+                            </div>
+                        </div>
+                        <div ng-show="mapConfig.need_upload_screen==1">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><i class="red_req">*</i>上传截图:</label>
+                                <div class="col-sm-4" ng-if="image!=null&&image!=''">
+                                    <div class="col-img">
+                                        <a href="{{image}}" fancybox rel="group">
+                                            <img width="250px" height="150px" ng-src="{{image}}"/>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-lg-7">
+                                    <input type="file" nv-file-select="" uploader="uploaderImg"   multiple  />
+                                    <table class="table">
+                                        <tbody>
+                                        <tr ng-repeat="item in uploaderImg.queue">
+                                            <td>
+                                                <div ng-show="uploaderImg.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                                            </td>
+                                            <td nowrap>
+                                                <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                                    <span class="glyphicon glyphicon-trash"></span> 删除
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="ibox-title">
+                            <h5>用户信息</h5>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">用户编号:</label>
+                            <div class="col-sm-3">
+                                <select  name="merNo" id="autocomplete-select2"
+                                         ng-model="addinfo.merNo" required ng-options="x.value as x.text for x in userList"
+                                         style="width: 100%" chosen chosen-data="merNo" chosen-keyup="getUserList">
+                                </select>
+                                <div class="req_mesg" ng-show="horizontalCard.merNo.$dirty && horizontalCard.merNo.$invalid">
+                                    <span ng-show="horizontalCard.merNo.$error.required">用户编号不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 bgff">
+                <div class="col-sm-12">
+                    <div class="col-lg-3"></div>
+                    <div class="col-sm-6">
+                        <button class="btn btn-primary btn-mr20" type="button"
+                                id="btnSubmit4" ng-click="addExchangeOrder()" ng-disabled="horizontalCard.$invalid || submitting">提交</button>
+                        <a class="btn btn-primary4" ui-sref="exchange.exchangeAudit" >返回</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

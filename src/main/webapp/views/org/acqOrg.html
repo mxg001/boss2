@@ -1,0 +1,130 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>收单机构管理</a></li>
+			<li class="active"><strong>收单机构管理</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	 ng-controller="acqOrgCtrl">
+	<form class="form-horizontal">
+	<div class="row">
+		<div class="col-lg-12"> 		
+			<div class="ibox float-e-margins">
+				<div class="ibox-content">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">收单机构编号：</label>
+						<div class="col-sm-2">
+							<input type="text" class="form-control" ng-model="info.id">
+						</div>
+						<label class="col-sm-2 control-label">收单机构名称：</label>
+						<div class="col-sm-2">
+							<input type="text" class="form-control" ng-model="info.acqName">
+						</div>
+						<label class="col-sm-2 control-label">当日Ｔ1状态：</label>
+						<div class="col-sm-2">
+							<select class="form-control" ng-model="info.acqStatus" ng-options="x.value as x.text for x in status"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label"></label>
+						<div class="col-sm-8">
+							<input type="button" class="btn btn-primary6 btn-mr20" ng-click="query()" value='查询'>
+							<input type="button" class="btn btn-primary3 btn-mr20" ng-click="reset()" value='清空'>
+							<a class="btn btn-primary5 btn-mr20" ng-show="hasPermit('acqOrg.insert')" type="button" ui-sref="org.addAcqOrg" id="btnSubmit">新增</a>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="grid" ui-grid="acqOrgGrid" ui-grid-pagination ui-grid-pinning ui-grid-resize-columns></div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-12">
+							<p>备注：日T1交易总额-当日T0垫资交易总额-日T0自资交易总额&lt;=冲量提醒阀值(T1-T0)时，给运营发短信报警，让运营往这个收单机构跑T1交易冲量；</p>
+							<p>运营往这个收单机构冲到“离冲量阈值还差”小于等于0</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</form>
+	
+	<!-- 模态框（Modal）关闭通道 -->
+	<div id="closeChannel" class="modal" role="dialog" ng-hide="mhide">
+	</div>
+	<div class="modal-dialog" ng-hide="mdshow" style="z-index: 9050 !important;; position: fixed; left: 50%; margin-left: -300px; top: 50px;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h3 class="modal-title">关闭通道</h3>
+			</div>
+			<div class="modal-body" style="width: 700px;height: 200px;">
+				<form class="form-horizontal">
+					<div class="form-group">
+						<label class="col-sm-6 control-label">请确认关闭“{{names}}”通道的关闭信息</label>
+						<input type="hidden" ng-model="mmid"/>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">用户提示语：</label>
+						<div class="col-sm-8">
+							<textarea class="form-control" ng-model="mminfo" rows="5"></textarea>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" ng-click="aChannel()" class="btn btn-primary4 btn-mr20">取消</button>
+				<button type="button" ng-click="commitChannel()" class="btn btn-primary">确定</button>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 模态框（Modal）白名单管理 -->
+	<div id="myModal2" class="modal fade" tabindex="-1" role="dialog" style="width: 100%;"> 
+	   <div class="modal-dialog">
+	      <div class="modal-content">
+	         <div class="modal-header">
+	            <button type="button" class="close" data-dismiss="modal">
+	                  &times;
+	            </button>
+	            <h3 class="modal-title">白名单管理</h3>
+	         </div>
+	         <div class="modal-body" style="width: 100%;">
+	         	<div class="form-group">
+	         		<div class="grid" ui-grid="whiteListMgrGrid" style="width: 100%;" ui-grid-resize-columns></div>
+				</div>
+	         </div>
+	      </div>
+		</div>
+	</div>
+	
+	<!-- 模态框（Modal）添加白名单 -->
+	<div id="myModal1" class="modal fade" tabindex="-1" role="dialog">
+	   <div class="modal-dialog">
+	      <div class="modal-content">
+	         <div class="modal-header">
+	            <button type="button" class="close" data-dismiss="modal">
+	                  &times;
+	            </button>
+	            <h3 class="modal-title">添加白名单</h3>
+	         </div>
+	         <div class="modal-body">
+	         	<form id="form1">
+	         		<div class="form-group">
+						<label class="col-sm-4 control-label">商户编号：</label>
+						<div style="padding: 0 20px;"><input ng-model="roll.merchantNo" type="text" class="form-control"></div>
+						<input ng-model="roll.acqId" type="hidden">
+					</div>
+	         	</form>
+	         </div>
+	         <div class="modal-footer">
+			    <button type="button" ng-click="addWhiteList()" ng-disabled="submitting" class="btn btn-primary">确定</button>
+			 </div>
+	      </div>
+		</div>
+	</div>
+
+</div>

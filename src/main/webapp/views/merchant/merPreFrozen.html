@@ -1,0 +1,103 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>商户管理</a></li>
+			<li class="active"><strong>商户冻结查询</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	 ng-controller="merPreFrozenCtrl">
+	<form class="form-horizontal" id="form1" name="horizontal">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="">
+					<div class="panel-body ibox float-e-margins">
+						<div class="ibox-title">
+							<h5>商户冻结查询</h5>
+						</div>
+						<div class="ibox-content">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">商户编号：</label>
+								<div class="col-sm-2">
+									<input type="text" class="form-control" ng-model="info.merchantNo">
+								</div>
+								<label class="col-sm-2 control-label">商户冻结状态：</label>
+								<div class="col-sm-2">
+									<select class="form-control" ng-model="info.riskStatus"
+											ng-options="x.value as x.text for x in riskStatusaa"/>
+								</div>
+								<label class="col-sm-2 control-label">商户状态：</label>
+								<div class="col-sm-2">
+									<select class="form-control" ng-model="info.merStatus"
+											ng-options="x.value as x.text for x in merStatusList"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">商户手机号：</label>
+								<div class="col-sm-2">
+									<input type="text" class="form-control" ng-model="info.mobilephone">
+								</div>
+								<label class="col-sm-2 control-label">操作类型：</label>
+								<div class="col-sm-2">
+									<select class="form-control" ng-model="info.queryMode"
+											ng-options="x.value as x.text for x in queryModeList"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">操作时间：</label>
+								<div class="col-sm-6">
+									<input id="d5221" class="form-control" type="datetime" ng-model="info.sTime"
+										   onchange="" style="width:auto;display:inline-block;"
+										   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5222.focus();}})"/>
+									~
+									<input id="d5222" class="form-control" type="datetime" ng-model="info.eTime"
+										   onchange="" style="width:auto;display:inline-block;"
+										   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss'})"/>
+									<!-- <input type="datetime" style="width:auto;display:inline-block;" class="form-control" date-time ng-model="info.sTime" view="date" format="YYYY-MM-DD HH:mm:ss">
+                                    -
+                                    <div style="position: relative; display: inline-block">
+                                        <input type="datetime" style="width:auto;display:inline-block;" class="form-control" date-time ng-model="info.eTime" view="date"  format="YYYY-MM-DD HH:mm:ss">
+                                    </div> -->
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-lg-12">
+									<div class="col-sm-2"></div>
+									<button class="btn btn-primary6 btn-mr20" type="button"
+											ng-click="selectInfo()" id="btnSubmit1">查询
+									</button>
+									<button class="btn btn-primary3 btn-mr20" type="button"
+											ng-click="clear()" id="btnSubmit2">清空
+									</button>
+									<button class="btn btn-new btn-mr20" type="button" ng-show="hasPermit('merchant.merprefrozen')"
+											ng-click="exportExcel()">导出</button>
+								</div>
+
+							</div>
+						</div>
+
+					</div>
+
+
+					<div class="panel-body ibox float-e-margins">
+						<div class="ibox-title">
+							<h5>冻结商户信息列表</h5>
+							<div class="ibox-content">
+								<div ui-grid="gridOptions" ui-grid-resize-columns ui-grid-pagination ui-grid-selection
+									 ui-grid-pinning class="grid"></div>
+									 <div ng-show="loadImg" class="timg"></div>
+							</div>
+						</div>
+					</div>
+					<div style="height: 30px; clear: both"></div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
+

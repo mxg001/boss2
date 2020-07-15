@@ -1,0 +1,444 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>交易查询</a></li>
+			<li class="active"><strong>交易查询</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app ng-controller="queryTradeCtrl">
+	<form class="form-horizontal" id="form1">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="">
+						<div class="ibox float-e-margins">
+							<div class="ibox-title">
+								<h5>交易信息多条列表查询</h5>
+							</div>
+							
+							<div class="ibox-content">
+								<div class="form-group">
+									<label class="col-sm-1 control-label">订单号：</label>
+									<div class="col-sm-11">
+										<!--<input type="text" class="form-control" ng-model="info.orderNo" onchange="keyChange()">-->
+										<textarea type="text" class="form-control"  rows="5" cols="12" placeholder="每次批量查询最多支持100个；只能输入订单号；多个订单编号以逗号隔开"
+												  ng-model="info.orderNo" onchange="keyChange()"></textarea>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label">商户编号：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" ng-model="info.merchantNo" onchange="keyChange()">
+									</div>
+									<label class="col-sm-1 control-label">商户类型：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.merchantType" ng-options="x.value as x.text for x in merchantTypeLists"/>
+									</div>
+									<label class="col-sm-1 control-label">商户手机号：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" ng-model="info.mobilephone" onchange="keyChange()">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label">商家扫码订单：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.authCodeStatus" ng-options="x.value as x.text for x in authCodes">
+										</select>
+									</div>
+									<label class="col-sm-1 control-label">交易状态：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.transStatus" ng-options="x.value as x.text for x in transStatusAll">
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label">创建时间：</label>
+									<div class="col-sm-5">
+										<input id="d5231" class="form-control" type="datetime" ng-model="info.sdate" onchange=""  style="width:auto;display:inline-block;"
+											   onFocus="var d5232=$dp.$('d5232');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',changed:verifyTime(1,'#d5231','#d5232',31,isVerifyTime),onpicked:function(){d5232.focus();},maxDate:'#F{$dp.$D(\'d5232\')||\'%y-%M-%d\'}'})"/>
+										~
+										<input id="d5232" class="form-control" type="datetime"  ng-model="info.edate" onchange=""  style="width:auto;display:inline-block;"
+											   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',changed:verifyTime(2,'#d5231','#d5232',31,isVerifyTime),minDate:'#F{$dp.$D(\'d5231\')}',maxDate:'%y-%M-%d 23:59:59'})"/>
+										<br/><span><font color="#999">备注：查询范围不能超过一个月</font></span>
+									</div>
+									<label class="col-sm-1 control-label">交易方式：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.payMethod"  ng-options="x.value as x.text for x in payMethodTypeAll">
+										</select>
+									</div>
+									<label class="col-sm-1 control-label">结算状态：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.settleStatus"  ng-options="x.value as x.text for x in settleStatusAll"/>
+									</div>
+								</div>
+								
+								
+								
+								<div class="form-group">
+									<label class="col-sm-1 control-label">结算周期：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.settlementMethod"  ng-options="x.value as x.text for x in settlementMethods">
+										</select>
+									</div>
+									<label class="col-sm-1 control-label">冻结状态：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.freezeStatus"  ng-options="x.value as x.text for x in frozenStatus"/>
+									</div>
+									<label class="col-sm-1 control-label">收单机构：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.acqOrgId" ng-options="x.value as x.text for x in acqOrgs">
+							             </select>
+									</div>
+									<label class="col-sm-1 control-label">卡类型：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.cardType"  ng-options="x.value as x.text for x in cardTypeAll">
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label">代理商名称：</label>
+									<div class="col-sm-2">
+										<select name="autocomplete-select" id="autocomplete-select" ng-model="info.agentNo" ng-options="x.value as x.text for x in agent" style="width: 100%" chosen chosen-data="agent" chosen-keyup="getStates">
+										</select>
+									</div>
+									<label class="col-sm-1 control-label">包含下级：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.bool"  ng-options="x.value as x.text for x in bools">
+										</select>
+									</div>
+									<label class="col-sm-1 control-label">业务产品：</label>
+									<div class="col-sm-2">
+										<select chosen="{width:'100%'}" id="autocomplete-select2" class="chosen-select" tabindex="5" ng-model="info.businessProductId" ng-options="x.value as x.text for x in BusiProdDef">
+											<option value=""></option>
+										</select>
+										<!--<select class="form-control" ng-model="info.businessProductId" ng-options="x.value as x.text for x in BusiProdDef">
+							             </select>-->
+									</div>
+									<label class="col-sm-1 control-label">交易记账：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.account"  ng-options="x.value as x.text for x in accounts">
+										</select>
+									</div>
+								</div>
+								<div ng-show="visible">
+									<div class="form-group">
+										<label class="col-sm-1 control-label">交易时间：</label>
+										<div class="col-sm-5">
+											<input id="d5221" class="form-control" type="datetime" ng-model="info.transTimeStart" onchange=""  style="width:auto;display:inline-block;"
+												   onFocus="var d5222=$dp.$('d5222');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5222.focus();},maxDate:'#F{$dp.$D(\'d5222\')}'})"/>
+											-
+											<input id="d5222" class="form-control" type="datetime"  ng-model="info.transTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+												   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5221\')}'})"/>
+										</div>
+										<label class="col-sm-1 control-label">参考号：</label>
+										<div class="col-sm-2">
+											<input type="text" class="form-control" ng-model="info.acqReferenceNo" onchange="keyChange()">
+										</div>
+										<label class="col-sm-1 control-label">出款记账流水号：</label>
+										<div class="col-sm-2">
+											<input type="text" class="form-control" ng-model="info.accountSerialNo">
+										</div>
+
+
+									</div>
+
+									<div class="form-group">
+										<label class="col-sm-1 control-label">交易金额：</label>
+										<div class="col-sm-5">
+											<input type="text" ng-model="info.smoney" class="form-control" style="width:auto;display:inline-block;"> ~
+											<input type="text" ng-model="info.emoney" class="form-control" style="width:auto;display:inline-block;">
+										</div>
+										<label class="col-sm-1 control-label">收单商户号：</label>
+										<div class="col-sm-2">
+											<input type="text" class="form-control" ng-model="info.acqMerchantNo">
+										</div>
+										<label class="col-sm-1 control-label">收单机构凭证号:</label>
+										<div class="col-sm-2">
+											<input type="text" class="form-control" ng-model="info.acqSerialNo">
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-sm-1 control-label">出款类型：</label>
+										<div class="col-sm-2">
+											<select class="form-control" ng-model="info.settleType" ng-options="x.value as x.text for x in settleTypeAll">
+											</select>
+										</div>
+										<label class="col-sm-1 control-label">出款订单ID：</label>
+										<div class="col-sm-2">
+											<input type="text" class="form-control" ng-model="info.settleOrder">
+										</div>
+										<label class="col-sm-1 control-label">机具活动类型：</label>
+										<div class="col-sm-2">
+											<select class="form-control" ng-model="info.activityType" ng-options="x.value as x.text for x in activityTypeListAll"/>
+										</div>
+										<label class="col-sm-1 control-label">交易流水号：</label>
+										<div class="col-sm-2">
+											<input type="text" class="form-control" ng-model="info.id">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-1 control-label">交易卡号：</label>
+										<div class="col-sm-2">
+											<input type="text" class="form-control" ng-model="info.accountNo" onchange="keyChange()">
+										</div>
+										<label class="col-sm-1 control-label">订单类型：</label>
+										<div class="col-sm-2">
+											<select class="form-control" ng-model="info.orderType" ng-options="x.value as x.text for x in orderTypeAll"/>
+										</div>
+										<label class="col-sm-1 control-label">收款类型：</label>
+										<div class="col-sm-2">
+											<select class="form-control" ng-model="info.serviceType" ng-options="x.value as x.text for x in serviceTypeAll"/>
+										</div>
+										<label class="col-sm-1 control-label">集群编号:</label>
+										<div class="col-sm-2">
+											<input type="text" class="form-control" ng-model="info.groupCode">
+										</div>
+									</div>
+									<div class="form-group">
+									    <label class="col-sm-1 control-label">是否优享(一)收费：</label>
+										<div class="col-sm-2">
+											<select class="form-control" ng-model="info.zxStatus" ng-options="x.value as x.text for x in boolAll"/>
+										</div>
+										<label class="col-sm-1 control-label">推广来源：</label>
+										<div class="col-sm-2">
+											<select class="form-control" ng-model="info.recommendedSource" ng-options="x.value as x.text for x in recommendedSources"/>
+										</div>
+                                        <label class="col-sm-1 control-label">机具编号：</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" ng-model="info.deviceSn">
+                                        </div>
+										<label class="col-sm-1 control-label">交易模式：</label>
+										<div class="col-sm-2">
+											<select class="form-control" ng-model='info.delivery'
+													ng-options="x.value as x.text for x in deliveries">
+												<option value="">全部</option>
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
+                                        <label class="col-sm-1 control-label">所属组织：</label>
+                                        <div class="col-sm-2">
+                                            <select class="form-control" ng-model="info.teamId" ng-change="hasSubTeam(info.teamId)"
+													ng-options="x.value as x.text for x in teamType">
+                                            </select>
+                                        </div>
+										<label class="col-sm-1 control-label">所属子组织：</label>
+										<div class="col-sm-2">
+											<select class="form-control" ng-model='info.teamEntryId'
+													ng-options="x.value as x.text for x in subTeams">
+												<option value="">全部</option>
+											</select>
+										</div>
+										<label class="col-sm-1 control-label">代理商推广:</label>
+										<div class="col-sm-2">
+											<select class="form-control" ng-model='info.sourceSysSta' ng-options="x.value as x.text for x in sourceSysStaSelect">
+											</select>
+										</div>
+										<label class="col-sm-1 control-label">是否收取服务费:</label>
+										<div class="col-sm-2">
+											<select class="form-control" ng-model='info.vasRate' ng-options="x.value as x.text for x in boolAll">
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-1 control-label">分润类型:</label>
+										<div class="col-sm-2">
+											<select class="form-control" ng-model='info.profitType' ng-options="x.value as x.text for x in profitTypes">
+												<option value="">全部</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="more-term" style="text-align: right;margin-bottom:20px;padding-right: 39px;color:#3baaff;"><span  ng-click="toggle()" style="cursor: pointer;" ng-class="{true:'active',false:''}[visible]">{{mtxt}}</span></div>
+								<div class="form-group">
+									<div class="col-sm-12">
+										<div class="col-sm-1"></div>
+										<button class="btn btn-primary6 btn-mr20" type="button"
+											 ng-click="query(1)">查询</button>
+                                         <button class="btn btn-new btn-mr20" type="button"
+                                              ng-click="queryTotal()">查询汇总</button>
+										<button class="btn btn-primary3 btn-mr20" type="button" ng-click="clear()"
+											id="btnSubmit2">清空</button>
+										<button class="btn btn-primary7 btn-mr20" type="button" ng-show="hasPermit('trade.export')"
+											 ng-click="exportInfo()">导出</button>
+										<button class="btn btn-new2 btn-mr20" type="button" ng-click="settleButch(0)"
+											ng-show="hasPermit('trade.settleBatch')" >T0批量手工结算</button>
+										<button class="btn btn-new2 btn-mr20" type="button" ng-click="settleButch(1)"
+											ng-show="hasPermit('trade.settleBatch')" >T1批量手工结算</button>
+										<button class="btn btn-new2 btn-mr20" type="button" ng-click="syncOrder()"
+											ng-show="hasPermit('trade.syncOrder')" id="btnSyncOrder" >订单同步</button>
+										<button class="btn btn-new2 btn-mr20" type="button"
+											ng-show="hasPermit('trade.syncTransStatus')" ng-click="syncTransStatus()">同步交易状态</button>
+										<button class="btn btn-new2 btn-mr20" type="button" ng-show="hasPermit('transInfoAction.accountRecordBatch')" ng-click="accountRecordBatch()">批量记账</button>
+										<button class="btn btn-new btn-mr20" ng-show="hasPermit('transInfoAction.changeSettleStatus')" type="button"  ng-click="settleAccounts()" >结算状态变更</button>
+										<button class="btn btn-new" type="button"
+													ng-show="hasPermit('trade.tradeWarning')"
+												ui-sref="trade.tradeWarning" style="width: 120px">交易预警
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="ibox float-e-margins">
+							<div class="ibox-title">
+								<h5>交易信息列表</h5>
+							</div>
+							<div class="ibox-content">
+								<div class="form-group">
+									<div class="col-sm-3 checkbox">笔数：<span ng-bind="totalInfo.tradeCountNum"></span></div>
+									<div ng-show="showTotalInfo">
+									<div class="col-sm-3 checkbox">金额：<span ng-bind="totalInfo.totalMoney | currency:''"></span></div>
+									<div class="col-sm-3 checkbox">交易手续费：<span ng-bind="totalInfo.totalMerchantFee | currency:''"></span></div>
+									<div class="col-sm-3 checkbox">交易抵扣手续费：<span ng-bind="totalInfo.totalDeductionFee | currency:''"></span></div>
+									</div>
+								</div>
+								<div class="form-group" ng-show="showTotalInfo">
+									<div class="col-sm-3 checkbox">出款金额：<span ng-bind="totalInfo.totalAmount | currency:''"></span></div>
+									<div class="col-sm-3 checkbox">到账金额：<span ng-bind="totalInfo.totalOutAmount | currency:''"></span></div>
+									<div class="col-sm-3 checkbox">出款手续费：<span ng-bind="totalInfo.totalFeeAmount | currency:''"></span></div>
+								</div>
+								<div class="tposition">
+									 <div ui-grid="gridOptions" ui-grid-pagination ui-grid-selection ui-grid-resize-columns ui-grid-pinning class="grid"></div>
+									<div ng-show="loadImg" class="timg"></div>
+								</div>
+							</div>
+							
+						</div>
+					
+					</div>
+				</div>
+			</div>
+	</form>
+	<!-- settleModal -->
+	<form class="form-horizontal" id="form3" name="settleModal" novalidate>
+	<div id="settleModal" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog" style="width: 900px">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						&times;</button>
+					<h3 class="modal-title">批量结算返回信息</h3>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label class="col-sm-3 control-label">提交成功笔数：</label>
+						<div class="col-sm-3 checkbox" ng-bind="settleMsg.successTimes"></div>
+						<label class="col-sm-3 control-label">提交成功总金额：</label>
+						<div class="col-sm-3 checkbox" ng-bind="settleMsg.successAmount"></div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label">提交失败笔数：</label>
+						<div class="col-sm-3 checkbox" ng-bind="settleMsg.failTimes"></div>
+						<label class="col-sm-3 control-label">提交失败总金额：</label>
+						<div class="col-sm-3 checkbox" ng-bind="settleMsg.failAmount"></div>
+					</div>
+					<div class="form-group" >
+						<label class="col-sm-3 control-label">提交失败订单说明：</label>
+					</div>
+					<div class="form-group" >
+						<label class="col-sm-3 control-label"></label>
+						<div class="col-sm-4">
+							<textarea rows="5" cols="20" style="width:500px" class="form-control" ng-model="settleMsg.failMsg"></textarea>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-5 control-label"></label>
+						<div class="col-sm-6">
+								<button class="btn btn-primary8" type="button" ng-click='settleModalHide()'>关闭</button>
+						</div>
+					</div>
+			</div>
+		</div>
+	</div>
+	</div>
+	
+	<div id="syncOrderModal" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog" style="width: 900px">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						&times;</button>
+					<h3 class="modal-title">批量订单同步返回信息</h3>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label class="col-sm-3 control-label">成功笔数：</label>
+						<div class="col-sm-3 checkbox" ng-bind="settleMsg.successTimes"></div>
+						<label class="col-sm-3 control-label">失败笔数：</label>
+						<div class="col-sm-3 checkbox" ng-bind="settleMsg.failTimes"></div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-5 control-label"></label>
+						<div class="col-sm-6">
+								<button class="btn btn-primary8" type="button" ng-click='syncOrderModalHide()'>关闭</button>
+						</div>
+					</div>
+			</div>
+		</div>
+	</div>
+	</div>
+	</form>
+	<!-- settleModal -->
+
+	<!-- 状态变更modal settleModal -->
+	<div id="settleAccounts" class="modal fade" tabindex="-1" role="dialog">
+		<form class="form-horizontal" id="form2" name="horizontalAdd" novalidate>
+			<div class="modal-dialog" style="width: 900px">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							&times;</button>
+						<h3 class="modal-title">结算记录状态变更记录</h3>
+					</div>
+					<div class="modal-body">
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">您将变更以下交易订单结算状态：</label>
+							<div class="col-sm-10">
+								<div id="u16" class="text" style="visibility: visible;">
+									<p style="text-align:left;">{{info.settleOrderListStr}}</span></p><p style="text-align:right;"><span>合计<b>{{info.settleOrderList.length}}</b>条交易订单。</span></p>
+								</div>
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><i class="red_req">*</i>变更状态为：</label>
+							<div class="col-sm-2">
+								<select class="form-control" ng-model="info.currSettleStatus"  ng-options="x.value as x.text for x in settleChangeStatus">
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><i class="red_req">*</i>变更原因：</label>
+              <div class="col-sm-8">
+                <textarea rows="5" name="changeSettleStatusReason" required cols="20" ng-model="info.changeSettleStatusReason" class="form-control" ></textarea>
+                <div class="req_mesg" ng-show="horizontalAdd.changeSettleStatusReason.$dirty && horizontalAdd.changeSettleStatusReason.$invalid">
+                  <span ng-show="horizontalAdd.changeSettleStatusReason.$error.required">变更原因不能为空</span>
+                </div>
+              </div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-3 control-label"></label>
+							<div class="col-sm-6">
+
+								<button class="btn btn-primary8 btn-mr20" type="button" ng-click='cancel()'
+								>取消</button>
+								<button class="btn btn-new btn-mr20"  type="button" ng-disabled="horizontalAdd.$invalid || submitting"  ng-click="submitSettleStatus()" >结算状态变更</button>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+</div>

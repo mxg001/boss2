@@ -1,0 +1,312 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a href="index.html">主页</a></li>
+			<li><a>功能管理</a></li>
+			<li class="active"><strong>自动审件控制</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="autoCheckRuleCtrl">
+<div class="row">
+	<div class="col-lg-12">
+		<div class="ibox float-e-margins">
+		    <div class="ibox-title">
+		        <h5>自动审件控制</h5>
+		        <!--<div ibox-tools></div>-->
+		    </div>
+		    <div class="ibox-content">
+		    	<form class="form-horizontal" name="horizontal" id="form1" >
+		     		<div class="form-group">
+						<div class="col-sm-4">
+							<label class="col-sm-5 control-label">自动审核次数：</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" name="singleMerchTimes" ng-model="baseInfo.singleMerchTimes" ng-pattern="/^[0-9]$/" required/>
+									<div class="req_mesg" ng-show="horizontal.singleMerchTimes.$dirty && horizontal.singleMerchTimes.$invalid">
+										<span ng-show="horizontal.singleMerchTimes.$error.required">次数不能为空</span>
+										<span ng-show="horizontal.singleMerchTimes.$error.pattern">必须在0-9次之间的整数</span>
+									</div>
+<!-- 									<input type="text" class="form-control" ng-model="baseInfo.singleMerchTimes"  required -->
+<!-- 									ng-pattern="/^[0-9]$/"> -->
+							</div>
+							<div class="col-sm-1 control-label">次</div>
+						</div>
+						<div class="col-sm-6">
+							<label class="col-sm-3 control-label">注册年龄限制：</label>
+								<div class="col-sm-3">
+									<input type="text" class="form-control" name="minAge" ng-model="baseInfo.minAge" ng-pattern="/^(1[89]|[2-5][0-9]|60)$/" required/>
+									 <div class="req_mesg" ng-show="horizontal.minAge.$dirty && horizontal.minAge.$invalid">
+										<span ng-show="horizontal.minAge.$error.required">年龄不能为空</span>
+										<span ng-show="horizontal.minAge.$error.pattern">年龄必须在18-60之间的整数</span>
+									</div>
+<!-- 									 onblur="if(/^(1[89]|[2-5][0-9]|60)$/.test(value) == false){alert('最小年龄为18，最大为60');this.value='18'}"> -->
+								</div>
+							<div style="float: left">-</div>
+							<div class="col-sm-3">
+								<input type="text" class="form-control" name="maxAge" ng-model="baseInfo.maxAge" ng-pattern="/^(1[89]|[2-5][0-9]|60)$/" required/>
+									<div class="req_mesg" ng-show="horizontal.maxAge.$dirty && horizontal.maxAge.$invalid">
+										<span ng-show="horizontal.maxAge.$error.required">年龄不能为空</span>
+										<span ng-show="horizontal.maxAge.$error.pattern">年龄必须在18-60之间的整数</span>
+									</div>
+<!-- 									<input type="text" class="form-control" ng-model="baseInfo.maxAge"  required -->
+<!-- 									 onblur="if(/^(1[89]|[2-5][0-9]|60)$/.test(value) == false){alert('最小年龄为18，最大为60');this.value='60'}"> -->
+							</div>
+							<div class="col-sm-1 control-label">岁</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-4">
+							<label class="col-sm-5 control-label">银行OCR对比：</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" name="bankCardOcr" ng-model="baseInfo.bankCardOcr" ng-pattern="/^([1-9]{1}[0-9]{0,1}|0|100)$/" required/>
+									<div class="req_mesg" ng-show="horizontal.bankCardOcr.$dirty && horizontal.bankCardOcr.$invalid">
+										<span ng-show="horizontal.bankCardOcr.$error.required">不能为空</span>
+										<span ng-show="horizontal.bankCardOcr.$error.pattern">必须在0-100次之间的整数</span>
+									</div>
+<!-- 									<input type="text" class="form-control" ng-model="baseInfo.bankCardOcr" required -->
+<!-- 									ng-pattern="/^([1-9]{1}[0-9]{0,1}|0|100)$/"> -->
+							</div>
+							<div   class="col-sm-1 control-label">%</div>
+						</div>
+					</div>
+
+					<div class="ibox-title">
+						<h5>活体检测通道路由</h5>
+					</div>
+
+					<div class="form-group">
+						<div class="col-sm-4">
+							<label class="col-sm-5 control-label">今始科技（商汤）：</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" name="livingJskjPercent" ng-model="baseInfo.livingJskj.percent" ng-pattern="/^([1-9]{1}[0-9]{0,1}|0|100)$/" required/>
+								<div class="req_mesg" ng-show="horizontal.livingJskjPercent.$dirty && horizontal.livingJskjPercent.$invalid">
+									<span ng-show="horizontal.livingJskjPercent.$error.required">不能为空</span>
+									<span ng-show="horizontal.livingJskjPercent.$error.pattern">必须在0-100次之间的整数</span>
+								</div>
+								</div>
+							<div  class="col-sm-1 control-label">%</div>
+						</div>
+						<div class="col-sm-4">
+							<label class="col-sm-5 control-label">小视科技：</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" name="livingXskjPercent" ng-model="baseInfo.livingXskj.percent" ng-pattern="/^([1-9]{1}[0-9]{0,1}|0|100)$/" required/>
+								<div class="req_mesg" ng-show="horizontal.livingXskjPercent.$dirty && horizontal.livingXskjPercent.$invalid">
+									<span ng-show="horizontal.livingXskjPercent.$error.required">不能为空</span>
+									<span ng-show="horizontal.livingXskjPercent.$error.pattern">必须在0-100次之间的整数</span>
+								</div>
+								</div>
+							<div   class="col-sm-1 control-label">%</div>
+						</div>
+					</div>
+						<!-- 后续可能会放开	
+					<div class="form-group">
+						<div class="col-sm-6">
+							<label class="col-sm-4 control-label">信联（新国都）：</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" name="livingXinLianPercent" ng-model="baseInfo.livingXinLian.percent" ng-pattern="/^([1-9]{1}[0-9]{0,1}|0|100)$/" required/>
+								<div class="req_mesg" ng-show="horizontal.livingXinLianPercent.$dirty && horizontal.livingXinLianPercent.$invalid">
+									<span ng-show="horizontal.livingXinLianPercent.$error.required">不能为空</span>
+									<span ng-show="horizontal.livingXinLianPercent.$error.pattern">必须在0-100次之间的整数</span>
+								</div>
+								</div>
+							<div   class="col-sm-1 control-label">%</div>
+						</div>
+					</div>
+						-->
+					<div class="ibox-title">
+						<h5>OCR通道路由</h5>
+					</div>
+
+					<div class="form-group">
+						<div class="col-sm-4">
+							<label class="col-sm-5 control-label">今始科技（商汤）：</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" name="ocrJskjPercent" ng-model="baseInfo.ocrJskj.percent" ng-pattern="/^([1-9]{1}[0-9]{0,1}|0|100)$/" required/>
+								<div class="req_mesg" ng-show="horizontal.ocrJskjPercent.$dirty && horizontal.ocrJskjPercent.$invalid">
+									<span ng-show="horizontal.ocrJskjPercent.$error.required">不能为空</span>
+									<span ng-show="horizontal.ocrJskjPercent.$error.pattern">必须在0-100次之间的整数</span>
+								</div>
+								</div>
+							<div  class="col-sm-1 control-label">%</div>
+						</div>
+						<!-- 后续可能会放开	
+						<div class="col-sm-6">
+							<label class="col-sm-4 control-label">小视科技：</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" name="ocrXskjPercent" ng-model="baseInfo.ocrXskj.percent" ng-pattern="/^([1-9]{1}[0-9]{0,1}|0|100)$/" required/>
+								<div class="req_mesg" ng-show="horizontal.ocrXskjPercent.$dirty && horizontal.ocrXskjPercent.$invalid">
+									<span ng-show="horizontal.ocrXskjPercent.$error.required">不能为空</span>
+									<span ng-show="horizontal.ocrXskjPercent.$error.pattern">必须在0-100次之间的整数</span>
+								</div>
+								</div>
+							<div   class="col-sm-1 control-label">%</div>
+						</div>
+						-->
+						<div class="col-sm-4">
+							<label class="col-sm-5 control-label">银联商务：</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" name="ocrYlswPercent" ng-model="baseInfo.ocrYlsw.percent" ng-pattern="/^([1-9]{1}[0-9]{0,1}|0|100)$/" required/>
+								<div class="req_mesg" ng-show="horizontal.ocrYlswPercent.$dirty && horizontal.ocrYlswPercent.$invalid">
+									<span ng-show="horizontal.ocrYlswPercent.$error.required">不能为空</span>
+									<span ng-show="horizontal.ocrYlswPercent.$error.pattern">必须在0-100次之间的整数</span>
+								</div>
+								</div>
+							<div   class="col-sm-1 control-label">%</div>
+						</div>
+					</div>
+					<div class="form-group">
+							<!-- 后续可能会放开					
+							<div class="col-sm-6">
+							<label class="col-sm-4 control-label">信联（新国都）：</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" name="ocrXinLianPercent" ng-model="baseInfo.ocrXinLian.percent" ng-pattern="/^([1-9]{1}[0-9]{0,1}|0|100)$/" required/>
+								<div class="req_mesg" ng-show="horizontal.ocrXinLianPercent.$dirty && horizontal.ocrXinLianPercent.$invalid">
+									<span ng-show="horizontal.ocrXinLianPercent.$error.required">不能为空</span>
+									<span ng-show="horizontal.ocrXinLianPercent.$error.pattern">必须在0-100次之间的整数</span>
+								</div>
+								</div>
+							<div   class="col-sm-1 control-label">%</div>
+						</div>
+						  -->
+						
+					</div>
+					
+					<div class="ibox-title">
+						<h5>人脸/人证通道路由</h5>
+					</div>
+
+					<div class="form-group">
+						<div class="col-sm-4">
+							<label class="col-sm-5 control-label">今始科技（商汤）：</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" name="routingJskjPercent" ng-model="baseInfo.routingJskj.percent" ng-pattern="/^([1-9]{1}[0-9]{0,1}|0|100)$/" required/>
+								<div class="req_mesg" ng-show="horizontal.routingJskjPercent.$dirty && horizontal.routingJskjPercent.$invalid">
+									<span ng-show="horizontal.routingJskjPercent.$error.required">不能为空</span>
+									<span ng-show="horizontal.routingJskjPercent.$error.pattern">必须在0-100次之间的整数</span>
+								</div>
+								</div>
+							<div  class="col-sm-1 control-label">%</div>
+						</div>
+						<div class="col-sm-4">
+							<label class="col-sm-5 control-label">人证通过值：</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" name="realJskjIdCardOcr" ng-model="baseInfo.realJskj.idCardOcr" ng-pattern="/^([1-9]{1}[0-9]{0,1}|0|100)$/" required/>
+								<div class="req_mesg" ng-show="horizontal.realJskjIdCardOcr.$dirty && horizontal.realJskjIdCardOcr.$invalid">
+									<span ng-show="horizontal.realJskjIdCardOcr.$error.required">不能为空</span>
+									<span ng-show="horizontal.realJskjIdCardOcr.$error.pattern">必须在0-100次之间的整数</span>
+								</div>
+							</div>
+							<div  class="col-sm-1 control-label"></div>
+						</div>
+						<div class="col-sm-4">
+							<label class="col-sm-5 control-label">人脸通过值：</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" name="realJskjPhohoCompProp" ng-model="baseInfo.realJskj.phohoCompProp" ng-pattern="/^([1-9]{1}[0-9]{0,1}|0|100)$/" required/>
+								<div class="req_mesg" ng-show="horizontal.realJskjPhohoCompProp.$dirty && horizontal.realJskjPhohoCompProp.$invalid">
+									<span ng-show="horizontal.realJskjPhohoCompProp.$error.required">不能为空</span>
+									<span ng-show="horizontal.realJskjPhohoCompProp.$error.pattern">必须在0-100次之间的整数</span>
+								</div>
+							</div>
+							<div  class="col-sm-1 control-label"></div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-4">
+							<label class="col-sm-5 control-label">小视科技：</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" name="routingXskjPercent" ng-model="baseInfo.routingXskj.percent" ng-pattern="/^([1-9]{1}[0-9]{0,1}|0|100)$/" required/>
+								<div class="req_mesg" ng-show="horizontal.routingXskjPercent.$dirty && horizontal.routingXskjPercent.$invalid">
+									<span ng-show="horizontal.routingXskjPercent.$error.required">不能为空</span>
+									<span ng-show="horizontal.routingXskjPercent.$error.pattern">必须在0-100次之间的整数</span>
+								</div>
+								</div>
+							<div   class="col-sm-1 control-label">%</div>
+						</div>
+						<div class="col-sm-4">
+							<label class="col-sm-5 control-label">人证通过值：</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" name="realXskIdCardOcr" ng-model="baseInfo.realXskj.idCardOcr" ng-pattern="/^([1-9]{1}[0-9]{0,1}|0|100)$/" required/>
+								<div class="req_mesg" ng-show="horizontal.realXskIdCardOcr.$dirty && horizontal.realXskIdCardOcr.$invalid">
+									<span ng-show="horizontal.realXskIdCardOcr.$error.required">不能为空</span>
+									<span ng-show="horizontal.realXskIdCardOcr.$error.pattern">必须在0-100次之间的整数</span>
+								</div>
+							</div>
+							<div  class="col-sm-1 control-label"></div>
+						</div>
+						<div class="col-sm-4">
+							<label class="col-sm-5 control-label">人脸通过值：</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" name="realXskjPhohoCompProp" ng-model="baseInfo.realXskj.phohoCompProp" ng-pattern="/^([1-9]{1}[0-9]{0,1}|0|100)$/" required/>
+								<div class="req_mesg" ng-show="horizontal.realXskjPhohoCompProp.$dirty && horizontal.realXskjPhohoCompProp.$invalid">
+									<span ng-show="horizontal.realXskjPhohoCompProp.$error.required">不能为空</span>
+									<span ng-show="horizontal.realXskjPhohoCompProp.$error.pattern">必须在0-100次之间的整数</span>
+								</div>
+							</div>
+							<div  class="col-sm-1 control-label"></div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-4">
+							<label class="col-sm-5 control-label">银联商务：</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" name="routingYlswPercent" ng-model="baseInfo.routingYlsw.percent" ng-pattern="/^([1-9]{1}[0-9]{0,1}|0|100)$/" required/>
+								<div class="req_mesg" ng-show="horizontal.routingYlswPercent.$dirty && horizontal.routingYlswPercent.$invalid">
+									<span ng-show="horizontal.routingYlswPercent.$error.required">不能为空</span>
+									<span ng-show="horizontal.routingYlswPercent.$error.pattern">必须在0-100次之间的整数</span>
+								</div>
+							</div>
+							<div   class="col-sm-1 control-label">%</div>
+						</div>
+						<div class="col-sm-4">
+							<label class="col-sm-5 control-label">人证通过值：</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" name="realYlswIdCardOcr" ng-model="baseInfo.realYlsw.idCardOcr" ng-pattern="/^([1-9]{1}[0-9]{0,1}|0|100)$/" required/>
+								<div class="req_mesg" ng-show="horizontal.realYlswIdCardOcr.$dirty && horizontal.realYlswIdCardOcr.$invalid">
+									<span ng-show="horizontal.realYlswIdCardOcr.$error.required">不能为空</span>
+									<span ng-show="horizontal.realYlswIdCardOcr.$error.pattern">必须在0-100次之间的整数</span>
+								</div>
+							</div>
+							<div  class="col-sm-1 control-label"></div>
+						</div>
+						<div class="col-sm-4">
+							<label class="col-sm-5 control-label">人脸通过值：</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" name="realYlswPhohoCompProp" ng-model="baseInfo.realYlsw.phohoCompProp" ng-pattern="/^([1-9]{1}[0-9]{0,1}|0|100)$/" required/>
+								<div class="req_mesg" ng-show="horizontal.realYlswPhohoCompProp.$dirty && horizontal.realYlswPhohoCompProp.$invalid">
+									<span ng-show="horizontal.realYlswPhohoCompProp.$error.required">不能为空</span>
+									<span ng-show="horizontal.realYlswPhohoCompProp.$error.pattern">必须在0-100次之间的整数</span>
+								</div>
+							</div>
+							<div  class="col-sm-1 control-label"></div>
+						</div>
+					</div>
+
+					<div class="ibox-title">
+						<h5>真人认证比对方式</h5>
+					</div>
+					<div class="col-sm-8 checkbox ">
+						<label ><input type="radio" name="livingType" ng-model="baseInfo.livingType" value="1" />活体比对</label>
+						<label ><input type="radio" name="livingType" ng-model="baseInfo.livingType" value="2" />拍照比对</label>
+					</div>
+
+
+					<div class="panel-body ibox float-e-margins">
+						<div class="ibox-content">
+							<div class="gridStyle" ui-grid="autoCheckRuleTable"  ui-grid-pinning ui-grid-resize-columns></div>
+						</div>
+					</div>
+				
+					<div>
+						<button class="btn btn-primary btn-rounded " ng-disabled="horizontal.$invalid || submitting" type="button"
+												ng-click="commit()" id="btnSubmit">保存</button>
+					</div>
+		     	</form>
+		    </div>
+		</div>
+	</div>
+</div>
+
+	<div style="height: 30px;"></div>
+</div>

@@ -1,0 +1,130 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>销售查询菜单</a></li>
+			<li class="active"><strong>查询商户</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="saleMerchantQueryCtrl">
+	<form class="form-horizontal" id="form1">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="">
+						<div class="panel-body ibox float-e-margins">
+							<div class="ibox-title">
+								<h5>商户信息多条列表查询</h5>
+							</div>
+							<div class="ibox-content">
+								<div class="form-group">
+									<label class="col-sm-2 control-label">商户进件编号：</label>
+									<div class="col-sm-3">
+										<input type="text" class="form-control" ng-model="info.mbpId">
+									</div>
+									<label class="col-sm-2 control-label">商户名称/编号：</label>
+									<div class="col-sm-3">
+										<input type="text" class="form-control" ng-model="info.merchantNo" onchange="keyChange()">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">商户手机号：</label>
+									<div class="col-sm-3">
+										<input type="text" class="form-control" ng-model="info.mobilephone" onchange="keyChange()">
+									</div>
+									<label class="col-sm-2 control-label">状态：</label>
+									<div class="col-sm-3">
+										<select class="form-control" ng-model="info.merchantExamineState" ng-options="x.value as x.text for x in merchantStates"/>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">代理商名称：</label>
+									<div class="col-sm-3">
+										<select name="autocomplete-select" id="autocomplete-select" ng-model="info.agentName" ng-options="x.value as x.text for x in agent" style="width: 100%" chosen chosen-data="agent" chosen-keyup="getStates">
+										</select>
+									</div>
+									<label class="col-sm-2 control-label">包含下级：</label>
+									<div class="col-sm-3">
+										<select class="form-control" ng-model="info.agentNode" ng-options="x.value as x.text for x in IsYN"/>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">业务产品：</label>
+									<div class="col-sm-3">
+										<select class="form-control" ng-model="info.productType" ng-options="x.bpId as x.bpName for x in productTypes"/>
+									</div>
+									<label class="col-sm-2 control-label">机具类型：</label>
+									<div class="col-sm-3">
+										<select class="form-control" ng-model="info.termianlType" ng-options="x.hpId as x.typeName for x in termianlTypes"/>
+										<span class="req_mesg">(此属性暂未生效)</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">创建时间：</label>
+									<div class="col-sm-5">
+	                                    <input id="d5231" class="form-control" type="datetime" ng-model="info.sTime" onchange="" style="width:auto;display:inline-block;"
+	                                           onFocus="var d5232=$dp.$('d5232');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss', changed:verifyTime(1,'#d5231','#d5232',31,isVerifyTime),onpicked:function(){d5232.focus();},maxDate:'#F{$dp.$D(\'d5232\')||\'%y-%M-%d\'}'})"/>
+	                                    ~
+	                                    <input id="d5232" class="form-control" type="datetime" ng-model="info.eTime" onchange="" style="width:auto;display:inline-block;"
+	                                           onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss', changed:verifyTime(2,'#d5231','#d5232',31,isVerifyTime), minDate:'#F{$dp.$D(\'d5231\')}',maxDate:'%y-%M-%d 23:59:59'})"/>
+	                                    <br/><span><font color="#999">备注：查询范围不能超过一个月</font></span>
+	                                </div>
+									<!-- <div class="col-sm-8">
+										<input type="datetime" style="width:auto;display:inline-block;" class="form-control" date-time ng-model="info.sTime" view="date" format="YYYY-MM-DD HH:mm:ss">
+										-
+										<div style="position: relative; display: inline-block">
+											<input type="datetime" style="width:auto;display:inline-block;" class="form-control" date-time ng-model="info.eTime" view="date"  format="YYYY-MM-DD HH:mm:ss">
+										</div>
+									</div> -->
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">身份证号码：</label>
+									<div class="col-sm-3">
+										<input type="text" class="form-control" ng-model="info.cardId" onchange="keyChange()">
+									</div>
+									<label class="col-sm-2 control-label">是否开户：</label>
+									<div class="col-sm-3">
+										<select class="form-control" ng-model="info.merAccount" ng-options="x.value as x.text for x in merAccounts"/>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">商户冻结状态：</label>
+									<div class="col-sm-3">
+										<select class="form-control" ng-model="info.riskStatus" ng-options="x.value as x.text for x in riskStatusaa"/>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-lg-12">
+										<div class="col-sm-2"></div>
+										<button class="btn btn-primary6 btn-mr20" type="button"
+										 	ng-click="selectInfo()" id="btnSubmit">查询</button>
+										<button class="btn btn-primary3 btn-mr20" type="button"
+											ng-click="clear()" id="btnClear">清空</button>
+									</div>
+									
+								</div>
+							</div>
+
+						</div>
+						
+						
+						<div class="panel-body ibox float-e-margins">
+								<div class="ibox-title">
+									<h5>商户信息列表</h5>
+								<div class="ibox-content">
+									<div ui-grid="gridOptions" ui-grid-resize-columns ui-grid-pagination 
+											ui-grid-selection ui-grid-pinning class="grid">
+										<div ng-show="loadImg" class="timg"></div>
+									</div>
+								</div>
+							</div>
+					</div>
+				</div>
+			</div>
+	</form>
+</div>
+
+

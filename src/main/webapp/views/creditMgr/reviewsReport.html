@@ -1,0 +1,83 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li>主页</li>
+            <li>信用卡管家</li>
+            <li class="active"><strong>评测报告</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="reviewsReportCtrl">
+    <form class="form-horizontal" id="form1">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>报告概况</h5>
+                    </div>
+                    <div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">用卡健康度：</label>
+							<div class="col-sm-2 checkbox" ng-bind="reviewsReport.ykjkd"></div>
+							<label class="col-sm-2 control-label">提额指数：</label>
+							<div class="col-sm-2 checkbox" ng-bind="reviewsReport.tezs"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">用卡安全指数：</label>
+							<div class="col-sm-2 checkbox" ng-bind="reviewsReport.ykaqzs"></div>
+							<label class="col-sm-2 control-label">额外加分：</label>
+							<div class="col-sm-2 checkbox" ng-bind="reviewsReport.ewjf"></div>
+						</div>
+					</div>
+                    <div class="ibox-title">
+                        <h5>刷卡统计</h5>
+                    </div>
+                    <div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">刷卡笔数：</label>
+							<div class="col-sm-2 checkbox" ng-bind="reviewsReport.transCount"></div>
+							<label class="col-sm-2 control-label">商户个数：</label>
+							<div class="col-sm-2 checkbox" ng-bind="reviewsReport.merCount"></div>
+						</div>
+					</div>
+                    <div class="ibox-title">
+                        <h5>刷卡金额统计</h5>
+                    </div>
+                    <div class="ibox-content">
+						<div class="form-group">
+							<div class="gridStyle" ui-grid="amountGrid" style="height:120px;">
+							</div>
+						</div>
+					</div>
+                    <div class="ibox-title">
+                        <h5>刷卡时间统计</h5>
+                    </div>
+                    <div class="ibox-content">
+						<div class="form-group">
+							<div class="gridStyle" ui-grid="timeGrid" style="height:120px;">
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- <div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+                        <h5>信用卡列表</h5>
+                    </div>
+                    <div class="ibox-content">
+						<div class="gridStyle" ui-grid="myGrid" ui-grid-selection ui-grid-pagination
+							ui-grid-resize-columns ui-grid-pinning>
+						</div>
+					</div>
+                </div>
+				<div class="form-group" style="margin-top: 30px">
+				    <label class="col-sm-2 control-label"></label>
+				    <div class="col-sm-8">
+				        <button class="btn btn-primary4" type="button" ng-click="goback()" >返回</button>
+				    </div>
+				</div> -->
+             </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,105 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a href="index.html">主页</a></li>
+            <li>超级银行家</li>
+            <li class="active"><strong>用户奖金发放记录</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="rankingPushRecordCtrl">
+    <form class="form-horizontal" id="form1">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>用户奖金发放记录</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">排行榜编号：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.rankingNo">
+                            </div>
+                            <label class="col-sm-2 control-label">统计周期：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="baseInfo.rankingType" ng-options="x.value as x.text for x in rankingTypes">
+                                </select>
+                            </div>
+                            <label class="col-sm-2 control-label">用户ID：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.userCode">
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">用户手机号：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.phone">
+                            </div>
+                            <label class="col-sm-2 control-label">用户发放状态：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="baseInfo.pushStatus" ng-options="x.value as x.text for x in pushStatusList">
+                                </select>
+                            </div>
+                            <label class="col-sm-2 control-label">所属组织：</label>
+                            <div class="col-sm-2">
+                                <select chosen="{width:'100%'}" id="autocomplete-select2" class="chosen-select" tabindex="5" ng-model="baseInfo.orgId" ng-options="x.orgId as x.orgName for x in orgInfoList">
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">记账状态：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="baseInfo.accountStatus" ng-options="x.value as x.text for x in accountStatusList">
+                                </select>
+                            </div>
+                             <label class="col-sm-2 control-label">统计数据：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="baseInfo.dataType" ng-options="x.value as x.text for x in dataTypes">
+                                </select>
+                            </div>
+                             <label class="col-sm-2 control-label">期号：</label>
+                            <div class="col-sm-2">
+                               <input type="text" class="form-control" ng-model="baseInfo.batchNo">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group" style="margin-top: 30px">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-8">
+                                <button class="btn btn-primary6 btn-mr20"  ng-click="query()" ng-disabled="submitting">查询</button>
+                                <button class="btn btn-primary3 btn-mr20" type="button" ng-click="resetForm()">清空</button>
+                                <button class="btn btn-primary7 btn-mr20" type="button" ng-click="exportInfo()">导出</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>排行榜奖金发放记录列表</h5>
+                    </div>
+
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <div class="col-sm-3 checkbox">总人数：<span ng-bind="peopleCount"></span>人</div>
+                            <div class="col-sm-3 checkbox">总奖金：<span ng-bind="totalMoneyCount | currency:''"></span>元</div>
+                            <div class="col-sm-3 checkbox">已发放总奖金：<span ng-bind="pushTotalMoneyCount | currency:''"></span>元</div>
+                        </div>
+                        <div class="tposition">
+                            <div class="gridStyle" ui-grid="orderGrid" ui-grid-selection ui-grid-pagination
+                                 ui-grid-resize-columns ui-grid-pinning></div>
+                            <div ng-show="loadImg" class="timg"></div>
+                        </div>
+                    </div>
+                </div>
+                <div style="height:30px;"></div>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,136 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>活动查询</a></li>
+            <li class="active"><strong>VIP优享订单查询</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="activityVipQueryCtrl">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>订单信息查询</h5>
+                    <!--<div ibox-tools></div>-->
+                </div>
+                <div class="ibox-content">
+                    <form class="form-horizontal" id="form1">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">业务订单：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model='info.order_no' required>
+                            </div>
+                            <label class="col-sm-2 control-label">商户名称/商户编号：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model='info.merchantN' required>
+                            </div>
+                            <label class="col-sm-2 control-label">商户手机号：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model='info.mobilephone' required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">所属代理商：</label>
+                            <div class="col-sm-2">
+                                <select name="autocomplete-select" id="autocomplete-select"
+                                        ng-model="info.agentN" ng-options="x.value as x.text for x in agent"
+                                        style="width: 100%" chosen chosen-data="agent" chosen-keyup="getStates">
+                                </select>
+                            </div>
+                            <label class="col-sm-2 control-label">一级代理商:</label>
+                            <div class="col-sm-2">
+                                <select name="autocomplete-select" id="autocomplete-select2"
+                                        ng-model="info.oneAgentNo" ng-options="x.value as x.text for x in oneAgent"
+                                        style="width: 100%" chosen chosen-data="oneAgent" chosen-keyup="getStatesOne">
+                                </select>
+                            </div>
+                            <label class="col-sm-2 control-label">订单状态：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="info.subscribe_status" ng-options="x.value as x.text for x in subscribeStatuses"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">支付方式：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="info.payment_type" ng-options="x.value as x.text for x in paymentTypes"/>
+                            </div>
+                            <label class="col-sm-2 control-label">支付订单：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model='info.payment_order_no' required>
+                            </div>
+                            
+                            <label class="col-sm-2 control-label">类别：</label>
+							<div class="col-sm-2">
+								<select class="form-control" ng-model='info.team_id'
+										ng-options="x.value as x.text for x in agentOemList">
+								</select>
+							</div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">创建时间：</label>
+                            <div class="col-sm-5">
+                                <input id="d5666" class="form-control" type="datetime" ng-model="info.startTime" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="var d5667=$dp.$('d5667');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5667.focus();},maxDate:'#F{$dp.$D(\'d5667\')||\'%y-%M-%d\'}'})"/>
+                                ~
+                                <input id="d5667" class="form-control" type="datetime"  ng-model="info.endTime" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5666\')}',maxDate:'%y-%M-%d 23:59:59'})"/>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">到期时间：</label>
+                            <div class="col-sm-5">
+                                <input id="d5668" class="form-control" type="datetime" ng-model="info.startValidityEnd" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="var d5669=$dp.$('d5669');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5669.focus();},maxDate:'#F{$dp.$D(\'d5669\')||\'%y-%M-%d\'}'})"/>
+                                ~
+                                <input id="d5669" class="form-control" type="datetime"  ng-model="info.endValidityEnd" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5668\')}'})"/>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">支付时间：</label>
+                            <div class="col-sm-5">
+                                <input id="d5664" class="form-control" type="datetime" ng-model="info.startTransTime" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="var d5665=$dp.$('d5665');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5665.focus();},maxDate:'#F{$dp.$D(\'d5665\')||\'%y-%M-%d\'}'})"/>
+                                ~
+                                <input id="d5665" class="form-control" type="datetime"  ng-model="info.endTransTime" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5664\')}',maxDate:'%y-%M-%d 23:59:59'})"/>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group" style="margin-bottom: -10px;">
+                            <div class="col-sm-2"> </div>
+                            <div class="col-sm-10">
+                                <button class="btn btn-primary6 btn-rounded btn-mr20" type="button" ng-click="query()">查询</button>
+                                <button class="btn btn-primary3 btn-rounded btn-mr20" type="button" ng-click="clear()">清空</button>
+                                <button class="btn btn-new btn-mr20" type="button" ng-show="hasPermit('activity.activityVipExport')" ng-click="export()">导出</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox-content">
+                <div class="ibox-title">
+                    <h5>订单列表</h5>
+                    <!--<div ibox-tools></div>-->
+                </div>
+            </div>
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="gridStyle" ui-grid="servicesGrid" ui-grid-selection ui-grid-pinning ui-grid-pagination ui-grid-resize-columns></div>
+                    <div ng-show="loadImg" class="timg"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="height: 30px;"></div>
+</div>

@@ -1,0 +1,185 @@
+<!-- head -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>超级银行家</a></li>
+            <li class="active"><strong>贷款机构详情</strong></li>
+        </ol>
+    </div>
+</div>
+
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn"
+     ng-controller="loanInstitutionDetailCtrl">
+    <form class="form-horizontal" id="form1" name="horizontal">
+        <div class="form-group">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>基本信息</h5>
+                    <!--<div ibox-tools></div>-->
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>贷款机构名称：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" name="loanProduct" ng-model="baseInfo.loanProduct" required maxlength="20"/>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>贷款机构别称：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" name="loanAlias" ng-model="baseInfo.loanAlias" required maxlength="20"/>
+                            </div>
+                        </div>
+                       <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>来源：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" name="source" ng-model="baseInfo.source" required />
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>LOGO：</label>
+							<div class="col-sm-4" style="padding: 0">
+								<a ng-show="baseInfo.showLogoUrl"
+									href="{{baseInfo.showLogoUrl}}" fancybox rel="group"> <img
+									width="250px" height="150px" ng-src="{{baseInfo.showLogoUrl}}" />
+								</a>
+							</div>
+						</div>
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>显示顺序：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" name="showOrder" ng-model="baseInfo.showOrder" required maxlength="20"/>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>宣传语1：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" name="propaganda" ng-model="baseInfo.propaganda" required maxlength="20"/>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>宣传语2：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" name="propaganda2" ng-model="baseInfo.propaganda2" required maxlength="20"/>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>宣传语3：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" name="propaganda3" ng-model="baseInfo.propaganda3" required maxlength="20"/>
+                            </div>
+                              </div>
+                           
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>奖金方式：</label>
+                            <div class="col-lg-7">
+                                <label style="margin-right: 20px;margin-top: 6px"><input type="radio" value="1" name="profitType" ng-model="baseInfo.profitType"/>固定奖金</label>
+                                <label style="margin-top: 6px"><input type="radio" value="2" name="profitType" ng-model="baseInfo.profitType"/>按比例发放</label>
+                            </div>
+                        </div>
+
+						<div class="form-group col-sm-12" ng-show="baseInfo.profitType==1">
+							<label class="col-lg-2 control-label"><i class="red_req">*</i>固定总奖金：</label>
+							<div class="col-lg-7">
+								<input type="text" class="form-control" name="loanBonus"
+									ng-model="baseInfo.loanBonus" required maxlength="20" />
+							</div>
+						</div>
+
+					<div class="form-group col-sm-12" ng-show="baseInfo.profitType==2">
+						<label class="col-lg-2 control-label">按批贷金额比例：批贷金额<i class="red_req">*</i></label>
+						<div class="col-lg-6">
+							<input type="text" class="form-control" name="loanBonus"
+								ng-model="baseInfo.loanBonus" required maxlength="20" />
+						</div>
+						<div class="col-sm" style="line-height: 36px;">
+                             %
+                            </div>
+					</div>
+					 
+                <div class="form-group">
+                        <label class="col-sm-2 control-label"><i class="red_req">*</i>奖励要求：</label>
+                        <div class="col-sm-2">
+                             <select class="form-control" ng-model="baseInfo.rewardRequirements" ng-options="x.value as x.text for x in rewardRequirementsList">
+                             </select>
+                        </div>
+                        <div class="col-sm-2 control-label" ng-show="baseInfo.rewardRequirements==2">
+                            <input type="checkbox" ng-true-value="0" ng-false-value="1" ng-checked="baseInfo.loanStatus==0" ng-model="baseInfo.loanStatus">每次借款都有佣金
+                        </div>
+                    </div>
+                        <div class="form-group col-sm-12">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>接入方式：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="baseInfo.accessWay" ng-options="x.value as x.text for x in accessWayList">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>API链接：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" name="apiUrl" ng-model="baseInfo.apiUrl" required />
+                                <div class="req_mesg" ng-show="horizontal.apiUrl.$dirty && horizontal.apiUrl.$invalid">
+                                    <span ng-show="horizontal.apiUrl.$error.required">API链接</span>
+                                </div>
+                            </div>
+                        </div>
+                      <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>注册链接：</label>
+                            <div class="col-lg-7">
+                                <textarea rows="6" class="form-control" name="registerLink" ng-model="baseInfo.registerLink"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>申请h5链接：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" name="loanLink" ng-model="baseInfo.loanLink" required />
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>结算周期：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" name="settlementCycle" ng-model="baseInfo.settlementCycle"  maxlength="20"/>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>结算规则：</label>
+                            <div class="col-lg-7">
+                                <textarea rows="6" class="form-control" name="settlementRules" ng-model="baseInfo.settlementRules"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label">导入匹配规则编码：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" name="ruleCode" ng-model="baseInfo.ruleCode"  maxlength="20"/>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label">引导页图片：</label>
+							<div class="col-sm-4" style="padding: 0">
+								<a ng-show="baseInfo.h5LinkUrl"
+									href="{{baseInfo.h5LinkUrl}}" fancybox rel="group"> <img
+									width="250px" height="150px" ng-src="{{baseInfo.h5LinkUrl}}" />
+								</a>
+							</div>
+						</div>
+                    </div>
+                </div>
+			</div>
+            <div class="col-lg-12 bgff">
+                <div class="col-sm-12">
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-6">
+                        <button class="btn btn-primary4 btn-mr20" type="button"
+                                ui-sref="superBank.loanInstitutionManagement">返回</button>
+                    </div>
+                </div>
+            </div>
+             </div>
+    </form>
+</div>

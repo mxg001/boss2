@@ -1,0 +1,166 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a href="index.html">主页</a></li>
+			<li><a>收单机构管理</a></li>
+			<li class="active"><strong>收单机构管理</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="addAcqOrgCtrl">
+	<form class="form-horizontal" id="form1" name="horizontal" novalidate>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="">
+						<div class="panel-body ibox float-e-margins">
+							<div class="ibox-content">
+								<div class="form-group">
+									<label class="col-sm-2 control-label">收单机构名称：</label>
+									<div class="col-sm-3">
+										<input type="text" class="form-control" ng-model="info.acqName" name="acqName" required>
+									</div>
+									<label class="col-sm-2 control-label">T0垫资额度：</label>
+									<div class="col-sm-3">
+										<input type="text" class="form-control" ng-model="info.t0AdvanceMoney" name="t0AdvanceMoney" ng-pattern="/^[0-9]+(.[0-9]{2})?$/" required>
+										<div class="req_mesg" ng-show="horizontal.t0AdvanceMoney.$dirty && horizontal.t0AdvanceMoney.$invalid">
+										<span ng-show="horizontal.t0AdvanceMoney.$error.required">不能为空</span>
+										<span ng-show="horizontal.t0AdvanceMoney.$error.pattern">请输入两位小数的正实数</span>
+										</div>
+									</div>
+								</div>
+<!-- 								<div class="form-group"> -->
+<!-- 									<label class="col-sm-2 control-label">结算方式：</label> -->
+<!-- 									<div class="col-lg-3"> -->
+<!-- 										<select  class="form-control input-s-sm inline" ng-model="info.agentName"  ng-options="x.value as x.text for x in bool"> -->
+<!-- 									</div> -->
+<!-- 									<label class="col-sm-2 control-label">冲量提醒阀值(T1-T0)：</label> -->
+<!-- 									<div class="col-lg-3"> -->
+<!-- 										<input  type="text"  class="form-control " ng-model="info.agentName" name="agentName" required> -->
+<!-- 									</div> -->
+<!-- 								</div> -->
+								<div class="form-group">
+			                		<label class="col-sm-2 control-label">结算方式：</label>
+									<div class="col-lg-3">
+										<select class="form-control input-s-sm inline" ng-change="checkTransHaveOut(info.settleType)" ng-model="info.settleType" name="settleType" ng-options="x.value as x.text for x in rey"/>
+									</div>
+			                		<label class="col-sm-2 control-label">冲量提醒阀值(T1-T0)：</label>
+									<div class="col-lg-3">
+										<input type="text" class="form-control" ng-model="info.valvesAmount" name="valvesAmount" ng-pattern="/^[0-9]+(.[0-9]{2})?$/" required>
+										<div class="req_mesg" ng-show="horizontal.valvesAmount.$dirty && horizontal.valvesAmount.$invalid">
+										<span ng-show="horizontal.valvesAmount.$error.required">不能为空</span>
+										<span ng-show="horizontal.valvesAmount.$error.pattern">请输入两位小数的正实数</span>
+										</div>
+									</div>
+							 	</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">日切时间点：</label>
+									<div class="col-sm-3">
+										<input type="text" placeholder="00:00:00 (请按格式输入时分秒)" class="form-control" ng-model="info.dayAlteredTime" name="dayAlteredTime" ng-pattern="/^([0-1]?[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/" required>
+										<div class="req_mesg" ng-show="horizontal.dayAlteredTime.$dirty && horizontal.dayAlteredTime.$invalid">
+											<span ng-show="horizontal.dayAlteredTime.$error.required">不能为空</span>
+											<span ng-show="horizontal.dayAlteredTime.$error.pattern">时间格式不正确,如:00:00:00</span>
+										</div>
+<!-- 										<div class="input-group " clock-picker data-autoclose="true"> -->
+<!-- 											 <input type="text" class="form-control" ng-model="info.dayAlteredTime" name="dayAlteredTime" required> -->
+<!-- 											 <span class="input-group-addon"> -->
+<!-- 											 	<span class="fa fa-clock-o"></span> -->
+<!-- 						               		 </span> -->
+<!-- 					               		 </div> -->
+									</div>
+									<label class="col-sm-2 control-label">是否允许T0日额大于T1日额：</label>
+									<div class="col-sm-3">
+										<label><input type="radio" ng-model='info.dayamountT0greatert1' name="dayamountT0greatert1" ng-value="1" />是</lable>
+										<label><input type="radio" ng-model='info.dayamountT0greatert1' name="dayamountT0greatert1" ng-value="0"/>否</lable>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">T0自有额度：</label>
+									<div class="col-sm-3">
+										<input type="text" class="form-control" ng-model="info.t0OwnMoney" name="t0OwnMoney" ng-pattern="/^[0-9]+(.[0-9]{2})?$/" required>
+										<div class="req_mesg" ng-show="horizontal.t0OwnMoney.$dirty && horizontal.t0OwnMoney.$invalid">
+										<span ng-show="horizontal.t0OwnMoney.$error.required">不能为空</span>
+										<span ng-show="horizontal.t0OwnMoney.$error.pattern">请输入两位小数的正实数</span>
+										</div>
+									</div>
+									<label class="col-sm-2 control-label">默认收单商户每日限额：</label>
+									<div class="col-sm-3">
+										<input type="text" class="form-control" ng-model="info.acqDefDayamount" name="acqDefDayamount" ng-pattern="/^[0-9]+(.[0-9]{2})?$/" required>
+										<div class="req_mesg" ng-show="horizontal.acqDefDayamount.$dirty && horizontal.acqDefDayamount.$invalid">
+										<span ng-show="horizontal.acqDefDayamount.$error.required">不能为空</span>
+										<span ng-show="horizontal.acqDefDayamount.$error.pattern">请输入两位小数的正实数</span>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">负责人手机号：</label>
+									<div class="col-sm-3">
+										<input type="text" class="form-control" ng-model="info.phone" name="phone" ng-pattern="/^1[3|5|7|8]\d{9}$/" required>
+										<div class="req_mesg" ng-show="horizontal.phone.$dirty && horizontal.phone.$invalid">
+										<span ng-show="horizontal.phone.$error.required">不能为空</span>
+										<span ng-show="horizontal.phone.$error.pattern">输入手机号格式不正确</span>
+										</div>
+									</div>
+									<label class="col-sm-2 control-label">收单服务日成功交易总额阀值：</label>
+									<div class="col-sm-3">
+										<input type="text" class="form-control" ng-model="info.acqSuccessAmount" name="acqSuccessAmount" ng-pattern="/^[0-9]+(.[0-9]{2})?$/" required>
+										<div class="req_mesg" ng-show="horizontal.acqSuccessAmount.$dirty && horizontal.acqSuccessAmount.$invalid">
+										<span ng-show="horizontal.acqSuccessAmount.$error.required">不能为空</span>
+										<span ng-show="horizontal.acqSuccessAmount.$error.pattern">请输入两位小数的正实数</span>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">分润结算账户：</label>
+									<div class="col-sm-3">
+										<select class="form-control" ng-model="info.settleAccountId" ng-options="x.value as x.text for x in settleAccount"/>
+									</div>
+									<label class="col-sm-2 control-label">是否允许实时T0大于T1：</label>
+									<div class="col-sm-3">
+										<label><input type="radio" ng-model='info.realtimeT0greatert1' name="realtimeT0greatert1" ng-value="1" />是</lable>
+										<label><input type="radio" ng-model='info.realtimeT0greatert1' name="realtimeT0greatert1" ng-value="0"/>否</lable>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">IP：</label>
+									<div class="col-sm-3">
+										<input type="text" class="form-control" ng-model="info.host" name="host" ng-pattern="/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/" required>
+										<div class="req_mesg" ng-show="horizontal.host.$dirty && horizontal.host.$invalid">
+										<span ng-show="horizontal.host.$error.required">不能为空</span>
+										<span ng-show="horizontal.host.$error.pattern">IP地址格式输入错误,如255.255.255.255</span>
+										</div>
+									</div>
+									<label class="col-sm-2 control-label">端口：</label>
+									<div class="col-sm-3">
+										<input type="text" class="form-control" ng-model="info.port" name="port"ng-pattern="/^(\d{1,4}|([1-5]\d{4})|([1-6][1-4]\d{3})|([1-6][1-4][1-4]{2})|([1-6][1-4][1-4][1-2]\d)|([1-6][1-5][1-5][1-3][1-5]))$/" required>
+										<div class="req_mesg" ng-show="horizontal.port.$dirty && horizontal.port.$invalid">
+										<span ng-show="horizontal.port.$error.required">不能为空</span>
+										<span ng-show="horizontal.port.$error.pattern">错误的端口号</span>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">本收单机构的交易只能在本机构出款：</label>
+									<div class="col-sm-3">
+										<label><input type="radio" ng-disabled="info.settleType == 2" ng-model='info.acqTransHaveOut' name="acqTransHaveOut"  ng-value="1"/>是</lable>
+										<label><input type="radio" ng-disabled="info.settleType == 2" ng-model='info.acqTransHaveOut' name="acqTransHaveOut"  ng-value="0"/>否</lable>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-lg-12">
+										<div class="col-sm-2"></div>
+										<a class="btn btn-primary4" type="button" ui-sref="org.acqOrg"
+										 	id="btnSubmit">返回</a>
+										<button class="btn btn-primary btn-rounded " ng-disabled="horizontal.$invalid || submitting" type="button"
+											ng-click="commit()" id="btnSubmit">确定</button>
+									</div>
+								</div>
+							</div>
+
+						</div>
+				</div>
+			</div>
+	</form>
+</div>

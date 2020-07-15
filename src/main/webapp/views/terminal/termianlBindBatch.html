@@ -1,0 +1,99 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>机具管理</a></li>
+			<li class="active"><strong>机具批量绑定</strong></li>
+		</ol>
+	</div>
+</div>
+
+
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="termianlBindBatchCtrl">
+	<form class="form-horizontal" name="horizontal">
+		<div class="row">
+			<div class="col-lg-12">
+
+				<div class="panel-body ibox float-e-margins">
+
+					<div class="ibox-title">
+						<h5>机具批量绑定</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><i class="red_req">*</i>选择代理商：</label>
+							<div class="col-sm-3">
+								<select chosen name="agentNo" required ng-change="getMerchantList()" id="autocomplete-select" ng-model="info.agentNo" ng-options="x.agentNo as x.agentName for x in agentList" style="width: 100%"  chosen-data="agentList" chosen-keyup="getStates">
+										</select>
+								<div class="req_mesg" ng-show="horizontal.agentNo.$dirty && horizontal.agentNo.$invalid">
+									<span ng-show="horizontal.agentNo.$error.required">代理商不能为空</span>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><i class="red_req">*</i>选择商户：</label>
+							<div class="col-sm-3">
+								<select chosen name="merchantNo" required  ng-change="getBpList()" id="autocomplete-select-merchant" ng-model="info.merchantNo" ng-options="x.merchantNo as x.merchantName for x in merchantList" style="width: 100%"  chosen-data="merchantList" chosen-keyup="getStates">
+								</select>
+								<div class="req_mesg" ng-show="horizontal.merchantNo.$dirty && horizontal.merchantNo.$invalid">
+									<span ng-show="horizontal.merchantNo.$error.required">商户不能为空</span>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><i class="red_req">*</i>业务产品：</label>
+							<div class="col-sm-3">
+								<select class="form-control" name="bpId" required ng-model="info.bpId" ng-options="x.bpId as x.bpName for x in bpList"></select>
+							</div>
+							<div class="req_mesg" ng-show="horizontal.bpId.$dirty && horizontal.bpId.$invalid">
+								<span ng-show="horizontal.bpId.$error.required">业务产品不能为空</span>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><i class="red_req">*</i>机具导入：</label>
+							<div class="col-sm-3 checkbox">
+								<input type="file" nv-file-select="" ng-model="fileSelect" uploader="uploader" multiple/>
+								<table class="table">
+							        <tbody>
+										<tr ng-repeat="item in uploader.queue">
+											<td>
+												<strong>{{ item.file.name }}</strong>
+											</td>
+											<td nowrap>
+												<button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+													<span class="glyphicon glyphicon-trash"></span>删除
+												</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							
+							<div class="col-sm-3 checkbox">
+								<a href="terminalInfo/downloadTerminalTemplate">导入机具模板</a>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="col-lg-12 bgff">
+			<div class="col-lg-12">
+				<div class="col-sm-2">
+
+				</div>
+				<button class="btn btn-primary btn-rounded btn-mr20" type="submit" 
+					ng-disabled="horizontal.$invalid|| submitting || uploader.queue.length==0"
+					ng-click="commit()">提交</button>
+				<a class="btn btn-primary4 btn-rounded" type="button" ui-sref="terminal.terminalQuery"
+					id="btnSubmit">返回</a>
+			</div>
+		</div>
+	</form>
+</div>

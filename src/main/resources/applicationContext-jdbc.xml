@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/tx  http://www.springframework.org/schema/tx/spring-tx.xsd
+    http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+    http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
+    http://www.springframework.org/schema/aop  http://www.springframework.org/schema/aop/spring-aop.xsd
+    http://www.springframework.org/schema/util  http://www.springframework.org/schema/util/spring-util.xsd
+    http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.1.xsd">
+
+	<bean id="masterDataSource" class="com.alibaba.druid.pool.DruidDataSource"
+		  init-method="init" destroy-method="close">
+		<property name="url" value="${posp.master.url}"/>
+		<property name="username" value="${posp.master.userName}"/>
+		<property name="password" value="${posp.master.password}"/>
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+
+		<property name="filters" value="stat" />
+		<property name="maxActive" value="60" />
+		<property name="initialSize" value="1" />
+		<property name="maxWait" value="30000" />
+		<property name="minIdle" value="1" />
+
+		<property name="timeBetweenEvictionRunsMillis" value="3000" />
+		<property name="minEvictableIdleTimeMillis" value="300000" />
+
+		<property name="validationQuery" value="SELECT 'x'" />
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
+
+		<property name="poolPreparedStatements" value="true" />
+		<property name="maxPoolPreparedStatementPerConnectionSize" value="30" />
+	</bean>
+
+	<bean id="slaveDataSource" class="com.alibaba.druid.pool.DruidDataSource"
+		  init-method="init" destroy-method="close">
+		<property name="url" value="${posp.slave.url}"/>
+		<property name="username" value="${posp.slave.userName}"/>
+		<property name="password" value="${posp.slave.password}"/>
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+
+		<property name="filters" value="stat" />
+		<property name="maxActive" value="60" />
+		<property name="initialSize" value="1" />
+		<property name="maxWait" value="30000" />
+		<property name="minIdle" value="1" />
+
+		<property name="timeBetweenEvictionRunsMillis" value="3000" />
+		<property name="minEvictableIdleTimeMillis" value="300000" />
+
+		<property name="validationQuery" value="SELECT 'x'" />
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
+
+		<property name="poolPreparedStatements" value="true" />
+		<property name="maxPoolPreparedStatementPerConnectionSize" value="30" />
+	</bean>
+
+	<!-- 配置动态数据源 -->
+	<bean id="dataSource" class="cn.eeepay.boss.system.DynamicDataSource">
+		<property name="targetDataSources">
+			<map key-type="java.lang.String">
+				<!-- write -->
+				<entry key="master" value-ref="masterDataSource"/>
+				<!-- read -->
+				<entry key="slave" value-ref="slaveDataSource"/>
+			</map>
+		</property>
+		<!-- 默认数据源 -->
+		<property name="defaultTargetDataSource" ref="masterDataSource"/>
+	</bean>
+
+	<!-- mybatis文件配置，扫描所有mapper文件 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"
+		p:dataSource-ref="dataSource"
+		p:configLocation="classpath:mybatis-config.xml"
+		p:mapperLocations="classpath:mapper/*.xml"/>
+
+	<!-- spring与mybatis整合配置，扫描所有dao -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"
+		p:basePackage="cn.eeepay.framework.dao"
+		p:sqlSessionFactoryBeanName="sqlSessionFactory"/>
+
+	<!-- 对dataSource 数据源进行事务管理 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+		p:dataSource-ref="dataSource" />
+
+	<!-- 事务管理 通知 -->
+	<!-- 对insert,update,delete 开头的方法进行事务管理,只要有异常就回滚 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="insert*" propagation="REQUIRED"
+					   rollback-for="java.lang.Throwable" />
+			<tx:method name="update*" propagation="REQUIRED"
+					   rollback-for="java.lang.Throwable" />
+			<tx:method name="delete*" propagation="REQUIRED"
+					   rollback-for="java.lang.Throwable" />
+			<tx:method name="select*" read-only="true" />
+			<tx:method name="count*" read-only="true" />
+			<tx:method name="*" />
+		</tx:attributes>
+	</tx:advice>
+
+	<!-- 事务 aop 配置 -->
+	<aop:config>
+		<aop:pointcut id="serviceMethods"
+			expression="execution(* cn.eeepay.framework.service.impl..*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethods" />
+	</aop:config>
+	<!-- 启用对事务注解的支持 -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<!--&lt;!&ndash; 切面还原默认数据源 &ndash;&gt;
+	<aop:config>
+		<aop:aspect id="daoAspect" ref="dynamicDataSource">
+			<aop:after method="determineCurrentLookupKey"
+					   pointcut="execution(* cn.eeepay.framework.service.impl.*.*(..))"/>
+		</aop:aspect>
+	</aop:config>-->
+
+</beans>

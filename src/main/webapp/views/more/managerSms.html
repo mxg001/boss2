@@ -1,0 +1,98 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>管理中心</a></li>
+			<li class="active"><strong>短信通道管理</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="managerSmsCtrl">
+	<form class="form-horizontal" id="form1">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="">
+						<div class="panel-body ibox float-e-margins">
+							<div class="ibox-title">
+								<h5>短信通道列表</h5><div style="color: red;">(注意:关闭通道前,请先将其下的所属组织转移到其他开启的通道)</div>
+							</div>
+							<div class="ibox-content">
+								<div class="form-group">
+									<div >
+										<div ui-grid="channelInfoOptions" ui-grid-resize-columns ui-grid-pinning class="grid" style="height: 150px;"></div>
+									</div>
+								</div>
+							</div>
+							<div class="ibox-title">
+								<h5>通道分布列表</h5>
+							</div>
+							<div class="ibox-content">
+								<div class="form-group">
+									<label class="col-sm-2 control-label">服务类型：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.serviceName" ng-options="x.value as x.text for x in serviceTypes"/>
+									</div>
+									<label class="col-sm-2 control-label">短信通道：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.channelCode" ng-options="x.value as x.text for x in smsChannels"/>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-lg-12">
+										<div class="col-sm-2"></div>
+										<button class="btn btn-primary6 btn-mr20" type="button" ng-click="selectServiceInfo()"	id="">查询</button>
+										<a ng-click="openChangeChannelModal()" class="btn btn-new btn-mr20" type="button">切换通道</a>
+										<button class="btn btn-primary7 btn-mr20" type="button"  ng-click="exportInfo()" >导出</button>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-lg-12">
+										<div ui-grid="serviceInfoOptions" ui-grid-resize-columns ui-grid-pagination ui-grid-selection ui-grid-pinning class="grid"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+	</form>
+
+	<!-- 切换通道 -->
+	<div id="changeChannelModal" class="modal fade" tabindex="3" role="dialog">
+		<div class="modal-dialog" style="height:300px;width: 900px">
+			<div class="modal-content" style="height:300px;width: 900px">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						&times;</button>
+					<h3 class="modal-title">请选择要切换的通道</h3>
+				</div>
+				<div class="modal-body">
+					<div class="form-group control-label" style="overflow:hidden;">
+						<label class="col-sm-2 control-label">短信通道：</label>
+
+						<div class="col-sm-3">
+							<select class="form-control" name="channelCode" ng-model="info2.channelCode"
+									ng-options="x.value as x.text for x in smsChannels2"></select>
+						</div>
+					</div>
+					<br>
+
+					<div class="form-group control-label">
+						<label class="col-sm-2 control-label"></label>
+
+						<div class="col-sm-6">
+							<button class="btn btn-primary btn-mr20" ng-disabled="submitting"
+									type="button" ng-click='toChangeChannel()'>提交
+							</button>
+							<button class="btn btn-primary4" type="button" ng-click='cancel()'>取消</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>

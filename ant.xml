@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="zip || folder" default="antFolder" basedir=".">
+	<property name="targetDir" value="./target/ant" />
+	<property name="sourceDir" value="./target/boss2" />
+	<property name="appName" value="boss2" />
+	<property name="source" value="1.7" />
+	<property name="target" value="1.7" />
+
+	<target name="antInit">
+		<tstamp>
+			<format property="TODAY" pattern="yyyyMMdd_HHmmss" locale="cn" />
+		</tstamp>
+		<echo>${appName}-${TODAY}</echo>
+	</target>
+
+	<target name="antClean" depends="antInit">
+		<delete dir="${targetDir}" />
+		<mkdir dir="${targetDir}" />
+	</target>
+
+	<!-- 打包文件为压缩包 -->
+	<target name="antZip" depends="antClean">
+		<zip destfile="${targetDir}/${appName}-${TODAY}.zip">
+			<zipfileset dir="${sourceDir}">
+
+			</zipfileset>
+		</zip>
+	</target>
+
+	<!-- 打包文件为文件夹 -->
+	<target name="antFolder" depends="antClean">
+		<copy todir="${targetDir}/${appName}-${TODAY}/" overwrite="true">
+			<fileset dir="${sourceDir}">
+
+				<include name="WEB-INF/classes/cn/eeepay/boss/action/ActivityAction*.class"/>
+				<include name="WEB-INF/classes/cn/eeepay/boss/action/TerminalInfoAction*.class"/>
+				<include name="WEB-INF/classes/cn/eeepay/framework/dao/ActivityDao*.class"/>
+				<include name="WEB-INF/classes/cn/eeepay/framework/dao/AgentInfoDao*.class"/>
+				<include name="WEB-INF/classes/cn/eeepay/framework/dao/XhlfActivityOrderDao*.class"/>
+				<include name="WEB-INF/classes/cn/eeepay/framework/model/ActivityHardwareType*.class"/>
+				<include name="WEB-INF/classes/cn/eeepay/framework/service/XhlfActivityOrderJobService*.class"/>
+				<include name="WEB-INF/classes/cn/eeepay/framework/service/impl/ActivityServiceImpl*.class"/>
+				<include name="WEB-INF/classes/cn/eeepay/framework/service/impl/AgentInfoServiceImpl*.class"/>
+				<include name="WEB-INF/classes/cn/eeepay/framework/service/impl/ZqServiceInfoServiceImpl*.class"/>
+				<include name="WEB-INF/classes/cn/eeepay/framework/service/unTransactionalImpl/ScheduleServiceImpl*.class"/>
+				<include name="WEB-INF/classes/cn/eeepay/framework/service/unTransactionalImpl/XhlfActivityOrderJobServiceImpl*.class"/>
+				<include name="css/style.css"/>
+				<include name="js/controllers/activity/happySendNewCtrl.js"/>
+				<include name="js/controllers/activity/superHappyBack/superHappyBackQueryCtrl.js"/>
+				<include name="js/controllers/agent/addAgentCtrl.js"/>
+				<include name="js/controllers/agent/agentDetailCtrl.js"/>
+				<include name="js/controllers/agent/editAgentCtrl.js"/>
+				<include name="js/controllers/autoCheckRule/happyReturnTypeCtrl.js"/>
+				<include name="views/func/happyReturnDetail.html"/>
+				<include name="views/func/happyReturnType.html"/>
+
+			</fileset>
+		</copy>
+	</target>
+
+</project>

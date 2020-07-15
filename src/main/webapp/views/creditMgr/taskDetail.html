@@ -1,0 +1,55 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li>主页</li>
+            <li>信用卡管家</li>
+            <li class="active"><strong>任务详情</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="taskDetailCtrl">
+    <form class="form-horizontal" id="form1">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>任务概况    （提额任务时间: {{info.startTime}} — {{info.endTime}}）</h5>
+                    </div>
+                    <div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">用卡健康度：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.cardHealth"></div>
+							<label class="col-sm-2 control-label">提额指数：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.increasePossible"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">用卡安全指数：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.anQuan"></div>
+							<label class="col-sm-2 control-label">逾期指数：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.yuQi"></div>
+							<label class="col-sm-2 control-label">额外加分：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.jiaFen"></div>
+						</div>
+					</div>
+                    <div class="ibox-title">
+                        <h5>任务执行情况</h5>
+                    </div>
+                    <div class="ibox-content">
+						<div class="form-group">
+							<div class="gridStyle" ui-grid="taskGrid">
+							</div>
+						</div>
+					</div>
+				</div>
+                <div class="form-group" style="margin-top: 30px">
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="col-sm-8">
+                        <a class="btn btn-primary4" ui-sref="creditMgr.quotaTask" >返回</a>
+                    </div>
+                </div>
+             </div>
+        </div>
+    </form>
+</div>

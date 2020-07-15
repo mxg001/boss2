@@ -1,0 +1,134 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a href="index.html">主页</a></li>
+            <li>欢乐送活动查询</li>
+            <li class="active"><strong>盟主活动返现明细</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn"
+     ng-controller="cashBackDetailCtrl">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>盟主活动返现明细</h5>
+                </div>
+                <div class="ibox-content">
+                    <form class="form-horizontal" id="form">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="panel-body ibox float-e-margins">
+                                    <div class="ibox-content">
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">激活订单号：</label>
+                                            <div class="col-sm-2">
+                                                <input type="text" class="form-control"ng-model='info.activeOrder' onchange="keyChange()">
+                                            </div>
+                                            <label class="col-sm-2 control-label">返现入账状态：</label>
+                                            <div class="col-sm-2">
+                                                <select class="form-control" ng-model="info.entryStatus"
+                                                        ng-options="x.value as x.text for x in entryStatuses">
+                                                </select>
+                                            </div>
+                                            <label class="col-sm-2 control-label">所属品牌：</label>
+                                            <div class="col-sm-2">
+                                                <select class="form-control" ng-model="info.brandCode" ng-options="x.value as x.text for x in allAgentOem"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">盟主姓名：</label>
+                                            <div class="col-sm-2">
+                                                <input type="text" class="form-control"ng-model='info.userName' onchange="keyChange()">
+                                            </div>
+                                            <label class="col-sm-2 control-label">盟主编号：</label>
+                                            <div class="col-sm-2">
+                                                <input type="text" class="form-control"ng-model='info.userCode' onchange="keyChange()">
+                                            </div>
+                                            <label class="col-sm-2 control-label">所属机构名称：</label>
+                                            <div class="col-sm-2">
+                                                <input type="text" class="form-control"ng-model='info.oneUserName' onchange="keyChange()">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">所属机构编号：</label>
+                                            <div class="col-sm-2">
+                                                <input type="text" class="form-control"ng-model='info.oneUserCode' onchange="keyChange()">
+                                            </div>
+                                            <label class="col-sm-2 control-label">欢乐返类型：</label>
+                                            <div class="col-sm-2">
+                                                <select class="form-control" ng-change="checkActivityCode(info.activityCode)"  ng-model="info.activityCode"
+                                                        ng-options="x.value as x.text for x in types">
+                                                </select>
+                                            </div>
+                                            <label class="col-sm-2 control-label">欢乐返子类型：</label>
+                                            <div class="col-sm-2">
+                                                <select class="form-control" ng-model="info.activityTypeNo"
+                                                        ng-options="x.value as x.text for x in typeNos">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">商户编号：</label>
+                                            <div class="col-sm-2">
+                                                <input type="text" class="form-control"ng-model='info.merchantNo' onchange="keyChange()">
+                                            </div>
+                                            <label class="col-sm-2 control-label">一级代理商编号：</label>
+                                            <div class="col-sm-2">
+                                                <input type="text" class="form-control"ng-model='info.oneAgentNo' onchange="keyChange()">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">激活时间：</label>
+                                            <div class="col-sm-5">
+                                                <input id="d5221" class="form-control" type="datetime" ng-model="info.activityTimeStart" onchange=""  style="width:auto;display:inline-block;"
+                                                       onFocus="var d5667=$dp.$('d5222');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5222.focus();},maxDate:'#F{$dp.$D(\'d5222\')||\'%y-%M-%d\'}'})"/>
+                                                ~
+                                                <input id="d5222" class="form-control" type="datetime"  ng-model="info.activityTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+                                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5221\')}',maxDate:'%y-%M-%d 23:59:59'})"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">入账时间：</label>
+                                            <div class="col-sm-5">
+                                                <input id="d5666" class="form-control" type="datetime" ng-model="info.startTime" onchange=""  style="width:auto;display:inline-block;"
+                                                       onFocus="var d5667=$dp.$('d5667');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5667.focus();},maxDate:'#F{$dp.$D(\'d5667\')||\'%y-%M-%d\'}'})"/>
+                                                ~
+                                                <input id="d5667" class="form-control" type="datetime"  ng-model="info.endTime" onchange=""  style="width:auto;display:inline-block;"
+                                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5666\')}',maxDate:'%y-%M-%d 23:59:59'})"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2"></label>
+                                            <div class="col-sm-10">
+                                                <button class="btn btn-primary6 btn-mr20" type="button" ng-click='query()' id="btnSubmit">查询</button>
+                                                <button class="btn btn-primary3 btn-mr20" type="button" ng-click="resetForm()">清空</button>
+                                                <button class="btn btn-new btn-mr20" type="button" ng-click="export()">导出</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="panel-body ibox float-e-margins">
+                                    <div class="ibox-content">
+                                        <div class="form-group">
+                                            <div class="tposition">
+                                                <div class="gridStyle grid" ui-grid="cashBackGrid" ui-grid-selection  ui-grid-resize-columns ui-grid-pagination ui-grid-pinning></div>
+                                                <div ng-show="loadImg" class="timg"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="height: 50px"></div>
+                                </div>
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="height: 30px;"></div>
+</div>

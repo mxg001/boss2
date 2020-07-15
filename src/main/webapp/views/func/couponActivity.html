@@ -1,0 +1,30 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>功能管理</a></li>
+			<li class="active"><strong>活动管理</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="couponActivityCtrl">
+	<form class="form-horizontal" id="form1" name="horizontal">
+		<div class="row">
+			<div class="col-lg-12" style="padding-bottom:80px;">
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>活动管理</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+							<div style="height:500px" ui-grid="rewardActivityGrid" ui-grid-resize-columns class="grid"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

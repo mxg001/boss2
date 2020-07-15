@@ -1,0 +1,269 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>功能管理</a></li>
+			<li class="active"><strong>邀请有奖活动设置</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="invitePrizesCtrl">
+	<form class="form-horizontal" id="form1" name="horizontal">
+		<div class="row">
+			<div class="col-lg-12" style="padding-bottom:80px;">
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>邀请有奖活动设置</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><i class="red_req">*</i>邀请有奖总开关控制：</label>
+							
+							<switch class="col-sm-2 switch switch-s" ng-model="baseInfo.invitePrizesSwitch" ng-show="edit=='edit'"/>
+							<span class="col-sm-2 checkbox" ng-bind="baseInfo.invitePrizesSwitch | formatDropping: statusAll" ng-show="edit=='view'"></span>
+							<label class="col-sm-2 control-label"><i class="red_req">*</i>奖励金额：</label>
+							<div class="col-sm-3">
+								<input class="form-control" name="invitePrizesAmount" ng-model="baseInfo.invitePrizesAmount" required ng-readonly="edit=='view'"/>
+								<div class="req_mesg" ng-show="horizontal.invitePrizesAmount.$dirty && horizontal.invitePrizesAmount.$invalid">
+									<span ng-show="horizontal.invitePrizesAmount.$error.required">奖励金额不能为空</span>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label"><i class="red_req">*</i>推送短信模板：</label>
+							<div class="col-sm-9">
+								<textarea class="form-control" rows="6" cols="10" ng-model="baseInfo.invitePrizesPushModel" required name="messageModule" ng-readonly="edit=='view'"></textarea>
+								<div class="req_mesg" ng-show="horizontal.messageModule.$dirty && horizontal.messageModule.$invalid">
+									<span ng-show="horizontal.messageModule.$error.required">推送短信模板不能为空</span>
+								</div>
+							</div>
+						</div>
+						<div class="form-group" style="padding-top:30px;">
+						<label class="col-sm-2 control-label"></label>
+						<div class="col-sm-7">
+							<button  ng-show="edit=='edit'" class="btn btn-primary btn-mr20 " ng-disabled="horizontal.$invalid || submitting" type="button"
+							ng-show="hasPermit('invitePrizes.saveInfo')"
+							ng-click="submit()" id="btnSubmit">提交</button>
+							<a class="btn btn-primary4" type="button" ui-sref="func.couponActivity"
+									>返回</a>
+						</div>
+					</div>
+					</div>
+				</div>
+				
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>邀请有奖代理商配置</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">一级代理商：</label>
+							<div class="col-sm-3">
+								<select name="autocomplete-select2" id="autocomplete-select2" ng-model="info.agentNo" ng-options="x.value as x.text for x in oneAgentList" style="width: 100%" chosen chosen-data="oneAgentList" chosen-keyup="getOneAgentList">
+								</select>
+							</div>
+							<label class="col-sm-2 control-label">活动状态：</label>
+							<div class="col-sm-3">
+								<select class="form-control" ng-model="info.activityStatus" ng-options="x.value as x.text for x in activityStatusList">
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2"></label>
+							<div class="col-sm-10">
+								<button class="btn btn-primary6 btn-mr20" type="button" ng-click='query()' id="btnSubmit">查询</button>
+								<button class="btn btn-primary3 btn-mr20" type="button" ng-click="resetForm()">清空</button>
+								<button class="btn btn-primary5 btn-mr20" type="button" ng-show="hasPermit('invitePrizes.insertAgent')" ng-click="insertAgent()" 
+										 	id="btnSubmit">新增</button>
+								<button class="btn btn-primary5 btn-mr20" type="button" ng-show="hasPermit('invitePrizes.insertAgentBatch')" ng-click="insertAgentBatch()" 
+								 	id="btnSubmit">批量添加</button>
+								 <button class="btn btn-primary10 btn-mr20" type="button" ng-show="hasPermit('invitePrizes.deleteBatch')"
+								 	ng-click="deleteBatch()" id="btnSubmit">批量删除</button>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="tposition">
+								<div style="height:470px" ui-grid="agentGrid" ui-grid-resize-columns ui-grid-pagination ui-grid-selection class="gridStyle grid"></div>
+								<div ng-show="loadImg" class="timg"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</form>
+	<!-- agentModal start -->
+	<div id="agentModal" class="modal fade form-horizontal" tabindex="3" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content" style="height:370px;width: 700px">
+				<form class="form-horizontal" name="horizontalAgentModel">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							&times;</button>
+						<h3 class="modal-title">设置活动时间</h3>
+					</div> 
+					<div class="modal-body">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">代理商编号：</label>
+							<div class="col-sm-5 checkbox" ng-bind="agentInfo.agentNo">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">代理商名称：</label>
+							<div class="col-sm-5 checkbox" ng-bind="agentInfo.agentName">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><i class="red_req">*</i>选择活动日期：</label>
+							<div class="col-sm-10">
+								<input id="d5221" required name="startDate" class="form-control" type="datetime" ng-model="agentInfo.startDate" onchange=""  style="width:auto;display:inline-block;"
+									onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd',onpicked:function(){d5222.focus();}})"/>
+								至
+								<input id="d5222" required name="endDate" class="form-control" type="datetime"  ng-model="agentInfo.endDate" onchange=""  style="width:auto;display:inline-block;"
+									onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd'})"/>
+							</div>
+							<div class="req_mesg" ng-show="(horizontalAgentModel.startDate.$dirty && horizontalAgentModel.startDate.$invalid)
+															 || horizontalAgentModel.endDate.$dirty && horizontalAgentModel.endDate.$invalid">
+										<span ng-show="horizontalAgentModel.startDate.$error.required
+														|| horizontalAgentModel.endDate.$error.required 
+										">活动日期不能为空</span>
+									</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<div class="form-group">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-6">
+								<button class="btn btn-primary btn-mr20" type="button" ng-click='submitAgentInfo("invitePrizes/updateAgentActivityDate",agentInfo)' ng-show="hasPermit('invitePrizes.updateAgentActivityDate')" ng-disabled="horizontalAgentModel.$invalid"
+								>确定</button>
+								<button class="btn btn-primary8" type="button" ng-click='cancel()'
+								>返回</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- agentModal end -->
+		
+	<!-- insertModal start -->
+	<div id="insertModal" class="modal fade form-horizontal" tabindex="4" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content" style="height:370px;width: 700px">
+				<form class="form-horizontal" name="horizontalInsertModal">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							&times;</button>
+						<h3 class="modal-title">新增代理商</h3>
+					</div> 
+					<div class="modal-body">
+						<div class="form-group">
+							<label class="col-sm-3 control-label"><i class="red_req">*</i>一级代理商编号：</label>
+							<div class="col-sm-5">
+								<input class="form-control" ng-blur="getAgent()" required name="agentNo" ng-model="insertInfo.agentNo" />
+								<div class="req_mesg" ng-show="horizontalInsertModal.agentNo.$dirty && horizontalInsertModal.agentNo.$invalid">
+									<span ng-show="horizontalInsertModal.agentNo.$error.required">一级代理商编号不能为空</span>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label"><i class="red_req">*</i>一级代理商名称：</label>
+							<div class="col-sm-5">
+								<input class="form-control" required name="agentName" readonly="readonly" ng-model="insertInfo.agentName"/>
+							</div>
+							<div class="req_mesg" ng-show="horizontalInsertModal.agentName.$dirty && horizontalInsertModal.agentName.$invalid">
+									<span ng-show="horizontalInsertModal.agentName.$error.required">一级代理商名称不能为空</span>
+								</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label"><i class="red_req">*</i>选择活动日期：</label>
+							<div class="col-sm-9">
+								<input id="d5223" required name="startDate" class="form-control" type="datetime" ng-model="insertInfo.startDate" onchange=""  style="width:auto;display:inline-block;"
+									onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd',onpicked:function(){d5224.focus();}})"/>
+								至
+								<input id="d5224" required name="endDate" class="form-control" type="datetime"  ng-model="insertInfo.endDate" onchange=""  style="width:auto;display:inline-block;"
+									onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd'})"/>
+							</div>
+							<div class="req_mesg" ng-show="(horizontalInsertModal.startDate.$dirty && horizontalInsertModal.startDate.$invalid)
+															 || horizontalInsertModal.endDate.$dirty && horizontalInsertModal.endDate.$invalid">
+								<span ng-show="horizontalInsertModal.startDate.$error.required
+														|| horizontalInsertModal.endDate.$error.required 
+										">活动日期不能为空</span>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<div class="form-group">
+							<label class="col-sm-3 control-label"></label>
+							<div class="col-sm-6">
+								<button class="btn btn-primary btn-mr20" type="button" ng-click='submitAgentInfo("invitePrizes/insertAgent",insertInfo)' ng-show="hasPermit('invitePrizes.updateAgentActivityDate')" ng-disabled="horizontalInsertModal.$invalid"
+								>确定</button>
+								<button class="btn btn-primary8" type="button" ng-click='cancel()'
+								>返回</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- insertModal end -->
+	
+	<!-- insertBatchModal start -->
+	<div id="insertBatchModal" class="modal fade form-horizontal" tabindex="4" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content" style="height:300px;width: 700px">
+				<form class="form-horizontal" name="horizontalInsertBatchModal">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							&times;</button>
+						<h3 class="modal-title">批量新增代理商</h3>
+					</div> 
+					<div class="modal-body">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">导入文件：</label>
+							<div class="col-sm-5">
+								<input type="file" nv-file-select="" ng-model="fileSelect"
+									uploader="uploader" multiple />
+								<table class="table">
+									<tbody>
+										<tr ng-repeat="item in uploader.queue">
+											<td><strong>{{ item.file.name }}</strong></td>
+											<td nowrap>
+												<button type="button" class="btn btn-danger btn-xs"
+													ng-click="item.remove()">
+													<span class="glyphicon glyphicon-trash"></span>删除
+												</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div class="col-sm-3">
+								<a href="downLoad/template?templateName=invitePrizesAddAgent&type=xlsx" >批量新增模板</a>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<div class="form-group">
+							<label class="col-sm-3 control-label"></label>
+							<div class="col-sm-6">
+								<button class="btn btn-primary btn-mr20" type="button" ng-click='submitBatchAgent()' ng-show="hasPermit('invitePrizes.insertAgentBatch')" 
+										ng-disabled="uploader.queue.length==0 || submitting"
+								>确定</button>
+								<button class="btn btn-primary8" type="button" ng-click='cancel()'
+								>返回</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- insertBatchModal end -->
+</div>

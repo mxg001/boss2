@@ -1,0 +1,35 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a href="index.html">主页</a></li>
+			<li><a>功能管理</a></li>
+			<li class="active"><strong>功能控制开关</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="switchCtrl">
+<div class="row">
+	<div class="col-lg-12">
+		<div class="ibox float-e-margins">
+		    <div class="ibox-title">
+		        <h5>功能控制</h5>
+		        <!--<div ibox-tools></div>-->
+		    </div>
+		    <div class="ibox-content">
+		    	<form class="form-horizontal" id="form1">
+					<div class="panel-body ibox float-e-margins">
+						<div class="ibox-content">
+							<div class="gridStyle" ui-grid="switchTable"  ui-grid-pinning ui-grid-resize-columns></div>
+						</div>
+					</div>
+				
+		     	</form>
+		    </div>
+		</div>
+	</div>
+</div>
+
+	<div style="height: 30px;"></div>
+</div>

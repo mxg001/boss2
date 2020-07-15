@@ -1,0 +1,155 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>收单机构管理 </a></li>
+			<li class="active"><strong>按交易跳转集群设置</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="jumpRouteCtrl">
+	<form class="form-horizontal">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>按交易跳转集群设置</h5>
+					<!--<div ibox-tools></div>-->
+				</div>
+				<div class="ibox-content">
+				    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">开始生效日期：</label>
+                            <div class="col-sm-2">
+                                <input type="datetime" class="form-control" style="width:auto;display:inline-block;"
+                                  date-time ng-model="baseInfo.startDate" date-change="changeMinMax" max-date="maxDate"  view="date"  min-view="date" format="YYYY-MM-DD"  >
+                            </div>
+                            <label class="col-sm-2 control-label">截止生效日期：</label>
+                            <div class="col-sm-2">
+                                <input type="datetime" class="form-control" style="width:auto;display:inline-block;"
+                                  date-time ng-model="baseInfo.endDate" date-change="changeMinMax" max-date="maxDate"  view="date"  min-view="date" format="YYYY-MM-DD"  >
+                            </div>
+                            <label class="col-sm-2 control-label">集群：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.groupCode">
+                            </div>
+                        </div>
+				    <div class="form-group">
+						<label class="col-sm-2 control-label">交易最小金额：</label>
+						<div class="col-sm-2">
+							<input type="text" class="form-control" ng-model="baseInfo.minTransAmount">
+						</div>
+						<label class="col-sm-2 control-label">交易最大金额：</label>
+						<div class="col-sm-2">
+							<input type="text" class="form-control" ng-model="baseInfo.maxTransAmount">
+						</div>
+						<label class="col-sm-2 control-label">状态：</label>
+						<div class="col-sm-2">
+						    <select class="form-control" ng-model="baseInfo.status" ng-options="x.value as x.text for x in statusList"></select>
+						</div>
+					</div>
+					<div class="form-group">
+                        <label class="col-sm-2 control-label">收单机构：</label>
+                        <div class="col-sm-2">
+                            <select name="autocomplete-select" id="autocomplete-select" ng-model="baseInfo.acqId"
+                             ng-options="x.value as x.text for x in acqOrgs" style="width: 100%" chosen chosen-data="acqOrgs" >
+                            </select>
+                        </div>
+                        <label class="col-sm-2 control-label">所属组织：</label>
+                        <div class="col-sm-2">
+                            <select class="form-control" ng-model="baseInfo.teamId" ng-options="x.value as x.text for x in teamType">
+                            </select>
+                        </div>
+						<label class="col-sm-2 control-label">是否关联活动：</label>
+						<div class="col-sm-2">
+							<select class="form-control" ng-model="baseInfo.relationActivity" ng-options="x.value as x.text for x in relationActivitySelect">
+							</select>
+						</div>
+                    </div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label"></label>
+						<div class="col-sm-10">
+							<input type="button" class="btn btn-primary6 btn-mr20" ng-click="query()" value='查询'>
+							<input type="button" class="btn btn-primary3 btn-mr20" ng-click="reset()" value='清空'>
+							<input type="button" class="btn btn-primary5 btn-mr20" ng-show="hasPermit('jumpRoute.save')" ui-sref="org.jumpRouteAdd" value='新增'>
+							<input type="button" class="btn btn-new btn-rounded btn-mr20" style="width:120px; padding:7px 0;" ng-click="openWhiteList()" value='白名单管理'>
+							<input type="button" class="btn btn-new2 btn-mr20"  style="width:120px; padding:7px 0;" ng-click="openAddWhiteList()" value='新增白名单'>
+							<button class="btn btn-new btn-mr20" type="button" ng-show="hasPermit('jumpRoute.targetAmountWarning')"
+							    ui-sref="org.targetAmountWarning" style="width: 120px">目标金额预警
+							</button>
+							<input type="button" class="btn btn-primary7 btn-mr20" ng-show="hasPermit('jumpRoute.export')" ng-click="export()" value='导出'>
+							<input type="button" class="btn btn-new btn-mr20" ng-show="hasPermit('blacklistAmount.selectPage')"
+							    ui-sref="org.queryBlacklistAmount" value='金额黑名单'>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>交易跳转集群配置列表</h5>
+					<!--<div ibox-tools></div>-->
+				</div>
+				<div class="ibox-content">
+					<div class="form-group">
+						<div class="gridStyle" ui-grid="jumpRouteGrid" ui-grid-pagination ui-grid-pinning ui-grid-resize-columns></div>
+					</div>
+				</div>
+			</div>	
+		</div>
+	</div>
+	</form>
+	
+	
+	<!-- 模态框（Modal）白名单管理 -->
+	<div id="whitelistList" class="modal fade" tabindex="-1" role="dialog" style="width: 100%;"> 
+	   <div class="modal-dialog">
+	      <div class="modal-content">
+	         <div class="modal-header">
+	            <button type="button" class="close" data-dismiss="modal">
+	                  &times;
+	            </button>
+	            <h3 class="modal-title">白名单管理</h3>
+	         </div>
+	         <div class="modal-body" style="width: 100%;">
+	         	<div class="form-group">
+	         		<div class="grid" ui-grid="whiteListMgrGrid" style="width: 100%;" ui-grid-resize-columns></div>
+				</div>
+	         </div>
+	      </div>
+		</div>
+	</div>
+	
+	<!-- 模态框（Modal）添加白名单 -->
+	<div id="whitelistAdd" class="modal fade" tabindex="-1" role="dialog">
+	   <div class="modal-dialog">
+	      <div class="modal-content">
+	         <div class="modal-header">
+	            <button type="button" class="close" data-dismiss="modal">
+	                  &times;
+	            </button>
+	            <h3 class="modal-title">添加白名单</h3>
+	         </div>
+	         <div class="modal-body">
+	         	<form id="form1">
+	         		<div class="form-group">
+						<label class="col-sm-4 control-label">商户编号：</label>
+						<div style="padding: 0 20px;"><input ng-model="roll.merchantNo" type="text" class="form-control"></div>
+					</div>
+	         	</form>
+	         </div>
+	         <div class="modal-footer">
+			    <button type="button" ng-click="addWhiteList()" ng-disabled="submitting" class="btn btn-primary">确定</button>
+			 </div>
+	      </div>
+		</div>
+	</div>
+	
+	
+</div>

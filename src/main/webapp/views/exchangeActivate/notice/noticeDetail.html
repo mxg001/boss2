@@ -1,0 +1,86 @@
+<!-- head -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>超级兑(激活版)</a></li>
+            <li class="active"><strong>公告详情</strong></li>
+        </ol>
+    </div>
+</div>
+
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="exchangeActivateNoticeEditCtrl">
+    <form class="form-horizontal" id="form1" name="horizontalCard">
+        <div class="form-group">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+
+                    <div class="row">
+                        <div class="ibox-title">
+                            <h5>基本信息</h5>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>公告标题:</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" name="title" readonly maxlength="20" ng-model="addInfo.title">
+                                <div class="req_mesg" ng-show="horizontalCard.title.$dirty && horizontalCard.title.$invalid">
+                                    <span ng-show="horizontalCard.title.$error.required">公告标题不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>公告内容:</label>
+                            <div class="col-lg-7">
+                                <textarea type="text" class="form-control" name="content" readonly summernote ng-model="addInfo.content">
+                                </textarea>
+                                <div class="req_mesg" ng-show="horizontalCard.content.$dirty && horizontalCard.content.$invalid">
+                                    <span ng-show="horizontalCard.content.$error.required">公告内容不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"></label>
+                            <label class="col-sm-4" style="color:red;">注意:公告内容中不能添加图片.</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">备注:</label>
+                            <div class="col-sm-7">
+                                <textarea class="form-control" rows="4" cols="15" readonly ng-model="addInfo.remark"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="ibox-title">
+                            <h5>下发对象</h5>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>下发组织:</label>
+                            <div class="col-lg-5">
+                                <div style="height:207px" class="gridStyle" ui-grid="userGrid" ui-grid-selection class="grid" ui-grid-resize-columns></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>上/下线时间:</label>
+                            <div class="col-sm-5">
+                                <input id="d5231" class="form-control" type="datetime" readonly ng-model="addInfo.upTime" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="var d5232=$dp.$('d5232');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5232.focus();},maxDate:'#F{$dp.$D(\'d5232\')}'})"/>
+                                ~
+                                <input id="d5232" class="form-control" type="datetime"  readonly ng-model="addInfo.downTime" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5231\')}'})"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 bgff">
+                <div class="col-sm-12">
+                    <div class="col-lg-3"></div>
+                    <div class="col-sm-6">
+                        <a class="btn btn-primary4" ui-sref="exchangeActivate.notice" >返回</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

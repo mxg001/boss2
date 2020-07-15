@@ -1,0 +1,165 @@
+<!-- head -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>超级推</a></li>
+            <li><a>机具申领订单</a></li>
+            <li class="active"><strong>订单详情</strong></li>
+        </ol>
+    </div>
+</div>
+
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn"
+     ng-controller="detailCjtOrder">
+    <form class="form-horizontal" id="form1" name="horizontal">
+        <div class="form-group">
+            <div class="ibox float-e-margins">
+                <div class="row">
+                    <div class="ibox-title">
+                        <h5>商品信息</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group ">
+                            <label class="col-lg-2 control-label">商品图片：</label>
+                            <div class="col-lg-2" ng-if="baseInfo.mainImgUrl1!=null">
+                                <a href="{{baseInfo.mainImgUrl1}}" fancybox rel="group">
+                                    <img width="250px" height="150px" ng-src="{{baseInfo.mainImgUrl1}}"/>
+                                </a>
+                            </div>
+                            <label class="col-lg-2 control-label">商品标题：</label>
+                            <div class="col-lg-2 checkbox" ng-bind="baseInfo.goodsName">
+                            </div>
+                            <label class="col-lg-2 control-label">商品销售价(元)：</label>
+                            <div class="col-lg-2 checkbox">{{baseInfo.price}}元</div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="col-lg-2 control-label">颜色：</label>
+                            <div class="col-lg-2 checkbox" ng-bind="baseInfo.color">
+                            </div>
+                            <label class="col-lg-2 control-label">尺寸(cm)：</label>
+                            <div class="col-lg-2 checkbox">{{baseInfo.size}}</div>
+                        </div>
+                    </div>
+
+                    <div class="ibox-title">
+                        <h5>订单及支付信息</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group ">
+                            <label class="col-lg-2 control-label">订单编号：</label>
+                            <div class="col-lg-2 checkbox" ng-bind="baseInfo.orderNo">
+                            </div>
+                            <label class="col-lg-2 control-label">购买数量：</label>
+                            <div class="col-lg-2 checkbox" ng-bind="baseInfo.num">
+                            </div>
+                            <label class="col-lg-2 control-label">订单金额(元)：</label>
+                            <div class="col-lg-2 checkbox">{{baseInfo.totalPrice}}元</div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="col-lg-2 control-label">订单状态：</label>
+                            <div class="col-lg-2 checkbox" ng-bind="baseInfo.orderStatusStr">
+                            </div>
+                            <label class="col-lg-2 control-label">下单日期：</label>
+                            <div class="col-lg-2 checkbox" ng-bind="baseInfo.createTimeStr">
+                            </div>
+                            <label class="col-lg-2 control-label">交易订单号：</label>
+                            <div class="col-lg-2 checkbox" ng-bind="baseInfo.acqOrderNo">
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="col-lg-2 control-label">支付状态：</label>
+                            <div class="col-lg-2 checkbox" ng-bind="baseInfo.transStatusStr">
+                            </div>
+                            <label class="col-lg-2 control-label">支付日期：</label>
+                            <div class="col-lg-2 checkbox" ng-bind="baseInfo.transTimeStr">
+                            </div>
+                            <label class="col-lg-2 control-label">支付方式：</label>
+                            <div class="col-lg-2 checkbox" ng-bind="baseInfo.transType | formatDropping: transTypeList"></div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="col-lg-2 control-label">支付通道：</label>
+                            <div class="col-lg-2 checkbox" ng-bind="baseInfo.acqCode | formatDropping: cjtAcqCodeList">
+                            </div>
+                            <label class="col-lg-2 control-label">支付订单号：</label>
+                            <div class="col-lg-2 checkbox" ng-bind="baseInfo.transOrderNo">
+                            </div>
+                            <label class="col-lg-2 control-label">备注：</label>
+                            <div class="col-lg-2 checkbox">{{baseInfo.remark}}</div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="col-lg-2 control-label">申购类型：</label>
+                            <div class="col-lg-2 checkbox" ng-bind="baseInfo.goodOrderType | formatDropping: goodOrderTypeStr">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ibox-title">
+                        <h5>收货人信息</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group ">
+                            <label class="col-lg-2 control-label">收件人：</label>
+                            <div class="col-lg-2 checkbox" ng-bind="baseInfo.receiver">
+                            </div>
+                            <label class="col-lg-2 control-label">联系方式：</label>
+                            <div class="col-lg-2 checkbox" ng-bind="baseInfo.receiverPhone">
+                            </div>
+                            <label class="col-lg-2 control-label">收货地址：</label>
+                            <div class="col-lg-2 checkbox" ng-bind="baseInfo.receiveAddress"></div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="col-lg-2 control-label">商户编号：</label>
+                            <div class="col-lg-2 checkbox" ng-bind="baseInfo.merchantNo">
+                            </div>
+                        </div>
+                    </div>
+
+                     <div class="ibox-title">
+                        <h5>发货信息</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group ">
+                            <label class="col-lg-2 control-label">发货日期：</label>
+                            <div class="col-lg-2 checkbox" ng-bind="baseInfo.logisticsTimeStr">
+                            </div>
+                            <label class="col-lg-2 control-label">快递公司：</label>
+                            <div class="col-lg-2 checkbox" ng-bind="baseInfo.logisticsCompany">
+                            </div>
+                            <label class="col-lg-2 control-label">物流单号：</label>
+                            <div class="col-lg-2 checkbox" ng-bind="baseInfo.logisticsOrderNo"></div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="col-lg-2 control-label"></label>
+                            <div class="col-lg-6">
+                                <div class="gridStyle" ui-grid="grid" ui-grid-resize-columns ui-grid-pagination></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ibox-title">
+                        <h5>售后信息</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group ">
+                            <label class="col-lg-2 control-label">售后状态：</label>
+                            <div class="col-lg-2 checkbox" ng-bind="baseInfo.statusStr">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-12 bgff">
+                <div class="col-sm-12">
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-6">
+                        <button class="btn btn-primary4 btn-mr20" type="button"
+                                ui-sref="cjt.queryCjtOrder">返回</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

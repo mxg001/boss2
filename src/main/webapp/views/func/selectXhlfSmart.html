@@ -1,0 +1,203 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li class="active"><strong>新欢乐送智能版活动</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="selectXhlfSmartCtrl">
+	<form class="form-horizontal" id="form1" name="horizontal">
+		<div class="row">
+			<div class="col-lg-12" style="padding-bottom: 80px;">
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>新欢乐送智能版活动</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">活动ID：</label>
+							<div class="col-sm-2">
+								<input placeholder="请输入活动ID" type="text" class="form-control" ng-model="xhlfSmart.id">
+							</div>
+							<label class="col-sm-2 control-label">活动名称：</label>
+							<div class="col-sm-2">
+								<input placeholder="请输入活动名称" type="text" class="form-control" ng-model="xhlfSmart.activityName">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label" >创建日期：</label>
+							<div class="col-sm-6">
+								<input id="d5223" class="form-control" type="datetime" ng-model="xhlfSmart.minCreateTime" onchange=""  style="width:auto;display:inline-block;" placeholder="开始日期"
+									   onFocus="var d5224=$dp.$('d5224');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5224.focus();},maxDate:'#F{$dp.$D(\'d5224\')}'})"/>
+								~
+								<input id="d5224" class="form-control" type="datetime"  ng-model="xhlfSmart.maxCreateTime" onchange=""  style="width:auto;display:inline-block;" placeholder="结束日期"
+									   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5223\')}'})"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-7">
+								<button class="btn btn-primary6 btn-mr20" type="button" ng-click="query()">查询</button>
+								<button class="btn btn-primary3 btn-mr20" type="button" ng-click="clear()">清空</button>
+								<button class="btn btn-primary5 btn-mr20" type="button" ng-show="hasPermit('activity.addHlfActivityAgentRule')" ng-click="hardWardAddModel()">新增</button>
+							</div>
+						</div>
+					</div>
+
+					<div class="panel-body ibox float-e-margins">
+						<div class="ibox-title">
+							<div class="ibox-content">
+								<div class="form-group">
+									<div class="gridStyle" ui-grid="gridOptions" ui-grid-selection ui-grid-pagination
+										 ui-grid-resize-columns ui-grid-pinning></div>
+									<div ng-show="loadImg" class="timg"></div>
+								</div>
+							</div>
+						</div>
+						<div style="height:30px"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<div id="hardWardAddModel" class="modal fade" tabindex="3"
+		role="dialog">
+		<form class="form-horizontal" id="form2">
+			<div class="modal-dialog">
+				<div class="modal-content" style="width: 900px">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							&times;</button>
+						<h3 class="modal-title" ng-show="isDetail">新欢乐送智能版活动详情</h3>
+						<h3 class="modal-title" ng-show="!isDetail&&saveStatus==0">新增新欢乐送智能版活动</h3>
+						<h3 class="modal-title" ng-show="!isDetail&&saveStatus==1">修改新欢乐送智能版活动</h3>
+					</div>
+					<div class="modal-body" style="padding-left:180px">
+						<div class="form-group">
+							<label class="col-sm-3 control-label"><i class="red_req">*</i>活动名称：</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" ng-disabled="isDetail" name="activityName" ng-model="info.activityName" maxlength="30">
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="ibox-title">
+								<h5>第1次考核配置</h5>
+							</div>
+
+						</div>
+						<div class="form-group">
+
+							<div class="col-sm-10">
+								<span style="float:left; padding:7px 5PX 0 0;">条件：激活后</span>
+								<input ng-disabled="isDetail" type="number" class="form-control" style="width:100px; float:left"  ng-model="info.oneLimitDays">
+								<div style="float:left; padding:7px 0 0 5px">天内(含当天)累计交易≥</div>
+								<input ng-disabled="isDetail" type="text" class="form-control" style="width:100px; float:left"  ng-model="info.oneTransAmount">
+								<div style="float:left; padding:7px 0 0 5px">元</div>
+							</div>
+
+						</div>
+						<div class="form-group">
+
+							<div class="col-sm-10">
+								<span style="float:left; padding:7px 5PX 0 0">  达标：首次注册奖励商户</span>
+								<input ng-disabled="isDetail" type="text" class="form-control" style="width:100px; float:left;text-align: center"  ng-model="info.oneRewardMerAmount">
+								<div style="float:left; padding:7px 0 0 5px">元，重复注册奖励商户</div>
+								<input ng-disabled="isDetail" type="text" class="form-control" style="width:100px; float:left;text-align: center"  ng-model="info.oneRepeatRewardMerAmount">
+								<div style="float:left; padding:7px 0 0 5px;font-weight:bold">元</div>
+							</div>
+
+						</div>
+						<div class="form-group">
+
+							<div class="col-sm-10">
+								<span style="float:left; padding:7px 5PX 0 0">未达标：首次注册奖励代理商</span>
+								<input ng-disabled="isDetail" type="text" class="form-control" style="width:100px; float:left;text-align: center"  ng-model="info.oneRewardAgentAmount">
+								<div style="float:left; padding:7px 0 0 5px">元，重复注册奖励代理商</div>
+								<input ng-disabled="isDetail" type="text" class="form-control" style="width:100px; float:left;text-align: center"  ng-model="info.oneRepeatRewardAgentAmount">
+								<div style="float:left; padding:7px 0 0 5px;font-weight:bold">元</div>
+							</div>
+
+						</div>
+						<div class="form-group">
+							<div class="ibox-title">
+								<h5>第2次考核配置</h5>
+							</div>
+						</div>
+						<div class="form-group">
+
+							<div class="col-sm-10">
+								<span style="float:left; padding:7px 5PX 0 0;">条件：激活后</span>
+								<input ng-disabled="isDetail" type="number" class="form-control" style="width:100px; float:left"  ng-model="info.twoLimitDays">
+								<div style="float:left; padding:7px 0 0 5px">天内(含激活当天)累计交易金额≥</div>
+								<input ng-disabled="isDetail" type="text" class="form-control" style="width:100px; float:left"  ng-model="info.twoTransAmount">
+								<div style="float:left; padding:7px 0 0 5px">元</div>
+							</div>
+
+						</div>
+						<div class="form-group">
+
+							<div class="col-sm-10">
+								<span style="float:left; padding:7px 5PX 0 0">达标：首次注册奖励代理商</span>
+								<input  ng-disabled="isDetail" type="text" class="form-control" style="width:100px; float:left;text-align: center"  ng-model="info.twoRewardAgentAmount">
+								<div style="float:left; padding:7px 0 0 5px">元，重复注册奖励代理商</div>
+								<input ng-disabled="isDetail"  type="text" class="form-control" style="width:100px; float:left;text-align: center"  ng-model="info.twoRepeatRewardAgentAmount">
+								<div style="float:left; padding:7px 0 0 5px;font-weight:bold">元</div>
+							</div>
+
+						</div>
+						<div class="form-group">
+							<div class="ibox-title">
+								<h5>第3次考核配置</h5>
+							</div>
+						</div>
+						<div class="form-group">
+
+							<div class="col-sm-10">
+								<span style="float:left; padding:7px 5PX 0 0;">条件：激活后</span>
+								<input ng-disabled="isDetail" type="number" class="form-control" style="width:100px; float:left"  ng-model="info.threeLimitDays">
+								<div style="float:left; padding:7px 0 0 5px">天内(含激活当天)累计交易金额≥</div>
+								<input ng-disabled="isDetail" type="text" class="form-control" style="width:100px; float:left"  ng-model="info.threeTransAmount">
+								<div style="float:left; padding:7px 0 0 5px">元</div>
+							</div>
+
+						</div>
+						<div class="form-group">
+
+							<div class="col-sm-10">
+								<span style="float:left; padding:7px 5PX 0 0">达标：首次注册奖励代理商</span>
+								<input  ng-disabled="isDetail" type="text" class="form-control" style="width:100px; float:left;text-align: center"  ng-model="info.threeRewardAgentAmount">
+								<div style="float:left; padding:7px 0 0 5px">元，重复注册奖励代理商</div>
+								<input ng-disabled="isDetail"  type="text" class="form-control" style="width:100px; float:left;text-align: center"  ng-model="info.threeRepeatRewardAgentAmount">
+								<div style="float:left; padding:7px 0 0 5px;font-weight:bold">元</div>
+							</div>
+
+						</div>
+						<div class="form-group">
+							<div class="col-sm-10" style="float:left">
+								<div>注：累计交易金额统计POS刷卡和扫码收款的交易金额，其中POS刷卡仅统计卡类型为信用卡的交易</div>
+							</div>
+						</div>
+
+						<div class="form-group control-label">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-6">
+								<button class="btn btn-primary btn-mr20" type="button" ng-show="!isDetail"
+									ng-click='commit()'>确定</button>
+								<button class="btn btn-primary8 " type="button" ng-show="!isDetail"
+									ng-click='cancel()'>返回</button>
+								<button class="btn btn-primary8 " type="button" ng-show="isDetail"
+										ng-click='cancel()'>关闭</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+</div>

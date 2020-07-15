@@ -1,0 +1,124 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>超级盟主</a></li>
+            <li class="active"><strong>SN号回拨记录</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="terminalBackQueryCtrl">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>SN号回拨记录查询</h5>
+                    <!--<div ibox-tools></div>-->
+                </div>
+                <div class="ibox-content">
+                    <form class="form-horizontal" id="form1">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">回拨单号：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model='info.orderNo' required>
+                            </div>
+                            <label class="col-sm-2 control-label">回拨盟主编号：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model='info.userCode' required>
+                            </div>
+                            <label class="col-sm-2 control-label">接收盟主编号：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model='info.receiveUserCode' required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">所属机构编号：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model='info.oneUserCode' required>
+                            </div>
+                            <label class="col-sm-2 control-label">接收盟主类型：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="info.receiveUserType" ng-options="x.value as x.text for x in userTypeSelect"/>
+                            </div>
+                            <label class="col-sm-2 control-label">回拨状态：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="info.status" ng-options="x.value as x.text for x in statuses"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">回拨日期：</label>
+                            <div class="col-sm-5">
+                                <input id="d5666" class="form-control" type="datetime" ng-model="info.backStartTime" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="var d5667=$dp.$('d5667');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5667.focus();},maxDate:'#F{$dp.$D(\'d5667\')||\'%y-%M-%d\'}'})"/>
+                                ~
+                                <input id="d5667" class="form-control" type="datetime"  ng-model="info.backEndTime" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5666\')}',maxDate:'%y-%M-%d 23:59:59'})"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">处理日期：</label>
+                            <div class="col-sm-5">
+                                <input id="d5668" class="form-control" type="datetime" ng-model="info.receiveStartTime" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="var d5667=$dp.$('d5669');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5669.focus();},maxDate:'#F{$dp.$D(\'d5669\')||\'%y-%M-%d\'}'})"/>
+                                ~
+                                <input id="d5669" class="form-control" type="datetime"  ng-model="info.receiveEndTime" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5668\')}',maxDate:'%y-%M-%d 23:59:59'})"/>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-bottom: -10px;">
+                            <div class="col-sm-2"> </div>
+                            <div class="col-sm-10">
+                                <button class="btn btn-primary6 btn-rounded btn-mr20" type="button" ng-click="query()">查询</button>
+                                <button class="btn btn-primary3 btn-rounded btn-mr20" type="button" ng-click="clear()">清空</button>
+                                <button class="btn btn-new btn-mr20" type="button" ng-show="hasPermit('terminalBack.exportTerminalBack')" ng-click="export()">导出</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox-content">
+            </div>
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="gridStyle" ui-grid="servicesGrid" ui-grid-selection ui-grid-pinning ui-grid-pagination ui-grid-resize-columns></div>
+                    <div ng-show="loadImg" class="timg"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="height: 30px;"></div>
+
+    <div id="snModel" class="modal fade" tabindex="3"
+         role="dialog">
+        <form class="form-horizontal" id="form3">
+            <div class="modal-dialog" style="height: 500px; width: 400px">
+                <div class="modal-content" style="height: 500px; width: 400px">
+                    <div class="ibox-title">
+                        <button type="button" class="close" data-dismiss="modal">×</button>
+                        <h5>回拨SN号列表</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-content">
+                                <div class="gridStyle" ui-grid="snGrid" style="height: 300px"  ui-grid-pinning ui-grid-resize-columns></div>
+                            </div>
+                        </div>
+                        <div class="form-group control-label">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-6">
+                                <button class="btn btn-primary8 " type="button" ng-click='cancelSNModel()'>返回</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

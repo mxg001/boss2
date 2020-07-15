@@ -1,0 +1,122 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a href="index.html">主页</a></li>
+            <li>超级推</li>
+            <li class="active"><strong>超级推商户查询</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="queryCjtMerchantInfo">
+    <form class="form-horizontal" id="form-cjtMerchantInfo-query">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>超级推商户查询</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">商户编号：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.merchantNo" maxlength="30">
+                            </div>
+                            <label class="col-sm-2 control-label">商户手机号：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.mobilephone" maxlength="30">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">直属代理商：</label>
+                            <div class="col-sm-2">
+                                <select name="autocomplete-select" id="autocomplete-select" ng-model="baseInfo.agentNode" ng-options="x.value as x.text for x in agentList" style="width: 100%" chosen chosen-data="agentList" chosen-keyup="getAgentList">
+                                </select>
+                            </div>
+                            <label class="col-sm-2 control-label">一级代理商：</label>
+                            <div class="col-sm-2">
+                                <select name="autocomplete-select2" id="autocomplete-select2" ng-model="baseInfo.oneAgentNo" ng-options="x.value as x.text for x in oneAgentList" style="width: 100%" chosen chosen-data="oneAgentList" chosen-keyup="getOneAgentList">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">上一级商户编号：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.oneMerchantNo" maxlength="30">
+                            </div>
+                            <label class="col-sm-2 control-label">上二级商户编号：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.twoMerchantNo" maxlength="30">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">机具申领状态：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="baseInfo.terApplyStatus"
+                                    ng-options="x.value as x.text for x in terApplyStatusListAll"></select>
+                            </div>
+                            <label class="col-sm-2 control-label">机具绑定状态：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="baseInfo.terBindStatus"
+                                    ng-options="x.value as x.text for x in terBindStatusListAll"></select>
+                            </div>
+                            <label class="col-sm-2 control-label">活动补贴达标状态：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="baseInfo.activityStatus"
+                                    ng-options="x.value as x.text for x in activityStatusListAll"></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">注册时间：</label>
+                            <div class="col-sm-6">
+                                <input id="d5223" class="form-control" type="datetime" ng-model="baseInfo.createTimeStart" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="var d5224=$dp.$('d5224');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5224.focus();},maxDate:'#F{$dp.$D(\'d5224\')}'})"/>
+                                ~
+                                <input id="d5224" class="form-control" type="datetime"  ng-model="baseInfo.createTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5223\')}'})"/>
+                                <br/><span color="#999">备注：查询范围不能超过一个月</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">活动补贴达标起止时间：</label>
+                            <div class="col-sm-6">
+                                <input id="d5225" class="form-control" type="datetime" ng-model="baseInfo.targetTimeStart" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="var d5226=$dp.$('d5226');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5226.focus();},maxDate:'#F{$dp.$D(\'d5226\')}'})"/>
+                                ~
+                                <input id="d5226" class="form-control" type="datetime"  ng-model="baseInfo.targetTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5225\')}'})"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-top: 30px">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-8">
+                                <button class="btn btn-primary6 btn-mr20"  ng-click="query()" ng-disabled="submitting">查询</button>
+                                <button class="btn btn-primary3 btn-mr20" type="button" ng-click="resetForm()">清空</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>超级推商户列表</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="tposition">
+                            <div class="col-sm-10 checkbox">
+                                商户总数量： <span style="color: red;" >{{cjtMerchantInfoGrid.totalItems==null ? 0 : cjtMerchantInfoGrid.totalItems}} </span>
+                                ，累计收益： <span style="color: red;" >{{totalMap.profitTotal==null ? 0 : totalMap.profitTotal}}</span>
+                            </div>
+                            <div class="gridStyle" ui-grid="cjtMerchantInfoGrid" ui-grid-selection ui-grid-pagination
+                                 ui-grid-resize-columns ui-grid-pinning></div>
+                            <div ng-show="loadImg" class="timg"></div>
+                        </div>
+                    </div>
+                </div>
+                <div style="height:30px;"></div>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,175 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li class="active"><strong>分组管理</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="selectHlfGroupCtrl">
+	<form class="form-horizontal" id="form1" name="horizontal">
+		<div class="row">
+			<div class="col-lg-12" style="padding-bottom: 80px;">
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>分组管理</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">ID：</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" ng-model="hlfGroup.id">
+							</div>
+							<label class="col-sm-2 control-label">分组名称：</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" ng-model="hlfGroup.groupName">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-7">
+								<button class="btn btn-primary6 btn-mr20" type="button" ng-click="query()">查询</button>
+								<button class="btn btn-primary3 btn-mr20" type="button" ng-click="clear()">清空</button>
+								<button class="btn btn-primary5 btn-mr20" type="button" ng-show="hasPermit('activity.addHlfGroup')" ng-click="groupAddModel()">新增</button>
+								<!--<a class="btn btn-primary4" ui-sref="func.happyReturnType" >返回</a>-->
+							</div>
+						</div>
+					</div>
+
+					<div class="panel-body ibox float-e-margins">
+						<div class="ibox-title">
+							<div class="ibox-content">
+								<div class="form-group">
+									<div class="gridStyle" ui-grid="gridOptions" ui-grid-selection ui-grid-pagination
+										 ui-grid-resize-columns ui-grid-pinning></div>
+									<div ng-show="loadImg" class="timg"></div>
+								</div>
+							</div>
+						</div>
+						<div style="height:30px"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<div id="groupAddModel" class="modal fade" tabindex="3"
+		role="dialog">
+		<form class="form-horizontal">
+			<div id="formX" class="modal-dialog" style="width: 1200px">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							&times;</button>
+						<h3 ng-show="saveStatus==0" class="modal-title">新增分组</h3>
+						<h3 ng-show="saveStatus==1" class="modal-title">修改分组</h3>
+						<h3 ng-show="saveStatus==2" class="modal-title">分组详情</h3>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><i class="red_req">*</i>分组名称：</label>
+							<div class="col-sm-3">
+								<input type="text" class="form-control" ng-disabled="isDetail" name="groupName" ng-model="info.groupName" maxlength="30">
+							</div>
+						</div>
+
+
+						<div class="panel-body">
+							<div ng-show="!isDetail" class="form-group">
+								<label class="col-sm-2 control-label">欢乐返类型：</label>
+								<div class="col-sm-2">
+									<select class="form-control" ng-model='info.activityCode' ng-change="checkActivityCode(info.activityCode)" ng-options="x.value as x.text for x in subjectTypes"/>
+								</div>
+								<label class="col-sm-2 control-label">欢乐返子类型：</label>
+								<div class="col-sm-2">
+									<select class="form-control" ng-model="info.activityTypeNo" ng-change="checkActivityTypeNo(info.activityTypeNo)"
+											ng-options="x.value as x.text for x in typeNos"
+											chosen="{width:'100%'}" chosen-data="typeNos" chosen-keyup=""
+									>
+										<option value="" selected>全部</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label ng-show="!isDetail" class="col-sm-6 control-label" style="text-align: left;">请选择子类型：</label>
+								<label class="col-sm-6 control-label" style="text-align: left;">已选择子类型：</label>
+							</div>
+							<div class="form-group">
+
+							<div ng-show="!isDetail" class="col-sm-6">
+							<div class="gridStyle" ui-grid="hlfList" ui-grid-resize-columns ui-grid-selection ui-grid-pinning/>
+								</div>
+							<div ng-show="!isDetail" class="col-sm-6">
+								<div class="gridStyle" ui-grid="addhlfList" ui-grid-resize-columns ui-grid-pinning/>
+							</div>
+							</div>
+						</div>
+
+
+
+						<div class="form-group control-label">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-6">
+								<button class="btn btn-primary btn-mr20" type="button" ng-show="!isDetail"
+									ng-click='commit()'>确定</button>
+								<button class="btn btn-primary8 " type="button" ng-show="!isDetail"
+									ng-click='cancel()'>返回</button>
+								<button class="btn btn-primary8 " type="button" ng-show="isDetail"
+										ng-click='cancel()'>关闭</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div id="groupDetailModel" class="modal fade" tabindex="3"
+		 role="dialog">
+		<form class="form-horizontal">
+			<div class="modal-dialog" style="width: 800px">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							&times;</button>
+						<h3 ng-show="saveStatus==2" class="modal-title">分组详情</h3>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><i class="red_req">*</i>分组名称：</label>
+							<div class="col-sm-3">
+								<input type="text" class="form-control" ng-disabled="isDetail" name="groupName" ng-model="info.groupName" maxlength="30">
+							</div>
+						</div>
+
+
+						<div class="panel-body">
+							<div class="form-group">
+								<label class="col-sm-6 control-label" style="text-align: left;">已选择子类型：</label>
+							</div>
+							<div class="form-group">
+
+								<div class="col-sm-12">
+									<div class="gridStyle" ui-grid="addhlfList2" ui-grid-resize-columns ui-grid-pinning/>
+								</div>
+							</div>
+						</div>
+
+
+
+						<div class="form-group control-label">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-6">
+								<button class="btn btn-primary8 " type="button" ng-show="isDetail"
+										ng-click='cancel()'>关闭</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+</div>

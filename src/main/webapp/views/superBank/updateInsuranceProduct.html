@@ -1,0 +1,175 @@
+<!-- head -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>超级银行家</a></li>
+            <li class="active"><strong>产品修改</strong></li>
+        </ol>
+    </div>
+</div>
+
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn"
+     ng-controller="updateInsuranceProductCtrl">
+    <form class="form-horizontal" id="form1" name="horizontal">
+        <div class="form-group">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>基本信息</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="form-group ">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>保险公司别称：</label>
+                            <div class="col-lg-7">
+                                <select chosen="{width:'100%'}" id="autocomplete-select1" class="chosen-select" tabindex="5" ng-model="baseInfo.companyNo" ng-options="insurance.companyNo as insurance.companyNickName for insurance in companyListAll">
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>保险种类名称：</label>
+                            <div class="col-lg-7">
+                                <select class="form-control" ng-model="baseInfo.productType" ng-options="x.value as x.text for x in productTypeList">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>产品名称：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" name="productName" ng-model="baseInfo.productName" required />
+                                <div class="req_mesg" ng-show="horizontal.productName.$dirty && horizontal.productName.$invalid">
+                                    <span ng-show="horizontal.productName.$error.required">产品名称不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>是否推荐：</label>
+                            <div class="col-lg-7">
+                                <label style="margin-right: 20px;margin-top: 6px"><input type="radio" value="0"  ng-model="baseInfo.recommendStatus"/>否</label>
+                                <label style="margin-top: 6px"><input type="radio" value="1" ng-model="baseInfo.recommendStatus"/>是</label>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>显示顺序：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" name="showOrder" ng-model="baseInfo.showOrder" required maxlength="20"/>
+                                <div class="req_mesg" ng-show="horizontal.showOrder.$dirty && horizontal.showOrder.$invalid">
+                                    <span ng-show="horizontal.showOrder.$error.required">显示顺序不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>上游产品id：</label>
+                            <div class="col-lg-7">
+                                <label style="margin-right: 20px;margin-top: 6px">{{baseInfo.upperProductId}}</label>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>产品价格：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" name="productPrice" ng-model="baseInfo.productPrice" required maxlength="20"/>
+                                <div class="req_mesg" ng-show="horizontal.productPrice.$dirty && horizontal.productPrice.$invalid">
+                                    <span ng-show="horizontal.productPrice.$error.required">宣传语不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>奖金方式：</label>
+                            <div class="col-lg-7"ng-show="baseInfo.bonusType=='1'">
+                                <label style="margin-right: 20px;margin-top: 6px">固定奖金</label>
+                            </div>
+                            <div class="col-lg-7" ng-show="baseInfo.bonusType=='2'">
+                                <label style="margin-top: 6px">按比例发放</label>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>奖金结算时间：</label>
+                            <div class="col-lg-7">
+                                <select class="form-control" ng-model="baseInfo.bonusSettleTime" ng-options="x.value as x.text for x in bonusSettleTimeList">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>副标题1：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" name="title1" ng-model="baseInfo.title1" required />
+                                <div class="req_mesg" ng-show="horizontal.title1.$dirty && horizontal.title1.$invalid">
+                                    <span ng-show="horizontal.title1.$error.required">副标题1不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="col-lg-2 control-label">副标题2：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" ng-model="baseInfo.title2"  />
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="col-lg-2 control-label">副标题3：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control"  ng-model="baseInfo.title3"  />
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="col-lg-2 control-label">申请h5链接：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control"  ng-model="baseInfo.h5Link"  />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">产品图片：</label>
+                            <div class="col-sm-4">
+                                <input type="file" nv-file-select="" uploader="uploaderLogo"   multiple  />
+                                <table class="table" class="col-sm-4">
+                                    <tbody>
+                                    <tr ng-repeat="item in uploaderLogo.queue">
+                                        <td>
+                                            <strong style="word-break: break-all;">{{ item.file.name }}</strong>
+                                            <div ng-show="uploaderLogo.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                                        </td>
+                                        <td ng-show="uploaderLogo.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                                        <td ng-show="uploaderLogo.isHTML5">
+                                            <div class="progress" style="margin-bottom: 0;">
+                                                <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                            <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                            <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                                        </td>
+                                        <td nowrap>
+                                            <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                                <span class="glyphicon glyphicon-trash"></span> 删除
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div class="col-sm-4" style="padding: 0" ng-show="uploaderLogo.queue.length==0">
+                                    <a ng-show="baseInfo.productImageUrl" href="{{baseInfo.productImageUrl}}" fancybox  rel="group">
+                                        <img width="250px" height="150px" ng-src="{{baseInfo.productImageUrl}}"/>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+            <div class="col-lg-12 bgff">
+                <div class="col-sm-12">
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-6">
+                        <button class="btn btn-new btn-mr20" type="button"
+                                ng-click="submit()" ng-disabled="horizontal.$invalid || submitting">提交</button>
+                        <button class="btn btn-primary4 btn-mr20" type="button"
+                                ui-sref="superBank.insuranceProduct">返回</button>
+                    </div>
+                </div>
+            </div>
+    </form>
+</div>

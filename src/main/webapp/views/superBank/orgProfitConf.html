@@ -1,0 +1,111 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a href="index.html">主页</a></li>
+            <li>超级银行家</li>
+            <li class="active"><strong>分润设置表</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="orgProfitConfCtrl">
+    <form class="form-horizontal" id="form1">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>分润设置</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">组织：</label>
+                            <div class="col-sm-2">
+                                    <select  chosen="{width:'100%'}" id="autocomplete-select" class="chosen-select" tabindex="4" ng-model="conf.orgId" ng-options="org.orgId as org.orgName for org in orgInfoList">
+                                       	
+                                    </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group" style="margin-top: 30px">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-8">
+                                <button class="btn btn-primary6 btn-mr20"  ng-click="query()" ng-disabled="submitting">查询</button>
+                                <button class="btn btn-primary5 btn-mr20" type="button" 
+                                        ng-click="addLoan()">新增</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>列表</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="tposition">
+                            <div class="gridStyle" ui-grid="orgProfitGrid" ui-grid-selection ui-grid-pagination
+                                 ui-grid-resize-columns ui-grid-pinning></div>
+                            <div ng-show="loadImg" class="timg"></div>
+                        </div>
+                    </div>
+                </div>
+                <div style="height:30px;"></div>
+            </div>
+        </div>
+    </form>
+    
+    <div id="addOrgProfitConf" class="modal fade" tabindex="3" role="dialog">
+			<div class="modal-dialog" style="height:550px;width: 900px">
+				<div class="modal-content" style="height:550px;width: 900px">
+					
+					<div><label class="col-sm-3 control-label">组织分润新增</label></div>
+					
+					
+					<div class="modal-body">
+						
+						<div class="form-group">
+                            <label class="col-sm-1 control-label checkbox">组织：</label>
+                            <div class="col-sm-4" >
+                                <select  chosen="{width:'100%'}" id="autocomplete-select2" class="chosen-select" tabindex="5" ng-model="orgConf.orgId" ng-options="org.orgId as org.orgName for org in orgsInAddPage">
+                                </select>
+                            </div>
+						</div>
+						
+						<div class="form-group">
+								<table boder=1 style="border:1px solid #000" width=100%>
+									<tr style="line-height:30px"><th style="text-align:center;border:1px solid #000">直推-专员</th><th style="text-align:center;border:1px solid #000">直推-经理</th><th style="text-align:center;border:1px solid #000">直推-银行家</th></tr>
+									
+									<tr style="line-height:30px"><td style="text-align:center;border:1px solid #000">Ｊ*<input style="text-align:center;width:50px;height:20px;" ng-model="orgConf.seltMember1">%</td><td style="text-align:center;border:1px solid #000">Ｊ*<input style="text-align:center;width:50px;height:20px;" ng-model="orgConf.seltManager1">%</td><td style="text-align:center;border:1px solid #000">Ｊ*<input style="text-align:center;width:50px;height:20px;" ng-model="orgConf.seltBanker1">%</td></tr>
+                                    <!--	 <tr style="line-height:30px"><td style="text-align:center;border:1px solid #000">还款申请(激活还款)</td><td style="text-align:center;border:1px solid #000"><input style="text-align:center;width:30px;height:20px;" ng-model="orgConf.seltMember4"></td><td style="text-align:center;border:1px solid #000"><input style="text-align:center;width:30px;height:20px;" ng-model="orgConf.seltManager4"></td><td style="text-align:center;border:1px solid #000"><input style="text-align:center;width:30px;height:20px;" ng-model="orgConf.seltBanker4"></td></tr>
+                                        <tr style="line-height:30px"><td style="text-align:center;border:1px solid #000">信用卡申请</td><td style="text-align:center;border:1px solid #000">Ｊ*<input style="text-align:center;width:30px;height:20px;" ng-model="orgConf.seltMember2">%</td><td style="text-align:center;border:1px solid #000">Ｊ*<input style="text-align:center;width:30px;height:20px;" ng-model="orgConf.seltManager2">%</td><td style="text-align:center;border:1px solid #000">Ｊ*<input style="text-align:center;width:30px;height:20px;" ng-model="orgConf.seltBanker2">%</td></tr>
+                                        <tr style="line-height:30px"><td style="text-align:center;border:1px solid #000">收款(快捷)</td><td style="text-align:center;border:1px solid #000">Ｊ*<input style="text-align:center;width:30px;height:20px;" ng-model="orgConf.seltMember3">%</td><td style="text-align:center;border:1px solid #000">Ｊ*<input style="text-align:center;width:30px;height:20px;" ng-model="orgConf.seltManager3">%</td><td style="text-align:center;border:1px solid #000">Ｊ*<input style="text-align:center;width:30px;height:20px;" ng-model="orgConf.seltBanker3">%</td></tr>
+                                        <tr style="line-height:30px"><td style="text-align:center;border:1px solid #000">贷款注册</td><td style="text-align:center;border:1px solid #000">Ｊ*<input style="text-align:center;width:30px;height:20px;" ng-model="orgConf.seltMember5">%</td><td style="text-align:center;border:1px solid #000">Ｊ*<input style="text-align:center;width:30px;height:20px;" ng-model="orgConf.seltManager5">%</td><td style="text-align:center;border:1px solid #000">Ｊ*<input style="text-align:center;width:30px;height:20px;" ng-model="orgConf.seltBanker5">%</td></tr>
+                                        <tr style="line-height:30px"><td style="text-align:center;border:1px solid #000">贷款批贷</td><td style="text-align:center;border:1px solid #000">Ｊ*<input style="text-align:center;width:30px;height:20px;" ng-model="orgConf.seltMember6">%</td><td style="text-align:center;border:1px solid #000">Ｊ*<input style="text-align:center;width:30px;height:20px;" ng-model="orgConf.seltManager6">%</td><td style="text-align:center;border:1px solid #000">Ｊ*<input style="text-align:center;width:30px;height:20px;" ng-model="orgConf.seltBanker6">%</td></tr>
+                                        <tr style="line-height:30px"><td style="text-align:center;border:1px solid #000">还款(订单)</td><td style="text-align:center;border:1px solid #000">Ｊ*<input style="text-align:center;width:30px;height:20px;" ng-model="orgConf.seltMember7">%</td><td style="text-align:center;border:1px solid #000">Ｊ*<input style="text-align:center;width:30px;height:20px;" ng-model="orgConf.seltManager7">%</td><td style="text-align:center;border:1px solid #000">Ｊ*<input style="text-align:center;width:30px;height:20px;" ng-model="orgConf.seltBanker7">%</td></tr>
+                                        <tr style="line-height:30px"><td style="text-align:center;border:1px solid #000">收款(支付宝)</td><td style="text-align:center;border:1px solid #000">Ｊ*<input style="text-align:center;width:30px;height:20px;" ng-model="orgConf.seltMember8">%</td><td style="text-align:center;border:1px solid #000">Ｊ*<input style="text-align:center;width:30px;height:20px;" ng-model="orgConf.seltManager8">%</td><td style="text-align:center;border:1px solid #000">Ｊ*<input style="text-align:center;width:30px;height:20px;" ng-model="orgConf.seltBanker8">%</td></tr>
+                                        <tr style="line-height:30px"><td style="text-align:center;border:1px solid #000">收款(微信)</td><td style="text-align:center;border:1px solid #000">Ｊ*<input style="text-align:center;width:30px;height:20px;" ng-model="orgConf.seltMember9">%</td><td style="text-align:center;border:1px solid #000">Ｊ*<input style="text-align:center;width:30px;height:20px;" ng-model="orgConf.seltManager9">%</td><td style="text-align:center;border:1px solid #000">Ｊ*<input style="text-align:center;width:30px;height:20px;" ng-model="orgConf.seltBanker9">%</td></tr>
+                                        <tr style="line-height:30px"><td style="text-align:center;border:1px solid #000">彩票代购</td><td style="text-align:center;border:1px solid #000">Ｊ*<input style="text-align:center;width:30px;height:20px;" ng-model="orgConf.seltMember10">%</td><td style="text-align:center;border:1px solid #000">Ｊ*<input style="text-align:center;width:30px;height:20px;" ng-model="orgConf.seltManager10">%</td><td style="text-align:center;border:1px solid #000">Ｊ*<input style="text-align:center;width:30px;height:20px;" ng-model="orgConf.seltBanker10">%</td></tr>
+                                        <tr style="line-height:30px"><td style="text-align:center;border:1px solid #000">征信服务</td><td style="text-align:center;border:1px solid #000">Ｊ*<input style="text-align:center;width:30px;height:20px;" ng-model="orgConf.seltMember11">%</td><td style="text-align:center;border:1px solid #000">Ｊ*<input style="text-align:center;width:30px;height:20px;" ng-model="orgConf.seltManager11">%</td><td style="text-align:center;border:1px solid #000">Ｊ*<input style="text-align:center;width:30px;height:20px;" ng-model="orgConf.seltBanker11">%</td></tr>
+                                        <tr style="line-height:30px"><td style="text-align:center;border:1px solid #000">保险</td><td style="text-align:center;border:1px solid #000">Ｊ*<input style="text-align:center;width:30px;height:20px;" ng-model="orgConf.seltMember12">%</td><td style="text-align:center;border:1px solid #000">Ｊ*<input style="text-align:center;width:30px;height:20px;" ng-model="orgConf.seltManager12">%</td><td style="text-align:center;border:1px solid #000">Ｊ*<input style="text-align:center;width:30px;height:20px;" ng-model="orgConf.seltBanker12">%</td></tr>
+                                        <tr style="line-height:30px"><td style="text-align:center;border:1px solid #000">违章代缴</td><td style="text-align:center;border:1px solid #000">Ｊ*<input style="text-align:center;width:30px;height:20px;" ng-model="orgConf.seltMember14">%</td><td style="text-align:center;border:1px solid #000">Ｊ*<input style="text-align:center;width:30px;height:20px;" ng-model="orgConf.seltManager14">%</td><td style="text-align:center;border:1px solid #000">Ｊ*<input style="text-align:center;width:30px;height:20px;" ng-model="orgConf.seltBanker14">%</td></tr>
+                                        <tr style="line-height:30px"><td style="text-align:center;border:1px solid #000">积分商城</td><td style="text-align:center;border:1px solid #000">Ｊ*<input style="text-align:center;width:30px;height:20px;" ng-model="orgConf.seltMember15">%</td><td style="text-align:center;border:1px solid #000">Ｊ*<input style="text-align:center;width:30px;height:20px;" ng-model="orgConf.seltManager15">%</td><td style="text-align:center;border:1px solid #000">Ｊ*<input style="text-align:center;width:30px;height:20px;" ng-model="orgConf.seltBanker15">%</td></tr>
+                                        <tr style="line-height:30px"><td style="text-align:center;border:1px solid #000">完美还款</td><td style="text-align:center;border:1px solid #000">Ｊ*<input style="text-align:center;width:30px;height:20px;" ng-model="orgConf.seltMember17">%</td><td style="text-align:center;border:1px solid #000">Ｊ*<input style="text-align:center;width:30px;height:20px;" ng-model="orgConf.seltManager17">%</td><td style="text-align:center;border:1px solid #000">Ｊ*<input style="text-align:center;width:30px;height:20px;" ng-model="orgConf.seltBanker17">%</td></tr>
+                                    --></table>
+						</div>
+						
+						<div class="form-group " style="margin-top:30px">
+							<label class="col-sm-4 control-label" ></label>
+							<div class="col-sm-6">
+									<button class="btn btn-primary btn-mr20" type="button" ng-click='saveOrgProfitConf()'>确定</button>
+									<button class="btn btn-primary8 " type="button" ng-click='cancel()'>取消</button>
+							</div>
+						</div>
+						
+					</div>
+					
+				</div>
+			</div>
+		</div>
+    
+</div>

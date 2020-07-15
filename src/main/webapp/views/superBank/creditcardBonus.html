@@ -1,0 +1,174 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a href="index.html">主页</a></li>
+            <li>超级银行家</li>
+            <li class="active"><strong>组织信用卡总奖金管理</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="creditcardBonusCtrl">
+    <form class="form-horizontal" id="form1">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>组织信用卡总奖金管理</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">银行：</label>
+                            <div class="col-sm-2">
+                                    <select chosen="{width:'100%'}" id="autocomplete-select1" class="chosen-select" tabindex="2" ng-model="creditCardConf.sourceId" ng-options="bank.id as bank.bankNickName for bank in banksList">
+                                    </select>
+                            </div>
+                            
+                            <label class="col-sm-2 control-label">组织：</label>
+                            <div class="col-sm-2">
+                                    <select chosen="{width:'100%'}" id="autocomplete-select3" class="chosen-select" tabindex="3" ng-model="creditCardConf.orgId" ng-options="org.orgId as org.orgName for org in orgInfoList">
+                                    </select>
+                            </div>
+                            <label class="col-sm-2 control-label">是否外放组织：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="creditCardConf.isOpen" ng-options="x.value as x.text for x in isOpenList">
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group" style="margin-top: 30px">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-8">
+                                <button class="btn btn-primary6 btn-mr20"  ng-click="query()" ng-disabled="submitting">查询</button>
+                                <button class="btn btn-primary5 btn-mr20" type="button" 
+                                        ng-click="addBank()">新增</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>列表</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="tposition">
+                            <div class="gridStyle" ui-grid="orgInfoGrid" ui-grid-selection ui-grid-pagination
+                                 ui-grid-resize-columns ui-grid-pinning></div>
+                            <div ng-show="loadImg" class="timg"></div>
+                        </div>
+                    </div>
+                </div>
+                <div style="height:30px;"></div>
+            </div>
+        </div>
+    </form>
+
+    <div id="addBank" class="modal fade" tabindex="3" role="dialog">
+        <form class="form-horizontal" name="horizontal" >
+			<div class="modal-dialog" style="height:500px;width: 800px">
+				<div class="modal-content" style="height:500px;width: 800px">
+				         <div class="form-group" style="clear:left;margin-top:30px;">
+							<label style="float:left;width:50%;text-align:center;height:30px;line-height:30px;">所属组织：</label>
+							<div class="inDiv" style="float:left;height:30px;line-height:30px;width: 180px">
+								<select  chosen="{width:'100%'}" id="autocomplete-select6" class="chosen-select" tabindex="6" ng-model="creditCard.orgId"  ng-options="org.orgId as org.orgName for org in orgInfoListInAdd">
+								</select>
+							</div>
+						</div>
+						<div class="form-group" style="clear:left;margin-top:10px;">
+								<label style="float:left;width:50%;text-align:center;height:30px;line-height:30px;"><i class="red_req">*</i>银行：</label>
+									<div class="inDiv" style="float:left;height:30px;line-height:30px;width: 180px">
+										<select chosen="{width:'100%'}" id="autocomplete-select2" class="chosen-select" tabindex="6" ng-change="changeOps(creditCard.sourceId)" ng-model="creditCard.sourceId" ng-options="bank.id as bank.bankNickName for bank in banksListInAdd">
+                                    	</select>
+										<!-- <input type="text" ng-model="creditCard.bankName" class="form-control" style="width:auto;display:inline-block;"> -->
+									</div>
+						</div>
+						<div  class="form-group" style="clear:left;margin-top:10px;">
+						    <div   ng-show="creditCard.sourceId!=null&&creditCard.sourceId!=-1">
+	                        <label style="float:left;width:50%;text-align:center;height:30px;line-height:30px;">发卡奖金：</label>
+							<div  style="float:left;height:30px;line-height:30px;" >{{creditCard.cardBonus| number:2}}元
+							</div>
+						    </div>
+						    
+						    <div  style="clear:left;margin-top:10px;" ng-show="creditCard.sourceId!=null&&creditCard.sourceId!=-1">
+	                        <label style="float:left;width:50%;text-align:center;height:30px;line-height:30px;">首刷奖金：</label>
+							<div  style="float:left;height:30px;line-height:30px;" >{{creditCard.firstBrushBonus| number:2}}元
+							</div>
+                            </div>
+						</div>
+                                     
+						<!--<div class="outDiv" style="clear:left;margin-top:20px;">
+								<label style="float:left;width:50%;text-align:center;height:40px;line-height:40px;">银行发放总奖金：</label>
+									<div class="inDiv" style="float:left;height:40px;line-height:40px;">
+										<input type="text" ng-model="creditCard.bankBonus" ng-readonly="true" class="form-control" style="width:auto;display:inline-block;"> 
+									</div>
+						</div>
+						
+						<div class="outDiv" style="clear:left;margin-top:20px;">
+								<label style="float:left;width:50%;text-align:center;height:40px;line-height:40px;">默认品牌成本（公司收入）：</label>
+									<div class="inDiv" style="float:left;height:40px;line-height:40px;">
+										<input type="text" ng-model="creditCard.orgCost" class="form-control" style="width:auto;display:inline-block;"> 元
+									</div>
+						</div>
+						
+						<div class="outDiv" style="clear:left;margin-top:20px;">
+								<label style="float:left;width:50%;text-align:center;height:40px;line-height:40px;">默认品牌发放总奖金：</label>
+									<div class="inDiv" style="float:left;height:40px;line-height:40px;">
+										<input type="text" ng-model="creditCard.orgPushCost" class="form-control" style="width:auto;display:inline-block;"> 元
+									</div>
+						</div>
+						
+						<div class="outDiv" style="clear:left;margin-top:20px;">
+								<label style="float:left;width:50%;text-align:center;height:40px;line-height:40px;">首次办卡才有奖励：</label>
+									<div class="inDiv" style="float:left;height:40px;line-height:40px;">
+										<input id="isonly" type="checkbox" ng-model="creditCard.isOnlyone" style="zoom:180%;" ng-checked="creditCard.isOnlyone" > 
+									</div>
+						</div>-->
+
+                    <div class="outDiv" style="clear:left;margin-top:10px;">
+                        <label style="float:left;width:50%;text-align:center;height:40px;line-height:40px;"><i class="red_req">*</i>发卡公司截留：</label>
+                        <div class="inDiv" style="float:left;height:40px;line-height:40px;">
+                            <input type="text" ng-model="creditCard.cardCompanyBonus" class="form-control" style="width:auto;display:inline-block;" required> 元
+                        </div>
+                    </div>
+
+                    <div class="outDiv" style="clear:left;margin-top:20px;">
+                        <label style="float:left;width:50%;text-align:center;height:40px;line-height:40px;"><i class="red_req">*</i>发卡OEM截留：</label>
+                        <div class="inDiv" style="float:left;height:40px;line-height:40px;">
+                            <input type="text" ng-model="creditCard.cardOemBonus" class="form-control" style="width:auto;display:inline-block;" required> 元
+                        </div>
+                    </div>
+
+                    <div class="outDiv" style="clear:left;margin-top:20px;">
+                        <label style="float:left;width:50%;text-align:center;height:40px;line-height:40px;"><i class="red_req">*</i>首刷公司截留：</label>
+                        <div class="inDiv" style="float:left;height:40px;line-height:40px;">
+                            <input type="text" ng-model="creditCard.firstCompanyBonus" class="form-control" style="width:auto;display:inline-block;" required> 元
+                        </div>
+                    </div>
+
+                    <div class="outDiv" style="clear:left;margin-top:20px;">
+                        <label style="float:left;width:50%;text-align:center;height:40px;line-height:40px;"><i class="red_req">*</i>首刷OEM截留：</label>
+                        <div class="inDiv" style="float:left;height:40px;line-height:40px;">
+                            <input type="text" ng-model="creditCard.firstOemBonus" class="form-control" style="width:auto;display:inline-block;" required> 元
+                        </div>
+                    </div>
+						
+						<div style="clear:left;margin-top:40px;">
+							&nbsp;
+						</div>
+						
+						<div style="clear:left;margin-top:40px;">
+							<label class="col-sm-3 control-label"></label>
+							<div class="col-sm-6">
+									<button class="btn btn-primary btn-mr20" type="button" ng-disabled='horizontal.$invalid' ng-click='saveBank()'>确定</button>
+									<button class="btn btn-primary4 " type="button" ng-click='cancel()'>返回</button>
+							</div>
+						</div>
+					</div>
+				
+			</div>
+        </form>
+    </div>
+    
+</div>

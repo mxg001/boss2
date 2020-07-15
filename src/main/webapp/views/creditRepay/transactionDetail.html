@@ -1,0 +1,109 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>信用卡还款</a></li>
+			<li class="active"><strong>交易详情</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	 ng-controller="transactionDetailCtrl">
+	<form class="form-horizontal" id="form1">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="tabs-container tab_other">
+					<div class="panel-body ibox float-e-margins">
+						<div class="ibox-title">
+							<h5>交易信息</h5>
+						</div>
+						<div class="ibox-content">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">订单ID：</label>
+								<div class="col-sm-2 checkbox" ng-bind="orderNo">
+								</div>
+								<label class="col-sm-2 control-label">交易时间：</label>
+								<div class="col-sm-2 checkbox" ng-bind="info.transTime | date:'yyyy年MM月dd日  HH:mm:ss'">
+								</div>
+								<label class="col-sm-2 control-label">交易状态：</label>
+								<div class="col-sm-2 checkbox" ng-bind="info.transStatus|formatDropping:transStatusSelect">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">交易卡号：</label>
+								<div class="col-sm-2 checkbox" ng-bind="info.accountNo">
+								</div>
+								<label class="col-sm-2 control-label">交易金额：</label>
+								<div class="col-sm-2 checkbox" ng-bind="info.transAmount">
+								</div>
+								<label class="col-sm-2 control-label">发卡行：</label>
+								<div class="col-sm-2 checkbox" ng-bind="info.bankName">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">卡类型：</label>
+								<div class="col-sm-2 checkbox" ng-bind="info.cardType|formatDropping:cardTypeSelect">
+								</div>
+								<label class="col-sm-2 control-label">交易方式：</label>
+								<div class="col-sm-2 checkbox" ng-bind="info.transType|formatDropping:transTypeSelect">
+								</div>
+								<label class="col-sm-2 control-label">错误详情：</label>
+								<div class="col-sm-2 checkbox" ng-bind="info.resMsg">
+								</div>
+							</div>
+						</div>
+						<div class="ibox-title">
+							<h5>商户信息</h5>
+						</div>
+						<div class="ibox-content">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">一级代理商名称：</label>
+								<div class="col-sm-2 checkbox" ng-bind="info.oneAgentName">
+								</div>
+								<label class="col-sm-2 control-label">一级代理商编号：</label>
+								<div class="col-sm-2 checkbox" ng-bind="info.oneAgentNo">
+								</div>
+								<label class="col-sm-2 control-label">用户编号：</label>
+								<div class="col-sm-2 checkbox" ng-bind="info.merchantNo">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">商户费率：</label>
+								<div class="col-sm-2 checkbox" ng-bind="info.transFeeRate">
+								</div>
+								<label class="col-sm-2 control-label">商户手续费：</label>
+								<div class="col-sm-2 checkbox" ng-bind="info.transFee">
+								</div>
+							</div>
+						</div>
+						<div class="ibox-title">
+							<h5>收单信息</h5>
+						</div>
+						<div class="ibox-content">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">收单通道名称：</label>
+								<div class="col-sm-2 checkbox" ng-bind="info.acqCode">
+								</div>
+								<label class="col-sm-2 control-label">收单商户名称：</label>
+								<div class="col-sm-2 checkbox" ng-bind="info.payMerchantName">
+								</div>
+								<label class="col-sm-2 control-label">收单商户编号：</label>
+								<div class="col-sm-2 checkbox" ng-bind="info.acqMerchantNo">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-12 bgff">
+			<div class="col-sm-12">
+				<div class="col-sm-2"></div>
+				<div class="col-sm-6"><a class="btn btn-primary4 btn-rounded" type="button" ui-sref="creditRepay.transactionQuery"
+										 id="btnSubmit">返回</a></div>
+			</div>
+		</div>
+	</form>
+</div>

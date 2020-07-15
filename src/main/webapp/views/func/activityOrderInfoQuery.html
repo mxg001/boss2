@@ -1,0 +1,125 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>功能管理</a></li>
+			<li class="active"><strong>购买记录查询</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app ng-controller="activityOrderInfoQueryCtrl">
+	<form class="form-horizontal" id="form1">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="">
+						<div class="ibox float-e-margins">
+							<div class="ibox-content">								
+								<div class="form-group">
+									<label class="col-sm-2 control-label">业务订单号：</label>
+									<div class="col-sm-2">
+										<input type="text" style="width: auto" class="form-control" ng-model="info.orderNo">
+									</div>
+
+									<label class="col-sm-2 control-label">商户编号/名称：</label>
+									<div class="col-sm-2">
+										<input type="text" style="width: auto" class="form-control" ng-model="info.merchantName">
+									</div>
+
+									<label class="col-sm-2 control-label">商户手机号：</label>
+									<div class="col-sm-2">
+										<input type="text" style="width: auto" class="form-control" ng-model="info.mobileNo">
+									</div>
+
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">所属代理商:</label>
+									<div class="col-sm-2">
+										<select  name="agentNo" id="autocomplete-select1"
+												 ng-model="info.agentNo" ng-options="x.value as x.text for x in agentList"
+												 style="width: 100%" chosen chosen-data="agentNo" chosen-keyup="getStates">
+											<option value="">全部</option>
+										</select>
+									</div>
+									<label class="col-sm-2 control-label">一级代理商:</label>
+									<div class="col-sm-2">
+										<select  name="oneAgentNo" id="autocomplete-select2"
+												 ng-model="info.oneAgentNo" ng-options="x.value as x.text for x in oneAgentList"
+												 style="width: 100%" chosen chosen-data="oneAgentNo" chosen-keyup="getOneStates">
+											<option value="">全部</option>
+										</select>
+									</div>
+									<label class="col-sm-2 control-label">支付方式：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.payMethod" ng-options="x.value as x.text for x in payMethodList">
+											<option value="">全部</option>
+										</select>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="col-sm-2 control-label">订单类型：</label>
+									<div class="col-sm-2">
+										<select class="form-control"  ng-model="info.couponCode" ng-options="x.value as x.text for x in couponCodes">
+										</select>
+									</div>
+									<label class="col-sm-2 control-label">订单状态：</label>
+									<div class="col-sm-2">
+										<select class="form-control"   ng-model="info.transStatus" ng-options="x.value as x.text for x in transStatusAll">
+										</select>
+									</div>
+									<label class="col-sm-2 control-label">支付订单号：</label>
+									<div class="col-sm-2">
+										<input type="text" style="width: auto" class="form-control" ng-model="info.payOrderNo">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">交易时间：</label>
+									<div class="col-sm-5">
+										<input id="d5221" class="form-control" type="datetime" ng-model="info.startTime" onchange=""  style="width:auto;display:inline-block;"
+											   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5222.focus();}})"/>
+										-
+										<input id="d5222" class="form-control" type="datetime"  ng-model="info.endTime" onchange=""  style="width:auto;display:inline-block;"
+											   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss'})"/>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">交易金额：</label>
+									<div class="col-sm-6">
+										<input ng-model="info.transAmountBeg" type="text" style="width:auto;display:inline-block;" class="form-control" >
+										-
+										<div style="position: relative; display: inline-block">
+											<input ng-model="info.transAmountEnd" type="text" style="width:auto;display:inline-block;" class="form-control" >
+										</div>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<div class="col-lg-12">
+										<div class="col-sm-1"></div>
+										<button class="btn btn-primary6 btn-mr20" type="button" id="btnSubmit" ng-click="query()">查询</button>
+										<button class="btn btn-primary3 btn-mr20" type="button" ng-click="clear()" id="btnSubmit2">清空</button>
+										<button class="btn btn-primary3 btn-mr20" ng-show="hasPermit('activityOrder.actOrderInfoExport')" type="button" ng-click="export()" id="export">导出</button>
+									</div>
+								</div>
+								
+							</div>
+						</div>
+
+						<div class="ibox float-e-margins">
+							<div class="ibox-content">
+								<div class="form-group">
+									<div class="col-sm-2 checkbox">购买金额：<span ng-bind="total.transAmount | currency:''"></span>元</div>
+								</div>
+								<div class="tposition">
+									 <div ui-grid="gridOptions" ui-grid-pagination  ui-grid-resize-columns ui-grid-pinning class="grid"></div>
+									<div ng-show="loadImg" class="timg"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+	</form>
+</div>

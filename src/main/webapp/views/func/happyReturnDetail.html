@@ -1,0 +1,417 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>功能管理</a></li>
+			<li class="active"><strong>欢乐返子类型详情</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="happyReturnDetailCtrl">
+	<form class="form-horizontal" id="form1">
+			<div class="row">
+				<div class="col-lg-12">
+						<div class="panel-body ibox float-e-margins">
+							<div class="ibox-content">
+
+								<div class="form-group">
+									<label class="col-sm-3 control-label">欢乐返类型：</label>
+									<div class="col-lg-2">
+										<p class="form-control-static">{{happyReturnType.activiyName}}</p>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-3 control-label">组织名称：</label>
+									<div class="col-lg-2">
+										<p class="form-control-static">{{happyReturnType.orgName}}</p>
+									</div>
+								</div>
+								<div class="form-group"  ng-show="happyReturnType.teamEntryName!=null">
+									<label class="col-sm-3 control-label">子组织名称：</label>
+									<div class="col-lg-2">
+										<p class="form-control-static">{{happyReturnType.teamEntryName}}</p>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-3 control-label">欢乐返子类型名称：</label>
+									<div class="col-lg-2">
+										<p class="form-control-static">{{happyReturnType.activityTypeName}}</p>
+									</div>
+								</div>
+								<div class="form-group" id="activityTypeNo">
+									<label class="col-sm-3 control-label">欢乐返子类型编号：</label>
+									<div class="col-lg-2">
+										<p class="form-control-static">{{happyReturnType.activityTypeNo}}</p>
+									</div>
+								</div>
+								<div ng-show="happyReturnType.subType=='2' || happyReturnType.subType=='3'">
+									<div class="form-group">
+										<label class="col-sm-3 control-label"><i class="red_req"></i>备注：</label>
+										<div class="col-lg-2">
+											<p class="form-control-static">{{happyReturnType.remark}}</p>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label">返现设置</label>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label">交易金额（元）：</label>
+										<div class="col-lg-2">
+											<p class="form-control-static">{{happyReturnType.transAmount}}</p>
+										</div>
+
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label">返现金额（元）：</label>
+										<div class="col-lg-2">
+											<p class="form-control-static">{{happyReturnType.cashBackAmount}}</p>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label">重复注册返现金额（元）：</label>
+										<div class="col-lg-2">
+											<p class="form-control-static">{{happyReturnType.repeatRegisterAmount}}</p>
+										</div>
+									</div>
+									<div style="padding-left:180px" class="form-group" ng-show="happyReturnType.subType=='2'&&happyReturnType.xhlfSmartConfigId!=null">
+										<!--<label class="col-sm-3 control-label">新欢乐送智能版活动：</label>
+										<div class="col-sm-4">
+											<select disabled class="form-control">
+												<option value="" selected>{{happyReturnType.smartActivityName}}</option>
+											</select>
+										</div>-->
+										<div class="form-group">
+											<label class="col-sm-3 control-label"><i class="red_req">*</i>新欢乐送智能版活动名称：</label>
+											<div class="col-sm-4">
+												<input type="text" class="form-control" disabled name="smartActivityName" ng-model="happyReturnType.smartActivityName" maxlength="30">
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="ibox-title">
+												<h5>第1次考核配置</h5>
+											</div>
+
+										</div>
+										<div class="form-group">
+
+											<div class="col-sm-10">
+												<span style="float:left; padding:7px 5PX 0 0;">条件：激活后</span>
+												<input disabled type="number" class="form-control" style="width:100px; float:left"  ng-model="happyReturnType.sOneLimitDays">
+												<div style="float:left; padding:7px 0 0 5px">天内(含当天)累计交易≥</div>
+												<input disabled type="text" class="form-control" style="width:100px; float:left"  ng-model="happyReturnType.sOneTransAmount">
+												<div style="float:left; padding:7px 0 0 5px">元</div>
+											</div>
+
+										</div>
+										<div class="form-group">
+
+											<div class="col-sm-10">
+												<span style="float:left; padding:7px 5PX 0 0">  达标：首次注册奖励商户</span>
+												<input disabled type="text" class="form-control" style="width:100px; float:left;text-align: center"  ng-model="happyReturnType.oneRewardMerAmount">
+												<div style="float:left; padding:7px 0 0 5px">元，重复注册奖励商户</div>
+												<input disabled type="text" class="form-control" style="width:100px; float:left;text-align: center"  ng-model="happyReturnType.oneRepeatRewardMerAmount">
+												<div style="float:left; padding:7px 0 0 5px;font-weight:bold">元</div>
+											</div>
+
+										</div>
+										<div class="form-group">
+
+											<div class="col-sm-10">
+												<span style="float:left; padding:7px 5PX 0 0">未达标：首次注册奖励代理商</span>
+												<input disabled type="text" class="form-control" style="width:100px; float:left;text-align: center"  ng-model="happyReturnType.oneRewardAgentAmount">
+												<div style="float:left; padding:7px 0 0 5px">元，重复注册奖励代理商</div>
+												<input disabled type="text" class="form-control" style="width:100px; float:left;text-align: center"  ng-model="happyReturnType.oneRepeatRewardAgentAmount">
+												<div style="float:left; padding:7px 0 0 5px;font-weight:bold">元</div>
+											</div>
+
+										</div>
+										<div class="form-group">
+											<div class="ibox-title">
+												<h5>第2次考核配置</h5>
+											</div>
+										</div>
+										<div class="form-group">
+
+											<div class="col-sm-10">
+												<span style="float:left; padding:7px 5PX 0 0;">条件：激活后</span>
+												<input disabled type="number" class="form-control" style="width:100px; float:left"  ng-model="happyReturnType.sTwoLimitDays">
+												<div style="float:left; padding:7px 0 0 5px">天内(含激活当天)累计交易金额≥</div>
+												<input disabled type="text" class="form-control" style="width:100px; float:left"  ng-model="happyReturnType.sTwoTransAmount">
+												<div style="float:left; padding:7px 0 0 5px">元</div>
+											</div>
+
+										</div>
+										<div class="form-group">
+
+											<div class="col-sm-10">
+												<span style="float:left; padding:7px 5PX 0 0">达标：首次注册奖励代理商</span>
+												<input disabled type="text" class="form-control" style="width:100px; float:left;text-align: center"  ng-model="happyReturnType.twoRewardAgentAmount">
+												<div style="float:left; padding:7px 0 0 5px">元，重复注册奖励代理商</div>
+												<input disabled  type="text" class="form-control" style="width:100px; float:left;text-align: center"  ng-model="happyReturnType.twoRepeatRewardAgentAmount">
+												<div style="float:left; padding:7px 0 0 5px;font-weight:bold">元</div>
+											</div>
+
+										</div>
+										<div class="form-group">
+											<div class="ibox-title">
+												<h5>第3次考核配置</h5>
+											</div>
+										</div>
+										<div class="form-group">
+
+											<div class="col-sm-10">
+												<span style="float:left; padding:7px 5PX 0 0;">条件：激活后</span>
+												<input disabled type="number" class="form-control" style="width:100px; float:left"  ng-model="happyReturnType.sThreeLimitDays">
+												<div style="float:left; padding:7px 0 0 5px">天内(含激活当天)累计交易金额≥</div>
+												<input disabled type="text" class="form-control" style="width:100px; float:left"  ng-model="happyReturnType.sThreeTransAmount">
+												<div style="float:left; padding:7px 0 0 5px">元</div>
+											</div>
+
+										</div>
+										<div class="form-group">
+
+											<div class="col-sm-10">
+												<span style="float:left; padding:7px 5PX 0 0">达标：首次注册奖励代理商</span>
+												<input disabled type="text" class="form-control" style="width:100px; float:left;text-align: center"  ng-model="happyReturnType.threeRewardAgentAmount">
+												<div style="float:left; padding:7px 0 0 5px">元，重复注册奖励代理商</div>
+												<input disabled  type="text" class="form-control" style="width:100px; float:left;text-align: center"  ng-model="happyReturnType.threeRepeatRewardAgentAmount">
+												<div style="float:left; padding:7px 0 0 5px;font-weight:bold">元</div>
+											</div>
+
+										</div>
+									</div>
+<div ng-show="happyReturnType.xhlfSmartConfigId==null||happyReturnType.xhlfSmartConfigId==''">
+									<div class="form-group">
+										<label class="col-sm-3 control-label">代理商奖励设置</label>
+									</div>
+									<div style="padding-left:150px">
+
+										<!--<div class="form-group" style="padding-left:15px">
+											<p>累计交易量只统计绑定信用卡后该卡的MPOS刷卡交易</p>
+										</div>-->
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label"><i class="red_req"></i>累计交易量统计方式：</label>
+											<div class="col-sm-4">
+												<select disabled class="form-control" id="" ng-model="happyReturnType.agentTransTotalType"
+														ng-options="x.value as x.text for x in transTotalTypes">
+												</select>
+											</div>
+										</div>
+
+										<div class="form-group">
+
+											<div class="col-sm-10">
+												<span style="float:left; padding:7px 5PX 0 0;font-weight:bold">激活后</span>
+												<input disabled type="number" class="form-control" style="width:100px; float:left;text-align: center"  ng-model="happyReturnType.oneLimitDays">
+												<div style="float:left; padding:7px 0 0 5px;font-weight:bold">天内累计交易≥</div>
+												<input disabled type="text" class="form-control" style="width:100px; float:left;text-align: center"  ng-model="happyReturnType.oneTransAmount">
+												<div style="float:left; padding:7px 0 0 5px;font-weight:bold">元</div>
+											</div>
+
+										</div>
+										<div class="form-group">
+
+											<div class="col-sm-10">
+												<span style="float:left; padding:7px 5PX 0 0;font-weight:bold">首次注册奖励金额</span>
+												<input disabled type="text" class="form-control" style="width:100px; float:left;text-align: center"  ng-model="happyReturnType.oneRewardAmount">
+												<div style="float:left; padding:7px 0 0 5px;font-weight:bold">元，重复注册奖励金额</div>
+												<input disabled type="text" class="form-control" style="width:100px; float:left;text-align: center"  ng-model="happyReturnType.oneRepeatRewardAmount">
+												<div style="float:left; padding:7px 0 0 5px;font-weight:bold">元</div>
+											</div>
+
+										</div>
+										<div ng-show="happyReturnType.activityCode=='010'">
+											<div class="form-group">
+												<div class="col-sm-10">
+													<span style="float:left; padding:7px 5PX 0 0;">如累计交易&nbsp;≥&nbsp;</span>
+													<input disabled type="text" class="form-control" style="width:100px; float:left"  ng-model="happyReturnType.oneSubTransAmount">
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="col-sm-10">
+													<div style="float:left; padding:7px 0 0 5px">首次注册再奖励&nbsp;</div>
+													<input disabled type="text" class="form-control" style="width:100px; float:left"  ng-model="happyReturnType.oneSubRewardAmount">
+													<div style="float:left; padding:7px 0 0 5px">&nbsp;元，重复注册再奖励&nbsp;</div>
+													<input disabled type="text" class="form-control" style="width:100px; float:left"  ng-model="happyReturnType.oneSubRepeatReward">
+													<div style="float:left; padding:7px 0 0 5px">&nbsp;元</div>
+												</div>
+											</div>
+										</div>
+										<hr/>
+										<div class="form-group">
+
+											<div class="col-sm-10">
+												<input disabled type="number" class="form-control" style="width:100px; float:left;text-align: center"  ng-show="happyReturnType.oneLimitDays==null||happyReturnType.oneLimitDays==0">
+												<input disabled type="text" class="form-control" style="width:100px; float:left;text-align: center"  value="{{happyReturnType.oneLimitDays+1}}" ng-show="happyReturnType.oneLimitDays!=null&&happyReturnType.oneLimitDays!=0">
+												<span style="float:left; padding:7px 5PX 0 0;font-weight:bold">天至</span>
+												<input disabled type="number" class="form-control" style="width:100px; float:left;text-align: center"  ng-model="happyReturnType.twoLimitDays">
+												<div style="float:left; padding:7px 0 0 5px;font-weight:bold">天内累计交易≥</div>
+												<input disabled type="text" class="form-control" style="width:100px; float:left;text-align: center"  ng-model="happyReturnType.twoTransAmount">
+												<div style="float:left; padding:7px 0 0 5px;font-weight:bold">元</div>
+											</div>
+
+										</div>
+
+										<div class="form-group">
+
+											<div class="col-sm-10">
+												<span style="float:left; padding:7px 5PX 0 0;font-weight:bold">首次注册奖励金额</span>
+												<input disabled type="text" class="form-control" style="width:100px; float:left;text-align: center"  ng-model="happyReturnType.twoRewardAmount">
+												<div style="float:left; padding:7px 0 0 5px;font-weight:bold">元，重复注册奖励金额</div>
+												<input disabled type="text" class="form-control" style="width:100px; float:left;text-align: center"  ng-model="happyReturnType.twoRepeatRewardAmount">
+												<div style="float:left; padding:7px 0 0 5px;font-weight:bold">元</div>
+											</div>
+
+										</div>
+										<hr/>
+										<div class="form-group">
+
+											<div class="col-sm-10">
+												<input disabled type="number" class="form-control" style="width:100px; float:left;text-align: center"  ng-show="happyReturnType.twoLimitDays==null||happyReturnType.twoLimitDays==0">
+												<input disabled type="text" class="form-control" style="width:100px; float:left;text-align: center"  value="{{happyReturnType.twoLimitDays+1}}" ng-show="happyReturnType.twoLimitDays!=null&&happyReturnType.twoLimitDays!=0">
+												<span style="float:left; padding:7px 5PX 0 0;font-weight:bold">天至</span>
+												<input disabled type="number" class="form-control" style="width:100px; float:left;text-align: center"  ng-model="happyReturnType.threeLimitDays">
+												<div style="float:left; padding:7px 0 0 5px;font-weight:bold">天内累计交易≥</div>
+												<input disabled type="text" class="form-control" style="width:100px; float:left;text-align: center"  ng-model="happyReturnType.threeTransAmount">
+												<div style="float:left; padding:7px 0 0 5px;font-weight:bold">元</div>
+											</div>
+
+										</div>
+										<div class="form-group">
+
+											<div class="col-sm-10">
+												<span style="float:left; padding:7px 5PX 0 0;font-weight:bold">首次注册奖励金额</span>
+												<input disabled type="text" class="form-control" style="width:100px; float:left;text-align: center"  ng-model="happyReturnType.threeRewardAmount">
+												<div style="float:left; padding:7px 0 0 5px;font-weight:bold">元，重复注册奖励金额</div>
+												<input disabled type="text" class="form-control" style="width:100px; float:left;text-align: center"  ng-model="happyReturnType.threeRepeatRewardAmount">
+												<div style="float:left; padding:7px 0 0 5px;font-weight:bold">元</div>
+											</div>
+
+										</div>
+										<hr/>
+										<div class="form-group">
+
+											<div class="col-sm-10">
+												<input disabled type="number" class="form-control" style="width:100px; float:left;text-align: center"  ng-show="happyReturnType.threeLimitDays==null||happyReturnType.threeLimitDays==0">
+												<input disabled type="text" class="form-control" style="width:100px; float:left;text-align: center"  value="{{happyReturnType.threeLimitDays+1}}" ng-show="happyReturnType.threeLimitDays!=null&&happyReturnType.threeLimitDays!=0">
+												<span style="float:left; padding:7px 5PX 0 0;font-weight:bold">天至</span>
+												<input disabled type="number" class="form-control" style="width:100px; float:left;text-align: center"  ng-model="happyReturnType.fourLimitDays">
+												<div style="float:left; padding:7px 0 0 5px;font-weight:bold">天内累计交易≥</div>
+												<input disabled type="text" class="form-control" style="width:100px; float:left;text-align: center"  ng-model="happyReturnType.fourTransAmount">
+												<div style="float:left; padding:7px 0 0 5px;font-weight:bold">元</div>
+											</div>
+
+										</div>
+										<div class="form-group">
+
+											<div class="col-sm-10">
+												<span style="float:left; padding:7px 5PX 0 0;font-weight:bold">首次注册奖励金额</span>
+												<input disabled type="text" class="form-control" style="width:100px; float:left;text-align: center"  ng-model="happyReturnType.fourRewardAmount">
+												<div style="float:left; padding:7px 0 0 5px;font-weight:bold">元，重复注册奖励金额</div>
+												<input disabled type="text" class="form-control" style="width:100px; float:left;text-align: center"  ng-model="happyReturnType.fourRepeatRewardAmount">
+												<div style="float:left; padding:7px 0 0 5px;font-weight:bold">元</div>
+											</div>
+
+										</div>
+									</div>
+									<div ng-show="happyReturnType.subType=='2'">
+										<div class="form-group">
+											<label class="col-sm-3 control-label">商户奖励设置</label>
+										</div>
+										<div style="padding-left:150px">
+											<div class="form-group" style="padding-left:15px">
+												<span>累计交易量统计商户所有的交易金额</span>
+											</div>
+											<div class="form-group">
+												<div class="col-sm-10">
+													<span style="float:left; padding:7px 5PX 0 0;font-weight:bold">激活后</span>
+													<input disabled type="text" class="form-control" style="width:100px; float:left;text-align: center"  ng-model="happyReturnType.merchantLimitDays">
+													<div style="float:left; padding:7px 0 0 5px;font-weight:bold">天内累计交易≥</div>
+													<input disabled type="text" class="form-control" style="width:100px; float:left;text-align: center"  ng-model="happyReturnType.merchantTransAmount">
+													<div style="float:left; padding:7px 0 0 5px;font-weight:bold">元</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="col-sm-10">
+													<span style="float:left; padding:7px 5PX 0 0;font-weight:bold">首次注册奖励金额</span>
+													<input disabled type="text" class="form-control" style="width:100px; float:left;text-align: center"  ng-model="happyReturnType.merchantRewardAmount">
+													<div style="float:left; padding:7px 0 0 5px;font-weight:bold">元，重复注册奖励金额</div>
+													<input disabled type="text" class="form-control" style="width:100px; float:left;text-align: center"  ng-model="happyReturnType.merchantRepeatRewardAmount">
+													<div style="float:left; padding:7px 0 0 5px;font-weight:bold">元</div>
+												</div>
+											</div>
+										</div>
+									</div>
+</div>
+								</div>
+								<div ng-show="happyReturnType.subType=='1'">
+									<div class="form-group">
+										<label class="col-sm-3 control-label">交易金额（元）：</label>
+										<div class="col-lg-2">
+											<p class="form-control-static">{{happyReturnType.transAmount}}</p>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label">返现金额（元）：</label>
+										<div class="col-lg-2">
+											<p class="form-control-static">{{happyReturnType.cashBackAmount}}</p>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label">重复注册返现金额（元）：</label>
+										<div class="col-lg-2">
+											<p class="form-control-static">{{happyReturnType.repeatRegisterAmount}}</p>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-sm-3 control-label">首次注册不满扣N值:</label>
+										<div class="col-lg-2">
+											<p class="form-control-static">{{happyReturnType.emptyAmount}}</p>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label">首次注册满奖M值:</label>
+										<div class="col-lg-2">
+											<p class="form-control-static">{{happyReturnType.fullAmount}}</p>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label">重复注册不满扣N值:</label>
+										<div class="col-lg-2">
+											<p class="form-control-static">{{happyReturnType.repeatEmptyAmount}}</p>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label">重复注册满奖M值:</label>
+										<div class="col-lg-2">
+											<p class="form-control-static">{{happyReturnType.repeatFullAmount}}</p>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-sm-3 control-label"> 备注:</label>
+										<div class="col-lg-2">
+											<p class="form-control-static">{{happyReturnType.remark}}</p>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-3 control-label"> 活动说明:</label>
+									<div class="col-lg-5">
+										<p class="form-control-static">{{happyReturnType.activityDetails}}</p>
+									</div>
+								</div>
+
+								
+							</div>
+							
+					</div>
+				</div>
+			</div>
+	</form>
+</div>

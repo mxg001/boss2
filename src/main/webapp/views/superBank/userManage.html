@@ -1,0 +1,223 @@
+<!-- 超级银行家用户管理页面 -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>银行家组织管理 </a></li>
+			<li class="active"><strong>银行家用户管理</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app ng-controller="userManageCtrl">
+	<form class="form-horizontal" id="form1" name="horizontalUsrMana">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="">
+						<div class="panel-body ibox float-e-margins">
+							<div class="ibox-content">
+								<div class="form-group">
+									<label class="col-sm-2 control-label">用户ID：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" ng-model="info.userCode">
+									</div>
+									<label class="col-sm-2 control-label">所属组织：</label>
+									<div class="col-sm-2">
+										<select chosen="{width:'100%'}" id="autocomplete-select2" class="chosen-select" tabindex="5" ng-model="info.orgId" ng-options="x.orgId as x.orgName for x in orgInfoList">
+											<option value=""></option>
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">手机号：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" ng-model="info.phone">
+									</div>
+									<label class="col-sm-2 control-label">用户姓名：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" ng-model="info.userName">
+									</div>
+									<label class="col-sm-2 control-label">代理身份：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.userType" ng-options="x.value as x.text for x in userTypeList"/>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">一级代理ID：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" ng-model="info.topOneCode">
+									</div>
+									<label class="col-sm-2 control-label">二级代理ID：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" ng-model="info.topTwoCode">
+									</div>
+									<label class="col-sm-2 control-label">三级代理ID：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" ng-model="info.topThreeCode">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">一级代理手机号：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" ng-model="info.topOnePhone">
+									</div>
+									<label class="col-sm-2 control-label">二级代理手机号：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" ng-model="info.topTwoPhone">
+									</div>
+									<label class="col-sm-2 control-label">三级代理手机号：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" ng-model="info.topThreePhone">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">收款商户编号：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" ng-model="info.receiveUserNo">
+									</div>
+									<label class="col-sm-2 control-label">超级还用户编号：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" ng-model="info.repaymentUserNo">
+									</div>
+									<label class="col-sm-2 control-label">优秀导师：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.statusMentor" ng-options="x.value as x.text for x in statusMentorList"/>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">是否开户：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.accountStatus" ng-options="x.value as x.text for x in openAccountList"/>
+									</div>
+									<label class="col-sm-2 control-label">状态：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.status" ng-options="x.value as x.text for x in statusList"/>
+									</div>
+									<label class="col-sm-2 control-label">是否缴费：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.payMoneyStatus" ng-options="x.value as x.text for x in payMoneyList"/>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">入驻时间：</label>
+									<div class="col-sm-6">
+										<input id="d5221" class="form-control" type="datetime" ng-model="info.createDateStart"
+											   onchange="" style="width:auto;display:inline-block;"
+											   onFocus="var d5222=$dp.$('d5222');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5222.focus();},maxDate:'#F{$dp.$D(\'d5222\')}'})"/>
+										~
+										<input id="d5222" class="form-control" type="datetime" ng-model="info.createDateEnd"
+											   onchange="" style="width:auto;display:inline-block;"
+											   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5221\')}'})"/>
+									</div>
+								</div>
+								<div class="form-group" style="float: right; color: #0e9aef;cursor:pointer" ng-click="changeCondition()">
+									{{condition.conditionMsg}}
+								</div>
+								<div ng-show="condition.conditionStatus">
+									<div class="form-group">
+										<label class="col-sm-2 control-label">支付时间：</label>
+										<div class="col-sm-6">
+											<input id="d5223" class="form-control" type="datetime" ng-model="info.toagentDateStart"
+												   onchange="" style="width:auto;display:inline-block;"
+												   onFocus="var d5224=$dp.$('d5224');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5224.focus();},maxDate:'#F{$dp.$D(\'d5224\')}'})"/>
+											~
+											<input id="d5224" class="form-control" type="datetime" ng-model="info.toagentDateEnd"
+												   onchange="" style="width:auto;display:inline-block;"
+												   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5223\')}'})"/>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-lg-2 control-label">订单贡献人所属区域：</label>
+										<div class="col-sm-2">
+											<select class="form-control input-s-sm inline" ng-model="selected" ng-options="s.name for s in list" ng-change="c()">
+												<option value="">全部</option>
+											</select>
+										</div>
+										<div class="col-sm-2">
+											<select class="form-control input-s-sm inline" ng-model="selected2" ng-options="sh.name for sh in selected.child" ng-change="c2()">
+												<option value="">全部</option>
+											</select>
+										</div>
+										<div class="col-sm-2">
+											<select class="form-control input-s-sm inline" ng-model="selected3" ng-options="x.name for x in selected2.child">
+												<option value="">全部</option>
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label">用户备注：</label>
+										<div class="col-sm-2">
+											<input type="text" class="form-control" ng-model="info.remark">
+										</div>
+									</div>
+								</div>
+								<div class="form-group" style="margin-top: 30px">
+									<div class="col-lg-12">
+										<label class="col-sm-2 control-label"></label>
+										<button class="btn btn-primary6 btn-mr20" type="button" ng-disabled="submitting" ng-click="selectInfo()" >查询</button>
+                                        <button class="btn btn-primary3 btn-mr20" type="button" ng-click="clear()" >清空</button>
+                                        <button class="btn btn-primary7 btn-mr20" type="button" ng-show="hasPermit('superBank.exportUserInfo')" ng-click="exportInfo()" >导出</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="panel-body ibox float-e-margins">
+							<div class="ibox-title">
+								<div class="ibox-content">
+									<div class="form-group">
+										<div class="col-sm-3 checkbox">用户总数：<span ng-bind="userGrid.totalItems"></span></div>
+										<div class="col-sm-3 checkbox">普通用户数量：<span ng-bind="totalMap.userSum"></span></div>
+										<div class="col-sm-3 checkbox">代理数量：<span ng-bind="totalMap.agentSum"></span></div>
+									</div>
+									<div class="form-group">
+										<div class="col-sm-3 checkbox">专员数量：<span ng-bind="totalMap.commSum"></span></div>
+										<div class="col-sm-3 checkbox">经理数量：<span ng-bind="totalMap.managerSum"></span></div>
+										<div class="col-sm-3 checkbox">银行家数量：<span ng-bind="totalMap.bankerSum"></span></div>
+									</div>
+									<div class="gridStyle" ui-grid="userGrid" ui-grid-selection ui-grid-pagination
+										 ui-grid-resize-columns ui-grid-pinning></div>
+									<div ng-show="loadImg" class="timg"></div>
+								</div>
+							</div>
+                            <div style="height:30px"></div>
+					</div>
+				</div>
+			</div>
+			</div>
+			<!--自定义状态更改弹出框-->
+			<div id="updateUserStatusModal" class="modal fade" tabindex="-1" role="dialog">
+				<div class="modal-dialog" style="height:200px;width: 560px;margin: 200px auto;">
+					<div class="modal-content" >
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">
+								&times;
+							</button>
+							<h3 class="modal-title"><span id="myTitle"></span></h3>
+						</div>
+						<div class="modal-body" style="height:150px;width: 560px">
+							<div class="form-group control-label" style="overflow:hidden; padding-bottom:0px;">
+								<label class="col-sm-2 control-label" style="text-align:right;">备注：</label>
+								<div class="col-sm-8">
+									<textarea class="form-control" name="handleRemark" ng-model="handleRemark" style="height:100px;" ng-maxlength="500" ></textarea>
+								</div>
+	
+							</div>
+							<div class="form-group control-label" style="overflow:hidden; padding-bottom:0px;">
+								<label class="col-sm-4 control-label"></label>
+								<div class="col-sm-8">
+									<div style="text-align:left" class="req_mesg"
+										 ng-show="horizontalUsrMana.handleRemark.$dirty &&  horizontalUsrMana.handleRemark.$invalid || horizontalUsrMana.handleRemark.$error.maxlength">
+										备注限制为500位汉字,字母,空格,或者数字</div>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer" style="height:60px;width: 560px; text-align: center;">
+							<button type="button" ng-click="updateHandleStatusCommit()" ng-disabled="horizontalUsrMana.$invalid || submitting " class="btn btn-primary btn-mr20">提交</button>
+							<button type="button" ng-click="updateHandleStatusColse()" ng-disabled="submitting" class="btn btn-primary11">取消</button>
+						</div>
+	
+					</div>
+				</div>
+			</div>
+	</form>
+</div>

@@ -1,0 +1,230 @@
+<!-- head -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>超级推</a></li>
+            <li><a>商品管理</a></li>
+            <li class="active"><strong>商品新增</strong></li>
+        </ol>
+    </div>
+</div>
+
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn"
+     ng-controller="updateCjtGoods">
+    <form class="form-horizontal" id="form-cjtGoods-update" name="horizontal">
+        <div class="form-group">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content row">
+                    <div class="ibox-title">
+                        <h5>基本资料</h5>
+                        <!--<div ibox-tools></div>-->
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group ">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>商品标题：</label>
+                            <div class="col-lg-2">
+                                <input type="text" class="form-control" name="goodsName" ng-model="baseInfo.goodsName" required maxlength="30"/>
+                                <div class="req_mesg" ng-show="horizontal.goodsName.$dirty && horizontal.goodsName.$invalid">
+                                    <span ng-show="horizontal.goodsName.$error.required">商品标题不能为空</span>
+                                </div>
+                            </div>
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>硬件产品类型：</label>
+                            <div class="col-lg-2">
+                                 <select class="form-control" ng-options="x.hpId as x.typeName for x in cjtHpList"
+                                    ng-model="baseInfo.hpId" required></select>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>销售价：</label>
+                            <div class="col-lg-2">
+                                <input type="text" class="form-control" name="price" ng-model="baseInfo.price"
+                                    ng-pattern="/^(([0-9]\d{0,9}))(\.\d{1,2})?$/"
+                                    style="width: 85%; float: left; margin-right: 5px;" required maxlength="20"/>
+                                <span class="lh30">元</span>
+                                <div class="req_mesg" ng-show="horizontal.price.$dirty && horizontal.price.$invalid">
+                                    <span ng-show="horizontal.price.$error.required">销售价不能为空</span>
+                                    <span ng-show="horizontal.price.$error.pattern">销售价格式不正确</span>
+                                </div>
+                            </div>
+                            <label class="col-lg-2 control-label">尺寸：</label>
+                            <div class="col-lg-2">
+                                <input type="text" class="form-control" name="size" ng-model="baseInfo.size" maxlength="20"/>
+                                <div class="req_mesg" ng-show="horizontal.size.$dirty && horizontal.size.$invalid">
+                                    <span ng-show="horizontal.size.$error.required">尺寸不能为空</span>
+                                </div>
+                            </div>
+                            <label class="col-lg-2 control-label">颜色：</label>
+                            <div class="col-lg-2">
+                                <input type="text" class="form-control" name="color" ng-model="baseInfo.color" maxlength="20"/>
+                                <span style="color:#AEAEAE">如果有多种颜色，则用英文逗号间隔，实例：红,黑,黄</span>
+                                <div class="req_mesg" ng-show="horizontal.color.$dirty && horizontal.color.$invalid">
+                                    <span ng-show="horizontal.color.$error.required">颜色不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ibox-title">
+                        <h5>商品主图</h5>
+                    </div>
+                    <div class="ibox-content">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"></label>
+                        <label class="col-sm-7" style="color:red;margin-top:7px;">注:商品主图最少上传1张，最多上传3张，支持jpg、png格式</label>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">图1:</label>
+                        <div class="col-sm-4" >
+                            <input type="file" class="checkbox" nv-file-select="" uploader="uploaderImg1" multiple  />
+                            <label style="color:red; float:left;"></label>
+                            <table class="table" class="col-sm-4" >
+                                <tbody>
+                                <tr ng-repeat="item in uploaderImg1.queue">
+                                    <td>
+                                        <div ng-show="uploaderImg1.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                                    </td>
+                                    <td nowrap>
+                                        <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                            <span class="glyphicon glyphicon-trash"></span> 删除
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div ng-show="baseInfo.mainImgUrl1!=''&&uploaderImg1.queue.length==0">
+                                <a href="{{baseInfo.mainImgUrl1}}" fancybox rel="group">
+                                    <img width="250px" height="150px" ng-src="{{baseInfo.mainImgUrl1}}"/>
+                                </a>
+                            </div>
+                        </div>
+                        <label class="col-sm-2 control-label">图2:</label>
+                        <div class="col-sm-4" >
+                            <input type="file" class="checkbox" nv-file-select="" uploader="uploaderImg2"   multiple  />
+                            <label style="color:red; float:left;"></label>
+                            <table class="table" class="col-sm-4" >
+                                <tbody>
+                                <tr ng-repeat="item in uploaderImg2.queue">
+                                    <td>
+                                        <div ng-show="uploaderImg2.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                                    </td>
+                                    <td nowrap>
+                                        <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                            <span class="glyphicon glyphicon-trash"></span> 删除
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div ng-show="baseInfo.mainImgName2!=''&&baseInfo.mainImgName2!=null&&uploaderImg2.queue.length==0">
+                                <a href="{{baseInfo.mainImgUrl2}}" fancybox rel="group" >
+                                    <img width="250px" height="150px" ng-src="{{baseInfo.mainImgUrl2}}"/>
+                                </a>
+                                <button type="button" class="btn btn-danger btn-xs" ng-click="deleteMainImgUrl2()">
+                                    <span class="glyphicon glyphicon-trash"></span> 删除
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">图3:</label>
+                        <div class="col-sm-4" >
+                            <input type="file" class="checkbox" nv-file-select="" uploader="uploaderImg3"   multiple  />
+                            <label style="color:red; float:left;"></label>
+                            <table class="table" class="col-sm-4" >
+                                <tbody>
+                                <tr ng-repeat="item in uploaderImg3.queue">
+                                    <td>
+                                        <div ng-show="uploaderImg3.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                                    </td>
+                                    <td nowrap>
+                                        <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                            <span class="glyphicon glyphicon-trash"></span> 删除
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div ng-show="baseInfo.mainImgName3!=''&&baseInfo.mainImgName3!=null&&uploaderImg3.queue.length==0">
+                                <a href="{{baseInfo.mainImgUrl3}}" fancybox rel="group" >
+                                    <img width="250px" height="150px" ng-src="{{baseInfo.mainImgUrl3}}"/>
+                                </a>
+                                <button type="button" class="btn btn-danger btn-xs" ng-click="deleteMainImgUrl3()">
+                                    <span class="glyphicon glyphicon-trash"></span> 删除
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                    <div class="ibox-title">
+                        <h5>商品详情</h5>
+                    </div>
+                    <div class="ibox-content">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">商品描述:</label>
+                        <div class="col-lg-10">
+                            <summernote type="text" id="summernote" class="form-control" name="goodsDesc"  ng-model="baseInfo.goodsDesc" on-image-upload="imageUploadALL(files)" editable="editable" editor="editor" >
+                            </summernote>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">商品详情图片:</label><label style="color: silver;" class="control-label">(按上传的先后位置显示)</label>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">&nbsp;</label>
+                        <div class="col-sm-10" >
+                            <input id="uploaderImg" type="file" nv-file-select="" uploader="uploaderImgList" multiple style="margin: 10px auto;display: none;" />
+                            <ul id="imageUL" style="list-style-type:none">
+                                <li class="col-sm-10" ng-repeat="item in descImgList" yun_name="{{item.descImgName}}">
+                                    <div class="col-lg-5 col-img">
+                                        <a href="{{item.descImgUrl}}" fancybox rel="group">
+                                            <img width="250px" height="150px" ng-src="{{item.descImgUrl}}"/>
+                                        </a>
+                                        <button type="button" style="float: right" class="btn btn-danger btn-xs" ng-click="deleteThisLi($event)">
+                                            <span class="glyphicon glyphicon-trash"></span> 删除
+                                        </button>
+                                    </div>
+                                </li>
+                                <li ng-repeat="item in uploaderImgList.queue" class="col-sm-5" newImage="newImage">
+                                    <table class="table" class="col-sm-4" >
+                                        <tbody>
+                                        <tr>
+                                            <td style="width: 80%;text-align: center;">
+                                                <div ng-show="uploaderImgList.isHTML5" ng-thumb="{ file: item._file, height: 100, maxWidth: 100 }"></div>
+                                            </td>
+                                             <td style="width: 15%">
+                                                <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                                    <span class="glyphicon glyphicon-trash"></span> 删除
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </li>
+                            </ul>
+                            <br>
+                        </div>
+                        <label class="col-sm-3 control-label"></label>
+                        <span class="glyphicon glyphicon-plus" style="text-align: center;font-size: 45px;width: 100px;height: 100px;line-height: 100px;border: 1px solid silver;padding-left: 5px;" onclick="$('#uploaderImg').click();"></span>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-12 bgff">
+                <div class="col-sm-12">
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-6">
+                        <button class="btn btn-new btn-mr20" type="button"
+                                ng-click="submit()" ng-disabled="horizontal.$invalid || submitting">提交</button>
+                        <button class="btn btn-primary4 btn-mr20" type="button"
+                                ui-sref="cjt.queryCjtGoods">返回</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,182 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>机具管理</a></li>
+			<li class="active"><strong>收款码管理</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="gatherCodeManagerCtrl">
+	<form class="form-horizontal" id="form1">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>收款码条件查询</h5>
+						<div ibox-tools></div>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">收款码编号：</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control"
+									ng-model='baseInfo.sn'>
+							</div>
+							<label class="col-sm-2 control-label">商户编号：</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control"
+									ng-model='baseInfo.merchantNo'>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">收款码状态：</label>
+							<div class="col-sm-2">
+								<select class="form-control" ng-model='baseInfo.status'
+										ng-options="x.value as x.text for x in statusAll">
+								</select>
+							</div>
+							<label class="col-sm-2 control-label">物料种类：</label>
+							<div class="col-sm-2">
+								<select class="form-control" ng-model='baseInfo.materialType'
+										ng-options="x.value as x.text for x in materialTypeAll">
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2"></label>
+							<div class="col-sm-6">
+								<button class="btn btn-primary6 btn-mr20" type="button" ng-click='query()'>查询</button>
+								<button class="btn btn-primary3 btn-mr20" type="button" ng-click="resetForm()">清空</button>
+								<button class="btn btn-new2 btn-mr20" type="button" ng-show="hasPermit('gatherCode.insert')" ng-click="createGatherCodeModal()">生成收款码</button>
+								<!-- <button class="btn btn-new2 btn-mr20" type="button" ng-click="resetForm()">其他设置</button> -->
+								<button class="btn btn-new2 btn-mr20" type="button" ng-show="hasPermit('garherCode.export')" ng-click="exportGatherCodeModal()">导出收款码</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>收款码信息列表</h5>
+						<div ibox-tools="" class="ng-scope"></div>
+					</div>
+					<div class="ibox-content">
+						<div class="gridStyle" ui-grid="gatherCodeTable" ui-grid-pagination ui-grid-pinning ui-grid-resize-columns></div>
+					</div>
+				</div>
+				</div>
+			</div>
+	</form>
+	<form class="form-horizontal" id="form2" name="horizontalExport" novalidate>
+		<div id="exportGatherCodeModal" class="modal fade"  role="dialog">
+			<div class="modal-dialog" style="width: 900px">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							&times;</button>
+						<h3 class="modal-title">导出收款码</h3>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><i class="red_req">*</i>导出收款码数量：</label>
+							<div class="col-sm-3">
+								<input type="number" class="form-control"
+									ng-model='info.number' name="number" required/>
+								<div class="req_mesg" ng-show="horizontalExport.number.$dirty && hohorizontalExport.number.$invalid">
+									<span ng-show="horizontalExport.number.$error.required">数量</span>
+								</div>
+							</div>
+							<label class="col-sm-2 control-label">物料种类：</label>
+							<div class="col-sm-2">
+								<select class="form-control" ng-model='info.materialType'
+										ng-options="x.value as x.text for x in materialType">
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-6">
+								<button class="btn btn-primary" type="button" ng-click='exportGatherCode()'
+									id="btnSubmit" ng-disabled="horizontalExport.$invalid || submitting">提交</button>
+									<button class="btn btn-primary8" type="button" ng-click='cancel()'
+									>取消</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+	<form class="form-horizontal" id="form3" name="horizontalCreate" novalidate>
+		<div id="createGatherCodeModal" class="modal fade" role="dialog">
+			<div class="modal-dialog" style="width: 900px">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							&times;</button>
+						<h3 class="modal-title">生成收款码</h3>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><i class="red_req">*</i>生成收款码数量：</label>
+							<div class="col-sm-3">
+								<input type="number" class="form-control"
+									ng-model='info.number' name="number" required/>
+								<div class="req_mesg" ng-show="horizontalCreate.number.$dirty && hohorizontalCreate.number.$invalid">
+									<span ng-show="horizontalCreate.number.$error.required">数量</span>
+								</div>
+							</div>
+							<label class="col-sm-2 control-label">物料种类：</label>
+							<div class="col-sm-2">
+								<select class="form-control" ng-model='info.materialType'
+										ng-options="x.value as x.text for x in materialType">
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-6">
+								<button class="btn btn-primary" type="button" ng-click='createGatherCode()'
+									id="btnSubmit" ng-disabled="horizontalCreate.$invalid || submitting">提交</button>
+									<button class="btn btn-primary8" type="button" ng-click='cancel()'
+									>取消</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+	<!-- 显示收款码 -->
+		<div id="gatherCodeUrlModal" class="modal fade"  role="dialog">
+			<div class="modal-dialog" style="height:300px;width: 900px">
+				<div class="modal-content" style="height:300px;width: 900px">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							&times;</button>
+						<h3 class="modal-title">收款码信息</h3>
+					</div>
+					<div class="modal-body">
+						<div class="form-group control-label" style="overflow:hidden; padding-bottom:30px;">
+							<label class="col-sm-2 control-label">收款码：</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" 
+									ng-model='gatherCode'>
+							</div>
+						</div>
+						<div class="form-group control-label">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-6">
+									<button class="btn btn-primary4" type="button" ng-click="cancel()"
+									>返回</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+</div>

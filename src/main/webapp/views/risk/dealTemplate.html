@@ -1,0 +1,102 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>风控管理</a></li>
+			<li class="active"><strong>回复模板管理</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="dealTemplateCtrl">
+	<form class="form-horizontal" id="form1">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>回复模板查询</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">模板编号：</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" ng-model="templateNo">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-8">
+								<button class="btn btn-primary6 btn-mr20"  ng-click="query()">查询</button>
+								<button class="btn btn-primary3 btn-mr20" type="button" ng-click="clear()"
+										id="btnSubmit2">清空</button>
+								<button class="btn btn-primary5 btn-mr20" type="button" ng-show="hasPermit('dealTemplate.add')" ng-click="openAddModal()">新增</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>查询列表</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="gridStyle" ui-grid="myGrid" ui-grid-selection ui-grid-pagination
+							ui-grid-resize-columns ui-grid-pinning style="width: 1000px">
+						</div>
+					</div>
+				</div>
+				<div style="height:30px;"></div>
+			</div>
+		</div>
+	</form>
+
+
+	<div id="addModal" class="modal fade form-horizontal" tabindex="4" role="dialog">
+		<div class="modal-dialog" style="height:450px;width:800px">
+			<div class="modal-content" >
+				<form class="form-horizontal" name="handleCard"  novalidate>
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							&times;</button>
+						<h5 class="modal-title">{{title}}</h5>
+					</div>
+					<div class="modal-body">
+						<div>
+							<div class="form-group" ng-show="show">
+								<label class="col-sm-2 control-label">模板编号:</label>
+								<div class="col-sm-3">
+									<input class="form-control" name="templateNo" ng-model="info.templateNo" required>
+									<div class="req_mesg" ng-show="handleCard.templateNo.$dirty && handleCard.templateNo.$invalid">
+										<span ng-show="handleCard.templateNo.$error.required">模板编号不能为空</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">模板内容:</label>
+							<div class="col-sm-7">
+								<textarea class="form-control" rows="4" cols="15" name="templateContent" required maxlength="500" ng-model="info.templateContent"></textarea>
+								<div class="req_mesg" ng-show="handleCard.templateContent.$dirty && handleCard.templateContent.$invalid">
+									<span ng-show="handleCard.templateContent.$error.required">模板内容不能为空</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<div class="form-group control-label">
+							<label class="col-sm-1 control-label"></label>
+							<div class="col-sm-6">
+								<button class="btn btn-primary btn-mr20" ng-show="show" ng-disabled="handleCard.$invalid" type="button" ng-click='add()'>提交</button>
+								<button class="btn btn-primary btn-mr20" ng-show="!show" ng-disabled="handleCard.$invalid" type="button" ng-disabled="submitting" ng-click='edit()'>修改</button>
+								<button class="btn btn-primary4" type="button" ng-click='closeAddModal()'>返回</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+</div>

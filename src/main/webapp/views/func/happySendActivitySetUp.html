@@ -1,0 +1,130 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>欢乐送活动设置</a></li>
+			<li class="active"><strong>欢乐送活动设置</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="happySendActivitySetUpCtrl">
+	<form class="form-horizontal" id="form1">
+			<div class="row">
+				<div class="col-lg-12" style="padding-bottom:80px;">
+						<div class="panel-body ibox float-e-margins">
+							<div class="ibox-title">
+								<h5>欢乐送活动列表</h5>
+							</div>
+							<div class="ibox-content">
+								<div class="form-group">
+									<label class="col-sm-2 control-label">活动期间：</label>
+									<div class="col-sm-8">
+										<input type="datetime" style="width:auto;display:inline-block;" class="form-control" date-time ng-model="info.startTime" view="date" format="YYYY-MM-DD HH:mm:ss">
+										-
+										<div style="position: relative; display: inline-block"><input type="datetime" style="width:auto;display:inline-block;" class="form-control" date-time ng-model="info.endTime" view="date" format="YYYY-MM-DD HH:mm:ss">
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">等待期：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" name="info.waitDay" ng-model="info.waitDay">
+									</div>			
+									<label class="col-sm-2 control-label">提现服务ID：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" name="info.cashServiceId" ng-model="info.cashServiceId">
+									</div>	
+								</div>
+								<div class="form-group" >		
+									<label class="col-sm-2 control-label">代理商提现服务ID：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" name="info.agentServiceId" ng-model="info.agentServiceId">
+									</div>	
+								</div>
+
+						</div>
+						
+				<div class="panel-body ibox float-e-margins">
+								<div class="ibox-title">
+									<h5>硬件设备列表</h5>
+									 <div style="background: #fff; text-align: right; overflow: hidden; padding: 10px 20px 0;">						     
+									    <button class="btn btn-new2 btn-mr20" type="button"
+											ng-show="hasPermit('activity.addActivityHardWare')" ng-click="hardWardAddModel()">添加</button>						     	
+									</div>
+								</div>
+									
+								<div class="ibox-content">
+<!-- 									<table width="100%" datatable="" dt-options="dtOptions" dt-columns="dtColumns" class="row-border hover"></table> -->
+									<div ui-grid="gridOptions" ui-grid-resize-columns ui-grid-pagination ui-grid-pinning class="grid"></div>
+								</div>
+				</div>
+					
+				</div>
+				<div  class="col-lg-12">
+						<label class="col-sm-1 control-label"></label>
+						<div class="col-sm-7">
+							<button class="btn btn-primary btn-mr20 " ng-disabled="horizontal.$invalid || submitting" type="button"
+							ng-show="hasPermit('activity.addHappySendActivity')"
+							ng-click="commit()" id="btnSubmit">提交</button>
+							
+							<button class="btn btn-primary  " type="button" ng-click="submitCancel()" 
+									>取消</button>
+						</div>
+					</div>
+			</div>
+					
+					
+	</form>
+	
+	
+		<div id="hardWardAddModel" class="modal fade" tabindex="3" role="dialog">
+			<div class="modal-dialog" style="height:300px;width: 900px">
+				<div class="modal-content" style="height:300px;width: 900px">
+				<!-- 	<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							&times;</button>
+						<h3 class="modal-title">机具密钥信息</h3>
+					</div> -->
+					<div class="modal-body">
+						<div class="form-group">
+									<label class="col-sm-3 control-label">硬件设备：</label>
+									<div class="col-sm-2">
+									<!-- 	<select class="form-control" ng-model="hdIp" ng-change="chName()" ng-options="x.typeName for x in termianlTypes"/> -->
+									
+									<select class="form-control" ng-model="hardWare.hardId" ng-options="x.hpId as x.typeName for x in termianlTypes">
+										<option value="" disabled selected>请选择</option>
+										</select>
+									</div>
+								
+								</div>
+							
+						<div class="form-group">
+								<label class="col-sm-3 control-label">冻结金额：</label>
+									<div class="col-sm-5">
+										<input type="text" ng-model="hardWare.price" class="form-control" style="width:auto;display:inline-block;"> 
+									</div>
+						</div>
+						<div class="form-group">
+								<label class="col-sm-3 control-label">活动阙值：</label>
+									<div class="col-sm-5">
+										<input type="text" ng-model="hardWare.targetAmout" class="form-control" style="width:auto;display:inline-block;"> 
+									</div>					
+						</div>
+						<div class="form-group control-label">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-6">
+									<button class="btn btn-primary btn-mr20" type="button" ng-click='saveHardWare()'
+									>确定</button>
+									<button class="btn btn-primary " type="button" ng-click='cancel()'
+									>返回</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+</div>

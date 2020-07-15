@@ -1,0 +1,174 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>风控管理</a></li>
+			<li class="active"><strong>黑名单资料处理管理</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	 ng-controller="blackDataQueryCtrl">
+	<form class="form-horizontal" id="form1">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-content">
+
+						<div class="form-group">
+							<label class="col-sm-1 control-label">商户编号：</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" ng-model="info.merchantNo">
+							</div>
+							<label class="col-sm-2 control-label">商户手机号：</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" ng-model="info.merchantPhone">
+							</div>
+							<label class="col-sm-1 control-label">商户名称：</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" ng-model="info.merchantName">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label">规则编号：</label>
+							<div class="col-sm-2">
+								<select class="form-control" ng-model="info.merRiskRulesNo" ng-options="x.rulesNo as x.rulesNo for x in rulesList">
+									<option value="">全部</option>
+								</select>
+							</div>
+							<label class="col-sm-2 control-label">处理人名称：</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" ng-model="info.riskLastDealOperator">
+							</div>
+							<label class="col-sm-1 control-label">处理状态：</label>
+							<div class="col-sm-2">
+								<select class="form-control" ng-model="info.riskLastDealStatus" ng-options="x.value as x.text for x in dealStatuses">
+									<option value="">全部</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label">商户姓名：</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" ng-model="info.lawyer">
+							</div>
+							<label class="col-sm-2 control-label">代理商名称：</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" ng-model="info.agentName">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label">推广来源：</label>
+							<div class="col-sm-2">
+								<select class="form-control" ng-model="info.recommendedSource" ng-options="x.value as x.text for x in sources">
+									<option value="">全部</option>
+								</select>
+							</div>
+							<label class="col-sm-2 control-label">历史触发记录：</label>
+							<div class="col-sm-2">
+								<select class="form-control" ng-model="info.haveTriggerHis" ng-options="x.value as x.text for x in haveHis">
+									<option value="">全部</option>
+								</select>
+							</div>
+							<label class="col-sm-1 control-label">组织名称：</label>
+							<div class="col-sm-2">
+								<select class="form-control" ng-model="info.teamId" ng-options="x.value as x.text for x in teamList">
+									<option value="">全部</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label">创建时间：</label>
+							<div class="col-sm-5">
+								<input id="d6221" class="form-control" type="datetime" ng-model="info.createTimeBegin" onchange=""  style="width:auto;display:inline-block;"
+									   onFocus="var d6222=$dp.$('d6222');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d6222.focus();},maxDate:'#F{$dp.$D(\'d6222\')}'})"/>
+								~
+								<input id="d6222" class="form-control" type="datetime"  ng-model="info.createTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+									   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d6221\')}'})"/>
+							</div>
+							<label class="col-sm-1 control-label">处理时间：</label>
+							<div class="col-sm-5">
+								<input id="d6223" class="form-control" type="datetime" ng-model="info.riskLastDealTimeBegin" onchange=""  style="width:auto;display:inline-block;"
+									   onFocus="var d6222=$dp.$('d6224');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d6222.focus();},maxDate:'#F{$dp.$D(\'d6222\')}'})"/>
+								~
+								<input id="d6224" class="form-control" type="datetime"  ng-model="info.riskLastDealTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+									   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d6223\')}'})"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label">商户回复时间：</label>
+							<div class="col-sm-5">
+								<input id="d6225" class="form-control" type="datetime" ng-model="info.merLastDealTimeBegin" onchange=""  style="width:auto;display:inline-block;"
+									   onFocus="var d6222=$dp.$('d6226');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d6222.focus();},maxDate:'#F{$dp.$D(\'d6222\')}'})"/>
+								~
+								<input id="d6226" class="form-control" type="datetime"  ng-model="info.merLastDealTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+									   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d6225\')}'})"/>
+							</div>
+						</div>
+
+
+
+						<div class="form-group">
+							<div class="col-lg-12">
+								<label class="col-sm-1 control-label"></label>
+								<button class="btn btn-primary6 btn-mr20" type="button" ng-click="query()">查询</button>
+								<button class="btn btn-primary3 btn-mr20" type="button" ng-click="reset()">清空</button>
+								<button class="btn btn-primary7" type="button" ng-show="hasPermit('blackData.export')"  ng-click="export()">导出</button>
+							</div>
+
+							<div class="panel-body ibox float-e-margins">
+								<div class="ibox-title">
+									<h5>查询列表</h5>
+								</div>
+								<div class="ibox-content">
+									<div class="gridStyle" ui-grid="myGrid" ui-grid-selection ui-grid-pagination
+										 ui-grid-resize-columns ui-grid-pinning></div>
+								</div>
+							</div>
+							<div style="height:30px;"></div>
+
+						</div>
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</form>
+
+	<div id="remarkModal" class="modal fade form-horizontal" tabindex="4" role="dialog">
+		<div class="modal-dialog" style="height:400px;width:450px">
+			<div class="modal-content" >
+				<form class="form-horizontal" name="handleCard"  novalidate>
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							&times;</button>
+						<h3 class="modal-title">请输入需要备注的信息</h3>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<div class="col-sm-8">
+								<textarea class="form-control" rows="4" cols="20" name="dealRemark" maxlength="400"
+										  ng-model="remark.riskLastRemark"></textarea>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<div class="form-group control-label">
+							<label class="col-sm-1 control-label"></label>
+							<div class="col-sm-8">
+								<button class="btn btn-primary btn-mr20" type="button" style="margin-left: -50px" ng-click='addRemark()' >确定</button>
+								<button class="btn btn-primary4" type="button" ng-click='closeRemarkModal()'>取消</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+</div>

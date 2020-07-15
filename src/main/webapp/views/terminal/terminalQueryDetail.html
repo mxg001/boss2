@@ -1,0 +1,137 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>机具管理</a></li>
+			<li class="active"><strong>机具详情</strong></li>
+		</ol>
+	</div>
+</div>
+
+
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="terminalDetailCtrl">
+	<form class="form-horizontal" id="form1">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="panel-body ibox float-e-margins">
+
+					<div class="ibox-title">
+						<h5>机具信息</h5>
+					</div>
+					<div class="ibox-content">
+							<div class="form-group">
+							<label class="col-sm-2 control-label">机具通道：</label>
+							<div class="col-sm-2 checkbox"><p ng-bind="data.channel"></p></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">机器SN号：</label>
+							<div class="col-sm-2 checkbox"><p ng-bind="data.sn"></p></div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label">PSAM编号：</label>
+							<div class="col-sm-2 checkbox"><p ng-bind="data.psamNo"></p></div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label">终端号：</label>
+							<div class="col-sm-2 checkbox"><p ng-bind="data.terminalId"></p></div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label">机具状态：</label>
+							<div class="col-sm-2 checkbox"><p ng-bind="data.openStatus | formatDropping:terminalStates"></p></div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label">机具类型：</label>
+							<div class="col-sm-2 checkbox"><p ng-bind="data.typeName"></p></div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label">启用时间：</label>
+							<div class="col-sm-2 checkbox"><p ng-bind="data.startTime | date:'yyyy-MM-dd hh:mm:ss'"></p></div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label">入库时间：</label>
+							<div class="col-sm-2 checkbox"><p ng-bind="data.createTime | date:'yyyy-MM-dd hh:mm:ss'"></p></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">活动：</label>
+							<div class="col-sm-7">
+								<div class="gridStyle"  ui-grid="activityTypeGrid" ui-grid-resize-columns />
+							</div>
+						</div>
+						<div class="form-group" ng-show="isActivityHardware">
+							<label class="col-sm-2 control-label">请选择欢乐返子类型：</label>
+							<div class="col-sm-7">
+								<div class="gridStyle"  ui-grid="activityHlfGrid" style="height: 300px" ui-grid-resize-columns />
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="panel-body ibox float-e-margins">
+
+					<div class="ibox-title">
+						<h5>代理商信息</h5>
+					</div>
+					<div class="ibox-content">
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">代理商编号：</label>
+							<div class="col-sm-2 checkbox"><p ng-bind="data.agentNo"></p></div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label">代理商名称：</label>
+							<div class="col-sm-2 checkbox"><p ng-bind="data.agentName"></p></div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label">代理商级别：</label>
+							<div class="col-sm-2 checkbox"><p ng-bind="data.agentLevel">级</p></div>
+						</div>
+					</div>
+					
+				</div>
+				
+				<div class="panel-body ibox float-e-margins">
+
+					<div class="ibox-title">
+						<h5>商户信息</h5>
+					</div>
+					<div class="ibox-content">
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">商户编号：</label>
+							<div class="col-sm-2 checkbox"><p ng-bind="data.merchantNo"></p></div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label">商户名称：</label>
+							<div class="col-sm-2 checkbox"><p ng-bind="data.merchantName"></p></div>
+						</div>
+						
+
+
+						<div class="col-lg-12 bgff">
+							<div class="col-sm-12">
+								<div class="col-sm-2"></div>
+								<div><a class="btn btn-primary8" ng-click="closePage()"
+														 id="btnSubmit">关闭</a></div>
+							</div>
+						</div>
+						
+					</div>
+					
+				</div>
+				
+			</div>
+		</div>
+	</form>
+</div>

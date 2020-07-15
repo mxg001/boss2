@@ -1,0 +1,159 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>超级兑(激活版)</a></li>
+            <li class="active"><strong>信用卡还款订单查询</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app ng-controller="repaymentOrderQueryCtrl">
+    <form class="form-horizontal" id="form1">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="">
+                    <div class="panel-body ibox float-e-margins">
+                        <div class="ibox-content">
+                            <div class="ibox-title">
+                                <h5>信用卡还款订单查询</h5>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">订单ID:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.orderNo">
+                                </div>
+                                <label class="col-sm-2 control-label">订单状态:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.orderStatus" ng-options="x.value as x.text for x in orderStatusSelect"/>
+                                </div>
+                                <label class="col-sm-2 control-label">组织名称:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.oemNo" ng-options="x.value as x.text for x in oemList"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">贡献人ID:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.merNo">
+                                </div>
+                                <label class="col-sm-2 control-label">贡献人名称:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.userName">
+                                </div>
+                                <label class="col-sm-2 control-label">贡献人手机号:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.mobileUsername">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">直属代理商:</label>
+                                <div class="col-sm-2">
+                                    <select  name="agentNo" id="autocomplete-select1"
+                                             ng-model="info.agentNo" ng-options="x.value as x.text for x in agentList"
+                                             style="width: 100%" chosen chosen-data="agentNo" chosen-keyup="getStates">
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label">一级代理商:</label>
+                                <div class="col-sm-2">
+                                    <select  name="oneAgentNo" id="autocomplete-select2"
+                                             ng-model="info.oneAgentNo" ng-options="x.value as x.text for x in oneAgentList"
+                                             style="width: 100%" chosen chosen-data="oneAgentNo" chosen-keyup="getOneStates">
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label">还款状态:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.repayStatus" ng-options="x.value as x.text for x in repayStatusSelect"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">还款商户ID:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.repayMerchantNo">
+                                </div>
+                                <label class="col-sm-2 control-label">创建时间:</label>
+                                <div class="col-sm-5">
+                                    <input id="d5231" class="form-control" type="datetime" ng-model="info.createTimeBegin" onchange=""  style="width:auto;display:inline-block;"
+                                           onFocus="var d5232=$dp.$('d5232');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5232.focus();},maxDate:'#F{$dp.$D(\'d5232\')}'})"/>
+                                    ~
+                                    <input id="d5232" class="form-control" type="datetime"  ng-model="info.createTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+                                           onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5231\')}'})"/>
+                                </div>
+                            </div>
+                            <div ng-show="visible">
+                                <div class="form-group">
+                                    <label class="col-sm-1 control-label">还款通道:</label>
+                                    <div class="col-sm-2">
+                                        <input type="text" class="form-control" ng-model="info.reimbursementChann">
+                                    </div>
+                                    <label class="col-sm-2 control-label">订单完成时间:</label>
+                                    <div class="col-sm-5">
+                                        <input id="d5288" class="form-control" type="datetime" ng-model="info.completionTimeBegin" onchange=""  style="width:auto;display:inline-block;"
+                                               onFocus="var d5289=$dp.$('d5289');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5289.focus();},maxDate:'#F{$dp.$D(\'d5289\')}'})"/>
+                                        ~
+                                        <input id="d5289" class="form-control" type="datetime"  ng-model="info.completionTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+                                               onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5288\')}'})"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-1 control-label">记账状态:</label>
+                                    <div class="col-sm-2">
+                                        <select class="form-control" ng-model="info.accStatus" ng-options="x.value as x.text for x in accStatusSelect"/>
+                                    </div>
+                                    <label class="col-sm-2 control-label">入账时间:</label>
+                                    <div class="col-sm-5">
+                                        <input id="d5266" class="form-control" type="datetime" ng-model="info.accTimeBegin" onchange=""  style="width:auto;display:inline-block;"
+                                               onFocus="var d5267=$dp.$('d5267');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5267.focus();},maxDate:'#F{$dp.$D(\'d5267\')}'})"/>
+                                        ~
+                                        <input id="d5267" class="form-control" type="datetime"  ng-model="info.accTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+                                               onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5266\')}'})"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-1 control-label">关联订单号:</label>
+                                    <div class="col-sm-2">
+                                        <input type="text" class="form-control" ng-model="info.sourceOrderNo">
+                                    </div>
+                                    <label class="col-sm-2 control-label">还款订单类型:</label>
+                                    <div class="col-sm-2">
+                                        <select class="form-control" ng-model="info.payType" ng-options="x.value as x.text for x in payTypeSelect"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="more-term" style="text-align: right;margin-bottom:20px;padding-right: 39px;color:#3baaff;"><span  ng-click="toggle()" style="cursor: pointer;" ng-class="{true:'active',false:''}[visible]">{{mtxt}}</span></div>
+                            <div class="form-group" style="margin-top: 30px">
+                                <div class="col-sm-8">
+                                    <label class="col-sm-2 control-label"></label>
+                                    <button class="btn btn-primary6 btn-mr20" type="button" ng-click="query()" >查询</button>
+                                    <button class="btn btn-primary3 btn-mr20" type="button" ng-click="clear()" >清空</button>
+                                    <button class="btn btn-primary7 btn-mr20" type="button" ng-show="hasPermit('exchangeActivateOrder.importDetail')" ng-click="exportInfo()" >导出</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body ibox float-e-margins">
+                        <div class="ibox-title">
+                            <div class="ibox-content">
+                                <div class="form-group">
+                                    <div class="col-sm-3 checkbox">目标还款金额汇总:<span ng-bind="totalAmount.planAmountTotal | currency:''"></span>元</div>
+                                    <div class="col-sm-3 checkbox">实际消费金额汇总:<span ng-bind="totalAmount.actualAmountTotal | currency:''"></span>元</div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-3 checkbox">还款分润汇总:<span ng-bind="totalAmount.shareAmountTotal | currency:''"></span>元</div>
+                                    <div class="col-sm-3 checkbox">平台分润汇总:<span ng-bind="totalAmount.plateShareTotal | currency:''"></span>元</div>
+                                    <div class="col-sm-2 checkbox">品牌分润汇总:<span ng-bind="totalAmount.oemShareTotal | currency:''"></span>元</div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="gridStyle" ui-grid="userGrid" ui-grid-selection ui-grid-pagination
+                                         ui-grid-resize-columns ui-grid-pinning></div>
+                                    <div ng-show="loadImg" class="timg"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="height:30px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,86 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>信用卡还款</a></li>
+			<li class="active"><strong>订单类型详情</strong></li>
+		</ol>
+	</div>
+</div>
+
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	 ng-controller="typeDetailCtrl">
+	<form class="form-horizontal" id="form1">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="tabs-container tab_other">
+					<div class="panel-body ibox float-e-margins">
+						<div class="ibox-title">
+							<h5>基本资料</h5>
+						</div>
+						<div class="ibox-content">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">订单类型：</label>
+								<div class="col-sm-2 checkbox" ng-bind="repayType.repayPlanInfo.planName==null?'':repayType.repayPlanInfo.planName"></div>
+								<label class="col-sm-2 control-label">服务开关：</label>
+								<div class="col-sm-2 checkbox" ng-bind="repayType.repayPlanInfo.status==1?'开启':'关闭'"></div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">计划服务起止时间：</label>
+								<div class="col-sm-2 checkbox"
+									 ng-bind="(repayType.repayPlanInfo.allowBeginTime==null?'':repayType.repayPlanInfo.allowBeginTime)+'-'+(repayType.repayPlanInfo.allowEndTime==null?'':repayType.repayPlanInfo.allowEndTime)"></div>
+								<label class="col-sm-2 control-label">每日还款笔数范围：</label>
+								<div class="col-sm-2 checkbox"
+									 ng-bind="(repayType.repayPlanInfo.allowDayMinNum==null?'':repayType.repayPlanInfo.allowDayMinNum)+'-'+(repayType.repayPlanInfo.allowDayMaxNum==null?'':repayType.repayPlanInfo.allowDayMaxNum)"></div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">还款目标金额范围：</label>
+								<div class="col-sm-2 checkbox"
+									 ng-bind="(repayType.repayPlanInfo.allowRepayMinAmount==null?'':repayType.repayPlanInfo.allowRepayMinAmount)+'-'+(repayType.repayPlanInfo.allowRepayMaxAmount==null?'':repayType.repayPlanInfo.allowRepayMaxAmount)"></div>
+								<label class="col-sm-2 control-label">首笔交易金额范围：</label>
+								<div class="col-sm-2 checkbox"
+									 ng-bind="(repayType.repayPlanInfo.allowFirstMinAmount==null?'':repayType.repayPlanInfo.allowFirstMinAmount)+'-'+(repayType.repayPlanInfo.allowFirstMaxAmount==null?'':repayType.repayPlanInfo.allowFirstMaxAmount)"></div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">服务关闭提示语：</label>
+								<div class="col-sm-5 checkbox" ng-bind="repayType.repayPlanInfo.closeTip==null?'':repayType.repayPlanInfo.closeTip"></div>
+							</div>
+						</div>
+					</div>
+					<div class="panel-body ibox float-e-margins">
+						<div class="ibox-title">
+							<h5>通道路由权重比例</h5>
+						</div>
+						<!--数据列表-->
+						<table id="dataList" class="table table-bordered table-striped table-hover dataTable"
+							   style="width: 450px;margin-left: 150px">
+							<thead>
+							<tr>
+								<th style="text-align: center">通道名称</th>
+								<th style="text-align: center">路由比例</th>
+							</tr>
+							</thead>
+							<tbody ng-repeat="entity in repayType.repayChannelList">
+							<tr>
+								<td>{{entity.channelName}}</td>
+								<td>{{entity.percent}}</td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+					<div style="height:30px;"></div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-12 bgff">
+			<div class="col-sm-12">
+				<div class="col-sm-2"></div>
+				<div class="col-sm-6"><a class="btn btn-primary4 btn-rounded" type="button" ui-sref="creditRepay.repayTypeManager"
+				id="btnSubmit">返回</a></div>
+			</div>
+		</div>
+
+	</form>
+</div>

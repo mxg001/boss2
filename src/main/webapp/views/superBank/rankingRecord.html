@@ -1,0 +1,93 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a href="index.html">主页</a></li>
+            <li>超级银行家</li>
+            <li class="active"><strong>排行榜管理</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="rankingRecordCtrl">
+    <form class="form-horizontal" id="form1">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>查询条件</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">排行榜编号：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.rankingNo">
+                            </div>
+                            <label class="col-sm-2 control-label">统计周期：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="baseInfo.rankingType" ng-options="x.value as x.text for x in types">
+                                </select>
+                            </div>
+                            <label class="col-sm-2 control-label">榜单状态：</label>
+                            <div class="col-sm-2">
+                                 <select class="form-control" ng-model="baseInfo.status" ng-options="x.value as x.text for x in statuses">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">排行榜名称：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.rankingName">
+                            </div>
+                            <label class="col-sm-2 control-label">规则编号：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.ruleNo">
+                            </div>
+                            <label class="col-sm-2 control-label">统计数据：</label>
+                            <div class="col-sm-2">
+                               <select class="form-control" ng-model="baseInfo.dataType" ng-options="x.value as x.text for x in dataTypes">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">所属组织：</label>
+                            <div class="col-sm-2">
+                                <select chosen  class="chosen-select" style="width:200px;" tabindex="4" ng-model="baseInfo.orgId" ng-options="x.orgId as x.orgName for x in orgs">
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-top: 30px">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-8">
+                                <button class="btn btn-primary6 btn-mr20"  ng-click="query()" ng-disabled="submitting">查询</button>
+                                <button class="btn btn-primary3 btn-mr20" type="button" ng-click="resetForm()">清空</button>
+                               <button class="btn btn-new btn-mr20"  ui-sref="superBank.rankingRule" ng-disabled="submitting">规则管理</button>
+                               <button class="btn btn-new btn-mr20"  ui-sref="superBank.rankingPushRecord" ng-disabled="submitting">奖金发放记录</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>排行榜数据</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <div class="col-sm-3 checkbox">实发人数：<span ng-bind="orderMainSum.totalPushPerson"></span></div>
+                            <div class="col-sm-3 checkbox">实发奖金：<span ng-bind="orderMainSum.totalPushAmount | currency:''"></span>元</div>
+                        </div>
+                        <div class="tposition">
+                            <div class="gridStyle" ui-grid="orderGrid" ui-grid-selection ui-grid-pagination
+                                 ui-grid-resize-columns ui-grid-pinning></div>
+                            <div ng-show="loadImg" class="timg"></div>
+                        </div>
+
+                    </div>
+                </div>
+                <div style="height:30px;"></div>
+            </div>
+        </div>
+    </form>
+</div>

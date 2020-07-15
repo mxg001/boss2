@@ -1,0 +1,113 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a href="index.html">主页</a></li>
+            <li>超级银行家</li>
+            <li class="active"><strong>积分商城总奖金计算表</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="superExchangeCtrl">
+    <form class="form-horizontal" id="form1">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>积分商城总奖金计算表</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                             <label class="col-sm-2 control-label">组织：</label>
+                            <div class="col-sm-2">
+                                    <select chosen="{width:'100%'}" id="autocomplete-select3" class="chosen-select" tabindex="6" ng-model="baseInfo.orgId" ng-options="org.orgId as org.orgName for org in orgInfoListAll">
+                                    </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group" style="margin-top: 30px">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-8">
+                                <button class="btn btn-primary6 btn-mr20"  ng-click="query()" ng-disabled="submitting">查询</button>
+                                <button class="btn btn-primary3 btn-mr20" type="button" ng-click="resetForm()">清空</button>
+                                <button class="btn btn-primary5 btn-mr20" type="button" ng-show="hasPermit('superExchange.add')"
+                                        ng-click="addSuperExchange()">新增</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>列表</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="tposition">
+                            <div class="gridStyle" ui-grid="loanBonusGrid" ui-grid-selection ui-grid-pagination
+                                 ui-grid-resize-columns ui-grid-pinning></div>
+                            <div ng-show="loadImg" class="timg"></div>
+                        </div>
+                    </div>
+                </div>
+                <div style="height:30px;"></div>
+            </div>
+        </div>
+    </form>
+    
+    <div id="addSuperExchange" class="modal fade" tabindex="3" role="dialog">
+			<div class="modal-dialog" style="height:500px;width: 900px">
+				<div class="modal-content" style="height:500px;width: 900px">
+					<div class="modal-body">
+						<div class="form-group" style="clear:left;margin-top:20px;">
+                            <label style="float:left;width:30%;text-align:center;height:40px;line-height:40px;">所属组织：</label>
+							<div class="" style="float:left;height:40px;line-height:40px;width: 180px"  >
+								<select ng-change="changeOrg()" chosen="{width:'100%'}" id="autocomplete-select6" class="chosen-select" tabindex="7" ng-model="baseInfo.orgId"   ng-options="org.orgId as org.orgName for org in orgInfoList">
+								</select>
+							</div>
+						</div>
+                        <div class="form-group" style="clear:left;margin-top:20px;">
+                            <label style="float:left;width:30%;text-align:center;height:40px;line-height:40px;">奖励要求：</label>
+                            <div class="" style="float:left;height:40px;line-height:40px;width: 180px"  >报单成功</div>
+                        </div>
+                        <div class="form-group" style="clear:left;margin-top:20px;">
+                            <label style="float:left;width:30%;text-align:center;height:40px;line-height:40px;">用户积分兑换比例：</label>
+                                <div class="" style="float:left;height:40px;line-height:40px;width: 180px"  >{{baseInfo.shareRate}}%</div>
+                            </div>
+						<div class="form-group" style="clear:left;margin-top:20px;">
+                            <label style="float:left;width:30%;text-align:center;height:40px;line-height:40px;">兑换总奖金：核销价格 *</label>
+									<div class="" style="float:left;height:40px;line-height:40px;">
+                                        <span ><input type="text" style="height: 30px" class="form-group"  ng-model="baseInfo.totalBonus"> %</span>
+									</div>
+						</div>
+						<div class="form-group" style="clear:left;margin-top:20px;">
+                            <label style="float:left;width:30%;text-align:center;height:40px;line-height:40px;">公司截留：核销价格 *</label>
+							<div class="" style="float:left;height:40px;line-height:40px;width: 180px">
+                                <span ><input type="text" style="height: 30px" class="form-group"  ng-model="baseInfo.companyBonus"> %</span>
+							</div>
+						</div>
+						<div class="form-group" style="clear:left;margin-top:20px;">
+                            <label style="float:left;width:30%;text-align:center;height:40px;line-height:40px;">品牌截留：核销价格 *</label>
+                            <div class="" style="float:left;height:40px;line-height:40px;width: 180px">
+                                <span ><input type="text" style="height: 30px" class="form-group"  ng-model="baseInfo.orgBonus"> %</span>
+							</div>
+						</div>
+                    </div>
+                        <div style="clear:left;margin-top:40px;">
+                            &nbsp;
+                        </div>
+						
+						<div class="form-group control-label">
+							<label class="col-sm-2 control-label" ></label>
+							<div class="col-sm-6">
+									<button class="btn btn-primary btn-mr20" type="button" ng-click='saveSuperExchange()'>确定</button>
+									<button class="btn btn-primary8 " type="button" ng-click='cancel()'>取消</button>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+    
+</div>

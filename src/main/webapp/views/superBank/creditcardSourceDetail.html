@@ -1,0 +1,230 @@
+<!-- head -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>超级银行家</a></li>
+            <li class="active"><strong>银行详情</strong></li>
+        </ol>
+    </div>
+</div>
+
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn"
+     ng-controller="creditcardSourceDetailCtrl">
+    <form class="form-horizontal" id="form1" name="horizontal">
+        <div class="form-group">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>基本信息</h5>
+                    <!--<div ibox-tools></div>-->
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>银行名称：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" name="bankName" ng-model="baseInfo.bankName" readonly maxlength="20"/>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>银行编码：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" name="code" ng-model="baseInfo.code" readonly maxlength="20"/>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>银行别称：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" name="title" ng-model="baseInfo.bankNickName" readonly maxlength="20"/>
+                            </div>
+                        </div>
+                        <!--<div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label">卡类型：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" ng-model="baseInfo.cardType|formatDropping:cardTypeList" readonly />
+                            </div>
+                                &lt;!&ndash;<div class="col-lg-2 checkbox" ng-bind="baseInfo.cardType|formatDropping:cardTypeList">
+                            </div>&ndash;&gt;
+                        </div>-->
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>LOGO：</label>
+                            <div class="col-sm-4" style="padding: 0">
+                                <a ng-show="baseInfo.showLogoUrl" href="{{baseInfo.showLogoUrl}}" fancybox  rel="group">
+                                    <img width="250px" height="150px" ng-src="{{baseInfo.showLogoUrl}}"/>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>来源：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" name="source" ng-model="baseInfo.source" readonly />
+                            </div>
+                            <div class="col-sm-3" style="line-height: 36px;">
+                                如直签，深圳银联
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>显示顺序：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" name="showOrder" ng-model="baseInfo.showOrder" readonly maxlength="20"/>
+                            </div>
+                            <div class="col-sm-3" style="line-height: 36px;">
+                                如10，20，间隔大点，方便调整
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>宣传语：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" name="slogan" ng-model="baseInfo.slogan" readonly maxlength="20"/>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>发卡奖金：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" name="cardBonus" ng-model="baseInfo.cardBonus" readonly maxlength="20"/>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>首刷奖金：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" name="firstBrushBonus" ng-model="baseInfo.firstBrushBonus" readonly maxlength="20"/>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>是否秒批：</label>
+                            <div class="col-lg-7">
+                                <label style="margin-right: 20px;margin-top: 6px"><input type="radio" value="1" name="approveStatus" ng-model="baseInfo.approveStatus"/>是</label>
+                                <label style="margin-top: 6px"><input type="radio" value="0" name="approveStatus" ng-model="baseInfo.approveStatus"/>否</label>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>导入数据是否自动分润发卡奖金：</label>
+                            <div class="col-lg-7">
+                                <label style="margin-right: 20px;margin-top: 6px"><input type="radio" value="1" name="autoShareStatus" ng-model="baseInfo.autoShareStatus"/>是</label>
+                                <label style="margin-top: 6px"><input type="radio" value="0" name="autoShareStatus" ng-model="baseInfo.autoShareStatus"/>否</label>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>查询是否秒结：</label>
+                            <div class="col-lg-7">
+                                <label style="margin-right: 20px;margin-top: 6px"><input type="radio" value="1" ng-model="baseInfo.batchStatus"/>是</label>
+                                <label style="margin-top: 6px"><input type="radio" value="0"  ng-model="baseInfo.batchStatus"/>否</label>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>发卡奖金是否要求卡片激活：</label>
+                            <div class="col-lg-7">
+                                <label style="margin-right: 20px;margin-top: 6px"><input type="radio" value="1" name="cardActiveStatus" ng-model="baseInfo.cardActiveStatus" />是</label>
+                                <label style="margin-top: 6px"><input type="radio" value="0" name="cardActiveStatus" ng-model="baseInfo.cardActiveStatus" />否</label>
+                            </div>
+                        </div>
+                         <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label">是否展示极速办卡标签：</label>
+                            <div class="col-lg-7">
+                                <label style="margin-right: 20px;margin-top: 6px"><input type="radio" value="1" ng-model="baseInfo.quickCardStatus"/>是</label>
+                                <label style="margin-top: 6px"><input type="radio" value="0"  ng-model="baseInfo.quickCardStatus"/>否</label>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label">为银行增加特别标签：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" name="specialLabel" ng-model="baseInfo.specialLabel" readonly maxlength="20"/>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>接入方式：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" name="accessMethods" ng-model="baseInfo.accessMethods" readonly/>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12" ng-show="baseInfo.accessMethods=='H5'">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>申请H5链接：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" name="sendLink" ng-model="baseInfo.sendLink" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12" ng-show="baseInfo.accessMethods=='API'">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>申请API接口：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" name="sendApiLink" ng-model="baseInfo.sendApiLink" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label">分润规则备注：</label>
+                            <div class="col-lg-7">
+                                <textarea rows="6" class="form-control" ng-model="baseInfo.shareRemark" readonly></textarea>
+                            </div>
+                        </div>
+                        <!--<div class="form-group">
+                            <label class="col-lg-2 control-label">办卡提示内容：</label>
+                            <div class="col-lg-7">
+                                <textarea rows="6" class="form-control" ng-model="baseInfo.cardMessage"></textarea>
+                            </div>
+                        </div>-->
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label">导入匹配规则编码：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" name="ruleCode" ng-model="baseInfo.ruleCode" readonly maxlength="20"/>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label">特别推荐图片：</label>
+                            <div class="col-sm-4" style="padding: 0">
+                                <a ng-show="baseInfo.h5LinkUrl" href="{{baseInfo.h5LinkUrl}}" fancybox  rel="group">
+                                    <img width="250px" height="150px" ng-src="{{baseInfo.h5LinkUrl}}"/>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label">特别推荐位置：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" name="title" ng-model="baseInfo.specialPosition" readonly maxlength="20"/>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label">特别推荐图片：</label>
+                            <div class="col-sm-4" style="padding: 0">
+                                <a ng-show="baseInfo.specialImage" href="{{baseInfo.specialImage}}" fancybox  rel="group">
+                                    <img width="250px" height="150px" ng-src="{{baseInfo.specialImage}}"/>
+                                </a>
+                            </div>
+                        </div>
+                        <!-- <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label">活动图片：</label>
+                            <div class="col-sm-4" style="padding: 0">
+                                <a ng-show="baseInfo.activityImageUrl" href="{{baseInfo.activityImageUrl}}" fancybox  rel="group">
+                                    <img width="250px" height="150px" ng-src="{{baseInfo.activityImageUrl}}"/>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label">活动图片链接：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" name="activityLink" ng-model="baseInfo.activityLink" readonly />
+                            </div>
+                        </div> -->
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>办卡攻略图片：</label>
+                            <div class="col-sm-4" style="padding: 0">
+                                <a ng-show="baseInfo.applyCardGuideImgUrl" href="{{baseInfo.applyCardGuideImgUrl}}" fancybox  rel="group">
+                                    <img width="250px" height="150px" ng-src="{{baseInfo.applyCardGuideImgUrl}}"/>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-12 bgff">
+                <div class="col-sm-12">
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-6">
+                        <button class="btn btn-primary4 btn-mr20" type="button"
+                                ui-sref="superBank.creditcardSource">返回</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

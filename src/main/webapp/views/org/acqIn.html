@@ -1,0 +1,135 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>商户管理</a></li>
+			<li class="active"><strong>收单商户进件管理</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="acqInCtrl">
+	<form class="form-horizontal" id="form1">
+			<div class="row">
+				<div class="col-lg-12">
+						<div class="panel-body ibox float-e-margins">
+							<div class="ibox-content">
+								<div class="form-group">
+									<label class="col-sm-2 control-label">收单进件编号：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" ng-model="info.acqIntoNo">
+									</div>
+									<label class="col-sm-2 control-label">营业执照名称：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" ng-model="info.charterName">
+									</div>
+									<label class="col-sm-2 control-label">法人姓名：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" ng-model="info.legalPerson">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">所属代理商：</label>
+									<div class="col-sm-2">
+										<select name="autocomplete-select" id="autocomplete-select" ng-model="info.agentNo" ng-options="x.value as x.text for x in agent" style="width: 100%" chosen chosen-data="agent" chosen-keyup="getStates">
+										</select>
+									</div>
+									<label class="col-sm-2 control-label">所属一级代理商：</label>
+									<div class="col-sm-2">
+										<select name="autocomplete-select1" id="autocomplete-select1" ng-model="info.oneAgentNo" ng-options="x.value as x.text for x in agentone" style="width: 100%" chosen chosen-data="agentone" chosen-keyup="getOneStates">
+										</select>
+									</div>
+									<label class="col-sm-2 control-label">进件来源：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.intoSource" ng-options="x.value as x.text for x in itemSourceSelect">
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">审核状态：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.auditStatus" ng-options="x.value as x.text for x in auditStatuss"/>
+									</div>
+									<label class="col-sm-2 control-label">商户类型：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.merchantType" ng-options="x.value as x.text for x in merchantTypes"/>
+									</div>
+								</div>
+								
+							   <div class="form-group">
+                                 <label class="col-sm-2 control-label">进件日期:</label>
+                                <div class="col-sm-6">
+                                <input id="d5223" class="form-control" type="datetime" ng-model="info.createSTime" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="var d5224=$dp.$('d5224');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5224.focus();},maxDate:'#F{$dp.$D(\'d5224\')}'})"/>
+                                ~
+                                <input id="d5224" class="form-control" type="datetime"  ng-model="info.createETime" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5223\')}'})"/>
+                          		  </div>
+                        		 </div>
+								
+								 <div class="form-group">
+                                 <label class="col-sm-2 control-label">审核日期:</label>
+                                <div class="col-sm-6">
+                                <input id="d5221" class="form-control" type="datetime" ng-model="info.auditSTime" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="var d5222=$dp.$('d5222');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5222.focus();},maxDate:'#F{$dp.$D(\'d5222\')}'})"/>
+                                ~
+                                <input id="d5222" class="form-control" type="datetime"  ng-model="info.auditETime" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5221\')}'})"/>
+                           		 </div>
+                        		 </div>
+                         
+								<div class="form-group">
+									<div class="col-lg-12">
+										<div class="col-sm-2"></div>
+										<button class="btn btn-primary6 btn-mr20" type="button" ng-click="query()"
+											id="btnSubmit">查询</button>
+											<button class="btn btn-primary3 btn-mr20" type="button" ng-click="reset()"
+											id="btnSubmit2">清空</button>
+											<button class="btn btn-primary7 btn-mr20" type="button"
+                                            ng-click="import()" ng-show="hasPermit('acqIn.exportInfo')">导出</button>
+									</div>
+									
+								</div>
+								<div class="form-group">
+									<div ui-grid="acqMerchantGrid" ui-grid-pagination ui-grid-selection ui-grid-pinning ui-grid-resize-columns class="grid"></div>
+								</div>
+									
+							</div>
+					</div>
+				</div>
+			</div>
+	</form>
+
+
+	<!-- 模态框（Modal）新增终端 -->
+	 <div id="myModal" class="modal fade form-horizontal" tabindex="3" role="dialog">
+    		<div class="modal-dialog" style="height:300px;width: 700px">
+    			<div class="modal-content" style="height:300px;width: 700px">
+    			<form class="form-horizontal" name="horizontalUpdate">
+    				<div class="modal-header">
+    					<button type="button" class="close" data-dismiss="modal">
+    						&times;</button>
+    		</div>
+	         <div class="modal-body">
+	         	<div class="form-group">
+    						<label class="col-sm-2 control-label"><i class="red_req">*</i>MCC码：</label>
+    						<div class=" col-sm-4">
+    						    <input type="text" class="form-control" ng-model="info.mcc" name="mcc" ng-pattern="/^[0-9]*$/" required>
+										<div class="req_mesg" ng-show="horizontalUpdate.mcc.$dirty && horizontalUpdate.mcc.$invalid">
+											<span ng-show="horizontalUpdate.mcc.$error.required">MCC不能为空</span>
+											<span ng-show="horizontalUpdate.mcc.$error.pattern">请输入合法数字</span>
+										</div>
+    						</div>
+    					</div>
+	         </div>
+	         <div class="modal-footer">
+			    <button type="button" ng-click="addTerminalNo()" ng-disabled="horizontalUpdate.$invalid || submitting" class="btn btn-primary">确定</button>
+				<a class="btn btn-primary4 btn-mr20" style="width: 130px;" type="button" ng-click="cancelMcc()"
+					id="btnSubmit">取消</a></div>
+	      </div>
+		</div>
+	</div>
+	
+</div>

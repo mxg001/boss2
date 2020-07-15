@@ -1,0 +1,187 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>收单机构管理</a></li>
+			<li class="active"><strong>集群中收单商户</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="routerOrgCtrl">
+	<form class="form-horizontal">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>集群收单商户查询</h5>
+					<!--<div ibox-tools></div>-->
+				</div>
+				<div class="ibox-content">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">集群编号：</label>
+						<div class="col-sm-2">
+							<input type="text" class="form-control" ng-model="info.group_code">
+						</div>
+						<label class="col-sm-2 control-label">集群名称：</label>
+						<div class="col-sm-2">
+							<input type="text" class="form-control" ng-model="info.group_name">
+						</div>
+						<label class="col-sm-2 control-label">收单商户类别：</label>
+						<div class="col-sm-2">
+							<select class="form-control" ng-model="info.acqMerchantType" ng-options="x.value as x.text for x in acqMerchantTypesAll">
+							</select>
+						</div>
+					</div>
+				    <div class="form-group">
+						<label class="col-sm-2 control-label">收单机构商户名称/编号：</label>
+						<div class="col-sm-2">
+							<input type="text" class="form-control" ng-model="info.acq_merchant_no">
+						</div>
+						<label class="col-sm-2 control-label">已超额：</label>
+						<div class="col-sm-2">
+							<select class="form-control" ng-model="info.quota_status" ng-options="x.value as x.text for x in quotaStatus"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label"></label>
+						<div class="col-sm-10">
+							<input type="button" class="btn btn-primary6 btn-mr20" ng-click="query()" value='查询'>
+							<input type="button" class="btn btn-primary3 btn-mr20" ng-click="reset()" value='清空'>
+							<button class="btn btn-primary10 btn-mr20" type="button" ng-show="hasPermit('routerOrg.deleteBatch')" ng-click="del()" id="btnSubmit">批量删除</button>
+							<button class="btn btn-primary10 btn-mr20" ng-show="hasPermit('routerOrg.routerOrgBatchDelete')" type="button" ui-sref="org.routerOrgBatchDelete">导入删除</button>
+							<button class="btn btn-primary7 btn-mr20" type="button" ng-show="hasPermit('routerOrg.export')"
+											ng-click="exportInfo()">导出</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>集群收单商户信息表</h5>
+					<!--<div ibox-tools></div>-->
+				</div>
+				<div class="ibox-content">
+					<div class="form-group">
+						<div class="gridStyle" ui-grid="routerOrgGrid" ui-grid-pagination ui-grid-selection ui-grid-pinning ui-grid-resize-columns></div>
+					</div>
+				</div>
+			</div>	
+		</div>
+	</div>
+	</form>
+	<!-- 模态框（Modal） -->
+	<div id="myModal" class="modal fade" tabindex="-1" role="dialog">
+	   <div class="modal-dialog">
+	      <div class="modal-content">
+	         <div class="modal-header">
+	            <button type="button" class="close" data-dismiss="modal">
+	                  &times;
+	            </button>
+	            <input type="hidden" ng-model="oper"></input>
+	            <h3 class="modal-title">消息对话框</h3>
+	         </div>
+	         <div class="modal-body">
+	         </div>
+	         <div class="modal-footer">
+			    <button type="button" ng-click="confirm()" class="btn btn-primary">确定</button>
+			    <button type="button" data-dismiss="modal" class="btn btn-primary8">取消</button>
+			 </div>
+	      </div>
+		</div>
+	</div>
+	<!-- 修改限额模态框（Modal） -->
+	<div id="updateModal" class="modal fade" tabindex="-1" role="dialog">
+	   <div class="modal-dialog">
+	      <div class="modal-content">
+	         <div class="modal-header">
+	            <button type="button" class="close" data-dismiss="modal">
+	                  &times;
+	            </button>
+	            <h3 class="modal-title">修改收单商户限额</h3>
+	         </div>
+	         <div class="modal-body">
+				<form class="form-horizontal"  name="horizontal">
+				  <div class="form-group">
+				    <label class="col-sm-4 control-label">收单机构名称：</label>
+				    <div class="col-sm-8">
+				      <p class="form-control-static">{{updateInfo.acq_name}}</p>
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label class="col-sm-4 control-label">收单机构商户编号：</label>
+				    <div class="col-sm-8">
+				      <p class="form-control-static">{{updateInfo.acq_merchant_no}}</p>
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label class="col-sm-4 control-label">收单机构商户名称：</label>
+				    <div class="col-sm-8">
+				      <p class="form-control-static">{{updateInfo.acq_merchant_name}}</p>
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label class="col-sm-4 control-label">收单限额：</label>
+				    <div class="col-sm-5">
+				      <input type="number" class="form-control" name="quota" ng-model="updateInfo.quota" required>
+				      <div class="req_mesg" ng-show="horizontal.quota.$dirty && horizontal.quota.$invalid">
+						<span ng-show="horizontal.quota.$error.required">收单限额不能为空</span>
+					</div>
+				    </div>
+				  </div>
+				</form>
+	         </div>
+	         <div class="modal-footer">
+			    <button type="button" ng-click="update()" ng-disabled="submitting || horizontal.$invalid" class="btn btn-primary">确定</button>
+			    <button type="button" data-dismiss="modal" class="btn btn-primary8">取消</button>
+			 </div>
+	      </div>
+		</div>
+	</div>
+	<div id="showModel" class="modal fade" tabindex="3" role="dialog">
+		<form class="form-horizontal" id="form3">
+			<div class="modal-dialog" style="width: 900px">
+				<div class="modal-content" style="width: 900px">
+					<div class="ibox-title">
+						<button type="button" class="close" data-dismiss="modal">×</button>
+						<h4></h4>
+					</div>
+					<div class="modal-body">
+						<div class="form-group" ng-show="!isShow">
+							<div class="col-sm-10">
+								<span>确认删除？</span>
+							</div>
+						</div>
+						<div class="form-group" ng-show="isShow">
+							<div class="col-sm-10">
+								<span>删除后，</span>
+							</div>
+						</div>
+						<div class="form-group" ng-show="isShow">
+							<div class="col-sm-10">
+								<textarea class="form-control" style="height: 200px;" ng-disabled="true" ng-model="deleteText"></textarea>
+							</div>
+						</div>
+						<div class="form-group" ng-show="isShow">
+							<div class="col-sm-10">
+								<span>你确定删除该收单商户吗？</span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-5 control-label"></label>
+							<div class="col-lg-12" align="center">
+								<button class="btn btn-primary btn-mr20" type="button" ng-click="deleteOp()" >确定</button>
+								<button class="btn btn-primary4 btn-mr20" type="button" ng-click="closeShowModel()" >取消</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

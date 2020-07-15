@@ -1,0 +1,87 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>收单机构商户</a></li>
+            <li class="active"><strong>批量关闭</strong></li>
+        </ol>
+    </div>
+</div>
+
+
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app ng-controller="acqMerBatchColseCtrl">
+    <form class="form-horizontal" name="horizontal">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="panel-body ibox float-e-margins">
+
+                    <div class="ibox-title">
+                        <h5>批量关闭</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">导入文件：</label>
+                            <div class="col-sm-3">
+                                <input type="file" nv-file-select="" ng-model="fileSelect" uploader="uploader" multiple/>
+                                <table class="table">
+                                    <tbody>
+                                    <tr ng-repeat="item in uploader.queue">
+                                        <td>
+                                            <strong>{{ item.file.name }}</strong>
+                                        </td>
+                                        <td nowrap>
+                                            <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                                <span class="glyphicon glyphicon-trash"></span>删除
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <a href="acqMerchantAction/acqMerBatchColseTemplate" >批量关闭导入模板</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-12 bgff">
+            <div class="col-lg-12">
+                <label class="col-sm-2"></label>
+                <button class="btn btn-primary btn-rounded btn-mr20" type="submit"
+                        ng-disabled="horizontal.$invalid || uploader.queue.length==0 || submitting"
+                        ng-click="acqMerBatchColseimport()">提交</button>
+                <a class="btn btn-primary4 btn-rounded" type="button" ui-sref="org.orgMer" >返回</a>
+            </div>
+        </div>
+    </form>
+
+    <form class="form-horizontal" id="form2" name="horizontalMsg" novalidate>
+        <div id="importMsg" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog" style="width:900px">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            &times;</button>
+                        <h3 class="modal-title">批量关闭导入</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">批量关闭导入结果:</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" rows="6" cols="10" ng-model="mgsInfo" ></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

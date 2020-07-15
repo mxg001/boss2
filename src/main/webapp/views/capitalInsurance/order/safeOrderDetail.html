@@ -1,0 +1,192 @@
+<!-- head -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>账户资金损失险</a></li>
+            <li class="active"><strong>保险订单详情</strong></li>
+        </ol>
+    </div>
+</div>
+
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="safeOrderDetailCtrl">
+    <form class="form-horizontal" id="form1" name="horizontalCard">
+        <div class="form-group">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="ibox-title">
+                            <h5>基本信息</h5>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">保险订单号:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.bxOrderNo"></div>
+                            <label class="col-sm-2 control-label">投保状态:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.bxType |formatDropping:bxTypeSelect"></div>
+                            <label class="col-sm-2 control-label">承保单位:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.bxUnit |formatDropping:bxUnitSelect"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">产品编码:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.prodNo"></div>
+                            <label class="col-sm-2 control-label">产品描述:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.prodDetail"></div>
+                            <label class="col-sm-2 control-label">交易时间:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.transTime | date:'yyyy年MM月dd日 HH:mm:ss'"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">保单号:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.thirdOrderNo"></div>
+                            <label class="col-sm-2 control-label">保险起始时间:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.tBeginTime | date:'yyyy年MM月dd日 HH:mm:ss'"></div>
+                            <label class="col-sm-2 control-label">保险截止时间:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.tEndTime | date:'yyyy年MM月dd日 HH:mm:ss'"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">保单生成时间:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.createTime | date:'yyyy年MM月dd日 HH:mm:ss'"></div>
+                            <label class="col-sm-2 control-label">保险期限:</label>
+                            <div class="col-sm-2 checkbox">
+                                <div ng-show="info.bxTerm!=null">
+                                    {{info.bxTerm+"天"}}
+                                </div>
+                                <div ng-show="info.bxTerm==null">
+                                    {{info.bxTerm}}
+                                </div>
+                            </div>
+                            <label class="col-sm-2 control-label">投保时间:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.tTime | date:'yyyy年MM月dd日 HH:mm:ss'"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">保费-成本价:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.nFee | currency:''"></div>
+                            <label class="col-sm-2 control-label">保费-售价:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.nPrm | currency:''"></div>
+                            <label class="col-sm-2 control-label">保额:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.nAmt | currency:''"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label" >商户编号:</label>
+                            <div class="col-sm-2 checkbox wbba"><p ng-bind="info.merchantNo"></p></div>
+                            <label class="col-sm-2 control-label" >一级代理商ID:</label>
+                            <div class="col-sm-2 checkbox wbba"><p ng-bind="info.oneAgentNo"></p></div>
+                            <label class="col-sm-2 control-label" >一级代理商名称:</label>
+                            <div class="col-sm-2 checkbox wbba"><p ng-bind="info.oneAgentName"></p></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label" >所属代理商ID:</label>
+                            <div class="col-sm-2 checkbox wbba"><p ng-bind="info.agentNo"></p></div>
+                            <label class="col-sm-2 control-label" >所属代理商名称:</label>
+                            <div class="col-sm-2 checkbox wbba"><p ng-bind="info.agentName"></p></div>
+                            <label class="col-sm-2 control-label">交易订单号:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.orderNo"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">结果信息:</label>
+                            <div class="col-sm-5 checkbox" ng-bind="info.resultMsg"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="ibox-title">
+                            <h5>标的信息</h5>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">支付方名称:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.cPayerName"></div>
+                            <label class="col-sm-2 control-label">支付成交订单号:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.cTranNo"></div>
+                            <label class="col-sm-2 control-label">约定到账时间:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.cArrivalTime |formatDropping:cArrivalTimeSelect"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">交易金额:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.transAmount | currency:''"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="ibox-title">
+                            <h5>投保人信息</h5>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">客户名称:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.cAppNme"></div>
+                            <label class="col-sm-2 control-label">投保人性质:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.cClntMrk |formatDropping:cClntMrkSelect"></div>
+                            <label class="col-sm-2 control-label">证件类型:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.cCertfCls |formatDropping:cCertfClsSelect"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">手机号码:</label>
+                            <div class="col-sm-2 checkbox" >
+                                <span ng-bind="info.cMobile"></span>
+                                <button type="button" ng-show="dataSta&&hasPermit('safeOrder.getDataProcessing')" ng-click="getDataProcessing()">显示</button>
+                            </div>
+                            <label class="col-sm-2 control-label">与被投保人关系:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.cRelCode |formatDropping:cRelCodeSelect"></div>
+                            <label class="col-sm-2 control-label">证件号码:</label>
+                            <div class="col-sm-3 checkbox" >
+                                <span ng-bind="info.cCertfCde"></span>
+                                <button type="button" ng-show="dataSta&&hasPermit('safeOrder.getDataProcessing')" ng-click="getDataProcessing()">显示</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">固定电话:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.cTelPhone"></div>
+                            <label class="col-sm-2 control-label">地址:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.cClntAddr"></div>
+                            <label class="col-sm-2 control-label">邮编:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.cZipCde"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="ibox-title">
+                            <h5>被保人信息</h5>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">客户名称:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.cNme"></div>
+                            <label class="col-sm-2 control-label">被保人性质:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.cClntMrk1 |formatDropping:cClntMrkSelect"></div>
+                            <label class="col-sm-2 control-label">证件类型:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.cCertTyp |formatDropping:cCertfClsSelect"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">手机号码:</label>
+                            <div class="col-sm-2 checkbox" >
+                                <span ng-bind="info.cMobile1"></span>
+                                <button type="button" ng-show="dataSta&&hasPermit('safeOrder.getDataProcessing')" ng-click="getDataProcessing()">显示</button>
+                            </div>
+                            <label class="col-sm-2 control-label">性别:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.cSex |formatDropping:cSexSelect"></div>
+                            <label class="col-sm-2 control-label">证件号码:</label>
+                            <div class="col-sm-3 checkbox" >
+                                <span ng-bind="info.cCertNo"></span>
+                                <button type="button" ng-show="dataSta&&hasPermit('safeOrder.getDataProcessing')" ng-click="getDataProcessing()">显示</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">地址:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.cClntAddr1"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-12 bgff">
+                <div class="col-sm-12">
+                    <div class="col-lg-3"></div>
+                    <div class="col-sm-6">
+                        <a class="btn btn-primary4" ui-sref="safe.safeOrder" >返回</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

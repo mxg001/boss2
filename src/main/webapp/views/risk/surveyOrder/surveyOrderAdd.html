@@ -1,0 +1,146 @@
+<!-- head -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>调单管理</a></li>
+            <li class="active"><strong>添加调单</strong></li>
+        </ol>
+    </div>
+</div>
+
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="surveyOrderAddCtrl">
+    <form class="form-horizontal" id="form1" name="horizontalCard">
+        <div class="form-group">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+
+                    <div class="row">
+                        <div class="ibox-title">
+                            <h5>基本信息</h5>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>业务类型:</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="addInfo.orderServiceCode" name="orderServiceCode" required ng-options="x.value as x.text for x in orderServiceCodeList"/>
+                                <div class="req_mesg" ng-show="horizontalCard.orderServiceCode.$dirty && horizontalCard.orderServiceCode.$invalid">
+                                    <span ng-show="horizontalCard.orderServiceCode.$error.required">业务类型不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>订单编号:</label>
+                            <div class="col-sm-7">
+                                <textarea class="form-control" rows="4" cols="15" name="transOrderNo" required ng-model="addInfo.transOrderNo" ng-pattern="/^\w+(,\w+)*$/"></textarea>
+                                <div class="req_mesg" ng-show="horizontalCard.transOrderNo.$dirty && horizontalCard.transOrderNo.$invalid">
+                                    <span ng-show="horizontalCard.transOrderNo.$error.required">订单编号不能为空</span>
+                                    <span ng-show="horizontalCard.transOrderNo.$error.pattern">订单编号格式不符</span>
+                                </div>
+                            </div>
+                            <label style="margin-top:7px;">注:可以填写多个,用英文逗号隔开</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>调单类型:</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="addInfo.orderTypeCode" name="orderTypeCode" required ng-options="x.value as x.text for x in orderTypeCodeList"/>
+                                <div class="req_mesg" ng-show="horizontalCard.orderTypeCode.$dirty && horizontalCard.orderTypeCode.$invalid">
+                                    <span ng-show="horizontalCard.orderTypeCode.$error.required">调单类型不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>回复截止时间:</label>
+                            <div class="col-sm-3">
+                                <input class="form-control" type="datetime" ng-model="addInfo.replyEndTime" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
+                            </div>
+                            <label style="margin-top:7px;">注:回复时间超过截止时间,则为逾期,逾期未回复的调单导致的后果由代理商自己承担</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>资料库选择:</label>
+                            <div class="col-sm-3" style="margin-top:7px;" >
+                                <label><input type="radio" ng-model='addInfo.dataSta' name="dataSta" ng-value="0" />近期数据库</label>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <label><input type="radio" ng-model='addInfo.dataSta' name="dataSta" ng-value="1" />历史数据库</label>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                            </div>
+                            <label style="margin-top:7px;">注:选择录入订单所在数据库</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">添加附件模版:</label>
+                            <div class="col-sm-3 checkbox ">
+                                <input type="file" nv-file-select="" ng-model="fileSelect" uploader="uploader" multiple/>
+                                <table class="table">
+                                    <tbody>
+                                    <tr ng-repeat="item in uploader.queue">
+                                        <td>
+                                            <strong>{{ item.file.name }}</strong>
+                                        </td>
+                                        <td nowrap>
+                                            <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                                <span class="glyphicon glyphicon-trash"></span>删除
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <label style="margin-top:7px;color: red">注:最多可上传6个文件,每个文件小于20M,文件名称小于50个字</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>调单说明:</label>
+                            <div class="col-sm-7">
+                                <textarea class="form-control" rows="4" cols="15" name="orderRemark" required maxlength="500" ng-model="addInfo.orderRemark"></textarea>
+                                <div class="req_mesg" ng-show="horizontalCard.orderRemark.$dirty && horizontalCard.orderRemark.$invalid">
+                                    <span ng-show="horizontalCard.orderRemark.$error.required">调单说明不能为空</span>
+                                </div>
+                            </div>
+                            <label style="margin-top:7px;">注:最多输入500个字</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>调单处理:</label>
+                            <div class="col-sm-5" style="margin-top:7px;" >
+                                <label><input type="radio" ng-model='addInfo.orderSta' name="orderSta"  ng-value="0"/>未处理(代理商提交资料)</label>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <label><input type="radio" ng-model='addInfo.orderSta' name="orderSta"  ng-value="1"/>已处理(无需代理商提交资料)</label>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 bgff">
+                <div class="col-sm-12">
+                    <div class="col-lg-3"></div>
+                    <div class="col-sm-6">
+                        <button class="btn btn-primary btn-mr20" type="button" ng-click="commitInfo()" ng-disabled="horizontalCard.$invalid || submitting">提交</button>
+                        <a class="btn btn-primary4" ui-sref="risk.surveyOrder" >返回</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div id="addBankModal" class="modal fade form-horizontal" tabindex="4" role="dialog">
+        <div class="modal-dialog" style="height:450px;width: 900px">
+            <div class="modal-content" >
+                <form class="form-horizontal" name="addCard"  novalidate>
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            &times;</button>
+                        <h3 class="modal-title">错误提示</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">错误信息:</label>
+                            <div class="col-sm-7">
+                                <textarea class="form-control" rows="4" cols="15" readonly ng-model="error"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>

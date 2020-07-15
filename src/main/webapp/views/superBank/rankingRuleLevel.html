@@ -1,0 +1,355 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a href="index.html">主页</a></li>
+            <li>超级银行家</li>
+            <li>排行榜管理</li>
+            <li class="active"><strong>{{rulePageName}}</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="rankingRuleLevelCtrl">
+    <form class="form-horizontal" id="form1" name="horizontal">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-content">
+                    	<div class="ibox-title">
+		                    <h5>基本信息</h5>
+		                </div>
+                   		<div class="form-group" ng-show="operate =='1' || operate=='2'">
+                            <label class="col-sm-2 control-label" style="text-align:left;width:130px;">  &nbsp;&nbsp;&nbsp;&nbsp;规则编号：</label>
+                            <div class="col-sm-2" >
+                                    <div class="form-control" style="border:none;">{{baseInfo.ruleCode}}</div>
+                            </div>
+                        </div>
+                   
+                          <div class="form-group">
+                            <label class="col-sm-2 control-label" style="text-align:left;width:130px;"><i class="red_req">*</i>排行榜名称：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.ruleName" name="ruleName" ng-disabled="!isEdit || (baseInfo.operate=='1' && baseInfo.openTime>0)" placeholder="6个字以内" required maxlength="6">
+                                 <div class="req_mesg" ng-show="horizontal.ruleName.$dirty && horizontal.ruleName.$invalid">
+                                    <span ng-show="horizontal.ruleName.$error.required">排行榜名称不能为空</span>
+                                </div>
+                            </div>
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>统计数据：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" name="dataType" ng-model="baseInfo.dataType" ng-options="x.value as x.text for x in dataTypeList" ng-change="changeDataType()" ng-disabled="!isEdit || (baseInfo.operate=='1' && baseInfo.openTime>0)" required >
+                                </select>
+                                <div class="req_mesg" ng-show="horizontal.dataType.$dirty && horizontal.dataType.$invalid">
+                                    <span ng-show="horizontal.dataType.$error.required">请选择统计数据</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="form-group" ng-show="isOrder || baseInfo.dataType==3">
+                        	<label class="col-sm-2 control-label" style="text-align:left;width:140px;"><i class="red_req">*</i>业务类型：</label>
+                            <div class="col-sm-2 checkbox wbba" style="width:900px;">
+                               	<label style="width:92px;"><input type="checkbox" value="1" class="busiType" ng-checked="creditcardCheck==1" ng-disabled="!isEdit || (baseInfo.operate=='2' && baseInfo.openTime>0)" />办理信用卡</label>
+                               	<label style="width:80px;"><input type="checkbox" value="2" class="busiType" ng-checked="loanCheck==1" ng-disabled="!isEdit || (baseInfo.operate=='2' && baseInfo.openTime>0)" />贷款申请</label>
+                               	<label style="width:80px;"><input type="checkbox" value="3" class="busiType" ng-checked="merchCheck==1" ng-disabled="!isEdit || (baseInfo.operate=='2' && baseInfo.openTime>0)" />商户收款</label>
+                               	<label style="width:80px;"><input type="checkbox" value="4" class="busiType" ng-checked="inteCheck==1" ng-disabled="!isEdit || (baseInfo.operate=='2' && baseInfo.openTime>0)" />积分商城</label>
+                               	<label style="width:60px;"><input type="checkbox" value="5" class="busiType" ng-checked="insCheck==1" ng-disabled="!isEdit || (baseInfo.operate=='2' && baseInfo.openTime>0)" />保险</label>
+                               	<label style="width:80px;"><input type="checkbox" value="6" class="busiType" ng-checked="creditSearchCheck==1" ng-disabled="!isEdit || (baseInfo.operate=='2' && baseInfo.openTime>0)" />信用查询</label>
+                               	<label style="width:80px;"><input type="checkbox" value="7" class="busiType" ng-checked="wzCheck==1" ng-disabled="!isEdit || (baseInfo.operate=='2' && baseInfo.openTime>0)" />违章代缴</label>
+                               	<label style="width:92px;"><input type="checkbox" value="8" class="busiType" ng-checked="paymentCheck==1" ng-disabled="!isEdit || (baseInfo.operate=='2' && baseInfo.openTime>0)" />信用卡还款</label>
+                                <label style="width:60px;"><input type="checkbox" value="9" class="busiType" ng-checked="rankingCheck==1" ng-disabled="!isEdit || (baseInfo.operate=='2' && baseInfo.openTime>0)" />领地</label>
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="form-group">
+                        	<label class="col-sm-2 control-label" style="text-align:left;width:140px;"><i class="red_req">*</i>统计周期：</label>
+                            <div class="col-sm-2 checkbox wbba" style="width:500px;padding-top:0">
+                                <label style="margin-right: 60px;margin-top: 6px;margin-left:-20px;"><input type="radio" value="2" name="ruleType" ng-model="baseInfo.ruleType" ng-checked="baseInfo.ruleType==2" ng-disabled="!isEdit || (baseInfo.operate=='1' && baseInfo.openTime>0)" />  年榜</label>
+                                <label style="margin-right: 60px;margin-top: 6px"><input type="radio" value="1" name="ruleType" ng-model="baseInfo.ruleType" ng-checked="baseInfo.ruleType==1" ng-disabled="!isEdit || (baseInfo.operate=='1' && baseInfo.openTime>0)" />  月榜</label>
+                                <label style="margin-right: 60px;margin-top: 6px"><input type="radio" value="0" name="ruleType" ng-model="baseInfo.ruleType" ng-checked="baseInfo.ruleType==0" ng-disabled="!isEdit || (baseInfo.operate=='1' && baseInfo.openTime>0)" />  周榜</label>
+                            </div>
+                        </div>
+                        
+                       <div class="form-group">
+                        	<label class="col-sm-2 control-label" style="text-align:left;width:220px;"><i class="red_req">*</i>每个组织中各级奖金设置：</label>
+                            <div class="col-sm-2 checkbox wbba" style="width:500px;">合计：{{baseInfo.levelTotalMoney}}元</div>
+                        </div>
+                        
+                        <div class="form-group">
+                        	<table style="margin-left:40px;">
+							    <tr ng-repeat="orgLevel in baseInfo.levelList" style="width:1000px;">
+							        <td style="width:120px;" class="col-sm-2 checkbox wbba" >级别： {{numList[$index]}}级 
+							        	<input type="hidden" ng-model="orgLevel.levelNum" value="{{$index}}"/>
+							        	<input type="hidden" ng-model="orgLevel.level" value="{{numList[$index]}}"/>
+							        </td>
+							        <td class="col-sm-2 checkbox wbba" style="width:100px;">获奖人数：</td>
+							        <td  class="col-sm-2 checkbox wbba" style="width:130px;">
+							        	<input  class="form-control" ng-model="orgLevel.prizePeopleCount" style="width:120px; float: left; margin-right: 5px; -webkit-appearance: none;"
+							        	 ng-disabled="!isEdit" name="prizePeopleCount{{$index}}" ng-change="countTotalAmount(this)" maxlength="3"  required ng-pattern="numberRegex"> 
+								         <div class="req_mesg" ng-show="horizontal.prizePeopleCount{{$index}}.$dirty && horizontal.prizePeopleCount{{$index}}.$invalid">
+	                                    	<span ng-show="horizontal.prizePeopleCount{{$index}}.$error.required">获奖人数不能为空</span>
+	                                    	<span ng-show="horizontal.prizePeopleCount{{$index}}.$error.pattern">获奖人数为大于</span>
+	                               		 </div>
+							        </td>
+							        <td style="width:40px;">人</td>
+							        <td class="col-sm-2 checkbox wbba" style="width:100px;">单人奖金：</td>
+							        <td  class="col-sm-2 checkbox wbba" style="width:130px;">
+							        	<input class="form-control" ng-model="orgLevel.singlePrize" style="width:120px;" ng-disabled="!isEdit" ng-pattern="currencyRegex" 
+							        	name="singlePrize{{$index}}" ng-change="countTotalAmount(-1)" id="singlePrize{{$index}}" maxlength="8" required> 
+							        	<div class="req_mesg" ng-show="horizontal.singlePrize{{$index}}.$dirty && horizontal.singlePrize{{$index}}.$invalid">
+	                                    	<span ng-show="horizontal.singlePrize{{$index}}.$error.required">单人奖金不能为空</span>
+	                                    	<span ng-show="horizontal.singlePrize{{$index}}.$error.pattern">金额格式不正确</span>
+	                               		 </div>
+							        </td>
+							        <td style="width:40px;">元</td>
+							        <td>
+							        </td>
+							    </tr>
+							     <tr>
+							        <td colspan="7"></td>
+							        <td >
+							            <button ng-click="removeLevel()" style="width:80px;" ng-show="isEdit">删除</button>
+							        	<button ng-click="addLevel()" style="width:80px;" ng-show="isEdit">+下级</button>
+							        </td>
+							    </tr>
+							</table>
+                        </div> 
+                        
+                        <div class="form-group">
+                        	<label class="col-sm-2 control-label" style="text-align:left;width:150px;"><i class="red_req">*</i>参入活动组织：</label>
+                            <div class="col-sm-2 checkbox wbba" style="width:500px;padding-top:0;">
+                                <label style="margin-right: 60px;margin-top: 6px;margin-left:-20px;"><input type="radio" value="0" name="orgType" ng-model="baseInfo.orgType" ng-disabled="!isEdit" ng-checked="baseInfo.orgType == 0" ng-click="selectOrgRad()"/>  全部组织</label>
+                                <label style="margin-right: 60px;margin-top: 6px"><input type="radio" value="1" name="orgType" ng-model="baseInfo.orgType" ng-disabled="!isEdit"   ng-checked="baseInfo.orgType == 1" ng-click="selectOrgRad()"/>  指定组织</label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <lable class="col-sm-2 control-label" style="text-align:left;width:500px;padding-top:0;">
+                            	输入组织编号（多个以英文逗号隔开）：
+                            </lable>
+                        </div>
+                        
+						<div class="form-group">
+                       		<div ng-click="selectOrgBox()" ng-disabled="!isEdit"  class="form-control" style="height:80px;width:500px;margin-left:20px;word-break: break-all;word-wrap: break-word;">
+                       			{{baseInfo.openOrg}}
+                       		</div>
+                        </div>
+                        
+						 <div class="form-group">
+							 <label class="col-sm-2 control-label" style="text-align:left;width:130px;"><i class="red_req">*</i>活动时间：</label>
+	                         <div class="col-sm-6" style="width:440px;">
+		                         <input name="startTime" ng-disabled="!isEdit" id="d5223" class="form-control" type="datetime" ng-model="baseInfo.startTime" onchange="" style="width:auto;display:inline-block; "
+		                                onFocus="var d5224=$dp.$('d5224');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5224.focus();},maxDate:'#F{$dp.$D(\'d5224\')}'})" required />
+		                         ~
+		                         <input name="endTime" ng-disabled="!isEdit" id="d5224" class="form-control" type="datetime"  ng-model="baseInfo.endTime" onchange="" style="width:auto;display:inline-block;"
+	                                    onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5223\')}'})"  required />
+									<div class="req_mesg" ng-show="horizontal.startTime.$dirty && horizontal.startTime.$invalid">
+                              			<span ng-show="horizontal.startTime.$error.required">开始时间不能为空</span>
+                         			</div>
+                         			<div class="req_mesg" ng-show="horizontal.endTime.$dirty && horizontal.endTime.$invalid">
+                              			<span ng-show="horizontal.endTime.$error.required">结束时间不能为空</span>
+                         			</div>
+							</div>
+                    	</div>
+                    	
+                    <!-- 	<div class="form-group">
+                            <label class="col-sm-2 control-label" style="text-align:left;width:130px;"><i class="red_req">*</i>活动总奖金：</label>
+                            <div class="col-sm-2" >
+                                <input type="text" name="totalAmount" style="width:200px;" class="form-control" ng-model="baseInfo.totalAmount" ng-disabled="!isEdit" ng-pattern="currencyRegex"> 
+                                <div class="req_mesg" ng-show="horizontal.totalAmount.$dirty && horizontal.totalAmount.$invalid">
+                                  	<span ng-show="horizontal.totalAmount.$error.required">活动总奖金不能为空</span>
+                                  	<span ng-show="horizontal.totalAmount.$error.pattern">活动总奖金格式不正确</span>
+                             	</div>
+                            </div>
+                            <div class="col-sm-2" style="margin-left:20px;line-height:35px;" >元</div>
+                        </div> -->
+                    	
+                    	<div class="form-group">
+                            <lable class="col-sm-2 control-label" style="text-align:left;width:500px;padding-top:0;"><i class="red_req">*</i>排行榜活动介绍：</lable>
+                        </div>
+                        
+						<div class="form-group">
+                            <textarea class="form-control" rows="5" name="introduction" ng-model="baseInfo.introduction" style="width:500px;margin-left:20px;" ng-disabled="!isEdit" required></textarea>  
+                            <div class="req_mesg" ng-show="horizontal.introduction.$dirty && horizontal.introduction.$invalid">
+                              <span ng-show="horizontal.introduction.$error.required">排行榜活动介绍不能为空</span>
+                        	</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <lable class="col-sm-2 control-label" style="text-align:left;width:500px;padding-top:0;"><i class="red_req">*</i>规则及奖金说明：</lable>
+                        </div>
+                        
+						<div class="form-group">
+                            <textarea class="form-control" rows="5" name="bonusNote" ng-model="baseInfo.bonusNote" style="width:500px;margin-left:20px;" ng-disabled="!isEdit" required></textarea>  
+                            <div class="req_mesg" ng-show="horizontal.bonusNote.$dirty && horizontal.bonusNote.$invalid">
+                              <span ng-show="horizontal.bonusNote.$error.required">排行榜活动介绍不能为空</span>
+                        	</div>
+                        </div>
+                        
+                         <div class="form-group">
+                            <label class="col-sm-2 control-label" style="text-align:left;width:130px;"><i class="red_req">*</i>显示顺序：</label>
+                            <div class="col-sm-2">
+                                <input name="showOrderNo" type="text" class="form-control" ng-model="baseInfo.showOrderNo" style="width:200px;" ng-disabled="!isEdit" required ng-pattern="numberRegex">
+                                <div class="req_mesg" ng-show="horizontal.showOrderNo.$dirty && horizontal.showOrderNo.$invalid">
+                             		 <span ng-show="horizontal.showOrderNo.$error.required">显示顺序不能为空</span>
+                             		 <span ng-show="horizontal.showOrderNo.$error.pattern">显示顺序为整数格式</span>
+                        		</div>
+                            </div>
+                            <div class="col-sm-2" style="margin-left:20px;line-height:35px;width:300px;" >如10，20，间隔大点，方便调整</div>
+                        </div>
+                        
+                        <!-- <div class="form-group">
+                            <label class="col-sm-2 control-label" style="text-align:left;width:130px;"><i class="red_req">*</i>广告位置：</label>
+                            <div class="col-sm-2">
+                                <input type="text" name="advertOrderNo" class="form-control" ng-model="baseInfo.advertOrderNo" style="width:200px;" ng-disabled="!isEdit" required ng-pattern="pointRegex">
+                                 <div class="req_mesg" ng-show="horizontal.advertOrderNo.$dirty && horizontal.advertOrderNo.$invalid">
+                             		 <span ng-show="horizontal.advertOrderNo.$error.required">广告位置不能为空</span>
+                             		 <span ng-show="horizontal.advertOrderNo.$error.pattern">广告位置格式不正确</span>
+                        		</div>
+                            </div>
+                            <div class="col-sm-2" style="margin-left:20px;line-height:35px;width:300px;" >如10，20，间隔大点，方便调整</div>
+                        </div> -->
+                        
+                        <div class="form-group ">
+                            <label class="col-sm-2 control-label" style="text-align:left;width:130px;"><i class="red_req">*</i>广告位图片：</label>
+                            <div class="col-lg-7">
+                                <input ng-disabled="!isEdit" type="file" nv-file-select="" uploader="uploaderLogo"   multiple  />
+                                <table class="table">
+                                    <tbody>
+                                    <tr ng-repeat="item in uploaderLogo.queue">
+                                        <td>
+                                            <strong>{{ item.file.name }}</strong>
+                                            <div ng-show="uploaderLogo.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                                        </td>
+                                        <td ng-show="uploaderLogo.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                                        <td ng-show="uploaderLogo.isHTML5">
+                                            <div class="progress" style="margin-bottom: 0;">
+                                                <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                            <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                            <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                                        </td>
+                                        <td nowrap>
+                                            <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                                <span class="glyphicon glyphicon-trash"></span> 删除
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                 <div class="col-sm-4" style="padding: 0" ng-show="baseInfo.operate > 0 && uploaderLogo.queue.length == 0 && !imgIsEdit">
+                                    <a ng-show="baseInfo.advertUrl != null && baseInfo.advertUrl != ''" href="{{baseInfo.advertUrl}}" fancybox  rel="group">
+                                        <img width="250px" height="150px" ng-src="{{baseInfo.advertUrl}}"/>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group" >
+                            <div class="col-sm-2 checkbox wbba" style="width:500px;padding-top:0">
+                                <label style="margin-right: 60px;margin-top: 6px;margin-left:-20px;"><input type="radio" value="1" name="status" ng-model="baseInfo.status" ng-disabled="!isEdit"/>  立即开启活动</label>
+                                <label style="margin-right: 60px;margin-top: 6px"><input type="radio" value="0" name="status" ng-model="baseInfo.status" ng-disabled="!isEdit"/>  下次手动开启</label>
+                            </div>
+                        </div>
+                        
+                        <div class="ibox-title" ng-show="baseInfo.operate == 2">
+		                    <h5>历史修改记录</h5>
+		                </div>
+		                 
+                        <div class="form-group" ng-show="baseInfo.operate == 2">
+                            <table style="margin-left:40px;width:800px;border-collapse:collapse;">
+						        <th style="width:120px;text-align:center;border:1px #dddddd solid;line-height:30px;">操作时间</th>
+						        <th style="width:200px;text-align:center;border:1px #dddddd solid;">组织编号修改前</th>
+						        <th style="width:200px;text-align:center;border:1px #dddddd solid;">组织编号修改后</th>
+						        <th style="width:100px;text-align:center;border:1px #dddddd solid;">操作人</th>
+							    <tr ng-repeat="his in baseInfo.hisList" style="width:1000px;">
+							        <td style="width:120px;text-align:center;border:1px #dddddd solid;line-height:35px;">{{his.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+							        <td style="width:200px;text-align:center;word-break: break-all;word-wrap: break-word;border:1px #dddddd solid;">{{his.orgBefore}}</td>
+							        <td style="width:200px;text-align:center;word-break: break-all;word-wrap: break-word;border:1px #dddddd solid;">{{his.orgAfter}}</td>
+							        <td style="text-align:center;border:1px #dddddd solid;">{{his.updateBy}}</td>
+							    </tr>
+							</table>
+                        </div>
+                        
+                        
+                        <div class="modal-footer">
+                        <div class="form-group control-label">
+                            <label class="col-sm-2 control-label"></label>
+                            <div style="text-align:center">
+                             <button class="btn btn-new btn-mr20" type="button"
+                                ng-click="submit()" ng-disabled="horizontal.$invalid || submitting" ng-show="baseInfo.operate == 0 || baseInfo.operate == 1">提交</button>
+                       		 <button class="btn btn-primary4 btn-mr20" type="button"
+                                ui-sref="superBank.rankingRule">返回</button>
+                            </div>
+                        </div>
+                    </div>
+                        
+                    	
+                </div>
+
+               
+                <div style="height:30px;"></div>
+            </div>
+        </div>
+    </form>
+    
+    
+    
+    
+    <div id="selectOrgBox" class="modal fade form-horizontal" tabindex="3" role="dialog">
+        <div class="modal-dialog" style="height:600px;width: 720px">
+            <div class="modal-content" style="height:500px;width: 650px">
+                <form class="form-horizontal" name="horizontalAcc">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            &times;</button>
+                        <h3 class="modal-title">组织管理</h3>
+                    </div>
+                    <div class="modal-body" style="padding-bottom: 0;">
+                    	<table style="width:630px;height:350px;">
+                    		<tr>
+                    			<td>所有待选组织{{orgInfoList.length}}家</td>
+                    			<td>已选组织{{selectOrgList.length}}家</td>
+                    		</tr>
+                    		<tr>
+                    			<td style="width:280px;">
+                    				<ul style="height: 300px;width:230px; overflow: auto; border:1px solid #eee;padding-left:0;">
+	                    				<li ng-repeat="org in orgInfoList" style="list-style:none; text-align:left; height:30px; line-height:30px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;"  ng-click="selectOrg($index)" >
+	                    					<a style="text-decoration:none;color:#333;margin-left:8px;">{{org.orgId}} {{org.orgName}} </a>
+	                    				</li>
+                    				</ul>
+                    			</td>
+                    			<td style="width:220px;">
+                    				<ul style="height: 300px; overflow: auto; width:230px;border:1px solid #eee;padding-left:0;">
+	                    				<li ng-repeat="org in selectOrgList"style="list-style:none; text-align:left; height:30px; line-height:30px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;" ng-click="removeOrg($index)">
+	                    					<a  style="text-decoration:none;color:#333;margin-left:8px;">{{org.orgId}} {{org.orgName}} </a>
+	                    				</li>
+                    				</ul>
+                    			</td>
+                    		</tr>
+                    	
+                    	</table>
+                    
+                    </div>
+                   	<div class="modal-footer">
+                        <div class="form-group control-label">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-6" style="width:600px;text-align:center;">
+                                <button class="btn btn-primary btn-mr20" type="button" ng-click='confirmSelectOrg()'
+                                        ng-disabled="selectOrgList.length == 0"
+                                >确定</button>
+                                <button class="btn btn-primary4" type="button" ng-click='cancel()'
+                                >返回</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    
+</div>

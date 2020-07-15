@@ -1,0 +1,65 @@
+<!-- 超级银行家用户管理页面 -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>超级兑</a></li>
+            <li class="active"><strong>帮助中心管理</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app ng-controller="helpCenterQueryCtrl">
+    <form class="form-horizontal" id="form1">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="">
+                    <div class="panel-body ibox float-e-margins">
+                        <div class="ibox-content">
+                            <div class="ibox-title">
+                                <h5>帮助中心查询</h5>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">标题:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.title">
+                                </div>
+                                <label class="col-sm-2 control-label">类别:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.category" ng-options="x.value as x.text for x in categorySelect"/>
+                                </div>
+                                <label class="col-sm-2 control-label">模块:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.model" ng-options="x.value as x.text for x in modelSelect"/>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-top: 30px">
+                                <div class="col-sm-8">
+                                    <label class="col-sm-2 control-label"></label>
+                                    <button class="btn btn-primary6 btn-mr20" type="button" ng-click="query()" >查询</button>
+                                    <button class="btn btn-primary3 btn-mr20" type="button" ng-click="clear()" >清空</button>
+                                    <a class="btn btn-primary5 btn-mr20" type="button" ng-show="hasPermit('exchangeHelpCenter.addHelpCenter')" target="_blank" ui-sref="exchange.helpCenterAdd">新增</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body ibox float-e-margins">
+                        <div class="ibox-title">
+                            <div class="ibox-content">
+                                <div class="ibox-title">
+                                    <h5>帮助中心列表</h5>
+                                </div>
+                                <div class="form-group">
+                                    <div class="gridStyle" ui-grid="userGrid" ui-grid-selection ui-grid-pagination
+                                         ui-grid-resize-columns ui-grid-pinning></div>
+                                    <div ng-show="loadImg" class="timg"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="height:30px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

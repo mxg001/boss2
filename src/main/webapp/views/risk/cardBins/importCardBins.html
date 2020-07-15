@@ -1,0 +1,68 @@
+<!-- head -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>风控管理</a></li>
+            <li class="active"><strong>卡bin导入</strong></li>
+        </ol>
+    </div>
+</div>
+
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+     ng-controller="importCardBinsCtrl">
+    <form class="form-horizontal">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>卡bin导入</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" style="color: red;">*业务类型:</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="businessType" ng-options="x.value as x.text for x in businessTypes">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">导入文件：</label>
+                            <div class="col-sm-3">
+                                <input type="file" nv-file-select="" ng-model="fileSelect"
+                                       uploader="uploader" multiple />
+                                <table class="table">
+                                    <tbody>
+                                    <tr ng-repeat="item in uploader.queue">
+                                        <td><strong>{{ item.file.name }}</strong></td>
+                                        <td nowrap>
+                                            <button type="button" class="btn btn-danger btn-xs"
+                                                    ng-click="item.remove()">
+                                                <span class="glyphicon glyphicon-trash"></span>删除
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-sm-3">
+                                <a href="cardBins/downloadTemplate" >卡bin导入模板</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 bgff">
+            <div class="col-sm-12">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-2">
+                    <button class="btn btn-primary btn-rounded btn-block" type="button"
+                            ng-disabled="uploader.queue.length==0||submitting" ng-click="import()" >提交</button>
+                </div>
+                <a class="btn btn-primary4" type="button" ui-sref="risk.cardBins">返回</a>
+            </div>
+        </div>
+    </form>
+</div>

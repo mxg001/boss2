@@ -1,0 +1,134 @@
+<!-- head -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>管理中心</a></li>
+            <li class="active"><strong>盛代宝配置</strong></li>
+        </ol>
+    </div>
+</div>
+
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="addSdbConfigCtrl">
+    <form class="form-horizontal" id="form1" name="horizontalCard">
+        <div class="form-group">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="ibox-title">
+                            <h5>拓展代理商推广海报配置</h5>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"></label>
+                            <label class="col-sm-7" style="color:red;margin-top:7px;">尺寸：x * x，最大10M，最少需上传1张</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">图1:</label>
+                            <div class="col-sm-4">
+                                <div class="col-img" ng-if="imgUrl!=null&&imgUrl!=''">
+                                    <a href="{{imgUrl}}" fancybox rel="group">
+                                        <img width="250px" height="150px" ng-src="{{imgUrl}}"/>
+                                    </a>
+                                </div>
+                            </div>
+                            <label class="col-sm-2 control-label">图2:</label>
+                            <div class="col-sm-4">
+                                <div class="col-img"  ng-if="imgUrl2!=null&&imgUrl2!=''">
+                                    <a href="{{imgUrl2}}" fancybox rel="group">
+                                        <img width="250px" height="150px" ng-src="{{imgUrl2}}"/>
+                                    </a>
+                                </div>
+                                <label style="color:red; float:left;" ng-if="imgUrl2!=null&&imgUrl2!=''">
+                                    <button class="btn btn-new btn-mr20" ng-click="deleteImg(2)" type="button">删除图2</button>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-4" >
+                                <input type="file" nv-file-select="" uploader="uploaderImg1" multiple  />
+                                <table class="table" class="col-sm-4" >
+                                    <tbody>
+                                    <tr ng-repeat="item in uploaderImg1.queue">
+                                        <td>
+                                            <div ng-show="uploaderImg1.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                                        </td>
+                                        <td nowrap>
+                                            <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                                <span class="glyphicon glyphicon-trash"></span> 删除
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-4" >
+                                <input type="file" nv-file-select="" uploader="uploaderImg2"   multiple  />
+                                <label style="color:red; float:left;"></label>
+                                <table class="table" class="col-sm-4" >
+                                    <tbody>
+                                    <tr ng-repeat="item in uploaderImg2.queue">
+                                        <td>
+                                            <div ng-show="uploaderImg2.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                                        </td>
+                                        <td nowrap>
+                                            <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                                <span class="glyphicon glyphicon-trash"></span> 删除
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">图3:</label>
+                            <div class="col-sm-4">
+                                <div class="col-img"  ng-if="imgUrl3!=null&&imgUrl3!=''">
+                                    <a href="{{imgUrl3}}" fancybox rel="group">
+                                        <img width="250px" height="150px" ng-src="{{imgUrl3}}"/>
+                                    </a>
+                                </div>
+                                <label style="color:red; float:left;"  ng-if="imgUrl3!=null&&imgUrl3!=''">
+                                    <button class="btn btn-new btn-mr20" ng-click="deleteImg(3)" type="button">删除图3</button>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-4" >
+                                <input type="file" nv-file-select="" uploader="uploaderImg3"   multiple  />
+                                <label style="color:red; float:left;"></label>
+                                <table class="table" class="col-sm-4" >
+                                    <tbody>
+                                    <tr ng-repeat="item in uploaderImg3.queue">
+                                        <td>
+                                            <div ng-show="uploaderImg3.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                                        </td>
+                                        <td nowrap>
+                                            <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                                <span class="glyphicon glyphicon-trash"></span> 删除
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 bgff">
+                <div class="col-sm-12">
+                    <div class="col-lg-3"></div>
+                    <div class="col-sm-6">
+                        <button class="btn btn-primary btn-mr20" type="button"
+                                id="btnSubmit4" ng-click="saveProduct()" ng-disabled="horizontalCard.$invalid || submitting">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

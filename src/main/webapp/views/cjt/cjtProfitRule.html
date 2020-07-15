@@ -1,0 +1,384 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>超级推</a></li>
+			<li class="active"><strong>超级推活动设置</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app ng-controller="cjtProfitRuleCtrl">
+	<form class="form-horizontal" id="form1" name="horizontal">
+		<div class="row">
+			<div class="col-lg-12" style="padding-bottom:80px;">
+			<div class="tabs-container tab_other">
+                <uib-tabset>
+                    <uib-tab>
+                        <uib-tab-heading>
+                             <span class="block m-t-xs">
+                                <i class="fa fa-laptop"></i>
+                                <strong class="font-bold">无卡交易</strong>
+                             </span>
+                        </uib-tab-heading>
+                        <div class="panel-body ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>商户分润设置：</h5>
+                            </div>
+                            <div class="ibox-content">
+                                <div class="form-group">
+                                    <div style="height:290px" ui-grid="noCardRuleGrid" ui-grid-resize-columns class="grid"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </uib-tab>
+                    <uib-tab>
+                        <uib-tab-heading>
+                            <span class="block m-t-xs">
+                                <i class="fa fa-laptop"></i>
+                                <strong class="font-bold">刷卡交易</strong>
+                             </span>
+                        </uib-tab-heading>
+                        <div class="panel-body ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>商户分润设置：</h5>
+                            </div>
+                            <div class="ibox-content">
+                            <div class="form-group">
+                                <div style="height:290px" ui-grid="posRuleGrid" ui-grid-resize-columns class="grid"></div>
+                            </div>
+                            </div>
+                        </div>
+                    </uib-tab>
+                </uib-tabset>
+            </div>
+
+				<div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>是否关联鼓励金开关：</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-2">
+                                <switch class="switch switch-s" ng-model="baseInfo.registerRule.status" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>交易分润补贴归属公司直属代理：</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-2">
+                                <switch class="switch switch-s" ng-model="baseInfo.fenAmountProfitAgentRule.status" />
+                            </div>
+                        </div>
+                        <label class="col-sm-1 control-label"></label>
+                        <div  style="color: #868686;">
+                            备注：当用户参与超级推免费申领机具后所有交易分润归公司所有
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>商户-推荐奖励设置：</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">开关控制:</label>
+                            <div class="col-sm-2">
+                                <switch class="switch switch-s"  ng-model="baseInfo.recommondRule.status" />
+                            </div>
+                            <label class="col-sm-2 control-label">奖励直推商户:</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.recommondRule.profit1"
+                                style="width: 85%; float: left; margin-right: 5px;"
+                                       ng-pattern="/^(([0-9]\d{0,9}))(\.\d{1,2})?$/"
+                                       required name="recommondRuleProfit1" />
+                                <span class="lh30">元</span>
+                                <div class="req_mesg" ng-show="horizontal.recommondRuleProfit1.$dirty && horizontal.recommondRuleProfit1.$invalid">
+                                   <span ng-show="horizontal.recommondRuleProfit1.$error.required">奖励直推商户金额不能为空</span>
+                                   <span ng-show="horizontal.recommondRuleProfit1.$error.pattern">奖励直推商户金额格式不正确</span>
+                               </div>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 control-label"></label>
+                        <div  style="color: #868686;">
+                            备注：被推荐的商户在盛钱包APP申领机具，付款成功后，直推商户实时获得推荐奖励  （推荐奖励金额=申领的机具数量 X 设置的金额）
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>商户-活动补贴设置：</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">开关控制:</label>
+                            <div class="col-sm-2">
+                                <switch class="switch switch-s"  ng-model="baseInfo.activityRule.status" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                           <label class="col-sm-2 control-label">奖励直推商户:</label>
+                           <div class="col-sm-2">
+                               <input type="text" class="form-control" ng-model="baseInfo.activityRule.profit1"
+                                      ng-pattern="/^(([0-9]\d{0,9}))(\.\d{1,2})?$/"
+                                      style="width: 85%; float: left; margin-right: 5px;"
+                                      required name="activityRuleProfit1" />
+                               <span class="lh30">元</span>
+                               <div class="req_mesg" ng-show="horizontal.activityRuleProfit1.$dirty && horizontal.activityRuleProfit1.$invalid">
+                                   <span ng-show="horizontal.activityRuleProfit1.$error.required">奖励直推商户金额不能为空</span>
+                                   <span ng-show="horizontal.activityRuleProfit1.$error.pattern">奖励直推商户金额格式不正确</span>
+                               </div>
+                           </div>
+                           <label class="col-sm-2 control-label">奖励间推商户:</label>
+                              <div class="col-sm-2">
+                                  <input type="text" class="form-control" ng-model="baseInfo.activityRule.profit2"
+                                         ng-pattern="/^(([0-9]\d{0,9}))(\.\d{1,2})?$/"
+                                         style="width: 85%; float: left; margin-right: 5px;"
+                                         required name="activityRuleProfit2" />
+                                  <span class="lh30">元</span>
+                                  <div class="req_mesg" ng-show="horizontal.activityRuleProfit2.$dirty && horizontal.activityRuleProfit2.$invalid">
+                                     <span ng-show="horizontal.activityRuleProfit2.$error.required">奖励间推商户金额不能为空</span>
+                                     <span ng-show="horizontal.activityRuleProfit2.$error.pattern">奖励间推商户金额格式不正确</span>
+                                 </div>
+                              </div>
+                        </div>
+                        <div class="form-group">
+                           <label class="col-sm-2 control-label">活动补贴标准:</label>
+                           <div class="col-sm-10" style="line-height: 26px;color:#666">
+                                商户绑定机具成功的
+                               <input type="text" style="width: 50px"  ng-model="baseInfo.activityRule.successDay"
+                                      ng-pattern="/^\d{1,3}?$/"
+                                      required name="activityRuleSuccessDay" />
+                               天内，刷卡交易累计满
+                               <input type="text" style="width: 50px" ng-model="baseInfo.activityRule.posAmount"
+                                      ng-pattern="/^(([0-9]\d{0,9}))(\.\d{1,2})?$/"
+                                      required name="activityRulePosAmount" />
+                               元
+                               <div class="req_mesg" ng-show="horizontal.activityRuleSuccessDay.$dirty && horizontal.activityRuleSuccessDay.$invalid">
+                                   <span ng-show="horizontal.activityRuleSuccessDay.$error.required">天数不能为空</span>
+                                   <span ng-show="horizontal.activityRuleSuccessDay.$error.pattern">天数格式不正确</span>
+                               </div>
+                               <div class="req_mesg" ng-show="horizontal.activityRulePosAmount.$dirty && horizontal.activityRulePosAmount.$invalid">
+                                  <span ng-show="horizontal.activityRulePosAmount.$error.required">交易累计金额不能为空</span>
+                                  <span ng-show="horizontal.activityRulePosAmount.$error.pattern">交易金额格式不正确</span>
+                              </div>
+                           </div>
+                        </div>
+                        <label class="col-sm-1 control-label"></label>
+                        <div style="color: #868686;">
+                            备注：活动补贴仅限刷卡交易，符合标准后，发放活动补贴。
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>代理商-推荐奖励设置：</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">开关控制:</label>
+                            <div class="col-sm-2">
+                                <switch class="switch switch-s"  ng-model="baseInfo.recommondRuleAgent.status" />
+                            </div>
+                            <label class="col-sm-2 control-label">奖励代理商:</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.recommondRuleAgent.profit0"
+                                       style="width: 85%; float: left; margin-right: 5px;"
+                                       ng-pattern="/^(([0-9]\d{0,9}))(\.\d{1,2})?$/"
+                                       required name="recommondRuleAgentProfit0" />
+                                <span class="lh30">元</span>
+                                <div class="req_mesg" ng-show="horizontal.recommondRuleAgentProfit0.$dirty && horizontal.recommondRuleAgentProfit0.$invalid">
+                                    <span ng-show="horizontal.recommondRuleAgentProfit0.$error.required">奖励代理商金额不能为空</span>
+                                    <span ng-show="horizontal.recommondRuleAgentProfit0.$error.pattern">奖励代理商金额格式不正确</span>
+                                </div>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 control-label"></label>
+                        <div  style="color: #868686;">
+                            备注：被推荐的商户在盛钱包APP申领机具，付款成功后，代理商实时获得推荐奖励  （推荐奖励金额=申领的机具数量 X 设置的金额）
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>代理商-活动补贴设置：</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">开关控制:</label>
+                            <div class="col-sm-2">
+                                <switch class="switch switch-s"  ng-model="baseInfo.activityRuleAgent.status" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">奖励代理商:</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.activityRuleAgent.profit0"
+                                       ng-pattern="/^(([0-9]\d{0,9}))(\.\d{1,2})?$/"
+                                       style="width: 85%; float: left; margin-right: 5px;"
+                                       required name="activityRuleAgentProfit0" />
+                                <span class="lh30">元</span>
+                                <div class="req_mesg" ng-show="horizontal.activityRuleAgentProfit0.$dirty && horizontal.activityRuleAgentProfit0.$invalid">
+                                    <span ng-show="horizontal.activityRuleAgentProfit0.$error.required">奖励代理商金额不能为空</span>
+                                    <span ng-show="horizontal.activityRuleAgentProfit0.$error.pattern">奖励代理商金额格式不正确</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">活动补贴标准:</label>
+                            <div class="col-sm-10" style="line-height: 26px;color:#666">
+                                商户绑定机具成功的
+                                <input type="text" style="width: 50px"  ng-model="baseInfo.activityRuleAgent.successDay"
+                                       ng-pattern="/^\d{1,3}?$/"
+                                       required name="activityRuleAgentSuccessDay" />
+                                天内，刷卡交易累计满
+                                <input type="text" style="width: 50px" ng-model="baseInfo.activityRuleAgent.posAmount"
+                                       ng-pattern="/^(([0-9]\d{0,9}))(\.\d{1,2})?$/"
+                                       required name="activityRuleAgentPosAmount" />
+                                元
+                                <div class="req_mesg" ng-show="horizontal.activityRuleAgentSuccessDay.$dirty && horizontal.activityRuleAgentSuccessDay.$invalid">
+                                    <span ng-show="horizontal.activityRuleAgentSuccessDay.$error.required">天数不能为空</span>
+                                    <span ng-show="horizontal.activityRuleAgentSuccessDay.$error.pattern">天数格式不正确</span>
+                                </div>
+                                <div class="req_mesg" ng-show="horizontal.activityRuleAgentPosAmount.$dirty && horizontal.activityRuleAgentPosAmount.$invalid">
+                                    <span ng-show="horizontal.activityRuleAgentPosAmount.$error.required">交易累计金额不能为空</span>
+                                    <span ng-show="horizontal.activityRuleAgentPosAmount.$error.pattern">交易金额格式不正确</span>
+                                </div>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 control-label"></label>
+                        <div style="color: #868686;">
+                            备注：活动补贴仅限刷卡交易，符合标准后，发放活动补贴。
+                        </div>
+                    </div>
+                </div>
+
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>提现服务：</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+						<label class="col-sm-2 control-label"><i class="red_req">*</i>商户超级推提现服务ID：</label>
+						<div class="col-sm-2">
+							<input type="text" class="form-control" ng-model="baseInfo.cjtTxServiceId"
+							ng-pattern="/^(\d{0,10})$/"
+							required name="cjtTxServiceId" />
+							<div class="req_mesg" ng-show="horizontal.cjtTxServiceId.$dirty && horizontal.cjtTxServiceId.$invalid">
+								<span ng-show="horizontal.cjtTxServiceId.$error.required">提现服务不能为空</span>
+								<span ng-show="horizontal.cjtTxServiceId.$error.pattern">提现服务格式不正确</span>
+							</div>
+						</div>
+						<a target="_blank" class="lh30" ui-sref="service.serviceDetail({serviceId:baseInfo.cjtTxServiceId})">服务详情</a>
+						</div>
+					</div>
+				</div>
+		
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5><i class="red_req">*</i>极光推送模板</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">交易分润奖励模板:</label>
+							<div class="col-sm-6">
+							<textarea class="form-control" rows="3" cols="10" ng-model="baseInfo.transTemplate.content" required name="transTemplateContent"></textarea>
+							<div class="req_mesg" ng-show="horizontal.transTemplateContent.$dirty && horizontal.transTemplateContent.$invalid">
+								<span ng-show="horizontal.transTemplateContent.$error.required">模板不能为空</span>
+							</div>
+							</div>
+						</div>
+						<div class="form-group">
+                            <label class="col-sm-2 control-label">推荐奖励模板-直推商户:</label>
+                            <div class="col-sm-6">
+                                <textarea class="form-control" rows="3" cols="10" ng-model="baseInfo.recommendTemplate.content" required name="recommendTemplateContent"></textarea>
+                                <div class="req_mesg" ng-show="horizontal.recommendTemplateContent.$dirty && horizontal.recommendTemplateContent.$invalid">
+                                    <span ng-show="horizontal.recommendTemplateContent.$error.required">模板不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">活动补贴模板-直推商户:</label>
+                            <div class="col-sm-6">
+                                <textarea class="form-control" rows="3" cols="10" ng-model="baseInfo.activity1Template.content" required name="activity1TemplateContent"></textarea>
+                                <div class="req_mesg" ng-show="horizontal.activity1TemplateContent.$dirty && horizontal.activity1TemplateContent.$invalid">
+                                    <span ng-show="horizontal.activity1TemplateContent.$error.required">模板不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">活动补贴模板-间推商户:</label>
+                            <div class="col-sm-6">
+                                <textarea class="form-control" rows="3" cols="10" ng-model="baseInfo.activity2Template.content" required name="activity2TemplateContent"></textarea>
+                                <div class="req_mesg" ng-show="horizontal.activity2TemplateContent.$dirty && horizontal.activity2TemplateContent.$invalid">
+                                    <span ng-show="horizontal.activity2TemplateContent.$error.required">模板不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                    <div class="form-group" style="padding-top:30px;">
+                        <label class="col-sm-2 control-label"></label>
+                        <div class="col-sm-7">
+                            <button class="btn btn-primary btn-mr20 " ng-disabled="horizontal.$invalid || submitting" type="button"
+                            ng-show="hasPermit('cjtProfitRule.updateConfig')"
+                            ng-click="submit()" id="btnSubmit">提交</button>
+                            <button class="btn btn-primary8  " type="button" ng-click="query()"
+                                    >取消</button>
+                        </div>
+                    </div>
+					</div>
+
+
+				</div>
+				
+			</div>
+		</div>
+	</form>
+	<!-- <div id="addAgentModal" class="modal fade form-horizontal" tabindex="3" role="dialog">
+		<div class="modal-dialog" style="height:530px;width: 700px">
+			<div class="modal-content" style="height:530px;width: 700px">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						&times;</button>
+					<h3 class="modal-title">添加代理商</h3>
+				</div> 
+				<div class="modal-body">
+					<div class="form-group">
+						<label class="col-sm-3 control-label">代理商编号/名称：</label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control"  ng-keyup="getStates(baseInfo.addAgentNo)" ng-model="baseInfo.addAgentNo" />
+						</div>
+					</div>
+					<div class="form-group">
+						<div style="height:280px" ui-grid="addAgentGrid" ui-grid-selection ui-grid-resize-columns ui-grid-pinning class="grid"></div>
+					</div>
+					
+				</div>
+				<div class="modal-footer">
+					<div class="form-group control-label">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-6">
+									<button class="btn btn-primary btn-mr20" type="button" ng-click='addAgentList()'
+									>确定</button>
+									<button class="btn btn-primary8" type="button" ng-click='cancel()'
+									>返回</button>
+							</div>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div> -->
+</div>

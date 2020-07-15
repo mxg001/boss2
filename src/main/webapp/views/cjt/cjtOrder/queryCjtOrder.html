@@ -1,0 +1,221 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a href="index.html">主页</a></li>
+            <li>机具申领订单</li>
+            <li class="active"><strong>机具申领订单查询</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="queryCjtOrder">
+    <form class="form-horizontal" id="form-cjtOrder-query">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>机具申领订单查询</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">订单编号：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.orderNo" maxlength="30">
+                            </div>
+                            <label class="col-sm-2 control-label">商户编号/姓名：</label>
+                            <div class="col-sm-2">
+                                <select name="autocomplete-select" id="autocomplete-select" ng-model="baseInfo.merchantNo"
+                                 ng-options="x.value as x.text for x in merchantList" style="width: 100%" chosen  chosen-keyup="getMerchantSelect">
+                            	</select>
+                            </div>
+                            <label class="col-sm-2 control-label">订单状态：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="baseInfo.orderStatus"
+                                    ng-options="x.value as x.text for x in orderStatusList"></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">支付方式：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="baseInfo.transType"
+                                    ng-options="x.value as x.text for x in transTypeList"></select>
+                            </div>
+                            <label class="col-sm-2 control-label">支付订单号：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.transOrderNo" maxlength="30">
+                            </div>
+                            <label class="col-sm-2 control-label">支付状态：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="baseInfo.transStatus"
+                                    ng-options="x.value as x.text for x in transStatusList"></select>
+                            </div>
+                         </div>
+                         <div class="form-group">
+                             <label class="col-sm-2 control-label">售后状态：</label>
+                             <div class="col-sm-2">
+                                 <select class="form-control" ng-model="baseInfo.status"
+                                     ng-options="x.value as x.text for x in statusList"></select>
+                             </div>
+                             <label class="col-sm-2 control-label">支付通道：</label>
+                             <div class="col-sm-2">
+                                 <select class="form-control" ng-model="baseInfo.acqCode"
+                                     ng-options="x.value as x.text for x in cjtAcqCodeListAll"></select>
+                             </div>
+                             <label class="col-sm-2 control-label">交易订单号：</label>
+                             <div class="col-sm-2">
+                                 <input type="text" class="form-control" ng-model="baseInfo.acqOrderNo" >
+                             </div>
+                          </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">下单日期：</label>
+                            <div class="col-sm-6">
+                                <input id="d5223" class="form-control" type="datetime" ng-model="baseInfo.createTimeStart" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="var d5224=$dp.$('d5224');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5224.focus();},maxDate:'#F{$dp.$D(\'d5224\')}'})"/>
+                                ~
+                                <input id="d5224" class="form-control" type="datetime"  ng-model="baseInfo.createTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5223\')}'})"/>
+                            </div>
+                            <label class="col-sm-2 control-label">申购类型：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-options="x.value as x.text for x in goodOrderTypeSelect"
+                                        ng-model="baseInfo.goodOrderType" required></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">支付日期：</label>
+                            <div class="col-sm-6">
+                                <input id="d5225" class="form-control" type="datetime" ng-model="baseInfo.transTimeStart" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="var d5226=$dp.$('d5226');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5226.focus();},maxDate:'#F{$dp.$D(\'d5226\')}'})"/>
+                                ~
+                                <input id="d5226" class="form-control" type="datetime"  ng-model="baseInfo.transTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5225\')}'})"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">发货日期：</label>
+                            <div class="col-sm-6">
+                                <input id="d5227" class="form-control" type="datetime" ng-model="baseInfo.logisticsTimeStart" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="var d5228=$dp.$('d5228');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5228.focus();},maxDate:'#F{$dp.$D(\'d5228\')}'})"/>
+                                ~
+                                <input id="d5228" class="form-control" type="datetime"  ng-model="baseInfo.logisticsTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5227\')}'})"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-top: 30px">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-8">
+                                <button class="btn btn-primary6 btn-mr20"  ng-click="query()" ng-disabled="submitting">查询</button>
+                                <button class="btn btn-primary3 btn-mr20" type="button" ng-click="resetForm()">清空</button>
+                                <button class="btn btn-primary7 btn-mr20" type="button" ng-show="hasPermit('cjtOrder.export')" ng-click="export()">导出</button>
+                                <button class="btn btn-new btn-mr20" type="button" ng-show="hasPermit('cjtOrder.importShip')" ng-click="importModal()">批量发货</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-content">
+                        <div class="col-sm-10 checkbox">
+                            总计：已发货 <span style="color: red;" >{{totalMap.shippedTotal==null ? 0 : totalMap.shippedTotal}}</span> 笔、
+                            共 <span style="color: red;" >{{totalMap.shippedTotalPrice==null ? 0 : totalMap.shippedTotalPrice}}</span> 元，
+                            待发货 <span style="color: red;" >{{totalMap.notShippedTotal==null ? 0 : totalMap.notShippedTotal}}</span> 笔、
+                            共 <span style="color: red;" >{{totalMap.notShippedTotalPrice==null ? 0 : totalMap.notShippedTotalPrice}}</span> 元，
+                            已发货机具 <span style="color: red;" >{{totalMap.shippedTotalNum==mull ? 0 : totalMap.shippedTotalNum}}</span> 台，
+                            交易成功笔数：<span style="color: red;" >{{totalMap.transTotalNum==null ? 0 : totalMap.transTotalNum}}</span> 笔，
+                            交易成功金额：<span style="color: red;" >{{totalMap.transTotalAmount==null ? 0 : totalMap.transTotalAmount}}</span> 元
+                        </div>
+                        <div class="tposition">
+                            <div class="gridStyle" ui-grid="cjtOrderGrid" ui-grid-selection ui-grid-pagination
+                                 ui-grid-resize-columns ui-grid-pinning></div>
+                            <div ng-show="loadImg" class="timg"></div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="height:30px;"></div>
+        </div>
+    </form>
+
+    <!-- 批量发货 -->
+    <div id="importModal"  class="modal fade form-horizontal" tabindex="3" role="dialog">
+        <div class="modal-dialog " style="height:800px;width: 900px;">
+            <div class="modal-content" ng-style="{'height':importResultShow?'750px':'350px'}">
+            <form class="form-horizontal" name="horizontalAcc">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        &times;</button>
+                    <h3 class="modal-title">批量发货</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">导入文件：</label>
+                        <div class="col-sm-4" style="padding-top: 4px">
+                            <input type="file" nv-file-select="" ng-model="fileSelect" uploader="uploader" multiple/>
+                            <table class="table">
+                                <tbody>
+                                <tr ng-repeat="item in uploader.queue">
+                                    <td>
+                                        <strong>{{ item.file.name }}</strong>
+                                    </td>
+                                    <td nowrap>
+                                        <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                            <span class="glyphicon glyphicon-trash"></span>删除
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <label class="col-sm-1" ></label>
+                        <div class="col-sm-3 checkbox">
+                            <a href="downLoad/template?templateName=cjtShipFile&type=xls">下载模板</a>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">备注：</label>
+                        <p class="col-sm-10 form-control-static">
+                                1.下载批量发货模板文件<br>
+                                2.上传填好的模板文件<br>
+                        </p>
+                    </div>
+                    <div ng-show="importResultShow">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">发货成功订单：</label>
+                            <div class="col-sm-6 checkbox"><span style="color: red">{{importResult.successNum}}</span> 笔</div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">发货失败订单：</label>
+                            <div class="col-sm-6 checkbox"><span style="color: red">{{importResult.failNum}}</span> 笔</div>
+                        </div>
+                        <div class="form-group" ng-if="importResult.failNum>0">
+                            <label class="col-sm-2 control-label">发货失败订单如下：</label>
+
+                        </div>
+                        <div class="form-group" ng-if="importResult.failNum>0">
+                            <div class="col-sm-12">
+                                <div class="gridStyle" style="height: 300px" ui-grid="importResultGrid" ui-grid-resize-columns  ui-grid-pagination></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="form-group control-label">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-6">
+                                    <button class="btn btn-new btn-mr20" type="button" ng-click='importInfo()'
+                                    ng-disabled="uploader.queue.length == 0"
+                                    >确定发货</button>
+                                    <button class="btn btn-primary8" type="button" ng-click='cancel()'
+                                    >取消</button>
+                            </div>
+                        </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- 批量发货 -->
+
+</div>

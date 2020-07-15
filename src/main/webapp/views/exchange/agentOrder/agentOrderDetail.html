@@ -1,0 +1,118 @@
+<!-- head -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>超级兑</a></li>
+            <li class="active"><strong>代理订单详情</strong></li>
+        </ol>
+    </div>
+</div>
+
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="agentOrderDetailCtrl">
+    <form class="form-horizontal" id="form1" name="horizontalCard">
+        <div class="form-group">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="ibox-title">
+                            <h5>基本资料</h5>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">订单ID:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.orderNo"></div>
+                            <label class="col-sm-2 control-label">订单状态:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.orderStatus |formatDropping:orderStatusSelect"></div>
+                            <label class="col-sm-2 control-label">组织名称:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.oemName"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">贡献人ID:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.merNo"></div>
+                            <label class="col-sm-2 control-label">贡献人名称:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.userName"></div>
+                            <label class="col-sm-2 control-label">售价:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.amount | currency:'' "></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">品牌代理成本:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.oemFee | currency:'' "></div>
+                            <label class="col-sm-2 control-label">品牌发放总奖金:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.provideAmout | currency:''"></div>
+                            <label class="col-sm-2 control-label">记账状态:</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.accStatus |formatDropping:accStatusSelect"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">创建时间：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.createTime | date:'yyyy年MM月dd日 HH:mm:ss'"></div>
+                            <label class="col-sm-2 control-label">支付时间：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.payTime | date:'yyyy年MM月dd日 HH:mm:ss'"></div>
+                            <label class="col-sm-2 control-label">入账时间：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="info.accTime | date:'yyyy年MM月dd日 HH:mm:ss'"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="ibox-title">
+                            <h5>分润数据</h5>
+                        </div>
+                        <div class="form-group" ng-repeat="item in info.shareOrderList" >
+                            <label class="col-sm-1 control-label">分润等级:</label>
+                            <div class="col-sm-1 checkbox" ng-bind="item.shareGrade"></div>
+                            <label class="col-sm-1 control-label">用户编号:</label>
+                            <div class="col-sm-1 checkbox" ng-bind="item.shareMerNo"></div>
+                            <label class="col-sm-1 control-label">用户名:</label>
+                            <div class="col-sm-1 checkbox" ng-bind="item.shareMerName"></div>
+                            <label class="col-sm-1 control-label">用户身份:</label>
+                            <div class="col-sm-1 checkbox" ng-bind="item.shareMerCapa |formatDropping:merCapaSelect"></div>
+                            <label class="col-sm-1 control-label">用户分润:</label>
+                            <div class="col-sm-1 checkbox" ng-bind="item.shareAmount | currency:''"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">组织名称:</label>
+                            <div class="col-sm-1 checkbox" ng-bind="info.oemName"></div>
+                            <label class="col-sm-1 control-label">品牌商分润:</label>
+                            <div class="col-sm-1 checkbox" ng-bind="info.oemShare | currency:''"></div>
+                            <label class="col-sm-1 control-label">平台分润:</label>
+                            <div class="col-sm-1 checkbox" ng-bind="info.plateShare | currency:''"></div>
+                            <label class="col-sm-1 control-label">用户总分润:</label>
+                            <div class="col-sm-1 checkbox" ng-bind="info.merAmout | currency:''"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="ibox-title">
+                            <h5>代理分润数据</h5>
+                        </div>
+                        <div class="form-group" ng-repeat="item in info.agentShareList" >
+                            <label class="col-sm-1 control-label">代理商级别:</label>
+                            <div class="col-sm-1 checkbox" ng-bind="item.shareGrade"></div>
+                            <label class="col-sm-1 control-label">代理商编号:</label>
+                            <div class="col-sm-1 checkbox" ng-bind="item.agentNo"></div>
+                            <label class="col-sm-1 control-label">代理商名称:</label>
+                            <div class="col-sm-1 checkbox" ng-bind="item.agentName"></div>
+                            <label class="col-sm-1 control-label">代理商分润:</label>
+                            <div class="col-sm-1 checkbox" ng-bind="item.shareAmount | currency:''"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">代理商总分润:</label>
+                            <div class="col-sm-1 checkbox" ng-bind="info.agentAmout | currency:''"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-12 bgff">
+                <div class="col-sm-12">
+                    <div class="col-lg-3"></div>
+                    <div class="col-sm-6">
+                        <a class="btn btn-primary4" ui-sref="exchange.agentOrder" >返回</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

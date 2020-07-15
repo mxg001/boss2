@@ -1,0 +1,117 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>超级盟主</a></li>
+            <li class="active"><strong>盟主分润明细</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="shareDetailQueryCtrl">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>盟主分润明细查询</h5>
+                    <!--<div ibox-tools></div>-->
+                </div>
+                <div class="ibox-content">
+                    <form class="form-horizontal" id="form1">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">用户名称：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model='info.realName' required>
+                            </div>
+                            <label class="col-sm-2 control-label">用户类别：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="info.userType" ng-options="x.value as x.text for x in userTypeSelect"/>
+
+                            </div>
+                            <label class="col-sm-2 control-label">盟主编号：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model='info.userCode' required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">分润类别：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="info.shareType" ng-options="x.value as x.text for x in shareTypes"/>
+                            </div>
+                            <label class="col-sm-2 control-label">入账状态：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="info.accStatus" ng-options="x.value as x.text for x in accStatuses"/>
+                            </div>
+                            <label class="col-sm-2 control-label">所属品牌：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="info.brandCode" ng-options="x.value as x.text for x in oemList"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">所属大盟主：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model='info.twoUserCode' required>
+                            </div>
+                            <label class="col-sm-2 control-label">所属机构：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model='info.oneUserCode' required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">入账时间：</label>
+                            <div class="col-sm-5">
+                                <input id="d5668" class="form-control" type="datetime" ng-model="info.accStartTime" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="var d5669=$dp.$('d5669');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5669.focus();},maxDate:'#F{$dp.$D(\'d5669\')||\'%y-%M-%d\'}'})"/>
+                                ~
+                                <input id="d5669" class="form-control" type="datetime"  ng-model="info.accEndTime" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5668\')}',maxDate:'%y-%M-%d 23:59:59'})"/>
+                            </div>
+                            <label class="col-sm-2 control-label">分润归属月份：</label>
+                            <div class="col-sm-3">
+                                <input id="d5000" class="form-control" type="datetime" ng-model="info.shareMonth" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM'})"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">分润创建时间：</label>
+                            <div class="col-sm-5">
+                                <input id="d5666" class="form-control" type="datetime" ng-model="info.startTime" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="var d5667=$dp.$('d5667');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5667.focus();},maxDate:'#F{$dp.$D(\'d5667\')||\'%y-%M-%d\'}'})"/>
+                                ~
+                                <input id="d5667" class="form-control" type="datetime"  ng-model="info.endTime" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5666\')}',maxDate:'%y-%M-%d 23:59:59'})"/>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-bottom: -10px;">
+                            <div class="col-sm-2"> </div>
+                            <div class="col-sm-10">
+                                <button class="btn btn-primary6 btn-rounded btn-mr20" type="button" ng-click="query()">查询</button>
+                                <button class="btn btn-primary3 btn-rounded btn-mr20" type="button" ng-click="clear()">清空</button>
+                                <button class="btn btn-new btn-mr20" type="button" ng-show="hasPermit('machineBuyOrder.exportMachineBuyOrder')" ng-click="export()">导出</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox-content">
+            </div>
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="col-sm-10 checkbox">总计：总分润金额
+                        <span style="color: red;" >￥{{pageCount.shareAmountCount==null?0:pageCount.shareAmountCount}}</span> ，已入账
+                        <span style="color: red;" >￥{{pageCount.accYesCount==null?0:pageCount.accYesCount}}</span>，未入账
+                        <span style="color: red;" >￥{{pageCount.accNoCount==null?0:pageCount.accNoCount}}</span>
+                    </div>
+                    <div class="gridStyle" ui-grid="servicesGrid" ui-grid-selection ui-grid-pinning ui-grid-pagination ui-grid-resize-columns></div>
+                    <div ng-show="loadImg" class="timg"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="height: 30px;"></div>
+</div>

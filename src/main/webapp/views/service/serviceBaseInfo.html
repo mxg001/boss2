@@ -1,0 +1,127 @@
+<div class="row">
+   <div class="col-lg-12">
+	   <div class="form-group">
+		   <label class="col-sm-2 control-label"><i class="red_req">*</i>服务名称：</label>
+		   <div class="col-sm-2">
+			   <input type="text" name="serviceName"  class="form-control" ng-model='baseInfo.serviceName' required  ng-blur="existServiceName()"/>
+			   <div class="req_mesg" ng-show="horizontal.serviceName.$dirty && horizontal.serviceName.$invalid">
+				   <span ng-show="horizontal.serviceName.$error.required">服务名称不能为空</span>
+			   </div>
+			   <div class="req_mesg" ng-show="existFlag">服务名称已存在</div>
+		   </div>
+		   <label class="col-sm-2 control-label"><i class="red_req">*</i>代理商展示名称：</label>
+		   <div class="col-sm-2">
+			   <input type="text" name="agentShowName"  class="form-control" ng-model='baseInfo.agentShowName' required ng-blur="existAgentShowName()"/>
+			   <div class="req_mesg" ng-show="horizontal.agentShowName.$dirty && horizontal.agentShowName.$invalid">
+				   <span ng-show="horizontal.agentShowName.$error.required">代理商展示名称不能为空</span>
+			   </div>
+			   <div class="req_mesg" ng-show="agentShowNameFlag">代理商展示名称已存在</div>
+		   </div>
+		   <label class="col-sm-2 control-label"><i class="red_req">*</i>费率区分银行卡种类：</label>
+		   <div class="col-sm-2">
+			   <select class="form-control" ng-change="updateRates()" ng-model="baseInfo.rateCard" ng-options="x.value as x.text for x in bool" ng-disabled="baseInfo.usedStatus==1"/>
+		   </div>
+	   </div>
+
+	   <div class="form-group">
+		   <label class="col-sm-2 control-label"><i class="red_req">*</i>服务类型：</label>
+		   <div class="col-sm-2">
+			   <select class="form-control" ng-change="changeServiceType()" ng-disabled="baseInfo.usedStatus==1" ng-model="baseInfo.serviceType" name="serviceType" ng-options="x.value as x.text for x in serviceTypes"/>
+		   </div>
+
+		   <label class="col-sm-2 control-label"><i class="red_req">*</i>额度区分银行卡种类：</label>
+		   <div class="col-sm-2">
+			   <select class="form-control" ng-change="updateQuotas()" ng-disabled="baseInfo.usedStatus==1" ng-model="baseInfo.quotaCard" ng-options="x.value as x.text for x in bool"/>
+		   </div>
+		   <label class="col-sm-2 control-label"><i class="red_req">*</i>限额区分节假日：</label>
+		   <div class="col-sm-2">
+			   <select class="form-control" ng-change="updateQuotas()" ng-disabled="baseInfo.usedStatus==1" ng-model="baseInfo.quotaHolidays" ng-options="x.value as x.text for x in bool"/>
+		   </div>
+	   </div>
+	   <div class="form-group">
+		   <label class="col-sm-2 control-label"><i class="red_req">*</i>服务管控费率固定标志：</label>
+		   <div class="col-sm-2">
+			   <select class="form-control" ng-disabled="baseInfo.usedStatus==1" ng-model="baseInfo.fixedRate" ng-options="x.value as x.text for x in fixedMark"/>
+		   </div>
+		   <label class="col-sm-2 control-label"><i class="red_req">*</i>服务管控额度固定标志：</label>
+		   <div class="col-sm-2">
+			   <select class="form-control" ng-disabled="baseInfo.usedStatus==1" ng-model="baseInfo.fixedQuota" ng-options="x.value as x.text for x in fixedMark"/>
+		   </div>
+		   <label class="col-sm-2 control-label"><i class="red_req">*</i>费率区分节假日：</label>
+		   <div class="col-sm-2">
+			   <select class="form-control" ng-change="updateRates()" ng-model="baseInfo.rateHolidays" ng-options="x.value as x.text for x in bool" ng-disabled="baseInfo.usedStatus==1"/>
+		   </div>
+	   </div>
+	   <div class="form-group">
+				<label class="col-sm-2 control-label"><i class="red_req">*</i>可使用日期：</label>
+				<div class="col-sm-6">
+					<input type="datetime" class="form-control" id="pickerMinSelector" style="width:auto;display:inline-block;"  date-time ng-model="baseInfo.useStarttime" date-change="changeMinMax" max-date="maxDate"  view="date"  min-view="date" format="YYYY-MM-DD" required> ~
+					<div style="position: relative; display: inline-block"><input type="datetime" id="pickerMaxSelector" class="form-control" style="width:auto;display:inline-block;"  date-change="changeMinMax" date-time ng-model="baseInfo.useEndtime" min-date="minDate"  view="date"  min-view="date" format="YYYY-MM-DD" required></div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label"><i class="red_req">*</i>每日允许交易时间：</label>
+				<div class="col-sm-4">
+					<div class="input-group " clock-picker data-autoclose="true">
+		                <input type="text" class="form-control" ng-model="baseInfo.tradStart" required>
+		                <span class="input-group-addon">
+		                    <span class="fa fa-clock-o"></span>
+		                </span>
+		            </div>
+		        </div>   
+				<div class="col-sm-4">
+					<div class="input-group " clock-picker data-autoclose="true">
+		                <input type="text" class="form-control" ng-model="baseInfo.tradEnd" required>
+		                <span class="input-group-addon">
+		                    <span class="fa fa-clock-o"></span>
+		                </span>
+		            </div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label"><i class="red_req">*</i>可用银行卡：</label>
+				<div class="col-sm-2">
+					<select class="form-control" ng-disabled="baseInfo.usedStatus==1" ng-model="baseInfo.bankCard" ng-options="x.value as x.text for x in cardType" name="bankCard" required/>
+				</div>
+				<!-- <label class="col-sm-2 control-label"><i class="red_req">*</i>是否与硬件相关：</label>
+				<div class="col-sm-2">
+					<select class="form-control" ng-model="baseInfo.hardwareIs" ng-options="x.value as x.text for x in bool"/>
+				</div> -->
+			</div>
+			<div class="form-group" ng-hide="baseInfo.serviceType==10000 || baseInfo.serviceType==10001">
+				<label class="col-sm-2 control-label">
+				<i class="red_req">*</i>T0T1标志：</label>
+				<div class="col-sm-2">
+					<select class="form-control" ng-model="baseInfo.tFlag" ng-options="x.value as x.text for x in tFlags"/>
+				</div>
+				<!-- <label class="col-sm-2 control-label"><i class="red_req">*</i>提现账户：</label>
+				<div class="col-sm-2">
+					<input type="number" class="form-control f_num" name="cashSubject" ng-disabled="baseInfo.serviceType!=10000" ng-required="baseInfo.serviceType == 10000" ng-model="baseInfo.cashSubject"/>
+					<div class="req_mesg" ng-show="horizontal.cashSubject.$dirty && horizontal.cashSubject.$invalid">
+						<span ng-show="horizontal.cashSubject.$error.required">提现账户不能为空</span>
+						<span ng-show="horizontal.cashSubject.$error.number">请输入正确的提现账号</span>
+					</div>
+				</div> -->
+				<label class="col-sm-2 control-label" ng-show="(baseInfo.tFlag==1 || baseInfo.tFlag==3) && !(baseInfo.serviceType==10000 || baseInfo.serviceType==10001)"><i class="red_req">*</i>关联提现服务：</label>
+				<div class="col-sm-2" ng-disabled="baseInfo.usedStatus==1" ng-show="(baseInfo.tFlag==1 || baseInfo.tFlag==3 )&& !(baseInfo.serviceType==10000 || baseInfo.serviceType==10001)">
+					<select class="form-control" ng-required="(baseInfo.tFlag==1 || baseInfo.tFlag==3) && !(baseInfo.serviceType==10000 || baseInfo.serviceType==10001)" ng-model="baseInfo.linkService" ng-options="x.value as x.text for x in allLinkServices"/>
+				</div>
+				<lable><input type="checkbox" ng-model="baseInfo.t0TurnT1" ng-show="(baseInfo.tFlag==1 ) && !(baseInfo.serviceType==10000 || baseInfo.serviceType==10001)"  ng-true-value="'1'" ng-false-value="'0'"/>
+					<span class="" ng-show="(baseInfo.tFlag==1 ) && !(baseInfo.serviceType==10000 || baseInfo.serviceType==10001)" ><i class="red_req">*</i>不在T0提现时间范围时允许T0转T1交易</span>
+					</lable>
+				
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">备注：</label>
+				<div class="col-sm-8">
+					<textarea rows="5" cols="20" class="form-control" ng-model="baseInfo.remark"></textarea>
+				</div>
+			</div>
+	   <div class="form-group" ng-show="baseInfo.rateCard==1">
+		   <label class="col-sm-2 control-label"><i class="red_req">*</i>借贷设置合并展示：</label>
+		   <div class="col-sm-2">
+			   <select class="form-control" ng-model="baseInfo.loanMergeShow" ng-disabled="editService==1" ng-options="x.value as x.text for x in bool"/>
+		   </div>
+	   </div>
+   </div>  
+</div>

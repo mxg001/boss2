@@ -1,0 +1,182 @@
+<!-- title -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>短信发送管理</a></li>
+            <li class="active"><strong>短信模板</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app ng-controller="smsTemplateQueryCtrl">
+    <form class="form-horizontal" id="form1">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="">
+                    <div class="panel-body ibox float-e-margins">
+                        <div class="ibox-content">
+                            <div class="ibox-title">
+                                <h5>短信模板查询</h5>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">模板编号:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.id">
+                                </div>
+                                <label class="col-sm-2 control-label">所属部门:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.department" ng-options="x.value as x.text for x in departmentSelect"/>
+                                </div>
+                                <label class="col-sm-2 control-label">业务类型:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.type" ng-options="x.value as x.text for x in typeSelect"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">创建时间:</label>
+                                <div class="col-sm-5">
+                                    <input id="d5231" class="form-control" type="datetime" ng-model="info.createTimeBegin" onchange=""  style="width:auto;display:inline-block;"
+                                           onFocus="var d5232=$dp.$('d5232');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5232.focus();},maxDate:'#F{$dp.$D(\'d5232\')}'})"/>
+                                    ~
+                                    <input id="d5232" class="form-control" type="datetime"  ng-model="info.createTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+                                           onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5231\')}'})"/>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-top: 30px">
+                                <div class="col-sm-8">
+                                    <label class="col-sm-2 control-label"></label>
+                                    <button class="btn btn-primary6 btn-mr20" type="button" ng-click="query()" >查询</button>
+                                    <button class="btn btn-primary3 btn-mr20" type="button" ng-click="clear()" >清空</button>
+                                    <button class="btn btn-primary5 btn-mr20" type="button" ng-show="hasPermit('cusSmsTemplate.addSmsTemplate')" ng-click="addInfoModalShow(1,null)" >新增</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body ibox float-e-margins">
+                        <div class="ibox-title">
+                            <div class="ibox-content">
+                                <div class="ibox-title">
+                                    <h5>短信模板列表</h5>
+                                </div>
+                                <div class="form-group">
+                                    <div class="gridStyle" ui-grid="userGrid" ui-grid-selection ui-grid-pagination
+                                         ui-grid-resize-columns ui-grid-pinning></div>
+                                    <div ng-show="loadImg" class="timg"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-12" style="float: left;">备注:1.短信模板列表中的所有短信,需上报到上游短信通道;2.上游短信通道审核通过后,列表中的短信才能生效.</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="height:30px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+    <form class="form-horizontal" id="form2" name="horizontalAdd" novalidate>
+        <div id="addInfoModal" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog" style="width: 900px">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            &times;</button>
+                        <h3 class="modal-title">{{title}}</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>所属部门:</label>
+                            <div class="col-sm-3">
+                                <select class="form-control" name="department" required ng-model="addInfo.department" ng-options="x.value as x.text for x in departmentSelect"/>
+                                <div class="req_mesg" ng-show="horizontalAdd.department.$dirty && horizontalAdd.department.$invalid">
+                                    <span ng-show="horizontalAdd.department.$error.required">所属部门不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>业务类型:</label>
+                            <div class="col-sm-3">
+                                <select class="form-control" name="type" required ng-model="addInfo.type" ng-options="x.value as x.text for x in typeSelect"/>
+                                <div class="req_mesg" ng-show="horizontalAdd.type.$dirty && horizontalAdd.type.$invalid">
+                                    <span ng-show="horizontalAdd.type.$error.required">业务类型不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>模板内容:</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" rows="5" cols="15" name="template" required ng-model="addInfo.template"></textarea>
+                                <div class="req_mesg" ng-show="horizontalAdd.template.$dirty && horizontalAdd.template.$invalid">
+                                    <span ng-show="horizontalAdd.template.$error.required">模板内容不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"></label>
+                            <label class="col-sm-10" style="color: red">温馨提示:1.模板内容不能为空;2.一条短信为70个字符(含文字/数字/标点符号/空格);3.如果超过70个字符,则短信会被拆分为2条发送;4.验证码用code标识替换.</label>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-6">
+                                <button class="btn btn-primary btn-mr20" type="button" ng-click='submitInfo()'
+                                        id="btnSubmit" ng-disabled="horizontalAdd.$invalid || submitting" >提交</button>
+                                <button class="btn btn-primary8" type="button" ng-click='addInfoModalHide()'
+                                >取消</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <form class="form-horizontal" id="form3" name="horizontalAddDetail" novalidate>
+        <div id="addInfoModalDetail" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog" style="width: 900px">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            &times;</button>
+                        <h3 class="modal-title">短信模板详情</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>所属部门:</label>
+                            <div class="col-sm-3">
+                                <select class="form-control" name="department" disabled ng-model="addInfo.department" ng-options="x.value as x.text for x in departmentSelect"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>业务类型:</label>
+                            <div class="col-sm-3">
+                                <select class="form-control" name="type" disabled ng-model="addInfo.type" ng-options="x.value as x.text for x in typeSelect"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>模板内容:</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" rows="5" cols="15" name="template" disabled  ng-model="addInfo.template"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"></label>
+                            <label class="col-sm-10" style="color: red">温馨提示:1.模板内容不能为空;2.一条短信为70个字符(含文字/数字/标点符号/空格);3.如果超过70个字符,则短信会被拆分为2条发送;4.验证码用code标识替换.</label>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-6">
+                                <button class="btn btn-primary8" type="button" ng-click='addInfoModalDetailHide()'
+                                >取消</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

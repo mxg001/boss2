@@ -1,0 +1,176 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a href="#/service/addService">主页</a></li>
+			<li><a>用户中心管理</a></li>
+			<li class="active"><strong>客服问题管理</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="customServiceProblemCtrl">
+	<div id="problemAddModel" class="modal fade" tabindex="3"
+		 role="dialog">
+		<form class="form-horizontal" id="form5">
+			<div class="modal-dialog" style="width: 1100px">
+				<div class="modal-content" >
+					<div class="modal-header" ng-show="problem.problemId == null" >
+						<button type="button" class="close" data-dismiss="modal">
+							&times;</button>
+						<h3 class="modal-title">问题新增</h3>
+					</div>
+					<div class="modal-header" ng-show="problem.problemId != null" >
+						<button type="button" class="close" data-dismiss="modal">
+							&times;</button>
+						<h3 class="modal-title">问题修改</h3>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><i class="red_req">*</i>问题名称：</label>
+							<div class="col-sm-3">
+								<input class="form-control" maxlength="100" name="problemName" ng-model="problem.problemName"  />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><i class="red_req">*</i>类型：</label>
+							<div class="col-sm-3">
+								<select class="form-control"  ng-model="problem.problemType" ng-options="x.value as x.text for x in customServiceProblemTypeListShow" >
+					            </select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><i class="red_req">*</i>内容:</label>
+							<div class="col-lg-8">
+								<summernote type="text" config="summeroptions" id="summernote" class="form-control" name="problemContent"  ng-model="problem.problemContent" editable="editable" editor="editor" >
+								</summernote>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><i class="red_req">*</i>应用范围：</label>
+							<div class="col-sm-10">
+									<label  class="col-lg-12" style="padding: 5px 15px 0;"><input type="checkbox" ng-true-value="1" ng-false-value="0" name="orgAll" ng-change="changeOrgAll()" ng-model="orgAll"/>全选</label>
+									<div class="col-lg-3" ng-repeat="org in appScopeListCheckbox">
+										<label><input type="checkbox" ng-true-value="1" ng-false-value="0"  ng-checked="org.checkStatus" ng-change="changeOrg(org.checkStatus)" ng-model="org.checkStatus" name="orgName" />{{org.sysName}}</label>
+									</div>
+							</div>
+						</div>
+						<div class="form-group control-label">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-6">
+								<button class="btn btn-primary btn-mr20" type="button"
+										ng-click='problemSave()'>保存</button>
+								<button class="btn btn-primary8 " type="button"
+										ng-click='cancelAdd()'>取消</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	
+	<div id="problemDetailModel" class="modal fade" tabindex="3"
+		 role="dialog">
+		<form class="form-horizontal" id="form4">
+			<div class="modal-dialog" style="width: 1100px">
+				<div class="modal-content">
+					<div class="modal-header"  >
+						<button type="button" class="close" data-dismiss="modal">
+							&times;</button>
+						<h3 class="modal-title">问题详情</h3>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">问题名称：</label>
+							<div class="col-sm-3 checkbox">
+								{{problem.problemName}}
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">类型：</label>
+							<div class="col-sm-3 checkbox">
+								{{problem.problemTypeName}}
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-2 control-label">内容：</label>
+							<div class="col-lg-8" >
+								<div  style="height: 250px;overflow:hidden; overflow-y:scroll" class="form-control" ng-bind-html="problem.problemContent | trustHtml" readonly>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">应用范围：</label>
+							<div class="col-sm-10 checkbox">
+									{{problem.appScopeName}}
+							</div>
+						</div>
+						<div class="form-group control-label">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-6">
+								<button class="btn btn-primary8 " type="button"
+										ng-click='cancelDetail()'>关闭</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<form class="form-horizontal" id="form1">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="">
+						<div class="panel-body ibox float-e-margins">
+							<div class="ibox-title">
+								<h5>查询条件</h5>
+							</div>
+							<div class="ibox-content">
+							<div class="form-group">
+									
+										<label class="col-sm-2 control-label">类型：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="qo.customServiceProblemType" ng-options="x.sysValue as x.sysName for x in customServiceProblemTypeList">
+							            </select>
+									</div>
+									<label class="col-sm-1 control-label">问题名称：</label>
+									<div class="col-sm-2">
+										<input class="form-control" ng-model="qo.problemName"/>
+									</div>
+									<label class="col-sm-1 control-label">适用范围：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="qo.appScope" ng-options="x.sysValue as x.sysName for x in appScopeList">
+							            </select>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-lg-12">
+										<label class="col-sm-2 control-label"></label>
+                                        <button class="btn btn-primary3 btn-mr20" type="button" ng-click="clear()" id="btnSubmit1">清空</button>
+										<button class="btn btn-primary6 btn-mr20" type="button" ng-click="query()" id="btnSubmit2">查询</button>
+                                        <button class="btn btn-new btn-mr20" type="button" ng-show="hasPermit('customServiceProblemAdd')" ng-click="add()" >新增</button>
+                                        <button class="btn btn-primary7 btn-mr20" ng-show="hasPermit('customServiceProblemExport')" type="button" ng-click="exportInfo()" >导出</button>
+									</div>
+									
+								</div>
+							</div>
+
+						</div>
+						
+						
+						<div class="panel-body ibox float-e-margins">
+								<div class="ibox-title">
+								<div class="ibox-content">
+									<div ui-grid="customServiceProblemGrid" ui-grid-pagination ui-grid-selection ui-grid-resize-columns ui-grid-pinning class="grid"></div>
+								</div>
+							</div>
+                            <div style="height:30px"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+	</form>
+</div>

@@ -1,0 +1,138 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>交易查询</a></li>
+			<li class="active"><strong>出款订单详情</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app ng-controller="outDetailQueryDetailCtrl">
+	<form class="form-horizontal" id="form1">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>基本信息</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">来源订单号：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.transId"></div>
+							<label class="col-sm-2 control-label">结算状态：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.settleStatus |formatDropping:settleStatus"></div>
+							<label class="col-sm-2 control-label">结算类型：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.settleType | formatDropping:settleType"></div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">来源系统：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.sourceSystem |formatDropping:sourceSystems"></div>
+							<label class="col-sm-2 control-label">来源批次编号(T1)：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.sourceBatchNo"></div>
+							<label class="col-sm-2 control-label">来源订单号(T1)：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.sourceOrderNo"></div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label">结算用户类型：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.settleUserType |formatDropping:settleUserTypes"></div>
+							<label class="col-sm-2 control-label">结算用户编号：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.settleUserNo"></div>
+							<label class="col-sm-2 control-label">结算用户简称：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.settleUserName"></div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label">创建人：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.createUser"></div>
+							<label class="col-sm-2 control-label">创建时间：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.createTime | date:'yyyy-MM-dd HH:mm:ss'"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">出款同步状态：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.synStatus |formatDropping:synStatuss"></div>
+							<label class="col-sm-2 control-label">出款订单确认状态(T1)：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.settleOrderStatus |formatDropping:settleOrderStatuss"></div>
+							<label class="col-sm-2 control-label">交易记账状态(T0)：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.account |formatDropping:accountStr"></div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label">备注：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.settleMsg"></div>
+							<label class="col-sm-2 control-label">交易订单号：</label>
+							<div class="col-sm-2 checkbox" ng-bind="info.orderNo"></div>
+						</div>
+
+					</div>
+				</div>
+
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>结算信息</h5>
+					</div>
+					<div class="ibox-content" style="overflow: hidden; padding: 0 20px;">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">出款记录ID：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.id"></div>
+							<label class="col-sm-2 control-label">出款流水号：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.accountSerialNo"></div>
+							<label class="col-sm-2 control-label">记账时间：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.createTime | date:'yyyy-MM-dd HH:mm:ss'"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">实际出款金额：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.outAmount | currency:''"></div>
+							<label class="col-sm-2 control-label">出款手续费：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.feeAmount | currency:''"></div>
+							<label class="col-sm-2 control-label">出款服务名称：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.serviceName"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">抵扣手续费：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.deductionFee | currency:''"></div>
+							<label class="col-sm-2 control-label">实际出款手续费：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.actualFee | currency:''"></div>
+							<label class="col-sm-2 control-label">税费：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.perAgentFee | currency:''"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">出款通道：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.settleBank"></div>
+							<label class="col-sm-2 control-label">结算卡银行名称：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.inBankName"></div>
+							<label class="col-sm-2 control-label">结算银行卡号：</label>
+							<div class="col-sm-2 checkbox">{{infoDetail.inAccNo}} &nbsp;<button ng-click="getDetailShow()" ng-show="dataSta&&hasPermit('outDetailQuery.showInAccNo')">显示</button></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">收款账户名称：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.inAccName"></div>
+							<label class="col-sm-2 control-label">出款状态：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.status | formatDropping:outStatus"></div>
+							<label class="col-sm-2 control-label">错误信息：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.errMsg"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">记账状态：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.synAccountStatus | formatDropping:accounts"></div>
+							<label class="col-sm-2 control-label">记账冲正：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.correction | formatDropping:corrections"></div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-content">
+						<div class="form-group">
+							<a class="btn btn-primary8 btn-rounded" type="button" ng-click="closePage()">关闭</a>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</form>
+</div>

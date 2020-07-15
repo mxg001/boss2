@@ -1,0 +1,11 @@
+
+
+<div class="welcome_bg" style="min-height:700px;" ng-controller="welcomeCtrl">
+    <h2 style="color: #000; font-weight: 500; margin-left: 50px;" ng-if="status">待办事项</h2>
+    <div  style="float: left;width: 100px; border: 1px solid #eee; padding: 10px;margin-left: 50px;" ng-if="status">
+        <div style="font-size: 15px;">待处理工单</div>
+        <div style="font-size:25px; padding-top: 15px; color: green; text-align: center"  ui-sref="workOrder.workOrderManager({type:1})">{{todo}}</div>
+    </div>
+    <div class="wl_tit" style="padding-top: 300px;">欢迎使用BOSS系统！</div>
+</div>
+

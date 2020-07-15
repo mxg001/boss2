@@ -1,0 +1,131 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>收单机构管理</a></li>
+			<li class="active"><strong>收单机构商户</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="acqMerchantCtrl">
+	<form class="form-horizontal" id="form1">
+			<div class="row">
+				<div class="col-lg-12">
+						<div class="panel-body ibox float-e-margins">
+							<div class="ibox-content">
+								<div class="form-group">
+									<label class="col-sm-2 control-label">代理商名称：</label>
+									<div class="col-sm-2">
+										<select name="autocomplete-select" id="autocomplete-select" ng-model="info.agentNo" ng-options="x.value as x.text for x in agent" style="width: 100%" chosen chosen-data="agent" chosen-keyup="getStates">
+										</select>
+									</div>
+									<label class="col-sm-2 control-label">收单机构商户名称/编号：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" ng-model="info.acqMerchantNo">
+									</div>
+									<label class="col-sm-2 control-label">商户名称/编号：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" ng-model="info.merchantNo">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">收单机构：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.acqOrgId" ng-options="x.value as x.text for x in acqOrgs"/>
+									</div>
+									<label class="col-sm-2 control-label">状态：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.acqStatus" ng-options="x.value as x.text for x in acqStatuss"/>
+									</div>
+									<label class="col-sm-2 control-label">收单商户类别：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.acqMerchantType" ng-options="x.value as x.text for x in acqMerchantTypesAll">
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">剩余额度：</label>
+									<div class="col-sm-6">
+										<input type="text" class="form-control" style="width:auto;display:inline-block;" ng-model="info.stratRemaimAmount">-
+										<input type="text" class="form-control" style="width:auto;display:inline-block;" ng-model="info.endRemaimAmount">
+									</div>
+									<label class="col-sm-2 control-label">是否特殊商户：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.special" ng-options="x.value as x.text for x in specialSelect">
+											<option value="" selected>全部</option>
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">收单机构对应收单商户进件编号：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" ng-model="info.acqMerchantCode">
+									</div>
+									<label class="col-sm-2 control-label">来源途径:</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.source" ng-options="x.value as x.text for x in sourceList"/>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-lg-12">
+										<button class="btn btn-primary6 btn-mr20" type="button" ng-click="query()"
+											id="btnSubmit">查询</button>
+										<button class="btn btn-primary3 btn-mr20" type="button" ng-click="reset()"
+											id="btnSubmit2">清空</button>
+										<a class="btn btn-primary5 btn-mr20" type="button" ng-show="hasPermit('acqMer.insert')" ui-sref="org.acqMerchantAdd"
+											id="btnSubmit3">新增</a>
+										<button class="btn btn-new btn-mr20" ng-show="hasPermit('acqMer.insertBatch')" style="width:120px; padding:7px 0;" type="button" ui-sref="org.acqMerchantimportCtrl"
+											id="btnSubmit4">批量导入</button>
+										<a class="btn btn-new btn-mr20" type="button" ng-show="hasPermit('acqMerchantAction.acqMerBatchColseimport')" ui-sref="org.acqMerBatchColse" >批量关闭</a>
+										<button class="btn btn-primary7 btn-mr20" type="button" ng-show="hasPermit('acqMerchantAction.importDetail')" ng-click="exportInfo()" >导出</button>
+									</div>
+								</div>
+								<div class="form-group">
+									<div ui-grid="acqMerchantGrid" ui-grid-pagination ui-grid-selection ui-grid-pinning ui-grid-resize-columns class="grid"></div>
+								</div>
+									
+							</div>
+					</div>
+				</div>
+			</div>
+	</form>
+
+
+	<!-- 模态框（Modal）新增终端 -->
+	<div id="myModal" class="modal fade" tabindex="-1" role="dialog">
+	   <div class="modal-dialog">
+	      <div class="modal-content">
+	         <div class="modal-header">
+	            <button type="button" class="close" data-dismiss="modal">
+	                  &times;
+	            </button>
+	            <h3 class="modal-title">新增终端</h3>
+	         </div>
+	         <div class="modal-body">
+	         	<form id="form1" name="horizontal" novalidate>
+	         		<div class="form-group">
+						<label class="col-sm-4 control-label">收单机构商户编号：</label>
+						<input disabled="disabled" ng-model="tn.acqMerchantNo" type="text" class="form-control">
+						<input ng-model="tn.id" type="hidden" class="form-control">
+					</div>
+					<div class="form-group">
+						<label class="col-sm-4 control-label">收单机构终端编号：</label>
+						<input ng-model="tn.terminalNo" type="text" class="form-control" name="terminalNo" ng-pattern="/^[a-zA-Z\d]+$/" required>
+						<div class="req_mesg" ng-show="horizontal.terminalNo.$dirty && horizontal.terminalNo.$invalid">
+							<span ng-show="horizontal.terminalNo.$error.required">收单机构终端编号不能为空</span>
+							<span ng-show="horizontal.terminalNo.$error.pattern">请输入字母或数字</span>
+						</div>
+					</div>
+	         	</form>
+	         </div>
+	         <div class="modal-footer">
+			    <button type="button" ng-click="addTerminalNo()" ng-disabled="horizontal.$invalid || submitting" class="btn btn-primary">确定</button>
+			 </div>
+	      </div>
+		</div>
+	</div>
+	
+</div>

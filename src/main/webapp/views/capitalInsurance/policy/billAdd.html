@@ -1,0 +1,84 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>对账管理</a></li>
+			<li class="active"><strong>对账文件上传</strong></li>
+		</ol>
+	</div>
+</div>
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="billAddCtrl">
+	<form class="form-horizontal" id="form1">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>文件上传</h5>
+					</div>
+					<div class="ibox-content">
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">承保单位：</label>
+							<div class="col-lg-5">
+								<div class="col-lg-5">
+									<select class="form-control" name="insurer" ng-model="info.insurer"
+										ng-options="x.value as x.text for x in uploadInsurerList"></select>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">选择订单类型：</label>
+							<div class="col-lg-5">
+								<label><input type="radio" name="orderType"
+									ng-model="info.orderType" value="1" />投保订单（指所有投保成功的保单，含后面发生了退保的订单）</label>
+								<label><input type="radio" name="orderType"
+									ng-model="info.orderType" value="2" />退保订单（指已退保的订单）</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">文件名：</label>
+							<div class="col-sm-3">
+								<input type="file" nv-file-select="" ng-model="fileSelect"
+									uploader="uploader" multiple />
+								<table class="table">
+									<tbody>
+										<tr ng-repeat="item in uploader.queue">
+											<td><strong>{{ item.file.name }}</strong></td>
+											<td nowrap>
+												<button type="button" class="btn btn-danger btn-xs"
+													ng-click="item.remove()">
+													<span class="glyphicon glyphicon-trash"></span>删除
+												</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								
+							<a ng-click='downloadBillTemplate()'>对账文件模板</a>
+							</div>
+							
+							<span><font color="#999">备注：格式必须为“xxx-起始日-截止日”，如“投保-20180501-20180515”</font></span>
+							
+						</div>
+
+						<div class="form-group" style="margin-top: 50px;">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-4">
+								<button class="btn btn-primary btn-rounded " type="button"
+									id="btnSubmit" ng-click="importInsure()"
+									ng-disabled="horizontal.$invalid || info.insurer==null
+						        			|| info.orderType==null || subDisable">提交</button>
+								<a type="button" class="btn btn-primary4"
+									ng-click="clean()">取消</a>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

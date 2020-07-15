@@ -1,0 +1,57 @@
+<!-- head -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>出款服务管理</a></li>
+            <li class="active"><strong>代理商提现控制</strong></li>
+        </ol>
+    </div>
+</div>
+
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn"
+     ng-controller="agentWithdrawCtrl">
+    <form class="form-horizontal" id="form1" name="horizontal">
+        <div class="form-group">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>代理商提现控制</h5>
+                    <!--<div ibox-tools></div>-->
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label">代理商限制开关：</label>
+                            <div class="col-lg-7">
+                                <switch class="switch" ng-model="baseInfo.agentWithdrawSwitch" />
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>上游账户剩余额度：</label>
+                            <div class="col-lg-4">
+                                <input type="text" style="width: 85%; float: left; margin-right: 5px;" class="form-control" name="agentWithdrawBalance"
+                                    ng-model="baseInfo.agentWithdrawBalance" required maxlength="20"/><span class="lh30">元</span>
+                                <div class="req_mesg" ng-show="horizontal.agentWithdrawBalance.$dirty && horizontal.agentWithdrawBalance.$invalid">
+                                    <span ng-show="horizontal.agentWithdrawBalance.$error.required">上游账户剩余额度不能为空</span>
+                                </div>
+                                <div style="padding:5px 0">备注：当上游账户余额低于此额度时，控制不给代理商提现</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+			</div>
+            <div class="col-lg-12 bgff">
+                <div class="col-sm-12">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-6">
+                        <button class="btn btn-primary btn-mr20" type="button"
+                                ng-click="submit()" ng-disabled="horizontal.$invalid||submitting">提交</button>
+                        <button class="btn btn-primary4 btn-mr20" type="button"
+                                ng-click="reset()">取消</button>
+                    </div>
+                </div>
+            </div>
+             </div>
+    </form>
+</div>

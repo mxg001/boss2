@@ -1,0 +1,216 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+                <li><a>主页</a></li>
+            <li><a>红包管理</a></li>
+            <li class="active"><strong>修改红包配置</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn"
+     ng-controller="editRedConfigCtrl">
+    <form class="form-horizontal" name="horizontal" >
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox-content">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">红包配置ID：</label>
+                        <div class="col-sm-2 checkbox" ng-bind="baseInfo.id">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><i class="red_req">*</i>业务类型：</label>
+                        <div class="col-sm-2">
+                            <select class="form-control" ng-model="baseInfo.bus_type" ng-change="changeBusType()" ng-options="x.value as x.text for x in redBusType"
+                                ng-disabled="baseInfo.useStatus==1">
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><i class="red_req">*</i>发放人类型：</label>
+                        <div class="col-sm-2">
+                            <select class="form-control" ng-model="baseInfo.push_type" ng-options="x.value as x.text for x in redPushType"
+                                    ng-disabled="baseInfo.useStatus==1">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><i class="red_req">*</i>指定接收人数类型：</label>
+                        <div class="col-sm-2">
+                            <select class="form-control" ng-model="baseInfo.receive_type" ng-options="x.value as x.text for x in redReceiveType"
+                                    ng-disabled="baseInfo.useStatus==1">
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><i class="red_req">*</i>发放人组织名称：</label>
+                        <div class="col-sm-2">
+                            <select  chosen="{width:'100%'}" id="autocomplete-select2" class="chosen-select" tabindex="5" ng-model="baseInfo.push_org_id" ng-options="org.orgId as org.orgName for org in orgs"
+                                    ng-disabled="baseInfo.useStatus==1">
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">红包说明：</label>
+                        <div class="col-sm-6">
+                            <textarea rows="6" class="form-control" ng-model="baseInfo.remark"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">宣传图片：</label>
+                        <div  class="col-sm-10 control-label">
+                           <div style="overflow: hidden;">
+                                <div style="width: 170px; float: left; padding: 10px;" ng-repeat="x in baseInfo.urlList">
+                                    <img src="{{x}}" style="width: 150px; height: 100px;">
+                                    <div style="text-align: center"><a href="javascript:;" ng-click="deleteImg(x)">删除</a></div>
+                                </div>
+                           </div>
+                            <div style="overflow: hidden"  >
+                                <div ng-show="imgLength + uploaderImg.queue.length < 9">
+                                    <input style="display: block" type="file" nv-file-select="" uploader="uploaderImg"   multiple  />
+                                </div>
+                                <ul class="table" style="overflow: hidden; padding: 10px 0;">
+                                    <li style="list-style: none; width: 160px; float: left; padding-bottom: 10px;" ng-repeat="item in uploaderImg.queue">
+                                        <td style="padding:0; border: none">
+                                            <div ng-show="uploaderImg.isHTML5" ng-thumb="{ file: item._file, height: 100, width:150 }"></div>
+                                            <div><button type="button" style="margin: 0 auto; display: block;" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                                <span class="glyphicon glyphicon-trash"></span> 删除
+                                            </button></div>
+                                        </td>
+                                    </li>
+                                </ul>
+                                <!--<div class="col-sm-4" style="padding: 0" ng-hide="uploaderImg.queue.length>0">-->
+                                    <!--<a ng-show="baseInfo.imgUrl" href="{{baseInfo.imgUrl}}" fancybox  rel="group">-->
+                                        <!--<img width="250px" height="150px" ng-src="{{baseInfo.imgUrl}}"/>-->
+                                    <!--</a>-->
+                                <!--</div>-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="baseInfo.bus_type!=7&&baseInfo.bus_type!=12&&baseInfo.bus_type!=17">
+                        <label class="col-sm-2 control-label"><i class="red_req">*</i>每个红包发放金额：</label>
+                        <div  class="col-sm-10">
+                            <input type="text" style="width: 60px;" name="min_amount"  ng-model="baseInfo.min_amount" >
+                            至 <input type="text" style="width: 60px;"  name="max_amount" ng-model="baseInfo.max_amount" > 元
+                        </div>
+                    </div>
+                    <div ng-show="is_alow" class="form-group">
+                        <label class="col-sm-2 control-label"><i class="red_req">*</i>允许单个红包金额超过品牌分润：</label>
+                        <div class="col-sm-2" >
+                            <span>
+                                <switch class="switch switch-s" ng-true-value="1" ng-false-value="0" ng-model="baseInfo.allow_org_profit"  />
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-if="baseInfo.bus_type==12">
+                        <label class="col-sm-2 control-label"><i class="red_req">*</i>支付服务ID：</label>
+                        <div  class="col-sm-4">
+                            <input type="text" class="form-control" ng-model="baseInfo.service_id" maxlength="20"
+                                   name="service_id" ng-pattern="/^[1-9][0-9]{0,9}$/" ng-required="baseInfo.bus_type==12"/>
+                        </div>
+                        <div class="req_mesg" ng-show="horizontal.service_id.$dirty && horizontal.service_id.$invalid">
+                            <span ng-show="horizontal.service_id.$error.required">支付服务ID不能为空</span>
+                            <span ng-show="horizontal.service_id.$error.pattern">支付服务ID格式不正确</span>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="baseInfo.bus_type==2||baseInfo.bus_type==7||baseInfo.bus_type==12">
+                        <label class="col-sm-2 control-label"><i class="red_req">*</i>
+                            <span ng-show="baseInfo.bus_type==2">单个定向红包金额占比：</span>
+                            <span ng-show="baseInfo.bus_type==7||baseInfo.bus_type==12">每个红包发放金额：</span>
+                        </label>
+                        <div class="col-sm-3">
+                            <span style="float: left;" class="lh30" ng-show="baseInfo.bus_type==7">实际还款金额* </span>
+                            <span style="float: left;" class="lh30" ng-show="baseInfo.bus_type==12">交易金额* </span>
+                            <input type="text"  style="width: 50%; float: left; margin-right: 5px;margin-left: 5px" class="form-control"  name="single_scale" ng-model="baseInfo.single_scale"  />
+                            <span class="lh30"> % </span>
+                            <!--<div class="req_mesg" ng-show="horizontal.single_scale.$dirty && horizontal.single_scale.$invalid">
+                                <span ng-show="horizontal.single_scale.$error.required">单个定向红包金额占比不能为空</span>
+                            </div>-->
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-if="baseInfo.bus_type!=17">
+                        <label class="col-sm-2 control-label"><i class="red_req">*</i><span ng-show="baseInfo.bus_type==2">群抢红包领取人数：</span>
+                                                                                            <span ng-show="baseInfo.bus_type!=2">每个红包领取人数：</span>
+                        </label>
+                        <div class="col-sm-2">
+                            <input type="text"  style="width: 85%; float: left; margin-right: 5px;" class="form-control"  name="red_number" ng-model="baseInfo.red_number" required />
+                            <span class="lh30">人</span>
+                            <div class="req_mesg" ng-show="horizontal.red_number.$dirty && horizontal.red_number.$invalid">
+                                <span ng-show="horizontal.red_number.$error.required">群抢红包领取人数不能为空</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                      <div class="form-group" ng-show="baseInfo.bus_type==17">
+                        <label class="col-sm-3 control-label">领地红包总金额占领地交易溢价比例：</label>
+                        <div class="col-sm-2">
+                            <input type="text"  style="width: 85%; float: left; margin-right: 5px;" class="form-control"  name="total_amount" ng-model="baseInfo.manormoney_traderpremium"  />
+                            <span class="lh30">%</span>
+                        </div>
+                    </div>
+                    
+                     <div class="form-group" ng-show="baseInfo.bus_type==17">
+                        <label class="col-sm-3 control-label">第一阶段红包总金额:    小于等于</label>
+                        <div class="col-sm-2">
+                            <input type="text"  style="width: 85%; float: left; margin-right: 5px;" class="form-control"  name="total_amount" ng-model="baseInfo.oneladder_allmoney"  />
+                            <span class="lh30">元</span>
+                        </div>
+                         <label class="col-sm-3 control-label">   红包领取人数</label>
+                        <div class="col-sm-2">
+                            <input type="text"  style="width: 85%; float: left; margin-right: 5px;" class="form-control"  name="total_amount" ng-model="baseInfo.oneladder_people_num"  />
+                            <span class="lh30">人</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group" ng-show="baseInfo.bus_type==17">
+                        <label class="col-sm-3 control-label">第二阶段红包总金额:    大于</label>
+                        <div class="col-sm-2">
+                            <input type="text"  style="width: 85%; float: left; margin-right: 5px;" class="form-control"  name="total_amount" ng-model="baseInfo.twoladder_allmoney"  />
+                            <span class="lh30">元</span>
+                        </div>
+                         <label class="col-sm-3 control-label">   红包领取人数</label>
+                        <div class="col-sm-2">
+                            <input type="text"  style="width: 85%; float: left; margin-right: 5px;" class="form-control"  name="total_amount" ng-model="baseInfo.twoladder_people_num"  />
+                            <span class="lh30">人</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><i class="red_req">*</i>发放范围：</label>
+                        <div class="col-sm-2">
+                            <select class="form-control" ng-model="baseInfo.push_area" ng-options="x.value as x.text for x in redPushArea">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" >
+                        <label class="col-sm-2 control-label"><i class="red_req">*</i>本期活动总金额：</label>
+                        <div class="col-sm-2">
+                            <input type="text"  style="width: 85%; float: left; margin-right: 5px;" class="form-control"  name="total_amount" ng-model="baseInfo.total_amount" required />
+                            <span class="lh30">元</span>
+                            <div class="req_mesg" ng-show="horizontal.total_amount.$dirty && horizontal.total_amount.$invalid">
+                                <span ng-show="horizontal.total_amount.$error.required">本期活动总金额不能为空</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" style="padding-bottom: 50px;">
+                        <label class="col-sm-2 control-label"></label>
+                        <div class="col-sm-8">
+                            <input type="button" class="btn btn-primary btn-mr20" ng-disabled='horizontal.$invalid
+                             || submitting'
+                                   ng-click="submit()" value='提交'>
+                            <input type="button" class="btn btn-primary4 btn-mr20" ui-sref="red.redConfigs" value='返回'>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

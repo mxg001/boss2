@@ -1,0 +1,207 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>出款服务管理 </a></li>
+			<li class="active"><strong>增加出款服务</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="addServiceCtrl">
+	<form class="form-horizontal" name="horizontal">
+		<div class="form-group">
+			<div class="row">
+				 <div class="col-lg-12">
+		            <div class="tabs-container">
+		                <uib-tabset>
+		                    <uib-tab>
+		                    	<uib-tab-heading>
+		                    		 <span class="block m-t-xs">
+		                             	<i class="fa fa-laptop"></i>
+		                                <strong class="font-bold">基本信息</strong>
+		                             </span>
+		                        </uib-tab-heading>
+		                        <div class="panel-body">
+		           					<div class="form-group">
+										<label class="col-sm-3 control-label"><i class="red_req">*</i>收单机构：</label>
+										<div class="col-sm-3">
+											<select class="form-control" ng-model="serviceBaseInfo.acqOrgId" name="acqOrgId" ng-options="x.id as x.acqName for x in acqOrgs" required/>
+											<div class="req_mesg" ng-show="horizontal.acqOrgId.$dirty && horizontal.acqOrgId.$invalid">
+												<span ng-show="horizontal.acqOrgId.$error.required">服务名称不能为空</span>
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label"><i class="red_req">*</i>服务类型：</label>
+										<div class="col-sm-3">
+											<select class="form-control" ng-model="serviceBaseInfo.serviceType" ng-options="x.value as x.text for x in moneyServiceType" required/>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label"><i class="red_req">*</i>服务名称：</label>
+										<div class="col-sm-3">
+											<input type="text" class="form-control" ng-model="serviceBaseInfo.serviceName" name="serviceName" required>
+											<div class="req_mesg" ng-show="horizontal.serviceName.$dirty && horizontal.serviceName.$invalid">
+												<span ng-show="horizontal.serviceName.$error.required">服务名称不能为空</span>
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label"><i class="red_req">*</i>每笔出款限额：</label>
+										<div class="col-sm-5">
+											<div class="col-sm-3" style="padding: 0"><input type="number" class="form-control " name="outAccountMinAmount" ng-model="serviceBaseInfo.outAccountMinAmount" required></div>
+											<div class="col-sm-1" style="padding: 0 4px; text-align: center">-</div>
+											<div class="col-sm-3" style="padding: 0"><input type="number" class="form-control col-sm-3" name="outAccountMaxAmount" ng-model="serviceBaseInfo.outAccountMaxAmount" required></div>
+											<div class="req_mesg" style="display: block; width: 100%; clear: both" ng-show="horizontal.outAccountMinAmount.$dirty && horizontal.outAccountMinAmount.$invalid">
+												<span ng-show="horizontal.outAccountMinAmount.$error.required">每笔出款限额最小值不能为空</span>
+											</div>
+											<div class="req_mesg" style="display: block; width: 100%; clear: both" ng-show="horizontal.outAccountMaxAmount.$dirty && horizontal.outAccountMaxAmount.$invalid">
+												<span ng-show="horizontal.outAccountMaxAmount.$error.required">每笔出款限额最大值不能为空</span>
+											</div>
+										</div>
+									</div>  
+									<div class="form-group">
+										<label class="col-sm-3 control-label"><i class="red_req">*</i>出款限额:</label>
+										<div class="col-sm-3">
+											<input type="number" class="form-control" ng-model="serviceBaseInfo.dayOutAccountAmount" name="dayOutAccountAmount" required>
+											<div class="req_mesg" ng-show="horizontal.dayOutAccountAmount.$dirty && horizontal.dayOutAccountAmount.$invalid">
+												<span ng-show="horizontal.dayOutAccountAmount.$error.required">出款限额不能为空</span>
+											</div>
+										</div>
+									</div>
+									<div class="form-group" ng-show="serviceBaseInfo.serviceType==11">
+										<label class="col-sm-3 control-label">身份证月累积最大提现额:</label>
+										<div class="col-sm-3">
+											<input type="text" class="form-control" ng-model="serviceBaseInfo.icMonthMaxAmount" name="icMonthMaxAmount"  ng-pattern="/^(0\.0*[1-9]+[0-9]*$|[1-9]+[0-9]*\.[0-9]*[0-9]$|[1-9]+[0-9]*$)/">
+											<div class="req_mesg" ng-show="horizontal.icMonthMaxAmount.$dirty && horizontal.icMonthMaxAmount.$invalid">
+												<span ng-show="horizontal.icMonthMaxAmount.$error.pattern">身份证月累积最大提现额只能为正数</span>
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label">每日限额重置:</label>
+										<div class="col-sm-3">
+											<label>
+												<input type="radio" ng-model='serviceBaseInfo.dayResetLimit'  ng-value="1"/>
+												重置
+											</label>
+											<label>
+												<input type="radio" ng-model='serviceBaseInfo.dayResetLimit'  ng-value="0"/>
+												不重置
+											</label>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label"><i class="red_req">*</i>打款预警额度：</label>
+										<div class="col-sm-3">
+											<input type="number" class="form-control" ng-model="serviceBaseInfo.outAmountWarning" name="outAmountWarning" required><span class="req_mesg">(此属性暂未生效)</span>
+											<div class="req_mesg" ng-show="horizontal.outAmountWarning.$dirty && horizontal.outAmountWarning.$invalid">
+												<span ng-show="horizontal.outAmountWarning.$error.required">打款预警额度不能为空</span>
+											</div>
+										</div>
+									</div>  
+									<div class="form-group">
+										<label class="col-sm-3 control-label"><i class="red_req">*</i>跳转服务预警额度：</label>
+										<div class="col-sm-3">
+											<input type="number" class="form-control" ng-model="serviceBaseInfo.transformationAmount" name="transformationAmount" required><span class="req_mesg">(此属性暂未生效)</span>
+											<div class="req_mesg" ng-show="horizontal.transformationAmount.$dirty && horizontal.transformationAmount.$invalid">
+												<span ng-show="horizontal.transformationAmount.$error.required">跳转服务预警额度不能为空</span>
+											</div>
+										</div>
+									</div>  
+									<div class="form-group">
+										<label class="col-sm-3 control-label"><i class="red_req">*</i>优先等级：</label>
+										<div class="col-sm-3">
+											<select class="form-control" ng-model="serviceBaseInfo.level" name="level" ng-options="x.value as x.text for x in priorities" required/>
+										</div>
+									</div>  
+									<div class="form-group">
+										<label class="col-sm-3 control-label"><i class="red_req">*</i>提现自动关闭提示：</label>
+										<div class="col-sm-3">
+											<textarea rows="5" cols="20" class="form-control" name="antoCloseMsg" ng-model="serviceBaseInfo.antoCloseMsg" required/>
+											<div class="req_mesg" ng-show="horizontal.antoCloseMsg.$dirty && horizontal.antoCloseMsg.$invalid">
+												<span ng-show="horizontal.antoCloseMsg.$error.required">提现自动关闭提示不能为空</span>
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label">备注:</label>
+										<div class="col-sm-3">
+											<textarea rows="5" cols="20" class="form-control" ng-model="serviceBaseInfo.remark"/>
+										</div>
+									</div>
+								</div>	
+							</uib-tab>
+		                    <uib-tab>
+		                    	<uib-tab-heading>
+		                    		<span class="block m-t-xs">
+		                             	<i class="fa fa-desktop"></i>
+		                                <strong class="font-bold">服务管控费率</strong>
+		                            </span>
+		                        </uib-tab-heading>
+		                        <div class="panel-body">
+		                           <div class="row">
+										<div class="col-lg-12"  ng-switch="serviceBaseInfo.serviceType">
+											<div class="form-group">
+												<label class="col-sm-3 control-label"><i class="red_req">*</i>代付服务费率：</label>
+												<div class="col-sm-2">
+													<select ng-change="getRun(serviceRateInfo.agentRateType)" class="form-control" ng-model="serviceRateInfo.agentRateType" ng-options="x.value as x.text for x in rateTypes"/>
+												</div>
+												
+												<div class="col-sm-3" ng-if="serviceRateInfo.agentRateType!=5">
+													<input type="text" class="form-control" ng-model="serviceRateInfo.serviceRate" name="serviceRate" required>
+													<div class="req_mesg" ng-show="horizontal.serviceRate.$dirty && horizontal.serviceRate.$invalid">
+														<span ng-show="horizontal.serviceRate.$error.required">代付服务费率不能为空</span>
+													</div>
+												</div>
+												<div ng-if="serviceRateInfo.agentRateType==5" class="col-sm-6">
+													<textarea rows="4" style="width: 400px;" disabled="disabled" type="text" class="form-control" ng-model="serviceRateInfo.serviceRate" name="serviceRate" required></textarea>
+													<div class="req_mesg" ng-show="horizontal.serviceRate.$dirty && horizontal.serviceRate.$invalid">
+														<span ng-show="horizontal.serviceRate.$error.required">代付服务费率不能为空</span>
+													</div>
+												</div>
+											</div>
+											<div class="form-group" ng-switch-when="2">
+												<label class="col-sm-3 control-label">垫资资金成本费率：</label>
+												<div class="col-sm-2">
+													<select ng-change="getRun1(serviceRateInfo2.costRateType)" class="form-control" ng-model="serviceRateInfo2.costRateType" ng-options="x.value as x.text for x in costRateTypes" />
+												</div>
+												<div class="col-sm-3" ng-if="serviceRateInfo2.costRateType!=5">
+													<input type="text" class="form-control" ng-model="serviceRateInfo2.serviceRate">
+												</div>
+												<div ng-if="serviceRateInfo2.costRateType==5" class="col-sm-6">
+													<textarea rows="4" style="width: 400px;" disabled="disabled" type="text" class="form-control" ng-model="serviceRateInfo2.serviceRate" required></textarea>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-3 control-label">备注：</label>
+												<p class="col-sm-9 form-control-static">
+													每笔固定金额1元，则填写成本费率1.00；<br/>
+													每笔扣率为0.1%则填写成本费率0.1%;<br/>
+													每笔扣率为0.1%，保底1元则填写成本费率1.00~0.1%；<br/>
+													每笔扣率为0.1%，封顶3元，保底1元则填写成本费率1.00~0.1%~3.00；<br/>
+													每笔扣率为0.1%加上固定金额1元，则填写成本费率0.1%+1.00；
+												</p>
+											</div>
+										</div>
+									</div>
+		                        </div>
+		                    </uib-tab>
+		                </uib-tabset>
+		            </div>
+		        </div>
+			</div>
+			<div class="col-lg-12 bgff">
+				<div class="col-sm-12">
+					<div class="col-sm-3"></div>
+					<div class="col-sm-8">
+						<button class="btn btn-primary btn-rounded btn-mr20" type="button" ng-disabled="horizontal.$invalid || submitting" ng-click="save()">提交</button>
+						<button class="btn btn-primary4 btn-rounded" type="button" ui-sref="money.managerService">返回</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

@@ -1,0 +1,293 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>红包发放查询</a></li>
+            <li class="active"><strong>详情</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="redEnvelopesGrantDetailCtrl">
+    <form class="form-horizontal" name="horizontal" novalidate>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="tabs-container tab_other">
+                        <uib-tabset>
+                            <uib-tab>
+                                <uib-tab-heading>
+									<span class="block m-t-xs"> <i class="fa fa-laptop"></i> <strong
+                                            class="font-bold">红包基本信息</strong>
+									</span>
+                                </uib-tab-heading>
+                                <div class="panel-body ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <h5>红包基本信息</h5>
+                                    </div>
+                                    <div class="ibox-content">
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label">红包ID:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.id"></div>
+                                            <label class="col-sm-1 control-label">发放人类型:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.pushType |formatDropping:pushTypeSelect"></div>
+                                            <label class="col-sm-1 control-label">接收人类型:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.receiveType |formatDropping:receiveTypeSelect"></div>
+                                            <label class="col-sm-1 control-label">业务类型:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.busType |formatDropping:busTypeSelect"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label">发放人组织名称:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.orgName"></div>
+                                            <label class="col-sm-1 control-label">是否收取佣金:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.hasProfit |formatDropping:hasProfitSelect"></div>
+                                            <label class="col-sm-1 control-label">发放地点:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.pushAddress"></div>
+                                            <label class="col-sm-1 control-label">发放范围:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.pushArea |formatDropping:pushAreaSelect"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label">发放用户ID:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.pushUserCode"></div>
+                                            <label class="col-sm-1 control-label">发放用户姓名:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.pushUserName"></div>
+                                            <label class="col-sm-1 control-label">发放用户手机号:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.pushUserPhone"></div>
+                                            <label class="col-sm-1 control-label">关联业务订单ID:</label>
+                                            <div class="col-sm-2 checkbox wbba" ng-bind="info.orderNo"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label">红包金额:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.pushAmount | currency:''"></div>
+                                            <label class="col-sm-1 control-label">个数:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.pushNum"></div>
+                                            <label class="col-sm-1 control-label">单个领取金额:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.pushEachAmount"></div>
+                                            <label class="col-sm-1 control-label">红包配置ID:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.confId"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label">单个定向接收用户ID:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.dxUserCode"></div>
+                                            <label class="col-sm-1 control-label">单个定向接收用户姓名:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.dxUserName"></div>
+                                            <label class="col-sm-1 control-label">单个定向接收用户手机号:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.dxUserPhone"></div>
+                                            <label class="col-sm-1 control-label">红包创建时间:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.createDate | date:'yyyy-MM-dd HH:mm:ss'"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label">支付方式:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.payType |formatDropping:payTypeSelect"></div>
+                                            <label class="col-sm-1 control-label">关联支付订单ID:</label>
+                                            <div class="col-sm-2 checkbox wbba" ng-bind="info.payOrderNo"></div>
+                                            <label class="col-sm-1 control-label">用户实际领抢金额:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.pushUserAmount | currency:''"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <h5>红包状态</h5>
+                                    </div>
+                                    <div class="ibox-content">
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label">红包状态:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.status |formatDropping:statusSelect"></div>
+                                            <label class="col-sm-1 control-label">红包有效期:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.expDate  | date:'yyyy-MM-dd HH:mm:ss' "></div>
+                                            <label class="col-sm-1 control-label">风控状态:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.statusRisk |formatDropping:statusRiskSelect"></div>
+                                            <label class="col-sm-1 control-label">剩余金额处理状态:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.statusRecovery |formatDropping:statusRecoverySelect"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label">剩余金额处理方式:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.recoveryType |formatDropping:recoveryTypeSelect"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label">红包说明:</label>
+                                            <div class="col-sm-8">
+                                                <textarea class="form-control" rows="6" cols="10" disabled ng-model="info.remark"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group" style="padding-bottom: 20px;">
+                                            <label class="col-sm-1 control-label" >介绍图片:</label>
+                                            <div class="col-img"  ng-repeat="m in imageList">
+                                                <div style="text-align:center;">ID:{{m.id}}</div>
+                                                <div><a href="{{m.imgUrl}}" fancybox rel="group"> <img width="250px" height="150px" ng-src="{{m.imgUrl}}"/></a></div>
+                                                <div ng-show="m.status==0" style="text-align:center;">显示</div>
+                                                <div ng-show="m.status==1" style="text-align:center;">已屏蔽</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <h5>营销效果统计</h5>
+                                    </div>
+                                    <div class="ibox-content">
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label">评论数:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.discussNum"></div>
+                                            <label class="col-sm-1 control-label">点赞数:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.goodNum"></div>
+                                            <label class="col-sm-1 control-label">阅读数:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.readNum"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label">已收藏数:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.storeNum"></div>
+                                            <label class="col-sm-1 control-label">红包总数:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.pushNum"></div>
+                                            <label class="col-sm-1 control-label">已领红包数:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.hadsendNum"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <h5>最近操作</h5>
+                                    </div>
+                                    <div class="ibox-content">
+                                        <div class="form-group">
+                                            <div ui-grid="gridOpt" ui-grid-pagination ui-grid-selection ui-grid-resize-columns ui-grid-pinning class="grid">
+                                                <div ng-show="loadImg" class="timg"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </uib-tab>
+                            <uib-tab>
+                                <uib-tab-heading>
+									<span class="block m-t-xs">
+										<i class="fa fa-desktop"></i>
+										<strong class="font-bold">佣金分配记录</strong>
+									</span>
+                                </uib-tab-heading>
+                                <div class="panel-body ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <h5>佣金分配记录</h5>
+                                    </div>
+                                    <div class="ibox-content">
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label">一级编号:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.oneUserCode"></div>
+                                            <label class="col-sm-1 control-label">一级名称:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.oneUserCode"></div>
+                                            <label class="col-sm-1 control-label">一级身份:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.oneUserType"></div>
+                                            <label class="col-sm-1 control-label">一级分润:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.oneUserProfit | currency:''"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label">二级编号:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.twoUserCode"></div>
+                                            <label class="col-sm-1 control-label">二级名称:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.twoUserCode"></div>
+                                            <label class="col-sm-1 control-label">二级身份:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.twoUserType"></div>
+                                            <label class="col-sm-1 control-label">二级分润:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.twoUserProfit | currency:''"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label">三级编号:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.thrUserCode"></div>
+                                            <label class="col-sm-1 control-label">三级名称:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.thrUserCode"></div>
+                                            <label class="col-sm-1 control-label">三级身份:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.thrUserType"></div>
+                                            <label class="col-sm-1 control-label">三级分润:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.thrUserProfit | currency:''"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label">四级编号:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.fouUserCode"></div>
+                                            <label class="col-sm-1 control-label">四级名称:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.fouUserCode"></div>
+                                            <label class="col-sm-1 control-label">四级身份:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.fouUserType"></div>
+                                            <label class="col-sm-1 control-label">四级分润:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.fouUserProfit | currency:''"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label">组织(品牌商)编号:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.orgId"></div>
+                                            <label class="col-sm-1 control-label">品牌商名称:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.orgName"></div>
+                                            <label class="col-sm-1 control-label">品牌商分润:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.orgProfit | currency:''"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label">平台分润:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.plateProfit | currency:''"></div>
+                                            <label class="col-sm-1 control-label">佣金总计(服务费):</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.pushFee | currency:''"></div>
+                                            <label class="col-sm-1 control-label">记账状态:</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="info.statusAccount |formatDropping:statusAccountSelect"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </uib-tab>
+                            <uib-tab>
+                                <uib-tab-heading>
+									<span class="block m-t-xs">
+										<i class="fa fa-desktop"></i>
+										<strong class="font-bold">红包领取明细</strong>
+									</span>
+                                </uib-tab-heading>
+                                <div class="panel-body ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <h5>红包领取明细</h5>
+                                    </div>
+                                    <div class="ibox-content">
+                                        <div class="form-group">
+                                            <div ui-grid="gridRer" ui-grid-pagination ui-grid-selection ui-grid-resize-columns ui-grid-pinning class="grid">
+                                                <div ng-show="loadImg" class="timg"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </uib-tab>
+
+                            <uib-tab>
+                                <uib-tab-heading>
+									<span class="block m-t-xs">
+										<i class="fa fa-desktop"></i>
+										<strong class="font-bold">红包评论明细</strong>
+									</span>
+                                </uib-tab-heading>
+                                <div class="panel-body ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <h5>红包评论明细</h5>
+                                    </div>
+                                    <div class="ibox-content">
+                                        <div class="form-group">
+                                            <div ui-grid="gridDis" ui-grid-pagination ui-grid-selection ui-grid-resize-columns ui-grid-pinning class="grid">
+                                                <div ng-show="loadImg" class="timg"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </uib-tab>
+                        </uib-tabset>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="col-lg-12 bgff">
+                <div class="col-sm-12">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-6">
+                        <div style="padding: 0 15px;">
+                            <button class="btn btn-primary4 btn-mr20" ui-sref="red.redEnvelopesGrant" type="button">返回</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="height:50px"></div>
+    </form>
+</div>

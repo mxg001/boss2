@@ -1,0 +1,93 @@
+<!-- head -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>用户中心</a></li>
+            <li class="active"><strong>敏感词查询</strong></li>
+        </ol>
+    </div>
+</div>
+
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+     ng-controller="leadInSensitiveWordsCtrl">
+    <form class="form-horizontal">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>关键字批量导入</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">导入文件：</label>
+                            <div class="col-sm-3">
+                                <input type="file" nv-file-select="" ng-model="fileSelect"
+                                       uploader="uploader" multiple />
+                                <table class="table">
+                                    <tbody>
+                                    <tr ng-repeat="item in uploader.queue">
+                                        <td><strong>{{ item.file.name }}</strong></td>
+                                        <td nowrap>
+                                            <button type="button" class="btn btn-danger btn-xs"
+                                                    ng-click="item.remove()">
+                                                <span class="glyphicon glyphicon-trash"></span>删除
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <a href="sensitiveWords/downloadTemplate" >批量新增模板</a>
+                            </div>
+                        </div>
+
+                        <div ng-show="loadImg" class="timg"></div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 bgff">
+            <div class="col-sm-12">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-2">
+                    <button class="btn btn-primary btn-rounded btn-block" type="button"
+                            ng-disabled="submitting" ng-click="submit()">提交</button>
+                </div>
+                <a class="btn btn-primary4" type="button" ui-sref="user.sensitive">返回</a>
+            </div>
+        </div>
+    </form>
+
+    <div id="resultModel" class="modal fade" tabindex="3" role="dialog">
+        <div class="modal-dialog" style="height:300px;width: 900px">
+            <div class="modal-content" style="height:300px;width: 900px">
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        导入成功{{successCount}}条&nbsp;导入失败{{failCount}}条
+                    </div>
+
+                    <div class="form-group">
+                        <!--<label class="col-sm-3 control-label">结果回显(注:中括号为所在行号)：</label>
+                            <div class="col-sm-6">-->
+                        <textarea class="form-control" rows="6" cols="10" name="remark" ng-bind-html="resultStr" readonly="readonly">
+								</textarea>
+                    </div>
+                </div>
+                <div class="form-group control-label">
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="col-sm-6">
+                        <div class="btn btn-primary"  type="button" ng-click='cancel()'>关闭</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

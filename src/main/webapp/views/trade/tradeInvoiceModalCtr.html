@@ -1,0 +1,194 @@
+<div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal"
+		aria-label="Close" ng-click="solutionModalClose()">
+		<span aria-hidden="true">&times;</span>
+	</button>
+	<h4 class="modal-title" id="myModalLabel">小票</h4>
+</div>
+<div class="modal-body" id="modal-body">
+	<form class="form-horizontal" id="form1">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="panel-body ibox float-e-margins" >
+					<div class="ibox-title">
+						<h5>商户存根</h5>
+						<h5 style="float: right;">MERCHANT COPY</h5>
+					</div>
+					<div class="ibox-content" >
+					
+						<div class="form-group">
+							<label class="col-sm-4 control-label">商户名称：</label>
+							<div class="col-sm-5" >
+							<input type="text" class="form-control" id="acqMerchantName" ng-model="infoDetail.acqMerchantName" >
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label">商户编号：</label>
+							<div class="col-sm-3">
+							<input type="text" class="form-control" id="cqMerchantNo" ng-model="infoDetail.acqMerchantNo" >
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label">终端编号：</label>
+							<div class="col-sm-3" >
+							<input type="text" class="form-control" id="acqTerminalNo" ng-model="infoDetail.acqTerminalNo" >
+							</div>
+							<label class="col-sm-1 control-label">隐藏 : </label>
+							<div class="col-sm-1" style="padding:0">
+							<input type="checkbox" style="margin-top:3px;" class="checkbox" ng-model="showAcqTerminalNo" ng-click="changeTerminalNo(1)">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label">终端号：</label>
+							<div class="col-sm-3" >
+							<input type="text" class="form-control" id="ysTerminalNo" ng-model="ysTerminalNo" >
+							</div>
+							<label class="col-sm-1 control-label">隐藏 : </label>
+							<div class="col-sm-1" style="padding:0">
+							<input type="checkbox" style="margin-top:3px;" class="checkbox" ng-model="showYsTerminalNo" ng-click="changeTerminalNo(2)">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label">操作员号：</label>
+							<div class="col-sm-3">
+							<input type="text" class="form-control" id="operatorNo" ng-model="operatorNo" >
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label">卡号： </label>
+							<div class="col-sm-3" >
+							<input type="text" class="form-control" id="accountNo" ng-model="infoDetail.accountNo" >
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label">发卡行： </label>
+							<div class="col-sm-3" >
+							<input type="text" class="form-control" id="bankName" ng-model="pcb.bankName" >
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label">收单行： </label>
+							<div class="col-sm-3">
+							<input type="text" class="form-control" id="acqEnname" ng-model="infoDetail.acqEnname" >
+							</div>
+							<label class="col-sm-1 control-label">隐藏 : </label>
+							<div class="col-sm-1" style="padding:0">
+							<input  type="checkbox" style="margin-top:3px;" class="checkbox" ng-model="myCheck">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label">交易类型：</label>
+							<div class="col-sm-3"  >
+							<input type="text" class="form-control" id="transTypes" ng-model="infoDetail.transType" >
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label">凭证号：</label>
+							<div class="col-sm-3" >
+							<input type="text" class="form-control" id="acqSerialNo" ng-model="infoDetail.acqSerialNo" >
+							</div>
+							<label class="col-sm-1 control-label">隐藏 : </label>
+							<div class="col-sm-1" style="padding:0">
+							<input  type="checkbox" style="margin-top:3px;" class="checkbox" ng-model="acqSerialNoCheck">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label">批次号：</label>
+							<div class="col-sm-3" >
+							<input type="text" class="form-control" id="acqBatchN" ng-model="infoDetail.acqBatchNo" >
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label">交易地址： </label>
+							<div class="col-sm-3">
+							<input type="text" class="form-control" id="merchantAddress" ng-model="infoDetail.address" >
+							</div>
+							<label class="col-sm-1 control-label">隐藏 : </label>
+							<div class="col-sm-1" style="padding:0">
+							<input  type="checkbox" style="margin-top:3px;" class="checkbox" ng-model="merchantAddress">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label">检索参考号：</label>
+							<div class="col-sm-3" >
+							<input type="text" class="form-control" id="acqReferenceNo" ng-model="infoDetail.acqReferenceNo" >
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label">授权号码：</label>
+							<div class="col-sm-3" >
+							<input type="text" class="form-control" id="acqAuthNo" ng-model="infoDetail.acqAuthNo" >
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label">时间：</label>
+							<div class="col-sm-3" >
+							<input type="text" class="form-control" id="transTime" ng-model="infoDetail.transTime | date:'yyyy-MM-dd HH:mm:ss'" >
+							<!-- <input type="datetime" date-time view="date" id="transTime" format="YYYY/MM/DD HH:mm:ss"
+								class="form-control" ng-model="infoDetail.transTime"/> -->
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label">金额：</label>
+							<div class="col-sm-3">
+							<input type="text" class="form-control" id="transAmount" ng-model="infoDetail.transAmount " >
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label">持卡人签名：</label>
+							<div class="col-sm-3">
+								<img  src="{{infoDetail.signImg}}" height="120px"/>						
+							</div>
+						</div>
+						<div class="form-group" style="padding-top:10px" ng-show="(infoDetail.teamId=='100090'||infoDetail.teamId=='100070')&&infoDetail.transAmount<=1000&&infoDetail.readCard!=null">
+							<label class="col-sm-4 control-label"></label>
+							<label class="col-sm-7">{{infoDetail.readCard=='quickPass'&&infoDetail.orderType==5?"交易金额未超1000.00元，免密免签":""}}{{infoDetail.readCard=='ic'||infoDetail.readCard=='track'?"交易金额未超1000.00元，免签":""}}</label>
+						</div>
+						<div class="form-group" style="padding-top:10px">
+							<label class="col-sm-4 control-label"></label>
+							<label class="col-sm-7">本人确认以上交易，同意将其计入本卡账号</label>
+						</div>
+						<div class="form-group" style="padding-top:0px;">
+							<label class="col-sm-4 control-label"></label>
+							<label class="col-sm-7" style="margin-bottom: 0px;width: 65%">
+							 I ACKNOWLEDGE SATISFACTORY RECEIPT OF RELATIVE GOODS/SERVICES
+							</label>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label"></label>
+							<h3 class="col-sm-7">支付随心&nbsp;&nbsp;&nbsp;畅享随行</h3>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<!--小票预览（有签名） -->
+<div id="trade_preview_sign" style="margin: 0 auto;width:500px; display: none;padding-left: 10px;padding-right: 10px;">
+</div>
+<!--小票预览（无签名） -->
+<div id="trade_preview" style="margin: 0 auto;display: none;width:500px;padding-left: 10px;padding-right: 10px;">
+</div>
+
+<!--小票2打印（有签名） -->
+<div id="trade_preview_sign_prt" style="display: none;">
+</div>
+<!--小票2打印（无签名） -->
+<div id="trade_preview_prt" style="display: none;">
+</div>
+	<form id="saveForm" method="post">
+	<input type="hidden" name="info" id="inputInfo"/>
+	<input type="hidden" name="_csrf" id="token"/>
+	<input type="hidden" name="header" id="header"/>
+	</form>
+<div class="modal-footer" id="modal-footer_preview">
+	<button type="submit" class="btn btn-new" ng-click="createInvoic_one()">生成小票1</button>
+	<button type="submit" class="btn btn-new" ng-click="createInvoic_two()">生成小票2</button>
+</div>
+<div class="modal-footer" id="modal-footer_print" style="display: none">
+	<button type="submit" class="btn btn-new" ng-click="solutionModalOk()">打印小票</button>
+	<button type="submit" class="btn btn-new" ng-click="no_sign_print()">无签名打印小票</button>
+	<button type="submit" class="btn btn-new" ng-click="out_save_to_img()">保存小票</button>
+</div>
+

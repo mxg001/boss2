@@ -1,0 +1,68 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>功能管理</a></li>
+			<li class="active"><strong>活动管理</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+		 ng-controller="diYongJinCtrl">
+	<form class="form-horizontal" id="form1" name="horizontal">
+		<div class="row">
+			<div class="col-lg-12" style="padding-bottom: 80px;">
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>活动管理</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">名称：</label>
+							<div class="col-lg-2">
+								<p class="form-control-static">{{info.activityName}}</p>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">活动简介：</label>
+							<div class="col-sm-8" style="width: 350px;">
+							<textarea rows="5" cols="20" class="form-control"
+												name="activityExplain" ng-model='info.activityExplain' required></textarea>
+							</div>
+							<label class="col-sm-2 control-label">券过期提示：</label>
+							<div class="col-sm-8" style="width: 350px;">
+							<textarea rows="5" cols="20" class="form-control"
+												name="activityExplain" ng-model='info.activityNotice' required></textarea>
+							</div>
+						</div>
+						<div
+								style="background: #fff; text-align: right; overflow: hidden; padding: 10px 20px 0;">
+							<button  class="btn btn-new2 btn-mr20" type="button"
+											ui-sref="func.diYongJinEdit({id:'',view:'add'})">新增券</button>
+						</div>
+						<div class="panel-body ibox float-e-margins">
+							<div class="ibox-content">
+								<div class="gridStyle" ui-grid="rechargeEntityGrid"
+										 ui-grid-pinning ui-grid-resize-columns></div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-4">
+								<button ng-show="couponEdit" class="btn btn-primary btn-rounded "
+												type="button" id="btnSubmit2" ng-click="commit()"
+												ng-disabled="subDisable">提交</button>
+								<a type="button" class="btn btn-primary4"
+									 ui-sref="func.couponActivity">返回</a>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

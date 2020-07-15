@@ -1,0 +1,106 @@
+<!-- 超级银行家用户管理页面 -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>超级盟主</a></li>
+            <li class="active"><strong>排行榜奖金发放明细</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app ng-controller="rankListQueryCtrl">
+    <form class="form-horizontal" id="form1">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="">
+                    <div class="panel-body ibox float-e-margins">
+                        <div class="ibox-content">
+                            <div class="ibox-title">
+                                <h5>排行榜奖金发放明细查询</h5>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">排行榜月份:</label>
+                                <div class="col-sm-2">
+                                    <input id="d5241" class="form-control" type="datetime" ng-model="info.countMonth" onchange=""style="width: auto; display: inline-block;"
+                                           onFocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM'})" />
+                                </div>
+                                <label class="col-sm-2 control-label">获奖盟主:</label>
+                                <div class="col-sm-2">
+                                    <select id="userCode"  name="userCode" ng-model="info.userCode" ng-options="x.value as x.text for x in userList"
+                                            style="width: 100%" chosen chosen-data="userList" chosen-keyup="getUserList">
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label">盟主手机:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.mobile">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">盟主昵称:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.nickName">
+                                </div>
+                                <label class="col-sm-2 control-label">一级代理商编号:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.oneAgentNo">
+                                </div>
+                                <label class="col-sm-2 control-label">所属机构:</label>
+                                <div class="col-sm-2">
+                                    <select id="oneUserCode" ng-model="info.oneUserCode" ng-options="x.value as x.text for x in orgUserList"
+                                            style="width: 100%" chosen chosen-data="orgUserList" chosen-keyup="getOrgUserList">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+
+                                <label class="col-sm-1 control-label">入账状态:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.entryStatus" ng-options="x.value as x.text for x in entryStatusSelect"/>
+                                </div>
+                                <label class="col-sm-2 control-label">入账日期:</label>
+                                <div class="col-sm-5">
+                                    <input id="d5244" class="form-control" type="datetime" ng-model="info.entryTimeBegin" onchange=""  style="width:auto;display:inline-block;"
+                                           onFocus="var d5245=$dp.$('d5245');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5245.focus();},maxDate:'#F{$dp.$D(\'d5245\')}'})"/>
+                                    ~
+                                    <input id="d5245" class="form-control" type="datetime"  ng-model="info.entryTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+                                           onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5244\')}'})"/>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-top: 30px">
+                                <div class="col-sm-8">
+                                    <label class="col-sm-2 control-label"></label>
+                                    <button class="btn btn-primary6 btn-mr20" type="button" ng-click="query()" >查询</button>
+                                    <button class="btn btn-primary3 btn-mr20" type="button" ng-click="clear()" >清空</button>
+                                    <button class="btn btn-primary7 btn-mr20" type="button" ng-show="hasPermit('rankList.importDetail')" ng-click="exportInfo()" >导出</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body ibox float-e-margins">
+                        <div class="ibox-title">
+                            <div class="ibox-content">
+                                <div class="ibox-title">
+                                    <h5>排行榜奖金发放明细列表</h5>
+                                </div>
+                                <div class="form-group">
+                                    <div style="float:right">总计:奖金
+                                        <span style="color: red;" >{{sumMap.amountCount1==null?0:sumMap.amountCount1}}</span> 元,其中已入账
+                                        <span style="color: red;" >{{sumMap.amountCount2==null?0:sumMap.amountCount2}}</span>元,未入账
+                                        <span style="color: red;" >{{sumMap.amountCount3==null?0:sumMap.amountCount3}}</span> 元
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="gridStyle" ui-grid="userGrid" ui-grid-selection ui-grid-pagination
+                                         ui-grid-resize-columns ui-grid-pinning></div>
+                                    <div ng-show="loadImg" class="timg"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="height:30px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

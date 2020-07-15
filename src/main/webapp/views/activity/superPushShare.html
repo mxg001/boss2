@@ -1,0 +1,114 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a href="index.html">主页</a></li>
+			<li>欢乐送活动查询</li>
+			<li class="active"><strong>微创业收益明细</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn"
+	ng-controller="superPushShareCtrl">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>微创业收益明细查询</h5>
+				</div>
+				<div class="ibox-content">
+					<form class="form-horizontal" id="form1">
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="panel-body ibox float-e-margins">
+									<div class="ibox-content">
+										<div class="form-group">
+											<label class="col-sm-2 control-label">分润商户/代理商编号：</label>
+											<div class="col-sm-3">
+												<input type="text" class="form-control"ng-model='baseInfo.shareNo' onchange="keyChange()">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label">分润创建时间：</label>
+											<div class="col-sm-5">
+												<input id="d5221" class="form-control" type="datetime" ng-model="baseInfo.createTimeStart" onchange=""  style="width:auto;display:inline-block;"
+													onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',changed:verifyTime(1,'#d5221','#d5222',31,isVerifyTime),onpicked:function(){d5222.focus();},maxDate:'#F{$dp.$D(\'d5222\')||\'%y-%M-%d\'}'})"/>
+												~
+												<input id="d5222" class="form-control" type="datetime"  ng-model="baseInfo.createTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+													onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',changed:verifyTime(2,'#d5221','#d5222',31,isVerifyTime),minDate:'#F{$dp.$D(\'d5221\')}',maxDate:'%y-%M-%d 23:59:59'})"/>
+												<br/><span><font color="#999">备注：查询范围不能超过一个月</font></span>
+											</div>
+											<label class="col-sm-2 control-label">分润级别：</label>
+											<div class="col-sm-3">
+												<select class="form-control" ng-model="baseInfo.shareType" ng-options="x.value as x.text for x in shareTypeList" >
+												</select>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label">分润入账时间：</label>
+											<div class="col-sm-5">
+												<input id="d5223" class="form-control" type="datetime" ng-model="baseInfo.shareTimeStart" onchange=""  style="width:auto;display:inline-block;"
+													onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5224.focus();}})"/>
+												~
+												<input id="d5224" class="form-control" type="datetime"  ng-model="baseInfo.shareTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+													onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss'})"/>
+											</div>
+											<label class="col-sm-2 control-label">入账状态：</label>
+											<div class="col-sm-3">
+												<select class="form-control" ng-model="baseInfo.shareStatus" ng-options="x.value as x.text for x in shareStatusList">
+												</select>
+											</div>
+											
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label">交易订单号：</label>
+											<div class="col-sm-3">
+												<input type="text" class="form-control"ng-model='baseInfo.orderNo' onchange="keyChange()">
+											</div>
+											<label class="col-sm-2 control-label">交易商户编号：</label>
+											<div class="col-sm-3">
+												<input type="text" class="form-control"ng-model='baseInfo.merchantNo' onchange="keyChange()">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2"></label>
+											<div class="col-sm-10">
+												<button class="btn btn-primary6 btn-mr20" type="button" ng-click='query()' id="btnSubmit">查询</button>
+												<button class="btn btn-primary3 btn-mr20" type="button" ng-click="resetForm()">清空</button>
+												<button class="btn btn-new btn-mr20" type="button" ng-click="export()">导出</button>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body ibox float-e-margins">
+									<div class="ibox-content">
+										<div class="form-group">
+											<div class="col-sm-10 checkbox">
+											<div class="form-group">
+												<div class="col-sm-3 checkbox">分润金额：<span ng-bind="totalShareMap.sumShareAmount | currency:''"></span></div>
+												<div class="col-sm-2 checkbox">已入账：<span ng-bind="totalShareMap.recordSumShareAmount | currency:''"></span></div>
+												<div class="col-sm-2 checkbox">未入账：<span ng-bind="totalShareMap.noRecordSumShareAmount | currency:''"></span></div>
+												<div class="col-sm-3 checkbox">交易金额：<span ng-bind="totalAmountMap.sumTransAmount | currency:''"></span></div>
+												<div class="col-sm-2 checkbox">交易笔数：<span ng-bind="totalAmountMap.sumTransOrder"></span></div>
+											</div>
+											<!-- <span ng-bind="znum"></span></div> -->
+										</div>
+										<div class="tposition">
+											<div class="gridStyle grid" ui-grid="superPushShareGrid" ui-grid-selection  ui-grid-resize-columns ui-grid-pagination ui-grid-pinning></div>
+											<div ng-show="loadImg" class="timg"></div>
+										</div>
+									</div>
+								</div>
+								<div style="height: 50px"></div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div style="height: 30px;"></div>
+</div>

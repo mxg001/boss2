@@ -1,0 +1,98 @@
+<div class="panel-body ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-group">
+            <label class="col-sm-1 control-label">订单ID:</label>
+            <div class="col-sm-2 checkbox" ng-bind="info.batchNo"></div>
+            <label class="col-sm-2 control-label">用户编号:</label>
+            <div class="col-sm-2 checkbox" ng-bind="info.merchantNo"></div>
+            <label class="col-sm-2 control-label">手机号:</label>
+            <div class="col-sm-3 checkbox" >
+                <span ng-bind="info.mobileNo"></span>
+                <button type="button" ng-show="dataSta&&hasPermit('creditRepayOrder.getDataProcessing')" ng-click="getDataProcessing()">显示</button>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label">姓名:</label>
+            <div class="col-sm-2 checkbox" ng-bind="info.userName"></div>
+            <label class="col-sm-2 control-label">昵称:</label>
+            <div class="col-sm-2 checkbox" ng-bind="info.nickname"></div>
+            <label class="col-sm-2 control-label">身份证号:</label>
+            <div class="col-sm-3 checkbox" >
+                <span ng-bind="info.idCardNo"></span>
+                <button type="button" ng-show="dataSta&&hasPermit('creditRepayOrder.getDataProcessing')" ng-click="getDataProcessing()">显示</button>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label">订单状态:</label>
+            <div class="col-sm-2 checkbox" ng-bind="info.status |formatDropping:statusSelect"></div>
+            <label class="col-sm-2 control-label">任务金额:</label>
+            <div class="col-sm-2 checkbox" ng-bind="info.repayAmount"></div>
+            <label class="col-sm-2 control-label">保证金:</label>
+            <div class="col-sm-2 checkbox" ng-bind="info.ensureAmount"></div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label">保证金比例:</label>
+            <div class="col-sm-2 checkbox">{{info.ensureAmountRate+'%'}}</div>
+            <label class="col-sm-2 control-label">服务费:</label>
+            <div class="col-sm-2 checkbox" ng-bind="info.repayFee"></div>
+            <label class="col-sm-2 control-label">服务费率:</label>
+            <div class="col-sm-2 checkbox" ng-bind="info.repayFeeRate"></div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label">已消费总额:</label>
+            <div class="col-sm-2 checkbox" ng-bind="info.successPayAmount"></div>
+            <label class="col-sm-2 control-label">已还款总额:</label>
+            <div class="col-sm-2 checkbox" ng-bind="info.successRepayAmount"></div>
+            <label class="col-sm-2 control-label">实际交易手续费：</label>
+            <div class="col-sm-2 checkbox" ng-bind="info.actualPayFee"></div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label">实际代付手续费:</label>
+            <div class="col-sm-2 checkbox" ng-bind="info.actualWithdrawFee"></div>
+            <label class="col-sm-2 control-label">已成功还款总笔数:</label>
+            <div class="col-sm-2 checkbox" ng-bind="info.successRepayNum"></div>
+            <label class="col-sm-2 control-label">还款期数:</label>
+            <div class="col-sm-2 checkbox">{{info.repayNum+'期'}}</div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-1 control-label">还款卡号:</label>
+            <div class="col-sm-2 checkbox" ng-bind="info.accountNo"></div>
+            <label class="col-sm-2 control-label">还款银行:</label>
+            <div class="col-sm-2 checkbox" ng-bind="info.bankName"></div>
+            <label class="col-sm-2 control-label">创建时间：</label>
+            <div class="col-sm-2 checkbox" ng-bind="info.createTime | date:'yyyy年MM月dd日 HH:mm:ss'"></div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label">计划开始时间：</label>
+            <div class="col-sm-2 checkbox" ng-bind="info.repayBeginTime | date:'yyyy年MM月dd日 HH:mm:ss'"></div>
+            <label class="col-sm-2 control-label">计划结束时间：</label>
+            <div class="col-sm-2 checkbox" ng-bind="info.repayEndTime | date:'yyyy年MM月dd日 HH:mm:ss'"></div>
+            <label class="col-sm-2 control-label">交易通道:</label>
+            <div class="col-sm-2 checkbox" ng-bind="info.acqCode"></div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label">任务说明:</label>
+            <div class="col-sm-2 checkbox" ng-bind="info.mission"></div>
+            <label class="col-sm-2 control-label">记账状态:</label>
+            <div class="col-sm-2 checkbox" ng-bind="info.billingStatus |formatDropping:billingStatusSelect"></div>
+            <label class="col-sm-2 control-label">交易地区:</label>
+            <div class="col-sm-2 checkbox">{{info.provinceName}}{{info.cityName}}</div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label">备注:</label>
+            <div class="col-sm-2 checkbox" ng-bind="info.resMsg"></div>
+        </div>
+    </div>
+</div>
+
+<div class="panel-body ibox float-e-margins">
+    <div class="ibox-title">
+        <h5>任务记录</h5>
+    </div>
+    <div class="ibox-content" style="overflow: hidden; padding: 0 20px;">
+        <div class="form-group">
+            <div ui-grid="settleInfoRecord" ui-grid-resize-columns class="grid" style="height: 200px;"></div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,161 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a href="index.html">主页</a></li>
+            <li>超级银行家</li>
+            <li class="active"><strong>黑名单管理</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="blacklistCtrl">
+    <form class="form-horizontal" id="form1">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>查询条件</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">用户ID：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.userCode">
+                            </div>
+                            <label class="col-sm-2 control-label">手机号：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.userPhone">
+                            </div>
+                            <label class="col-sm-2 control-label">身份证：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.userIdCard">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">黑名单类型：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="baseInfo.type" ng-options="x.value as x.text for x in typeList">
+                                </select>
+                            </div>
+                            <label class="col-sm-2 control-label">创建人：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.createBy">
+                            </div>
+                            <label class="col-sm-2 control-label">状态：</label>
+                               <div class="col-sm-2">
+                                <select class="form-control" ng-model="baseInfo.status" ng-options="x.value as x.text for x in statusAll">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">创建时间：</label>
+                              <div class="col-sm-5">
+                                <input id="d5557" class="form-control" type="datetime" ng-model="baseInfo.createDateStart" onchange=""  style="width:auto;display:inline-block;" onFocus="var d5557=$dp.$('d5558');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5558.focus();},maxDate:'#F{$dp.$D(\'d5558\')}'})"/>
+								-
+								<input id="d5558" class="form-control" type="datetime"  ng-model="baseInfo.createDateEnd" onchange=""  style="width:auto;display:inline-block;" onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5557\')}'})"/>
+<!--                                         <input type="text" name="createDateStart" ng-model="baseInfo.createDateStart" id="startDate"  class="form-control Wdate" onclick="WdatePicker({maxDate:'#F{$dp.$D(\'endDate\')}',dateFmt:'yyyy-MM-dd'})" style="width:auto;display:inline-block;"/> -->
+<!--                                         - -->
+<!--                                         <input type="text" name="createDateEnd" ng-model="baseInfo.createDateEnd"  id="endDate"  class="form-control Wdate" onclick="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}',dateFmt:'yyyy-MM-dd'})" style="width:auto;display:inline-block;"/> -->
+                                </div>
+                        </div>
+                        <!--<div class="form-group">
+                            <label class="col-sm-2 control-label">卡类型：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="baseInfo.cardType" ng-options="x.value as x.text for x in cardTypeList"></select>
+                            </div>
+                        </div>-->
+
+                        <div class="form-group" style="margin-top: 30px">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-8">
+                                <button class="btn btn-primary6 btn-mr20"  ng-click="query()" ng-disabled="submitting">查询</button>
+                                <button class="btn btn-primary3 btn-mr20" type="button" ng-click="resetForm()">清空</button>
+                                <button class="btn btn-primary5 btn-mr20" type="button" ui-sref="superBank.addBlack" ng-show="hasPermit('superBank.addBlack')">新增</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>查询列表</h5>
+                    </div>
+
+                    <div class="ibox-content">
+                        <div class="tposition">
+                            <div class="gridStyle" ui-grid="infoGrid" ui-grid-selection ui-grid-pagination
+                                 ui-grid-resize-columns ui-grid-pinning></div>
+                            <div ng-show="loadImg" class="timg"></div>
+                        </div>
+                    </div>
+                </div>
+                <div style="height:30px;"></div>
+            </div>
+        </div>
+        
+        	<!--自定义状态更改弹出框-->
+		<div id="updateStatusModal" class="modal fade" tabindex="-1" role="dialog">
+			<div class="modal-dialog" style="height:200px;width: 560px">
+				<div class="modal-content" >
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							&times;
+						</button>
+						<h3 class="modal-title"><span id="myTitle"></span></h3>
+					</div>
+					<div class="modal-body" style="height:150px;width: 560px">
+						<div class="form-group control-label" style="overflow:hidden; padding-bottom:0px;">
+							<label class="col-sm-2 control-label" style="text-align:right;">备注：</label>
+							<div class="col-sm-8">
+								<textarea class="form-control" name="handleRemark" ng-model="handleRemark" style="height:100px;" ng-maxlength="300"></textarea>
+							</div>
+
+						</div>
+						<div class="form-group control-label" style="overflow:hidden; padding-bottom:0px;">
+							<label class="col-sm-4 control-label"></label>
+							<div class="col-sm-8">
+								<div style="text-align:left" class="req_mesg"
+									 ng-show="horizontal.handleRemark.$dirty &&  horizontal.handleRemark.$invalid || horizontal.handleRemark.$error.maxlength">
+									备注限制为300位汉字,字母,空格,或者数字</div>
+							</div>
+						</div>
+						<input type="hidden" class="form-control" ng-model="id">
+					</div>
+					<div class="modal-footer" style="height:60px;width: 560px; text-align: center;">
+						<button type="button" ng-click="updateHandleStatusCommit()" ng-disabled="horizontal.$invalid || submitting " class="btn btn-primary btn-mr20">确定</button>
+						<button type="button" ng-click="updateHandleStatusColse()" ng-disabled="submitting" class="btn btn-primary11">关闭</button>
+					</div>
+
+				</div>
+			</div>
+		</div>
+        
+      <!--黑名单日志-->
+		<div id="showLogDiv" class="modal fade"  role="dialog">
+			<div class="modal-dialog" style="width: 900px">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							&times;</button>
+						<h3 class="modal-title">黑名单操作日志</h3>
+					</div>
+					<!--------<div ui-grid="showLogGrid" ui-grid-pagination ui-grid-resize-columns ui-grid-pinning class="grid" style="width:850px;"></div>-------->
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="panel-body ibox float-e-margins">
+								<div class="ibox-content">
+									<div class="form-group">
+										<div ui-grid="showLogGrid" ui-grid-pagination ui-grid-resize-columns ui-grid-pinning class="gridStyle auditDetail" style="width:850px;"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--------<div class="gridStyle auditDetail" style="width:850px;" ui-grid-pagination ui-grid-resize-columns ui-grid-pinning ui-grid="showLogGrid"/>-------->
+				</div>
+			</div>
+		</div>
+        
+    </form>
+</div>

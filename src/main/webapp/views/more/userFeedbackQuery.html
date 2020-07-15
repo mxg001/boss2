@@ -1,0 +1,104 @@
+<!-- head -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>管理中心</a></li>
+			<li class="active"><strong>用户反馈问题查询</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn"
+	ng-controller="userFeedbackQueryCtrl">
+	<form class="form-horizontal" id="form1">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">标题：</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" ng-model="info.title">
+							</div>
+							<label class="col-sm-2 control-label">问题类别：</label>
+							<div class="col-sm-2">
+								<select class="form-control" ng-model='info.problemType'
+									ng-options="x.value as x.text for x in problemTypes">
+								</select>
+							</div>
+
+							<label class="col-sm-2 control-label">状态：</label>
+							<div class="col-sm-2">
+								<select class="form-control" ng-model='info.status'
+												ng-options="x.value as x.text for x in statusList">
+								</select>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label">反馈用户分类：</label>
+							<div class="col-sm-2">
+								<select class="form-control" ng-model='info.userType'
+									ng-options="x.value as x.text for x in userTypes">
+								</select>
+								
+							</div>
+							<label class="col-sm-2 control-label">反馈用户名：</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" ng-model="info.userName">
+							</div>
+							<label class="col-sm-2 control-label">反馈用户手机号：</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" ng-model="info.mobilephone">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">问题来源：</label>
+							<div class="col-sm-2">
+								<select class="form-control" ng-model='info.appNo'
+												ng-options="x.value as x.text for x in appNos">
+								</select>
+							</div>
+							<label class="col-sm-2 control-label">提交时间：</label>
+
+							<div class="col-sm-5">
+								<input id="d5233" class="form-control" type="datetime" ng-model="info.submitTimeBegin" onchange=""  style="width:auto;display:inline-block;"
+											 onFocus="var d5234=$dp.$('d5234');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',changed:verifyTime(1,'#d5233','#d5234',31,isVerifyTime),onpicked:function(){d5234.focus();},maxDate:'#F{$dp.$D(\'d5234\')||\'%y-%M-%d\'}'})"/>
+								~
+								<input id="d5234" class="form-control" type="datetime"  ng-model="info.submitTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+											 onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',changed:verifyTime(2,'#d5233','#d5234',31,isVerifyTime),minDate:'#F{$dp.$D(\'d5233\')}',maxDate:'%y-%M-%d 23:59:59'})"/>
+								<br/><span><font color="#999">备注：查询范围不能超过31天</font></span>
+							</div>
+
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">处理时间：</label>
+							<div class="col-sm-5">
+								<input id="d5221" class="form-control" type="datetime" ng-model="info.dealTimeBegin" onchange=""  style="width:auto;display:inline-block;"
+											 onFocus="var d5222=$dp.$('d5222');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5222.focus();},maxDate:'#F{$dp.$D(\'d5222\')}'})"/>
+								-
+								<input id="d5222" class="form-control" type="datetime"  ng-model="info.dealTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+											 onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5221\')}'})"/>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-8">
+								<button class="btn btn-primary6 btn-mr20" type="button" ng-click="queryFunc()">查询</button>
+								<button class="btn btn-primary3 btn-mr20" type="button" ng-click="resetForm()">清空</button>
+								<button class="btn btn-primary7" ng-show="hasPermit('userFeedback.export')" type="button" ng-click="export()">导出</button>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<div class="gridStyle" ui-grid="userFeedbackProblem" ui-grid-pagination ui-grid-pinning ui-grid-resize-columns></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

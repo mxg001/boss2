@@ -1,0 +1,92 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+                <li><a>主页</a></li>
+            <li><a>红包管理</a></li>
+            <li class="active"><strong>修改红包配置</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn"
+     ng-controller="redProductControlCtrl">
+    <form class="form-horizontal" name="horizontal" >
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox-content">
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><i class="red_req">*</i>业务类型：</label>
+                        <div class="col-sm-2">
+                            <div class="form-control" style="border: none;">
+                                {{ confTypeName }}
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><i class="red_req">*</i>活动时间：</label>
+                        <input id="d5221" class="form-control" type="datetime" ng-model="baseInfo.date_start"
+                               onchange="" style="width:auto;display:inline-block;"
+                               onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5222.focus();}})"/>
+                        ~
+                        <input id="d5222" class="form-control" type="datetime" ng-model="baseInfo.date_end"
+                               onchange="" style="width:auto;display:inline-block;"
+                               onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss'})"/>
+                    </div>
+                    <div class="form-group" ng-show="baseInfo.conf_type==2 || baseInfo.conf_type ==1">
+                        <label class="col-sm-3 control-label"><i class="red_req">*</i>每个用户每天可领取本类型红包个数：</label>
+                        <div class="col-sm-2">
+                            <input type="text"   style="width: 60px;height: 38px;" name="user_oneday_num"  ng-model="baseInfo.user_oneday_num" >个
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><i class="red_req">*</i>红包有效期：</label>
+                        <div class="col-sm-10">
+                            <input type="text"  style="width: 60px;height: 38px;" name="effective_time"  ng-model="baseInfo.effective_time" required>小时
+                            <span class="red_req">
+                                无限填-1，限制时间请填整数
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="ibox-title">
+                        <h5>红包到期处理</h5>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <label><input type="radio" name="recovery_type" ng-model="baseInfo.recovery_type" ng-value="0">原路退款</input></label>
+                            <label><input type="radio" name="recovery_type" ng-model="baseInfo.recovery_type" ng-value="1">归平台所有</input></label>
+                        </div>
+                    </div>
+
+                    <div class="ibox-title" ng-show="baseInfo.conf_type==1">
+                        <h5>大奖用户管理</h5>
+                    </div>
+                    <div class="form-group" ng-show="baseInfo.conf_type==1">
+                        <div  class="col-sm-12" style="padding:20px 0 0px 50px;">
+                            <input type="text" style="width: 50px;" name="red_first_user"  ng-model="baseInfo.red_first_user">
+                            %的用户占 <input type="text" style="width: 50px;"  name="red_first_money" ng-model="baseInfo.red_first_money">
+                            %的奖金。
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group" style="padding-bottom: 50px;">
+                        <label class="col-sm-2 control-label"></label>
+                        <div class="col-sm-8">
+                            <input type="button" class="btn btn-primary btn-mr20" ng-disabled='horizontal.$invalid
+                             || submitting'
+                                   ng-click="submit()" value='保存'>
+                            <input type="button" class="btn btn-primary4 btn-mr20" ui-sref="red.redControl" value='返回'>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

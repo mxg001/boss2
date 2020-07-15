@@ -1,0 +1,308 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>代理商管理</a></li>
+			<li class="active"><strong>查询代理商</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="queryAgentCtrl">
+	<form class="form-horizontal" id="form1">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="ibox float-e-margins">
+						<div class="ibox-content">
+							<div class="form-group">
+								<label class="col-sm-3 control-label">代理商WEB显示分润日结开关：</label>
+								<div class="col-sm-2">
+									<switch class="switch switch-s" ng-model="sysDictShare.sysValue" ng-change="updateSwitch(sysDictShare)" />
+								</div>
+								<label class="col-sm-3 control-label">代理商推广开关总控制：</label>
+								<div class="col-sm-2">
+									<switch class="switch switch-s" ng-show="hasPermit('agent.agentPromotion')" ng-model="sysDictSuperPush.sysValue" ng-change="updateSwitch(sysDictSuperPush)" />
+									<div class="checkbox" ng-show="!hasPermit('agent.agentPromotion')" ng-bind="sysDictSuperPush.sysValue|formatDropping:statusAll"></div>
+								</div>
+							</div>
+						</div>
+					</div>	
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12">
+						<div class="panel-body ibox float-e-margins">
+							<div class="ibox-title">
+								<h5>代理商查询</h5>
+								<!--<div ibox-tools="" class="ng-scope">-->
+									<!--<div class="ibox-tools dropdown" dropdown="">-->
+									<!--</div>-->
+								<!--</div>-->
+							</div>
+							<div class="ibox-content">
+								<div class="form-group">
+									<label class="col-sm-2 control-label">代理商名称：</label>
+									<div class="col-sm-6">
+										<input type="text" class="form-control" ng-model="baseInfo.agentName">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">代理商编号：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" ng-model="baseInfo.agentNo">
+									</div>
+									<label class="col-sm-2 control-label">是否包含下级：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="baseInfo.hasSub" ng-options="x.value as x.text for x in bool">
+										</select>
+									</div>
+								</div>
+								<!--<div class="form-group">
+									<label class="col-sm-2 control-label">分润设置审核：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="baseInfo.shareCheck" ng-options="x.value as x.text for x in checkStatus">
+										</select>
+									</div>
+									<label class="col-sm-2 control-label">分润设置锁定：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="baseInfo.shareLock" ng-options="x.value as x.text for x in lockStatus">
+										</select>
+									</div>
+								</div>
+								 <div class="form-group">
+									<label class="col-sm-2 control-label">商户服务管控费率审核：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="baseInfo.rateCheck" ng-options="x.value as x.text for x in checkStatus">
+										</select>
+									</div>
+									<label class="col-sm-2 control-label">商户服务管控费率锁定：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="baseInfo.rateLock" ng-options="x.value as x.text for x in lockStatus">
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">商户服务管控限额审核：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="baseInfo.quotaCheck" ng-options="x.value as x.text for x in checkStatus">
+										</select>
+									</div>
+									<label class="col-sm-2 control-label">商户服务管控限额锁定：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="baseInfo.quotaLock" ng-options="x.value as x.text for x in lockStatus">
+										</select>
+									</div>
+								</div> -->
+								<div class="form-group">
+									<label class="col-sm-2 control-label">所属组织：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="baseInfo.teamId" ng-options="x.value as x.text for x in teamType">
+										</select>
+									</div>
+									<label class="col-sm-2 control-label">级别：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="baseInfo.agentLevel" ng-options="x.value as x.text for x in agentLevel">
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">手机号：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" ng-model="baseInfo.mobilephone">
+									</div>
+									<label class="col-sm-2 control-label">是否开户：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="baseInfo.hasAccount" ng-options="x.value as x.text for x in boolAll">
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">分润日结功能：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="baseInfo.profitSwitch" ng-options="x.value as x.text for x in statusAll">
+										</select>
+									</div>
+									<label class="col-sm-2 control-label">代理商推广功能：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="baseInfo.promotionSwitch" ng-options="x.value as x.text for x in statusAll">
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">欢乐返返现开关：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="baseInfo.cashBackSwitch" ng-options="x.value as x.text for x in statusAll">
+										</select>
+									</div>
+
+								</div>
+
+								<div class="form-group">
+									<label class="col-sm-2 control-label">开户名：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" ng-model="baseInfo.accountName">
+									</div>
+									<label class="col-sm-2 control-label">开户账号：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" ng-model="baseInfo.accountNo">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">身份证号：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" ng-model="baseInfo.idCardNo">
+									</div>
+
+								</div>
+
+								<div class="col-lg-12 bgff">
+									<div class="col-sm-2"></div>
+									<div class="col-sm-10">
+										<button class="btn btn-primary6 btn-mr20" ng-click="query()">查询</button>
+										<button class="btn btn-primary3 btn-mr20" type="button" ng-click="resetForm()">清空</button>
+										<button class="btn btn-new btn-mr20" type="button" ng-show="hasPermit('agent.updateProgitSwitchBatch')" ng-click="profitSwitchModal()">修改分润日结功能</button>
+										<button class="btn btn-new btn-mr20" type="button" ng-show="hasPermit('agent.openAccountBatch')" ng-click="accountModal()">批量代理商开户</button>
+										<button class="btn btn-new" type="button" style="width:150px" ng-show="hasPermit('agent.agentPromotion')" ng-click="promotionSwitchModal()">修改代理商推广功能</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						
+						<div class="panel-body ibox float-e-margins">
+								<div class="ibox-title">
+									<h5>代理商列表</h5>
+									</div>
+								<div class="ibox-content">
+									<div class="tposition">
+											<div class="gridStyle grid" ui-grid="agentGrid" ui-grid-selection  ui-grid-resize-columns ui-grid-pagination ui-grid-pinning></div>
+											<div ng-show="loadImg" class="timg"></div>
+										</div>
+								</div>
+								<div style="clear: both; height: 30px;"></div>
+							</div>
+				</div>
+			</div>
+	</form>
+
+	<div id="profitSwitchModal" class="modal fade form-horizontal" tabindex="3" role="dialog">
+		<div class="modal-dialog" style="height:300px;width: 700px">
+			<div class="modal-content" style="height:300px;width: 700px">
+			<form class="form-horizontal" name="horizontal">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						&times;</button>
+					<h3 class="modal-title">批量修改代理商分润日结功能</h3>
+				</div> 
+				<div class="modal-body">
+					<div class="form-group">
+						<label class="col-sm-3 control-label">选择代理商个数：</label>
+						<span class="col-sm-3 checkbox" ng-bind="selectedAgent.length"></span>							
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label">状态：</label>
+						<div class="col-sm-3" style="padding-top: 5px;">	
+							<label><input type="radio" value="1" ng-model="switchStatus" required name="switchStatus"/>打开</label>
+							<label><input type="radio" value="0" ng-model="switchStatus" required name="switchStatus"/>关闭</label>
+						</div>
+						<label class="col-sm-6 checkbox">备注：选择关闭时，该代理商及所有下级代理商分润日结功能都会一起关闭！</label>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<div class="form-group control-label">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-6">
+									<button class="btn btn-primary btn-mr20" type="button" ng-click='profitSwitchSubmit()'
+									ng-disabled="horizontal.$invalid || selectedAgent.length<=0"
+									>确定</button>
+									<button class="btn btn-primary8" type="button" ng-click='cancel()'
+									>返回</button>
+							</div>
+						</div>
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div id="promotionSwitchModal" class="modal fade form-horizontal" tabindex="3" role="dialog">
+		<div class="modal-dialog" style="height:300px;width: 700px">
+			<div class="modal-content" style="height:300px;width: 700px">
+			<form class="form-horizontal" name="horizontal">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						&times;</button>
+					<h3 class="modal-title">批量修改代理商推广功能</h3>
+				</div> 
+				<div class="modal-body">
+					<div class="form-group">
+						<label class="col-sm-3 control-label">选择代理商个数：</label>
+						<span class="col-sm-3 checkbox" ng-bind="selectedAgent.length"></span>							
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label">状态：</label>
+						<div class="col-sm-3" style="padding-top: 5px;">	
+							<label><input type="radio" value="1" ng-model="switchStatus" required name="switchStatus"/>打开</label>
+							<label><input type="radio" value="0" ng-model="switchStatus" required name="switchStatus"/>关闭</label>
+						</div>
+						<label class="col-sm-6 checkbox">备注：选择关闭时，该代理商及所有下级代理商推广功能都会一起关闭！</label>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<div class="form-group control-label">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-6">
+									<button class="btn btn-primary btn-mr20" type="button" ng-click='promotionSwitchSubmit()'
+									ng-disabled="horizontal.$invalid || selectedAgent.length<=0"
+									>确定</button>
+									<button class="btn btn-primary8" type="button" ng-click='cancel()'
+									>返回</button>
+							</div>
+						</div>
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	<div id="accountModal" class="modal fade form-horizontal" tabindex="3" role="dialog">
+		<div class="modal-dialog" style="height:300px;width: 700px">
+			<div class="modal-content" style="height:300px;width: 700px">
+			<form class="form-horizontal" name="horizontalAcc">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						&times;</button>
+					<h3 class="modal-title">批量代理商开户</h3>
+				</div> 
+				<div class="modal-body">
+					<div class="form-group">
+						<label class="col-sm-3 control-label">选择代理商个数：</label>
+						<span class="col-sm-3 checkbox" ng-bind="selectedAgent.length"></span>							
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label"><i class="red_req">*</i>账户科目：</label>
+						<div class=" col-sm-5">
+							<select class="form-control" required ng-model="subjectNo" ng-options="x.value as x.text for x in accountSubjectListAll">
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<div class="form-group control-label">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-6">
+									<button class="btn btn-primary btn-mr20" type="button" ng-click='accountSubmit()'
+									ng-disabled="horizontalAcc.$invalid || selectedAgent.length<=0"
+									>确定</button>
+									<button class="btn btn-primary8" type="button" ng-click='cancel()'
+									>返回</button>
+							</div>
+						</div>
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

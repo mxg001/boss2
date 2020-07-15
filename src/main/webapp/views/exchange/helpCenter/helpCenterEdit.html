@@ -1,0 +1,84 @@
+<!-- head -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>超级兑</a></li>
+            <li class="active"><strong>帮助中心编辑</strong></li>
+        </ol>
+    </div>
+</div>
+
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="helpCenterEditCtrl">
+    <form class="form-horizontal" id="form1" name="horizontalCard">
+        <div class="form-group">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="ibox-title">
+                            <h5>帮助中心编辑</h5>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>类别:</label>
+                            <div class="col-sm-3">
+                                <select class="form-control" ng-change="changeCategory()"  name="category" required
+                                        ng-model="addInfo.category" ng-options="x.value as x.text for x in categorySelect"/>
+                                <div class="req_mesg" ng-show="horizontalCard.category.$dirty && horizontalCard.category.$invalid">
+                                    <span ng-show="horizontalCard.category.$error.required">类别不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>模块:</label>
+                            <div class="col-sm-3">
+                                <select class="form-control" ng-model="addInfo.model" name="model" required
+                                        ng-disabled="modelShow" ng-options="x.value as x.text for x in modelSelect"/>
+                                <div class="req_mesg" ng-show="horizontalCard.model.$dirty && horizontalCard.model.$invalid">
+                                    <span ng-show="horizontalCard.model.$error.required">模块不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>标题:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="title" required ng-model="addInfo.title">
+                                <div class="req_mesg" ng-show="horizontalCard.title.$dirty && horizontalCard.title.$invalid">
+                                    <span ng-show="horizontalCard.title.$error.required">标题不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>H5链接:</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" name="link" required ng-model="addInfo.link">
+                                <div class="req_mesg" ng-show="horizontalCard.link.$dirty && horizontalCard.link.$invalid">
+                                    <span ng-show="horizontalCard.link.$error.required">H5链接不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>排序:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="sort" required ng-model="addInfo.sort">
+                                <div class="req_mesg" ng-show="horizontalCard.sort.$dirty && horizontalCard.sort.$invalid">
+                                    <span ng-show="horizontalCard.sort.$error.required">排序不能为空</span>
+                                </div>
+                            </div>
+                            <label class="col-sm-2" style="color:red;">注:序号越大越靠前</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 bgff">
+                <div class="col-sm-12">
+                    <div class="col-lg-3"></div>
+                    <div class="col-sm-6">
+                        <button class="btn btn-primary btn-mr20" type="button" ng-click="addData()" ng-disabled="horizontalCard.$invalid || submitting">提交</button>
+                        <a class="btn btn-primary4" ui-sref="exchange.helpCenter" >返回</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

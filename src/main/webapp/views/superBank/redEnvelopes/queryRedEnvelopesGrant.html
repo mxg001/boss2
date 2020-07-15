@@ -1,0 +1,228 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>红包管理</a></li>
+            <li class="active"><strong>红包发放查询</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app ng-controller="queryRedEnvelopesGrantCtrl">
+    <form class="form-horizontal" id="form1">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-content">
+                            <div class="ibox-title">
+                                <h5>查询条件</h5>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">红包ID:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.id">
+                                </div>
+                                <label class="col-sm-2 control-label">创建时间:</label>
+                                <div class="col-sm-5">
+                                    <input id="d5231" class="form-control" type="datetime" ng-model="info.createDateMin" onchange=""  style="width:auto;display:inline-block;"
+                                           onFocus="var d5232=$dp.$('d5232');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5232.focus();},maxDate:'#F{$dp.$D(\'d5232\')}'})"/>
+                                    ~
+                                    <input id="d5232" class="form-control" type="datetime"  ng-model="info.createDateMax" onchange=""  style="width:auto;display:inline-block;"
+                                           onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5231\')}'})"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">发放人类型:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.pushType" ng-options="x.value as x.text for x in pushTypeSelect">
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label">接收人类型:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.receiveType" ng-options="x.value as x.text for x in receiveTypeSelect">
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label">业务类型:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.busType" ng-options="x.value as x.text for x in busTypeSelect">
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">发放人组织名称:</label>
+                                <div class="col-sm-2">
+                                    <select chosen="{width:'100%'}"  class="chosen-select" tabindex="5" ng-model="info.orgId" ng-options="x.orgId as x.orgName for x in orgInfoList">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label">是否收取佣金:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.hasProfit" ng-options="x.value as x.text for x in hasProfitSelect">
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label">红包配置ID:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.confId">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">发红包用户ID:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.pushUserCode">
+                                </div>
+                                <label class="col-sm-2 control-label">发红包用户姓名:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.pushUserName">
+                                </div>
+                                <label class="col-sm-2 control-label">发红包用户手机号:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.pushUserPhone">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">单个定向接收用户ID:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.dxUserCode">
+                                </div>
+                                <label class="col-sm-2 control-label">单个定向接收用户姓名:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.dxUserName">
+                                </div>
+                                <label class="col-sm-2 control-label">单个定向接收用户手机号:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.dxUserPhone">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">红包状态:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.status" ng-options="x.value as x.text for x in statusSelect">
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label">风控状态:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.statusRisk" ng-options="x.value as x.text for x in statusRiskSelect">
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label">关联业务订单ID:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.orderNo">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">剩余金额处理方式:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.recoveryType" ng-change="changeRecoveryType()" ng-options="x.value as x.text for x in recoveryTypeSelect">
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label">剩余金额处理状态:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.statusRecovery" ng-options="x.value as x.text for x in statusRecoverySelect">
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label">关联支付订单ID:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.payOrderNo">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">支付方式:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.payType" ng-options="x.value as x.text for x in payTypeSelect">
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">发放范围:</label>
+                                    <div class="col-sm-2">
+                                        <select class="form-control" ng-model="info.pushArea" ng-options="x.value as x.text for x in pushAreaSelect">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-12">
+                                    <div class="col-sm-1"></div>
+                                    <button class="btn btn-primary6 btn-mr20" type="button"
+                                            id="btnSubmit" ng-click="query()">查询</button>
+                                    <button class="btn btn-primary3 btn-mr20" type="button" ng-click="clear()"
+                                            id="btnSubmit2">清空</button>
+                                    <button class="btn btn-primary7 btn-mr20" type="button"
+                                            ng-click="import()">导出</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-content">
+                            <div class="ibox-title">
+                                <h5>查询结果</h5>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-3 checkbox">红包个数:<span ng-bind="allCount"></span></div>
+                                <div class="col-sm-3 checkbox">红包总金额:<span ng-bind="sunOrder.amountCount | currency:''"></span>元</div>
+                                <div class="col-sm-3 checkbox">平台分润汇总:<span ng-bind="sunOrder.plateProfitSum | currency:''"></span>元</div>
+                            </div>
+                            <div class="form-group">
+                                <div ui-grid="gridOptions" ui-grid-pagination ui-grid-selection ui-grid-resize-columns ui-grid-pinning class="grid">
+                                    <div ng-show="loadImg" class="timg"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div id="riskModal" class="modal fade form-horizontal" tabindex="4" role="dialog">
+        <div class="modal-dialog" style="height:300px;width: 700px">
+            <div class="modal-content" style="height:300px;width: 700px">
+                <form class="form-horizontal" name="horizontalRisk">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            &times;</button>
+                        <h3 class="modal-title">关闭红包</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label"></label>
+                            请确认是否关闭本红包，关闭后用户不能再领取红包，红包广告也不在终端显示，
+                            红包剩余金额将归运营平台所有
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">原因：</label>
+                            <div class="col-sm-6">
+                                <select class="form-control" ng-model="redOrdersOption.reason" ng-options="x.value as x.text for x in riskCloseReasonLost">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer" style="margin-top: 30px">
+                            <div class="form-group control-label">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-sm-6">
+                                    <button class="btn btn-primary btn-mr20" type="button" ng-click='riskClose(redOrdersOption)'
+                                    >确定</button>
+                                    <button class="btn btn-primary4" type="button" ng-click='cancel()'
+                                    >返回</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,161 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>超级推</a></li>
+			<li class="active"><strong>超级推商户详情</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="detailCjtMerchantInfo">
+	<form class="form-horizontal" id="form1" name="horizontal">
+		<div class="row">
+			<div class="col-lg-12" style="padding-bottom:80px;">
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>基本信息</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">商户编号：</label>
+							<div class="col-sm-2 checkbox" ng-bind="baseInfo.merchantNo"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">商户名称：</label>
+							<div class="col-sm-2 checkbox" ng-bind="baseInfo.merchantName"></div>
+							<label class="col-sm-2 control-label">手机号：</label>
+							<div class="col-sm-2 checkbox" ng-bind="baseInfo.mobilephone"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">法人姓名：</label>
+							<div class="col-sm-2 checkbox" ng-bind="baseInfo.lawyer"></div>
+							<label class="col-sm-2 control-label">法人身份证号：</label>
+							<div class="col-sm-2 checkbox" ng-bind="baseInfo.idCardNo"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">一级代理商：</label>
+							<div class="col-sm-2 checkbox" ng-bind="baseInfo.oneAgentName"></div>
+							<label class="col-sm-2 control-label">一级代理商所属销售：</label>
+							<div class="col-sm-2 checkbox" ng-bind="baseInfo.saleName"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">业务产品：</label>
+							<div ng-repeat="bp in bpList">
+								<div class="col-sm-2 checkbox" ng-bind="bp.bpName"></div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">商户状态：</label>
+							<div class="col-sm-2 checkbox" ng-bind="baseInfo.merchantStatus |formatDropping:merStatusList"></div>
+							<!--
+							<label class="col-sm-2 control-label">冻结金额：</label>
+							<div class="col-sm-2 checkbox" ng-bind="baseInfo.controlAmount | currency:''"></div>
+							-->
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">预冻结金额：</label>
+							<div class="col-sm-2 checkbox" ng-bind="baseInfo.preFrozenAmount | currency:''"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">所属代理商：</label>
+							<div class="col-sm-2 checkbox" ng-bind="baseInfo.agentName"></div>
+
+						</div>
+						<div class="form-group">
+						    <label class="col-sm-2 control-label">上一级商户名称：</label>
+                        	<div class="col-sm-2 checkbox" ng-bind="baseInfo.oneMerchantName"></div>
+							<label class="col-sm-2 control-label">上二级商户名称：</label>
+							<div class="col-sm-2 checkbox" ng-bind="baseInfo.twoMerchantName"></div>
+
+						</div>
+				</div>
+
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>机具信息</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group" ng-repeat="val in tiList">
+							<label class="col-sm-2 control-label">业务产品：</label>
+							<div class="col-sm-2 checkbox" ng-bind="val.bpName">
+							</div>
+							<label class="col-sm-2 control-label">机具号：</label>
+							<div class="col-sm-2 checkbox" ng-bind="val.sn">
+							</div>
+						</div>
+						<div class="form-group">
+						<label class="col-sm-2 control-label">机具总数：</label>
+						<div class="col-sm-2 checkbox" ng-bind="tiTotal"></div>
+						</div>
+					</div>
+				</div>
+
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>经营信息</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">商户类型：</label>
+							<div class="col-sm-2 checkbox" ng-bind="baseInfo.merchantType | formatDropping:merchantTypes"></div>
+						</div>
+						<div class="form-group" ng-show="baseInfo.address!=null">
+							<label class="col-sm-2 control-label">经营地址：</label>
+							<div class="col-sm-4 checkbox" ng-bind="baseInfo.address"></div>
+
+						</div>
+						<div class="form-group" ng-hide="baseInfo.merchantType==1">
+							<label class="col-sm-2 control-label">经营范围：</label>
+							<div class="col-sm-1 checkbox" ng-bind="baseInfo.businessTypeStr">
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>结算信息</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group" >
+							<label class="col-sm-2 control-label">账户类型：</label>
+							<div class="col-sm-2 checkbox" ng-bind="merchantCardInfo.accountType | formatDropping:accountType"></div>
+							<label class="col-sm-2 control-label">开户名：</label>
+							<div class="col-sm-2 checkbox" ng-bind="merchantCardInfo.accountName"></div>
+						</div>
+						<div class="form-group" >
+							<label class="col-sm-2 control-label">开户账号：</label>
+							<div class="col-sm-2 checkbox" ng-bind="merchantCardInfo.accountNo"></div>
+							<label class="col-sm-2 control-label">开户行全称：</label>
+							<div class="col-sm-6 checkbox" ng-bind="merchantCardInfo.bankName"></div>
+						</div>
+						<div class="form-group" >
+							<label class="col-sm-2 control-label">联行行号：</label>
+							<div class="col-sm-2 checkbox" ng-bind="merchantCardInfo.cnapsNo"></div>
+
+							<label class="col-sm-2 control-label">身份证号：</label>
+							<div class="col-sm-2 checkbox" ng-bind="baseInfo.idCardNo"></div>
+						</div>
+						<div class="form-group" >
+							<label class="col-sm-2 control-label">开户行地区：</label>
+							<div class="col-sm-2 checkbox" ng-bind="merchantCardInfo.accountArea"></div>
+						</div>
+
+					</div>
+				</div>
+				<div class="ibox-content form-group">
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="col-sm-6">
+                        <a class="btn btn-primary4 btn-rounded" type="button" ui-sref="cjt.queryCjtMerchantInfo">返回</a>
+                    </div>
+                </div>
+
+
+			</div>
+		</div>
+		</div>
+	</form>
+</div>

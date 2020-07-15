@@ -1,0 +1,81 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>风控管理</a></li>
+			<li class="active"><strong>风控问题详情</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="riskProblemDetailCtrl">
+	<form class="form-horizontal" id="form1">
+			<div class="row">
+				<div class="col-lg-12">
+						<div class="panel-body ibox float-e-margins">
+							<div class="ibox-content">
+								<div class="form-group">
+									<label class="col-sm-2 control-label">风控问题编号：</label>
+									<div class="col-sm-2 checkbox" ng-bind="info.problemId">
+									</div>
+									<label class="col-sm-2 control-label">状态：</label>
+									<div class="col-sm-2 checkbox" ng-bind="info.status |formatDropping:statusRsiks">
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label class="col-sm-2 control-label">问题分类：</label>
+									<div class="col-sm-2 checkbox" ng-bind="info.problemType |formatDropping:problemTypes">
+									</div>
+									<label class="col-sm-2 control-label">规则编号：</label>
+									<div class="col-sm-2 checkbox" ng-bind="info.riskRulesNo">
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label class="col-sm-2 control-label">问题标题：</label>
+									<div class="col-sm-2 checkbox" ng-bind="info.problemTitle">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">问题描述：</label>
+									<div class="col-sm-5 checkbox" ng-bind="info.problemDescription">
+									</div>
+								</div>
+								<div class="form-group" ng-show="info.dealPerson!=null">
+									<label class="col-sm-2 control-label">处理人员：</label>
+									<div class="col-sm-2 checkbox" ng-bind="info.realName">
+									</div>
+								</div>
+								<div class="form-group" ng-show="info.dealMeasures!=null">
+									<label class="col-sm-2 control-label">处理措施：</label>
+									<div class="col-sm-2 checkbox" ng-bind="info.dealMeasures">
+									</div>
+								</div>
+							</div>
+					</div>
+					
+					<div class="panel-body ibox float-e-margins" ng-show="recordDate.length!=0">
+						<div class="ibox-content">
+							<div class="ibox-title">
+								<h5>审核记录</h5>
+							</div> 
+							<div class="form-group">
+								<div style="height: 400px;" ui-grid="riskProblemRecordGrids" ui-grid-pagination ui-grid-selection ui-grid-pinning class="grid"></div>
+							</div>
+						</div>
+					</div>
+					<div class="panel-body ibox float-e-margins bgff">
+					<div class="col-lg-12">
+						<label class="col-sm-2 control-label"></label>
+						<a class="btn btn-primary4" type="button"  ui-sref="risk.riskProblemMag">返回</a>
+					</div>
+					</div>
+				</div>
+			</div>
+	</form>
+
+
+</div>

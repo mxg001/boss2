@@ -1,0 +1,203 @@
+<!-- head -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>代理商工单</a></li>
+            <li class="active"><strong>工单详情
+            </strong></li>
+        </ol>
+    </div>
+</div>
+
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn"
+     ng-controller="workOrderDetailCtrl">
+    <form class="form-horizontal" id="form1" name="horizontal">
+        <div style="background: #fff; padding:50px 0;">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">工单类型：</label>
+                <div class="col-sm-6 checkbox" ng-bind="info.workTypeName">
+
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">处理流程：</label>
+                <div class="col-sm-6 checkbox" >
+                    {{info.dealProcessName}}
+                </div>
+            </div>
+            <div class="form-group" >
+                <label class="col-sm-2 control-label" >流程详情：</label>
+                <div class="col-sm-6 checkbox" >
+                    {{info.flowDesc}}
+                </div>
+
+            </div>
+            <div ng-if="info.remarks!=null && info.remarks.length>0">
+                <div data-ng-repeat="r in info.remarks">
+                    <div class="form-group" >
+                        <label class="col-sm-2 control-label" >{{r.operatorName}}备注：</label>
+                        <div class="col-sm-6 checkbox" >
+                            {{r.remarkContent}}&nbsp;&nbsp;&nbsp;<span style="color: silver;" ng-if="r.agentShow==1" class="control-label">(代理商可见)</span><span style="color: silver;" ng-if="r.agentShow==0" class="control-label">(代理商不可见)</span>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-if="r.fileInfos!=null && r.fileInfos.length>0">
+                        <label class="col-sm-2 control-label" style="float: left;"></label>
+                        <div class="col-sm-4" >
+                            <div class="col-img"  data-ng-repeat="rf in r.fileInfos">
+                                <a style="width: 50%;" href="{{rf.realUrl}}" >
+                                    {{rf.fileName}}
+                                </a>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-if="r.imgInfos!=null && r.imgInfos.length>0">
+                        <label class="col-sm-2 control-label" style="float: left;"></label>
+                        <div class="col-sm-10" >
+                            <div class="col-img"  data-ng-repeat="ri in r.imgInfos">
+                                <a style="width: 50%;"  href="{{ri.realUrl}}" fancybox rel="detailImgs">
+                                    <img width="150" height="100" ng-src="{{ri.realUrl}}"/>
+                                </a>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" >
+                        <label class="col-sm-2 control-label" >备注日期：</label>
+                        <div class="col-sm-6 checkbox" >
+                            {{r.createTimeStr}}
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="form-group" >
+                <label class="col-sm-2 control-label" >一级代理商：</label>
+                <div class="col-sm-6 checkbox" >
+                    {{info.oneAgentName}}
+                </div>
+            </div>
+
+            <div class="form-group" >
+                <label class="col-sm-2 control-label" >所属代理商：</label>
+                <div class="col-sm-6 checkbox" >
+                    {{info.receiverAgentName}}
+                </div>
+            </div>
+            <div class="form-group" >
+                <label class="col-sm-2 control-label" >创建日期：</label>
+                <div class="col-sm-6 checkbox" >
+                    {{info.createTimeStr}}
+                </div>
+            </div>
+            <div class="form-group" >
+                <label class="col-sm-2 control-label" >工单编号：</label>
+                <div class="col-sm-6 checkbox" >
+                    {{info.orderNo}}
+                </div>
+            </div>
+            <div class="ibox-title">
+                <h4>处理流程</h4>
+            </div>
+            <div ng-repeat="i in info.items">
+                <div class="ibox-title">
+                    <h3>{{i.senderDeptName}}</h3>
+                </div>
+
+                <div class="form-group" >
+                    <label class="col-sm-2 control-label" >处理人：</label>
+                    <div class="col-sm-6 checkbox" >
+                        {{i.senderName}}({{i.status}})&nbsp;&nbsp;&nbsp;<span style="color: silver;" class="control-label">{{i.createTimeStr}}</span>
+                    </div>
+                </div>
+
+                <div class="form-group" >
+                    <label class="col-sm-2 control-label" ng-if="i.rejectStatus==0 && i.transferStatus==0">回复内容：</label>
+                    <label class="col-sm-2 control-label" ng-if="i.rejectStatus==1">驳回原因：</label>
+                    <div class="col-sm-6 checkbox" ng-if="i.rejectStatus==0" >
+                        {{i.replyContent}}
+                    </div>
+                    <div class="col-sm-6 checkbox" ng-if="i.rejectStatus==1" >
+                        {{i.rejectReason}}
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="i.rejectStatus==0 && i.transferStatus==0">
+                    <label class="col-sm-2 control-label" style="float: left;">回复附件：</label>
+                    <div class="col-sm-4" >
+                        <div class="col-img" ng-if="i.fileInfos!=null && i.fileInfos.length>0" data-ng-repeat="x in i.fileInfos">
+                            <a style="width: 50%;" href="{{x.realUrl}}" >
+                                {{x.fileName}}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" >
+                    <label class="col-sm-2 control-label" style="float: left;"></label>
+                    <div class="col-sm-10" >
+                        <div class="col-img" ng-if="i.imgInfos!=null && i.imgInfos.length>0" data-ng-repeat="x in i.imgInfos">
+                            <a style="width: 50%;"  href="{{x.realUrl}}" fancybox rel="detailImgs">
+                                <img width="150" height="100" ng-src="{{x.realUrl}}"/>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="i.remarks!=null && i.remarks.length>0">
+                    <div data-ng-repeat="r in i.remarks">
+                        <div class="form-group" >
+                            <label class="col-sm-2 control-label" >{{r.operatorName}}备注：</label>
+                            <div class="col-sm-6 checkbox" >
+                                {{r.remarkContent}}&nbsp;&nbsp;&nbsp;<span style="color: silver;" ng-if="r.agentShow==1" class="control-label">(代理商可见)</span><span style="color: silver;" ng-if="r.agentShow==0" class="control-label">(代理商不可见)</span>
+                            </div>
+                        </div>
+                        <div class="form-group" >
+                            <label class="col-sm-2 control-label" style="float: left;"></label>
+                            <div class="col-sm-4" >
+                                <div class="col-img" ng-if="r.fileInfos!=null && r.fileInfos.length>0" data-ng-repeat="rf in r.fileInfos">
+                                    <a style="width: 50%;" href="{{rf.realUrl}}" >
+                                        {{rf.fileName}}
+                                    </a>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" >
+                            <label class="col-sm-2 control-label" style="float: left;"></label>
+                            <div class="col-sm-10" >
+                                <div class="col-img" ng-if="r.imgInfos!=null && r.imgInfos.length>0" data-ng-repeat="ri in r.imgInfos">
+                                    <a style="width: 50%;"  href="{{ri.realUrl}}" fancybox rel="detailImgs">
+                                        <img width="150" height="100" ng-src="{{ri.realUrl}}"/>
+                                    </a>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label"></label>
+                <div class="col-sm-6">
+                    <button class="btn btn-primary8 btn-mr20" type="button" ui-sref="workOrder.workOrderManager" >取消</button>
+                    <button class="btn btn-new btn-mr20" ng-show="info.replyStatus" type="button" ng-click="reply()"  >处理</button>
+                    <button class="btn btn-new btn-mr20" ng-show="info.rejectStatus" type="button" ng-click="reject()"  >驳回</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+
+</div>
+

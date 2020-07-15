@@ -1,0 +1,113 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a href="index.html">主页</a></li>
+            <li>超级银行家</li>
+            <li class="active"><strong>用户提现记录查询</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="obtainRecordCtrl">
+    <form class="form-horizontal" id="form1">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>用户提现记录查询</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">订单ID：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.obtainNo">
+                            </div>
+                            <label class="col-sm-2 control-label">用户ID：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.userCode">
+                            </div>
+                            <label class="col-sm-2 control-label">手机号：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.phone">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">结算状态：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="baseInfo.status" ng-options="x.value as x.text for x in statusList">
+                                </select>
+                            </div>
+                            <label class="col-sm-2 control-label">订单类型：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="baseInfo.orderType" ng-options="x.value as x.text for x in orderTypeList">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">提现金额：</label>
+                            <div class="col-sm-5">
+                                <input type="number" class="form-control" ng-model="baseInfo.obtainAmountStart" style="width:auto;display:inline-block;">
+                                ~
+                                <input type="number" class="form-control" ng-model="baseInfo.obtainAmountEnd" style="width:auto;display:inline-block;">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">创建时间：</label>
+                            <div class="col-sm-6">
+                                <input id="d5221" class="form-control" type="datetime" ng-model="baseInfo.createDateStart" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="var d5222=$dp.$('d5222');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5222.focus();},maxDate:'#F{$dp.$D(\'d5222\')}'})"/>
+                                ~
+                                <input id="d5222" class="form-control" type="datetime"  ng-model="baseInfo.createDateEnd" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5221\')}'})"/>
+                            </div>
+                        </div>
+                       <!-- <div class="form-group">
+                            <label class="col-sm-2 control-label">
+                                所属组织：</label>
+                            <div class="col-sm-2">
+                                <select chosen="{width:'100%'}" id="autocomplete-select2" class="chosen-select" tabindex="5" ng-model="baseInfo.orgId" ng-options="x.orgId as x.orgName for x in orgInfoList">
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                            <label class="col-sm-2 control-label">用户身份：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="baseInfo.userType" ng-options="x.value as x.text for x in userTypeList">
+                                </select>
+                            </div>
+                        </div>-->
+                        <div class="form-group" style="margin-top: 30px">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-8">
+                                <button class="btn btn-primary6 btn-mr20"  ng-click="query()" ng-disabled="submitting">查询</button>
+                                <button class="btn btn-primary3 btn-mr20" type="button" ng-click="resetForm()">清空</button>
+                                <button class="btn btn-primary7 btn-mr20" type="button" ng-click="exportInfo()"
+                                        ng-show="hasPermit('superBank.exportObtainRecord')">导出</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>用户提现记录列表</h5>
+                    </div>
+
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <div class="col-sm-3 checkbox">出款总金额：<span ng-bind="orderMainSum.obtainAmountSum | currency:''"></span>元</div>
+                            <div class="col-sm-3 checkbox">实际出款总金额：<span ng-bind="orderMainSum.realObtainAmountSum | currency:''"></span>元</div>
+                            <div class="col-sm-3 checkbox">出款手续费总金额：<span ng-bind="orderMainSum.obtainFeeSum | currency:''"></span>元</div>
+                        </div>
+                        <div class="tposition">
+                            <div class="gridStyle" ui-grid="orderGrid" ui-grid-selection ui-grid-pagination
+                                 ui-grid-resize-columns ui-grid-pinning></div>
+                            <div ng-show="loadImg" class="timg"></div>
+                        </div>
+                    </div>
+                </div>
+                <div style="height:30px;"></div>
+            </div>
+        </div>
+    </form>
+</div>

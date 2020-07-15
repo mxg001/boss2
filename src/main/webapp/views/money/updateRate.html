@@ -1,0 +1,332 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>出款服务管理</a></li>
+			<li class="active"><strong>修改出款服务费率</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="updateRateCtrl">
+	<form class="form-horizontal">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>服务费率</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-3 control-label">出款服务名称：</label>
+							<div class="col-sm-3" style="line-height:28px">
+								{{serviceBaseInfo.serviceName}}
+							</div>
+							<label class="col-sm-3 control-label">收单机构：</label>
+							<div class="col-sm-3" style="line-height:28px">
+								{{serviceBaseInfo.acqOrgName}}
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">服务类型：</label>
+							<div class="col-sm-3">
+								<select class="form-control" ng-model="serviceBaseInfo.serviceType" disabled ng-options="x.value as x.text for x in moneyServiceType"/>
+							</div>
+						</div>
+						<div class="gridStyle" ui-grid="agentServiceRateGrid" ui-grid-resize-columns style="height: 250px;"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div ng-if="serviceType==2">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel-body ibox float-e-margins">
+						<div class="ibox-title">
+							<h5>垫资资金成本费率</h5>
+						</div>
+						<div class="ibox-content">
+							<div class="gridStyle" ui-grid="costServiceRateGrid" ui-grid-resize-columns style="height: 250px;"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div style="overflow: hidden">
+			<div class="col-lg-12 bgff">
+				<div class="col-sm-12">
+					<div class="col-sm-2"></div>
+					<div class="col-sm-8">
+						<button class="btn btn-primary4 btn-rounded btn-block" type="button" ui-sref="money.managerService">返回</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+	<!-- 修改模态框（Modal） -->
+	<div id="updateModal" class="modal fade" tabindex="-1" role="dialog">
+	   <div class="modal-dialog" style="width: 1100px">
+	      <div class="modal-content">
+	         <div class="modal-header">
+	            <button type="button" class="close" data-dismiss="modal">
+	                  &times;
+	            </button>
+	            <h3 class="modal-title">修改服务费率</h3>
+	         </div>
+	         <div class="modal-body">
+				<form class="form-horizontal" name="horizontal">
+					<div class="form-group">
+						<h4>历史费率</h4>
+						<div class="gridStyle" style="height:300px;" ui-grid="serviceRateLogsGrid" ui-grid-resize-columns></div>
+					</div>
+					<div class="form-group">
+						<h4>新的费率设置</h4>
+						<div style="border: 1px solid #ccc;">
+							<div class="form-group" style="margin-top: 15px;">
+							    <label class="col-sm-2 control-label">费率：</label>
+							    <div class="col-sm-3">
+									<select class="form-control" ng-model="newInfo.agentRateType" ng-options="x.value as x.text for x in rateTypes"/>
+								</div>
+								<div class="col-sm-4" ng-if="newInfo.agentRateType!=5">
+									<input type="text" class="form-control" ng-model="newInfo.serviceRate">
+								</div>
+							</div>
+							<div class="form-group">
+							    <label class="col-sm-2 control-label">生效日期：</label>
+							    <div class="col-sm-3">
+									<input type="datetime" style="width:auto;display:inline-block;" name="effectiveDate" class="form-control" date-time ng-model="newInfo.effectiveDate" view="date" format="YYYY-MM-DD HH:mm:ss" required>
+									<div class="req_mesg" ng-show="horizontal.effectiveDate.$dirty && horizontal.effectiveDate.$invalid">
+										<span ng-show="horizontal.effectiveDate.$error.required">生效日期不能为空</span>
+									</div>
+								</div>
+							</div>
+							
+							<div class="form-group" ng-if="newInfo.agentRateType==5">
+								    <label class="col-sm-2 control-label">费率：</label>
+								    <div style="width:800px;float:left">
+								    	<div class="form-group" class="col-lg-12">
+											<div class="col-lg-2">
+												<input type="text" ng-model="info.m1" type="text" class="form-control" disabled="disabled" value="0">
+											</div>
+											<label class="col-lg-1 control-label">万元&lt;</label>
+											<div class="col-lg-2">
+												<input ng-blur="weikong(newInfo.ladder1SafeLine)" type="number" ng-model="newInfo.ladder1SafeLine" type="text" class="form-control" required>
+											</div>
+											<label class="col-lg-1 control-label">元 &nbsp;~&nbsp;</label>
+											<div class="col-lg-2">
+												<input ng-blur="weikong(newInfo.ladder1Rate)"  type="number" ng-model="newInfo.ladder1Rate" type="text" class="form-control" required>
+											</div>
+											<label class="col-lg-1 control-label">%&lt;=</label>
+											<div class="col-lg-2">
+												<input type="number" ng-blur="bijiao(info.m1,newInfo.ladder1Max)" ng-model="newInfo.ladder1Max" type="text" class="form-control" required>
+											</div>
+											<label class="col-lg-1 control-label">万元</label>
+										</div>
+										
+										<div class="form-group" class="col-lg-12">
+											<div class="col-lg-2">
+												<input type="number" ng-model="newInfo.ladder1Max" type="text" class="form-control">
+											</div>
+											<label class="col-lg-1 control-label">万元&lt;</label>
+											<div class="col-lg-2">
+												<input ng-blur="weikong(newInfo.ladder2SafeLine)"  type="number" ng-model="newInfo.ladder2SafeLine" type="text" class="form-control" required>
+											</div>
+											<label class="col-lg-1 control-label">元 &nbsp;~&nbsp;</label>
+											<div class="col-lg-2">
+												<input ng-blur="weikong(newInfo.ladder2Rate)" type="number" ng-model="newInfo.ladder2Rate" type="text" class="form-control" required>
+											</div>
+											<label class="col-lg-1 control-label">%&lt;=</label>
+											<div class="col-lg-2">
+												<input type="number" ng-blur="bijiao(newInfo.ladder1Max,newInfo.ladder2Max)" ng-model="newInfo.ladder2Max" type="text" class="form-control" required>
+											</div>
+											<label class="col-lg-1 control-label">万元</label>
+										</div>
+										
+										<div class="form-group" class="col-lg-12">
+											<div class="col-lg-2">
+												<input type="number" ng-model="newInfo.ladder2Max" type="text" class="form-control">
+											</div>
+											<label class="col-lg-1 control-label">万元&lt;</label>
+											<div class="col-lg-2">
+												<input ng-blur="weikong(newInfo.ladder3SafeLine)" type="number" ng-model="newInfo.ladder3SafeLine" type="text" class="form-control" required>
+											</div>
+											<label class="col-lg-1 control-label">元 &nbsp;~&nbsp;</label>
+											<div class="col-lg-2">
+												<input ng-blur="weikong(newInfo.ladder3Rate)" type="number" ng-model="newInfo.ladder3Rate" type="text" class="form-control" required>
+											</div>
+											<label class="col-lg-1 control-label">%&lt;=</label>
+											<div class="col-lg-2">
+												<input type="number" ng-blur="bijiao(newInfo.ladder2Max,newInfo.ladder3Max)" ng-model="newInfo.ladder3Max" type="text" class="form-control" required>
+											</div>
+											<label class="col-lg-1 control-label">万元</label>
+										</div>
+										
+										<div class="form-group" class="col-lg-12">
+											<div class="col-lg-2">
+												<input type="number" ng-model="newInfo.ladder3Max" type="text" class="form-control">
+											</div>
+											<label class="col-lg-1 control-label">万元&lt;</label>
+											<div class="col-lg-2">
+												<input ng-blur="weikong(newInfo.ladder4SafeLine)" type="number" ng-model="newInfo.ladder4SafeLine" type="text" class="form-control" required>
+											</div>
+											<label class="col-lg-1 control-label">元 &nbsp;~&nbsp;</label>
+											<div class="col-lg-2">
+												<input ng-blur="weikong(newInfo.ladder4Rate)" type="number" ng-model="newInfo.ladder4Rate" type="text" class="form-control" required>
+											</div>
+											<label class="col-lg-1 control-label">%&lt;=</label>
+											<div class="col-lg-2">
+												<input ng-blur="bijiao(newInfo.ladder3Max,info.m13)" ng-model="info.m13" type="text" class="form-control" disabled="disabled" value="无穷大">
+											</div>
+											<label class="col-lg-1 control-label">万元</label>
+										</div>
+								    </div>
+								    
+								</div>
+							
+							<div class="form-group">
+								<div class="col-sm-6" align="center">
+					        		<button class="btn btn-primary btn-mr20" ng-disabled="horizontal.$invalid || submitting" type="button" ng-click="update(1)">确定</button>
+					        		<button class="btn btn-primary8" type="button" data-dismiss="modal">取消</button>
+					        	</div>
+					        </div>
+						</div>
+					</div>
+				</form>
+	         </div>
+	      </div>
+		</div>
+	</div>
+	<div ng-if="serviceType==2">
+		<div id="updateModal2" class="modal fade" tabindex="-1" role="dialog">
+		   <div class="modal-dialog" style="width: 1100px">
+		      <div class="modal-content">
+		         <div class="modal-header">
+		            <button type="button" class="close" data-dismiss="modal">
+		                  &times;
+		            </button>
+		            <h3 class="modal-title">修改垫资资金成本费率</h3>
+		         </div>
+		         <div class="modal-body">
+					<form class="form-horizontal" name="horizontal2">
+						<div class="form-group">
+							<h4>历史费率</h4>
+							<div class="gridStyle" style="height:300px" ui-grid="costServiceRateLogsGrid" ui-grid-resize-columns></div>
+						</div>
+						<div class="form-group">
+							<h4>新的费率设置</h4>
+							<div style="border: 1px solid #ccc;">
+								<div class="form-group" style="margin-top: 15px;">
+								    <label class="col-sm-2 control-label">费率：</label>
+								    <div class="col-sm-3">
+										<select class="form-control" ng-model="newInfo.costRateType" ng-options="x.value as x.text for x in costRateTypes"/>
+									</div>
+									<div class="col-sm-4" ng-if="newInfo.costRateType!=5">
+										<input type="text" class="form-control" ng-model="newInfo.serviceRate">
+									</div>
+								</div>
+								<div class="form-group">
+								    <label class="col-sm-2 control-label">生效日期：</label>
+								    <div class="col-sm-3">
+										<input type="datetime" style="width:auto;display:inline-block;" name="effectiveDate" class="form-control" date-time ng-model="newInfo.effectiveDate" view="date"   format="YYYY-MM-DD HH:mm:ss" required>
+										<div class="req_mesg" ng-show="horizontal2.effectiveDate.$dirty && horizontal2.effectiveDate.$invalid">
+											<span ng-show="horizontal2.effectiveDate.$error.required">生效日期不能为空</span>
+										</div>
+									</div>
+								</div>
+								<div class="form-group" ng-if="newInfo.costRateType==5">
+								    <label class="col-sm-2 control-label">费率：</label>
+								    <div style="width:800px;float:left">
+								    	<div class="form-group" class="col-lg-12">
+											<div class="col-lg-2">
+												<input type="text" ng-model="info.m1" type="text" class="form-control" disabled="disabled" value="0">
+											</div>
+											<label class="col-lg-1 control-label">万元&lt;</label>
+											<div class="col-lg-2">
+												<input ng-blur="weikong(newInfo.ladder1SafeLine)" type="number" ng-model="newInfo.ladder1SafeLine" type="text" class="form-control" required>
+											</div>
+											<label class="col-lg-1 control-label">元 &nbsp;~&nbsp;</label>
+											<div class="col-lg-2">
+												<input ng-blur="weikong(newInfo.ladder1Rate)"  type="number" ng-model="newInfo.ladder1Rate" type="text" class="form-control" required>
+											</div>
+											<label class="col-lg-1 control-label">%&lt;=</label>
+											<div class="col-lg-2">
+												<input type="number" ng-blur="bijiao(info.m1,newInfo.ladder1Max)" ng-model="newInfo.ladder1Max" type="text" class="form-control" required>
+											</div>
+											<label class="col-lg-1 control-label">万元</label>
+										</div>
+										
+										<div class="form-group" class="col-lg-12">
+											<div class="col-lg-2">
+												<input type="number" ng-model="newInfo.ladder1Max" type="text" class="form-control">
+											</div>
+											<label class="col-lg-1 control-label">万元&lt;</label>
+											<div class="col-lg-2">
+												<input ng-blur="weikong(newInfo.ladder2SafeLine)"  type="number" ng-model="newInfo.ladder2SafeLine" type="text" class="form-control" required>
+											</div>
+											<label class="col-lg-1 control-label">元 &nbsp;~&nbsp;</label>
+											<div class="col-lg-2">
+												<input ng-blur="weikong(newInfo.ladder2Rate)" type="number" ng-model="newInfo.ladder2Rate" type="text" class="form-control" required>
+											</div>
+											<label class="col-lg-1 control-label">%&lt;=</label>
+											<div class="col-lg-2">
+												<input type="number" ng-blur="bijiao(newInfo.ladder1Max,newInfo.ladder2Max)" ng-model="newInfo.ladder2Max" type="text" class="form-control" required>
+											</div>
+											<label class="col-lg-1 control-label">万元</label>
+										</div>
+										
+										<div class="form-group" class="col-lg-12">
+											<div class="col-lg-2">
+												<input type="number" ng-model="newInfo.ladder2Max" type="text" class="form-control">
+											</div>
+											<label class="col-lg-1 control-label">万元&lt;</label>
+											<div class="col-lg-2">
+												<input ng-blur="weikong(newInfo.ladder3SafeLine)" type="number" ng-model="newInfo.ladder3SafeLine" type="text" class="form-control" required>
+											</div>
+											<label class="col-lg-1 control-label">元 &nbsp;~&nbsp;</label>
+											<div class="col-lg-2">
+												<input ng-blur="weikong(newInfo.ladder3Rate)" type="number" ng-model="newInfo.ladder3Rate" type="text" class="form-control" required>
+											</div>
+											<label class="col-lg-1 control-label">%&lt;=</label>
+											<div class="col-lg-2">
+												<input type="number" ng-blur="bijiao(newInfo.ladder2Max,newInfo.ladder3Max)" ng-model="newInfo.ladder3Max" type="text" class="form-control" required>
+											</div>
+											<label class="col-lg-1 control-label">万元</label>
+										</div>
+										
+										<div class="form-group" class="col-lg-12">
+											<div class="col-lg-2">
+												<input type="number" ng-model="newInfo.ladder3Max" type="text" class="form-control">
+											</div>
+											<label class="col-lg-1 control-label">万元&lt;</label>
+											<div class="col-lg-2">
+												<input ng-blur="weikong(newInfo.ladder4SafeLine)" type="number" ng-model="newInfo.ladder4SafeLine" type="text" class="form-control" required>
+											</div>
+											<label class="col-lg-1 control-label">元 &nbsp;~&nbsp;</label>
+											<div class="col-lg-2">
+												<input ng-blur="weikong(newInfo.ladder4Rate)" type="number" ng-model="newInfo.ladder4Rate" type="text" class="form-control" required>
+											</div>
+											<label class="col-lg-1 control-label">%&lt;=</label>
+											<div class="col-lg-2">
+												<input ng-blur="bijiao(newInfo.ladder3Max,info.m13)" ng-model="info.m13" type="text" class="form-control" disabled="disabled" value="无穷大">
+											</div>
+											<label class="col-lg-1 control-label">万元</label>
+										</div>
+								    </div>
+								    
+								</div>
+								<div class="form-group">
+									<div class="col-sm-6" align="center">
+						        		<button class="btn btn-primary btn-mr20" ng-disabled="horizontal2.$invalid || submitting" type="button" ng-click="update(2)">确定</button>
+						        		<button class="btn btn-primary8" type="button" data-dismiss="modal">取消</button>
+						        	</div>
+						        </div>
+							</div>
+						</div>
+					</form>
+		         </div>
+		      </div>
+			</div>
+		</div>
+	</div>
+</div>

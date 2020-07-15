@@ -1,0 +1,214 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>彩票代购订单详情</a></li>
+            <li class="active"><strong>彩票代购订单详情</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="lotteryOrderDetailCtrl">
+    <form class="form-horizontal" name="horizontal" >
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>订单数据</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">订单ID：</label>
+                            <div class="col-sm-2 checkbox wbba" ng-bind="baseInfo.orderNo">
+                            </div>
+                            <label class="col-sm-1 control-label">投注设备流水号：</label>
+                            <div class="col-sm-2 checkbox wbba" ng-bind="baseInfo.deviceJno">
+                            </div>
+                            <label class="col-sm-1 control-label">所属组织：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.orgId">
+                            </div>
+							<label class="col-sm-1 control-label">组织名称：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.orgName">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">彩票商户号：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.menchantNo">
+                            </div>
+                            <label class="col-sm-1 control-label">贡献人ID：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.userCode">
+                            </div>
+                            <label class="col-sm-1 control-label">贡献人名称：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.userName">
+                            </div>
+                            <label class="col-sm-1 control-label">奖励要求：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.awardRequire">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">奖金模式：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.profitType">
+                            </div>
+                            <label class="col-sm-1 control-label">彩票机构奖金发放扣率：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.loanBankRate">
+                            </div>
+                            <label class="col-sm-1 control-label">公司截留扣率：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.companyBonusConf">
+                            </div>
+                            <label class="col-sm-1 control-label">品牌截留扣率：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.orgBonusConf">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">品牌发放总奖金扣率：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.loanOrgRate">
+                            </div>
+                            <label class="col-sm-1 control-label">彩票机构发放总奖金：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.price">
+                            </div>
+                            <label class="col-sm-1 control-label">品牌发放总奖金：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.totalBonus">
+                            </div>
+                            <label class="col-sm-1 control-label">付款金额：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.loanAmount">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">投注时间：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.betTime | date:'yyyy-MM-dd HH:mm:ss'">
+                            </div>
+                            <label class="col-sm-1 control-label">投注期号：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.issue">
+                            </div>
+                            <label class="col-sm-1 control-label">彩种：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.lotteryType">
+                            </div>
+                            <label class="col-sm-1 control-label">订单状态：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.orderStatus">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">中奖总金额：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.awardAmount | currency:''">
+                            </div>
+                            <label class="col-sm-1 control-label">兑奖时间：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.redeemTime | date:'yyyy-MM-dd HH:mm:ss'">
+                            </div>
+                            <label class="col-sm-1 control-label">大奖标志：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.isBigPrize">
+                            </div>
+                            <label class="col-sm-1 control-label">兑奖状态：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.redeemFlag">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">订单贡献人备注：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.remark">
+                            </div>
+                            <label class="col-sm-1 control-label">记账状态：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.accountStatus">
+                            </div>
+                            <label class="col-sm-1 control-label">订单贡献人所属区域：</label>
+                            <div class="col-sm-2 checkbox">
+                            {{baseInfo.openProvince}}&nbsp;{{baseInfo.openCity}}&nbsp;{{baseInfo.openRegion}}
+                            </div>
+                             <label class="col-sm-1 control-label">创建时间：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.createDate">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">彩票唯一订单号：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.payOrderNo">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>分润数据</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">一级编号：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.oneCode">
+                            </div>
+                            <label class="col-sm-1 control-label">一级名称：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.oneName">
+                            </div>
+                            <label class="col-sm-1 control-label">一级身份：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.oneRole">
+                            </div>
+                            <label class="col-sm-1 control-label">一级分润：</label>
+                            <div class="col-sm-2 checkbox" 
+                                 ng-bind="baseInfo.oneProfit">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">二级编号：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.twoCode">
+                            </div>
+                            <label class="col-sm-1 control-label">二级名称：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.twoName">
+                            </div>
+                            <label class="col-sm-1 control-label">二级身份：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.twoRole">
+                            </div>
+                            <label class="col-sm-1 control-label">二级分润：</label>
+                            <div class="col-sm-2 checkbox" 
+                                 ng-bind="baseInfo.twoProfit">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">三级编号：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.threeCode">
+                            </div>
+                            <label class="col-sm-1 control-label">三级名称：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.threeName">
+                            </div>
+                            <label class="col-sm-1 control-label">三级身份：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.threeRole">
+                            </div>
+                            <label class="col-sm-1 control-label">三级分润：</label>
+                            <div class="col-sm-2 checkbox" 
+                                 ng-bind="baseInfo.threeProfit">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">四级编号：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.fourCode">
+                            </div>
+                            <label class="col-sm-1 control-label">四级名称：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.fourName">
+                            </div>
+                            <label class="col-sm-1 control-label">四级身份：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.fourRole">
+                            </div>
+                            <label class="col-sm-1 control-label">四级分润：</label>
+                            <div class="col-sm-2 checkbox" 
+                                 ng-bind="baseInfo.fourProfit">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">品牌商名称：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.orgName">
+                            </div>
+                            <label class="col-sm-1 control-label">品牌商分润：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.orgProfit">
+                            </div>
+                            <label class="col-sm-1 control-label">平台分润：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.plateProfit">
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-top:30px">
+                            <label class="col-sm-1 control-label"></label>
+                            <div class="col-sm-8">
+                                <input type="button" class="btn btn-primary4 btn-mr20" ui-sref="superBank.lotteryOrder" value='返回'>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

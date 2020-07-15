@@ -1,0 +1,54 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>信用卡还款</a></li>
+			<li class="active"><strong>信用卡通道管理</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="channelCtrl" ng-init="selectOptionList()">
+	<form class="form-horizontal" id="form1">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>通道查询</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">通道名称：</label>
+							<div class="col-sm-2">
+								<select class="form-control" ng-model="id" ng-options="x.value as x.text for x in channelList">
+									<option value="" selected>全部</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-8">
+								<button class="btn btn-primary6 btn-mr20"  ng-click="query()">查询</button>
+								<!--<a  class="btn btn-primary5" ui-sref="creditRepay.addChannel">新增</a>-->
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>查询列表</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="gridStyle" ui-grid="myGrid" ui-grid-selection ui-grid-pagination
+							ui-grid-resize-columns ui-grid-pinning style="width: 660px">
+						</div>
+					</div>
+				</div>
+				<div style="height:30px;"></div>
+			</div>
+		</div>
+	</form>
+
+</div>

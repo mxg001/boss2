@@ -1,0 +1,154 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li class="active"><strong>代理商奖励活动</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="selectHlfActivityAgentCtrl">
+	<form class="form-horizontal" id="form1" name="horizontal">
+		<div class="row">
+			<div class="col-lg-12" style="padding-bottom: 80px;">
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>代理商奖励活动</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">活动ID：</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" ng-model="activityAgent.id">
+							</div>
+							<label class="col-sm-2 control-label">活动名称：</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" ng-model="activityAgent.activityName">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-7">
+								<button class="btn btn-primary6 btn-mr20" type="button" ng-click="query()">查询</button>
+								<button class="btn btn-primary3 btn-mr20" type="button" ng-click="clear()">清空</button>
+								<button class="btn btn-primary5 btn-mr20" type="button" ng-show="hasPermit('activity.addHlfActivityAgentRule')" ng-click="hardWardAddModel()">新增</button>
+								<a class="btn btn-primary4" ui-sref="func.happyReturnType" >返回</a>
+							</div>
+						</div>
+					</div>
+
+					<div class="panel-body ibox float-e-margins">
+						<div class="ibox-title">
+							<div class="ibox-content">
+								<div class="form-group">
+									<div class="gridStyle" ui-grid="gridOptions" ui-grid-selection ui-grid-pagination
+										 ui-grid-resize-columns ui-grid-pinning></div>
+									<div ng-show="loadImg" class="timg"></div>
+								</div>
+							</div>
+						</div>
+						<div style="height:30px"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<div id="hardWardAddModel" class="modal fade" tabindex="3"
+		role="dialog">
+		<form class="form-horizontal" id="form2">
+			<div class="modal-dialog">
+				<div class="modal-content" style="width: 900px">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							&times;</button>
+						<h3 class="modal-title">添加代理商奖励配置</h3>
+					</div>
+					<div class="modal-body" style="padding-left:200px">
+						<div class="form-group">
+							<label class="col-sm-3 control-label"><i class="red_req">*</i>活动名称：</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" ng-disabled="isDetail" name="activityName" ng-model="info.activityName" maxlength="30">
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="ibox-title">
+								<h5>扫码交易满奖设置</h5>
+							</div>
+							<div class="col-sm-10" style="float:left">
+								<div>累计交易量仅统计扫码交易方式</div>
+							</div>
+
+						</div>
+						<div class="form-group">
+
+							<div class="col-sm-10">
+								<span style="float:left; padding:7px 5PX 0 0;">激活后</span>
+								<input ng-disabled="isDetail" type="number" class="form-control" style="width:100px; float:left"  ng-model="info.scanActivityDays">
+								<div style="float:left; padding:7px 0 0 5px">天内(含当天)累计交易≥</div>
+								<input ng-disabled="isDetail" type="text" class="form-control" style="width:100px; float:left"  ng-model="info.scanTargetAmount">
+								<div style="float:left; padding:7px 0 0 5px">元</div>
+							</div>
+
+						</div>
+						<div class="form-group">
+
+							<div class="col-sm-10">
+								<span style="float:left; padding:7px 5PX 0 0">首次注册奖励金额</span>
+								<input ng-disabled="isDetail" type="text" class="form-control" style="width:100px; float:left;text-align: center"  ng-model="info.scanRewardAmount">
+								<div style="float:left; padding:7px 0 0 5px">元，重复注册奖励金额</div>
+								<input ng-disabled="isDetail" type="text" class="form-control" style="width:100px; float:left;text-align: center"  ng-model="info.scanRepeatRewardAmount">
+								<div style="float:left; padding:7px 0 0 5px;font-weight:bold">元</div>
+							</div>
+
+						</div>
+						<div class="form-group">
+							<div class="ibox-title">
+								<h5>全部交易满奖设置</h5>
+							</div>
+							<div class="col-sm-10" style="float:left">
+								<div>累计交易量仅统计所有的交易方式</div>
+							</div>
+						</div>
+						<div class="form-group">
+
+							<div class="col-sm-10">
+								<span style="float:left; padding:7px 5PX 0 0;">激活后</span>
+								<input ng-disabled="isDetail" type="number" class="form-control" style="width:100px; float:left"  ng-model="info.allActivityDays">
+								<div style="float:left; padding:7px 0 0 5px">天内(含当天)累计交易≥</div>
+								<input ng-disabled="isDetail" type="text" class="form-control" style="width:100px; float:left"  ng-model="info.allTargetAmount">
+								<div style="float:left; padding:7px 0 0 5px">元</div>
+							</div>
+
+						</div>
+						<div class="form-group">
+
+							<div class="col-sm-10">
+								<span style="float:left; padding:7px 5PX 0 0">首次注册奖励金额</span>
+								<input  ng-disabled="isDetail" type="text" class="form-control" style="width:100px; float:left;text-align: center"  ng-model="info.allRewardAmount">
+								<div style="float:left; padding:7px 0 0 5px">元，重复注册奖励金额</div>
+								<input ng-disabled="isDetail"  type="text" class="form-control" style="width:100px; float:left;text-align: center"  ng-model="info.allRepeatRewardAmount">
+								<div style="float:left; padding:7px 0 0 5px;font-weight:bold">元</div>
+							</div>
+
+						</div>
+						<div class="form-group control-label">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-6">
+								<button class="btn btn-primary btn-mr20" type="button" ng-show="!isDetail"
+									ng-click='commit()'>确定</button>
+								<button class="btn btn-primary8 " type="button" ng-show="!isDetail"
+									ng-click='cancel()'>返回</button>
+								<button class="btn btn-primary8 " type="button" ng-show="isDetail"
+										ng-click='cancel()'>关闭</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+</div>

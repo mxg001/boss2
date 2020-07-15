@@ -1,0 +1,179 @@
+<!-- 超级银行家用户管理页面 -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>超级盟主</a></li>
+            <li class="active"><strong>保留昵称列表</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app ng-controller="persistNickNameCtrl">
+    <form class="form-horizontal" id="form1">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="">
+                    <div class="panel-body ibox float-e-margins">
+                        <div class="ibox-content">
+                            <div class="ibox-title">
+                                <h5>保留昵称列表</h5>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">保留昵称:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.keyWord">
+                                </div>
+                                <label class="col-sm-2 control-label">添加日期:</label>
+                                <div class="col-sm-5">
+                                    <input id="d5231" class="form-control" type="datetime" ng-model="info.createTimeBegin" onchange=""  style="width:auto;display:inline-block;"
+                                           onFocus="var d5232=$dp.$('d5232');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5232.focus();},maxDate:'#F{$dp.$D(\'d5232\')}'})"/>
+                                    ~
+                                    <input id="d5232" class="form-control" type="datetime"  ng-model="info.createTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+                                           onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5231\')}'})"/>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-top: 30px">
+                                <div class="col-sm-10">
+                                    <label class="col-sm-2 control-label"></label>
+                                    <button class="btn btn-primary6 btn-mr20" type="button" ng-click="queryFunc()" >查询</button>
+                                    <button class="btn btn-primary3 btn-mr20" type="button" ng-click="clear()" >清空</button>
+                                    <a class="btn btn-primary5 btn-mr20" ng-show="hasPermit('persistNickName.addPersistNickName')" type="button" ng-click="showModel()">新增</a>
+                                    <button class="btn btn-primary5 btn-mr20" type="button" ng-click="importButchModel()">批量导入</button>
+                                    <button class="btn btn-new btn-mr20" type="button" ng-click="export()">批量导出</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body ibox float-e-margins">
+                        <div class="ibox-title">
+                            <div class="ibox-content">
+                                <div class="form-group">
+                                    <div class="gridStyle" ui-grid="keyGrid" ui-grid-selection ui-grid-pagination
+                                         ui-grid-resize-columns ui-grid-pinning></div>
+                                    <div ng-show="loadImg" class="timg"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="height:30px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div id="showModel" class="modal fade" tabindex="3" role="dialog">
+        <form class="form-horizontal" id="form3">
+            <div class="modal-dialog" style="height: 500px; width: 900px">
+                <div class="modal-content" style="height: 500px; width: 900px">
+                    <div class="ibox-title">
+                        <button type="button" class="close" data-dismiss="modal">×</button>
+                        <h4>添加保留昵称</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="ibox-content">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">添加保留昵称:</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" style="height: 200px;" ng-disabled="!isEdit" ng-model="addInfo.keyWord"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="req_mesg" style="float:right;padding-top:7px;">修改昵称只允许单个添加</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group control-label">
+                        <div class="col-sm-8">
+                            <button class="btn btn-primary btn-mr20" ng-show="isEdit" type="button" ng-click="recordOp()" >确定</button>
+                            <button class="btn btn-primary4 btn-mr20" type="button" data-dismiss="modal" >取消</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="importButchModel" class="modal fade" tabindex="3"
+         role="dialog">
+        <form class="form-horizontal" id="form4">
+            <div class="modal-dialog" style="height: 400px; width: 900px">
+                <div class="modal-content" style="height: 300px; width: 900px">
+                    <div class="ibox-title">
+                        <button type="button" class="close" data-dismiss="modal">×</button>
+                        <h5>批量导入</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="ibox-content">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" style="text-align:left;">1.下载模板文件</label>
+                                <div class="col-sm-3" style="margin: 7px 0 0 0;">
+                                    <a href="persistNickName/downloadTemplate" >下载模板</a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" style="text-align:left;">2.上传填好内容的模板文件</label>
+                                <div class="col-sm-3">
+                                    <input type="file" nv-file-select="" ng-model="fileSelect"
+                                           uploader="uploader" multiple />
+                                    <table class="table">
+                                        <tbody>
+                                        <tr ng-repeat="item in uploader.queue">
+                                            <td><strong>{{ item.file.name }}</strong></td>
+                                            <td nowrap>
+                                                <button type="button" class="btn btn-danger btn-xs"
+                                                        ng-click="item.remove()">
+                                                    <span class="glyphicon glyphicon-trash"></span>删除
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group control-label">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-6">
+                                <button class="btn btn-primary btn-mr20" type="button" ng-click='submit()'>确定</button>
+                                <button class="btn btn-primary8 " type="button" ng-click='cancelImportButchModel()'>取消</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-show="loadImgA" style="position: absolute; left: 0; top:0;right:0;bottom:0; background: rgba(255,255,255,0.8);">
+                        <div class="timg"></div>
+                        <p style="    position: absolute;left: 0;top: 62%;text-align: center;width: 100%;">正在导入中，请不要关闭浏览器...</p>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+    <div id="importResultButchModel" class="modal fade" tabindex="3"
+         role="dialog">
+        <form class="form-horizontal" id="form2">
+            <div class="modal-dialog" style="height: 400px; width: 900px">
+                <div class="modal-content" style="height: 600px; width: 900px">
+                    <div class="modal-body">
+                        <div class="ibox-content">
+                            <div class="form-group">
+                                <label class="col-sm-8 control-label" style="text-align:left;">已成功导入 {{successCount}} 个，导入失败 {{errorCount}} 个</label>
+                            </div>
+                            <div class="panel-body ibox float-e-margins">
+                                <label class="col-sm-3 control-label" style="text-align:left;"></label>
+                                <div class="ibox-content">
+                                    <div class="gridStyle" ui-grid="serviceGrid" style="height: 300px;"  ui-grid-pinning ui-grid-resize-columns></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group control-label">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-6">
+                                <button class="btn btn-primary8 " type="button" ng-click='cancelImportButchModel()'>返回</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

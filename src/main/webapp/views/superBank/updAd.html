@@ -1,0 +1,133 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a href="index.html">主页</a></li>
+            <li>超级银行家</li>
+            <li class="active"><strong>banner广告修改</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="updAdCtrl">
+    <form class="form-horizontal" id="form1">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>banner列表</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">所属组织：</label>
+                            <div class="col-sm-2">
+                                <select chosen="{width:'100%'}" id="autocomplete-select2" class="chosen-select" tabindex="4" ng-model="detailData.orgId" ng-options="org.orgId as org.orgName for org in orgs">
+                                </select>
+                            </div>
+                            <label class="col-sm-2 control-label">应用类型：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="detailData.applyType" ng-options="p.value as p.text for p in applyTypeList">
+                                </select>
+                            </div>
+                            <label class="col-sm-2 control-label">banner位置：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="detailData.postionType" ng-options="p.value as p.text for p in postionTypeList">
+                                </select>
+                            </div>
+                        </div>
+                        
+                         <div class="form-group">
+                            <label class="col-sm-2 control-label">图片：</label>
+                            <div class="col-sm-2">
+                                   <input type="file" nv-file-select="" uploader="uploaderImg"   multiple  />
+                                   <table class="table" >
+                                        <tbody>
+                                        <tr ng-repeat="item in uploaderImg.queue">
+                                            <td>
+                                                <strong>{{ item.file.name }}</strong>
+                                                <div ng-show="uploaderImg.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                                            </td>
+                                            <td ng-show="uploaderImg.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                                            <td ng-show="uploaderImg.isHTML5">
+                                                <div class="progress" style="margin-bottom: 0;">
+                                                    <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                                <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                                <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                                            </td>
+                                            <td nowrap>
+                                                <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                                    <span class="glyphicon glyphicon-trash"></span> 删除
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="col-sm-4" style="padding: 0" ng-hide="uploaderImg.queue.length>0">
+                                        <a ng-show="detailData.imgUrlStr" href="{{detailData.imgUrlStr}}" fancybox  rel="group">
+                                            <img width="250px" height="150px" ng-src="{{detailData.imgUrlStr}}"/>
+                                        </a>
+                                    </div>
+                            </div>
+                        </div>
+                      
+                         <div class="form-group">
+                         	 <label class="col-sm-2 control-label"><span style="color:red">*</span>广告标题：</label>
+                            <div class="col-sm-2">
+                                    <input type="text" ng-model="detailData.title" class="form-control" style="width:auto;display:inline-block;"> 
+                            </div>
+                         
+                            <label class="col-sm-2 control-label"><span style="color:red">*</span>权重：</label>
+                            <div class="col-sm-2">
+                                   <input type="text" ng-model="detailData.showNo" class="form-control" style="width:auto;display:inline-block;"> 
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                         	 <label class="col-sm-2 control-label"><span style="color:red">*</span>上线时间：</label>
+                            <div class="col-sm-2">
+                                
+                               <input  class="form-control" type="datetime" ng-model="detailData.upDate" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){},maxDate:''})"/>
+                                    
+                            </div>
+                         
+                            <label class="col-sm-2 control-label"><span style="color:red">*</span>下线时间：</label>
+                            <div class="col-sm-2">
+                            
+                                   <input  class="form-control" type="datetime" ng-model="detailData.downDate" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',maxDate:''})"/>
+                            </div>
+                        </div>
+                        
+                         <div class="form-group">
+                         	<label class="col-sm-2 control-label">链接：</label>
+                            <div class="col-sm-2">
+                                    <input type="text" ng-model="detailData.link" class="form-control" style="width:600px;display:inline-block;"> 
+                            </div>
+                        </div>
+                        <div class="form-group">
+                         	<label class="col-sm-2 control-label">备注：</label>
+                            <div class="col-sm-2">
+                                   <textarea class="form-control ng-pristine ng-valid ng-empty ng-touched" rows="6" style="width:600px;" ng-model="detailData.remark"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-top: 30px">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-8">
+                                <button class="btn btn-primary btn-mr20" type="button" ng-disabled="isDisabled" ng-click="submit()">提交</button>
+                                 <button class="btn btn-primary4" type="button" ng-click="goback()" >返回</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+             </div>
+        </div>
+       
+    </form>
+ 
+    
+</div>

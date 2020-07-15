@@ -1,0 +1,165 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a href="index.html">主页</a></li>
+            <li>售后订单</li>
+            <li class="active"><strong>售后订单查询</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="queryCjtAfterSale">
+    <form class="form-horizontal" id="form-cjtAfterSale-query">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>售后订单查询</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">售后编号：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.orderNo">
+                            </div>
+                            <label class="col-sm-2 control-label">订单编号：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.serviceOrderNo">
+                            </div>
+                            <label class="col-sm-2 control-label">售后类型：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="baseInfo.afterSaleType"
+                                    ng-options="x.value as x.text for x in afterSaleTypeListAll"></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">售后状态：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="baseInfo.status"
+                                    ng-options="x.value as x.text for x in statusListAll"></select>
+                            </div>
+                            <label class="col-sm-2 control-label">提交日期：</label>
+                            <div class="col-sm-4">
+                                <input id="d5223" class="form-control" type="datetime" ng-model="baseInfo.createTimeStart" onchange=""  style="width:auto;display:inline-block;" autocomplete="off"
+                                       onFocus="var d5224=$dp.$('d5224');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5224.focus();},maxDate:'#F{$dp.$D(\'d5224\')}'})"/>
+                                ~
+                                <input id="d5224" class="form-control" type="datetime"  ng-model="baseInfo.createTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5223\')}'})"/>
+                            </div>
+                        </div>
+                         <div class="form-group">
+                            <label class="col-sm-2 control-label">处理日期：</label>
+                            <div class="col-sm-4">
+                                <input id="d5225" class="form-control" type="datetime" ng-model="baseInfo.dealTimeStart" onchange=""  style="width:auto;display:inline-block;" autocomplete="off"
+                                       onFocus="var d5226=$dp.$('d5226');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5226.focus();},maxDate:'#F{$dp.$D(\'d5226\')}'})"/>
+                                ~
+                                <input id="d5226" class="form-control" type="datetime"  ng-model="baseInfo.dealTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5225\')}'})"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-top: 30px">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-8">
+                                <button class="btn btn-primary6 btn-mr20"  ng-click="query()" ng-disabled="submitting">查询</button>
+                                <button class="btn btn-primary3 btn-mr20" type="button" ng-click="resetForm()">清空</button>
+                                <button class="btn btn-primary7 btn-mr20" target="_blank" type="button" ng-show="hasPermit('cjtAfterSale.export')" ng-click="export()">导出</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>售后订单列表</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="col-sm-10 checkbox">
+                            总计：待平台处理 <span style="color: red;" >{{totalMap.noDealNum==null ? 0 : totalMap.noDealNum}}</span> 单，
+                            平台大于7天未处理 <span style="color: red;" >{{totalMap.sevenDaysNoDealNum==null ? 0 : totalMap.sevenDaysNoDealNum}}</span> 单
+                        </div>
+                        <div class="tposition">
+                            <div class="gridStyle" ui-grid="cjtAfterSaleGrid" ui-grid-selection ui-grid-pagination
+                                 ui-grid-resize-columns ui-grid-pinning></div>
+                            <div ng-show="loadImg" class="timg"></div>
+                        </div>
+                    </div>
+                </div>
+                <div style="height:30px;"></div>
+            </div>
+        </div>
+    </form>
+
+    <!-- 售后处理 -->
+    <div id="dealModal"  class="modal fade form-horizontal" tabindex="3" role="dialog">
+        <div class="modal-dialog " style="height:2000px;width: 900px;">
+            <div class="modal-content">
+            <form class="form-horizontal" name="horizontalAcc">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        &times;</button>
+                    <h3 class="modal-title">售后处理</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><i class="red_req">*</i>处理结果：</label>
+                        <div class="col-sm-6">
+                            <textarea class=" form-control" rows="6" cols="10" placeholder="请输入处理结果说明，不超过200字" maxlength="200" ng-model="dealInfo.dealRemark" name="dealRemark" required></textarea>
+                            <div class="req_mesg" ng-show="horizontalAcc.dealRemark.$dirty && horizontalAcc.dealRemark.$invalid">
+                                <span ng-show="horizontalAcc.dealRemark.$error.required">处理结果不能为空</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">图片凭证：</label>
+                        <div class="col-sm-10" >
+                            <input id="uploaderImg" type="file" nv-file-select="" uploader="uploaderImgList" multiple style="margin: 10px auto;display: none;" />
+                            <ul id="imageUL" style="list-style-type:none">
+                                <li ng-repeat="item in uploaderImgList.queue" class="col-sm-5">
+                                    <table class="table" class="col-sm-4" >
+                                        <tbody>
+                                        <tr>
+                                            <td style="width: 15%">
+                                                <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                                    <span class="glyphicon glyphicon-trash"></span> 删除
+                                                </button>
+                                            </td>
+                                            <td style="width: 80%;text-align: center;">
+                                                <div ng-show="uploaderImgList.isHTML5" ng-thumb="{ file: item._file, height: 100, maxWidth: 100 }"></div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </li>
+                            </ul>
+                            <br>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10" >
+                            <span class="glyphicon glyphicon-plus" style="text-align: center;font-size: 45px;width: 100px;height: 100px;line-height: 100px;border: 1px solid silver;padding-left: 5px;" onclick="$('#uploaderImg').click();"></span>
+                            <span style="color: #999999">最多仅能上传3张图片</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="form-group control-label">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-6">
+                                    <button class="btn btn-new btn-mr20" type="button" ng-click='deal()'
+                                    ng-disabled="uploader.queue.length == 0 || horizontalAcc.$invalid"
+                                    >确定</button>
+                                    <button class="btn btn-primary8" type="button" ng-click='cancel()'
+                                    >取消</button>
+                            </div>
+                        </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- 批量发货 -->
+</div>

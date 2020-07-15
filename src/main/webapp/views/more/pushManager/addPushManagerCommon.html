@@ -1,0 +1,62 @@
+<div class="form-group">
+    <label class="col-sm-2 control-label">推送标题：</label>
+    <div class="col-sm-4">
+        <input type="text" class="form-control" name="pushTitle" ng-model="baseInfo.pushTitle" >
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-sm-2 control-label"><i class="red_req">*</i>推送内容：</label>
+    <div class="col-sm-4">
+        <textarea rows="10" class="form-control"  name="pushContent" style="min-width: 350px;" cols="30" ng-model="baseInfo.pushContent" required></textarea>
+    </div>
+    <div class="req_mesg" ng-show="horizontal.pushContent.$dirty && horizontal.pushContent.$invalid">
+        <span ng-show="horizontal.pushContent.$error.required">推送内容不能为空</span>
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="col-sm-2 control-label">跳转链接：</label>
+    <div class="col-sm-4">
+        <input type="text" class="form-control" name="jumpUrl" ng-model="baseInfo.jumpUrl" >
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="col-lg-2 control-label"><i class="red_req">*</i>推送对象：</label>
+    <div class="col-lg-10 " >
+        <label  class="col-lg-12" style="padding: 5px 15px 0;"><input type="checkbox" ng-model="pushObjCheckAllFlag" ng-click="pushObjCheckAll(pushObjCheckAllFlag)" />全选</label>
+        <div class="col-sm-2" data-ng-repeat="o in pushObjArr">
+            <input type="checkbox"  name="pushObjCheckBox"  ng-checked="o.isChecked" value="{{o.value}}"/>
+            <span ng-bind="o.text"></span>
+        </div>
+    </div>
+
+</div>
+
+<div class="form-group">
+    <label class="col-sm-2 control-label"><i class="red_req">*</i>移动端类型：</label>
+    <div class="col-sm-2">
+        <select class="form-control" ng-model="baseInfo.mobileTerminalType" ng-options="x.value as x.text for x in mobileTypeArr"/>
+    </div>
+
+</div>
+<div class="form-group">
+    <label class="col-sm-2 control-label"><i class="red_req">*</i>目标用户：</label>
+    <div class="col-sm-8 checkbox ">
+        <label ><input type="radio"  name="targetUser" ng-model="baseInfo.targetUser" value="0" />全部</label>
+        <label ><input type="radio" name="targetUser" ng-model="baseInfo.targetUser" value="1" />部分</label>
+    </div>
+</div>
+
+
+<div class="form-group">
+    <label class="col-sm-2 control-label" style="margin-top:7px;"><i class="red_req">*</i>推送时间：</label>
+    <div class="col-sm-8 checkbox ">
+        <label ><input type="radio" ng-click="showDateSelected(showDateSelectedFlag)"  name="dingshiOrNow"  ng-model="baseInfo.dingshiOrNow" value="0" />现在</label>
+        <label ><input type="radio" ng-click="showDateSelected(showDateSelectedFlag)" name="dingshiOrNow" ng-model="baseInfo.dingshiOrNow" value="1" />定时</label>
+
+        <label><input ng-show="showDateSelectedFlag" name="pushTime"   id="d5224" class="form-control" type="datetime"  ng-model="baseInfo.pushTime" onchange="" style="width:auto;display:inline-block;"
+                      onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss'})"   /></label>
+    </div>
+</div>
+

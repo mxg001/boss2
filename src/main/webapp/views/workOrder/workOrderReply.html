@@ -1,0 +1,78 @@
+<!-- head -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>代理商工单</a></li>
+            <li class="active"><strong>工单处理
+            </strong></li>
+        </ol>
+    </div>
+</div>
+
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn"
+     ng-controller="workOrderReplyCtrl">
+    <form class="form-horizontal" id="form1" name="horizontal">
+        <div style="background: #fff; padding:50px 0;">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">工单编号：</label>
+                <div class="col-sm-2">
+                    {{orderInfo.orderNo}}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">工单类型：</label>
+                <div class="col-sm-2">
+                    {{orderInfo.workTypeName}}
+                </div>
+
+            </div>
+            <div class="form-group" >
+                <label class="col-sm-2 control-label">处理流程：</label>
+                <div class="col-sm-2">
+                    <span ng-bind-html="orderInfo.dealProcessName | trustHtml"></span>
+                </div>
+            </div>
+            <div class="form-group" >
+                <label class="col-sm-2 control-label" ><i class="red_req">*</i>回复内容：</label>
+                <div class="col-sm-6" style="width: 400px;">
+                    <textarea ng-model="info.replyContent" maxlength="300" cols="50" rows="10" name="replyContent" required></textarea>
+                </div>
+                <div class="req_mesg" ng-show="horizontal.replyContent.$dirty && horizontal.replyContent.$invalid">
+                    <span ng-show="horizontal.replyContent.$error.required">回复内容不能为空</span>
+                </div>
+            </div>
+            <div class="form-group" >
+                <label class="col-sm-2 control-label" style="float: left;">添加附件：</label>
+                <div class="col-sm-3 checkbox ">
+                    <input type="file" nv-file-select="" ng-model="fileSelect" uploader="uploader" multiple/>
+                    <table class="table">
+                        <tbody>
+                        <tr ng-repeat="item in uploader.queue">
+                            <td>
+                                <strong>{{ item.file.name }}</strong>
+                            </td>
+                            <td nowrap>
+                                <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                    <span class="glyphicon glyphicon-trash"></span>删除
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <label style="margin-top:7px;color: red">注:最多可上传15个文件,每个文件小于10M</label>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label"></label>
+                <div class="col-sm-6">
+                    <button ng-disabled="horizontal.$invalid || submitting" class="btn btn-primary" type="button" ng-click='commitInfo()'>提交</button>
+                    <button class="btn btn-primary8" type="button" ng-click="back()"  >返回</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>
+

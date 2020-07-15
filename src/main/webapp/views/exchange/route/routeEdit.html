@@ -1,0 +1,81 @@
+<!-- head -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>超级兑</a></li>
+            <li class="active"><strong>修改核销渠道</strong></li>
+        </ol>
+    </div>
+</div>
+
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="excRouteEditCtrl">
+    <form class="form-horizontal" id="form1" name="horizontalCard">
+        <div class="form-group">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="ibox-title">
+                        <h5>修改核销渠道</h5>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>核销渠道编号:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="channelNo" required ng-model="addInfo.channelNo">
+                                <div class="req_mesg" ng-show="horizontalCard.channelNo.$dirty && horizontalCard.channelNo.$invalid">
+                                    <span ng-show="horizontalCard.channelNo.$error.required">核销渠道编号不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>核销渠道名称:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="bannerName" required ng-model="addInfo.channelName">
+                                <div class="req_mesg" ng-show="horizontalCard.channelName.$dirty && horizontalCard.channelName.$invalid">
+                                    <span ng-show="horizontalCard.channelName.$error.required">核销渠道名称不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>优先级:</label>
+                            <div class="col-sm-3">
+                                <select class="form-control" name="priority" required ng-model="addInfo.priority" ng-options="x.value as x.text for x in prioritySelect"/>
+                                <div class="req_mesg" ng-show="horizontalCard.priority.$dirty && horizontalCard.priority.$invalid">
+                                    <span ng-show="horizontalCard.priority.$error.required">优先级不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">登录账号:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" ng-model="addInfo.channelAccountNumber">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">登录密码:</label>
+                            <div class="col-sm-3">
+                                <input type="password" class="form-control" ng-model="addInfo.channelPassword">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">核销渠道描述:</label>
+                            <div class="col-sm-7">
+                                <textarea class="form-control" rows="4" cols="15" ng-model="addInfo.remark"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 bgff">
+                <div class="col-sm-12">
+                    <div class="col-lg-3"></div>
+                    <div class="col-sm-6">
+                        <button class="btn btn-primary btn-mr20" type="button" ng-click="commitInfo()" ng-disabled="horizontalCard.$invalid || submitting">提交</button>
+                        <a class="btn btn-primary4" ui-sref="exchange.route" >返回</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

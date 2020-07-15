@@ -1,0 +1,132 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a href="index.html">主页</a></li>
+            <li>超级银行家</li>
+            <li class="active"><strong>大数据总金额设置</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="creditTotalBonusCtrl">
+    <form class="form-horizontal" id="form1" >
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>大数据总金额设置</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">组织：</label>
+                            <div class="col-sm-2">
+								<select chosen="{width:'100%'}" id="autocomplete-select2" class="chosen-select" tabindex="5" ng-model="conf.orgId" ng-options="org.orgId as org.orgName for org in orgInfoListAll">
+									<option value=""></option>
+								</select>
+                            </div>
+                            
+                             <label class="col-sm-2 control-label">报告名称：</label>
+                            <div class="col-sm-2">
+                                <select chosen="{width:'100%'}" id="autocomplete-select3" class="chosen-select" tabindex="5" ng-model="conf.productId" ng-options="org.productId as org.productName for org in productListAll">
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group" style="margin-top: 30px">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-8">
+                                <button class="btn btn-primary6 btn-mr20"  ng-click="query()" ng-disabled="submitting">查询</button>
+                                <button class="btn btn-primary3 btn-mr20" type="button" ng-click="resetForm()">清空</button>
+                                <button class="btn btn-primary5 btn-mr20" type="button" ng-click="addcreditTotal()">新增</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>列表</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="tposition">
+                            <div class="gridStyle" ui-grid="loanBonusGrid" ui-grid-selection ui-grid-pagination
+                                 ui-grid-resize-columns ui-grid-pinning></div>
+                            <div ng-show="loadImg" class="timg"></div>
+                        </div>
+                    </div>
+                </div>
+                <div style="height:30px;"></div>
+            </div>
+        </div>
+    </form>
+
+    <form class="form-horizontal" id="form2"  name="horizontal">
+    <div id="addCreditTotalBonus" class="modal fade" tabindex="3" role="dialog" >
+			<div class="modal-dialog" style="height:500px;width: 900px">
+				<div class="modal-content" style="height:500px;width: 900px">
+						<div class="form-group" style="clear:left;margin-top:20px;">
+							<label style="float:left;width:30%;text-align:center;height:40px;line-height:40px;">所属组织：</label>
+							<div class="" style="float:left;height:40px;line-height:40px;width: 180px">
+								<select  chosen="{width:'100%'}" id="autocomplete-select6" class="chosen-select" tabindex="7" ng-model="conf.orgId" ng-options="org.orgId as org.orgName for org in orgInfoList">
+								</select>
+							</div>
+						</div>
+						<div class="form-group" style="clear:left;margin-top:20px;">
+								<label style="float:left;width:30%;text-align:center;height:40px;line-height:40px;"><i class="red_req">*</i>报告名称：</label>
+									<div class="" style="float:left;height:40px;line-height:30px;width: 180px">
+                                        <select chosen="{width:'100%'}" ng-change="productChange()" id="autocomplete-select4" class="chosen-select" tabindex="5" ng-model="conf.productId" ng-options="org.productId as org.productName for org in productListAll">
+                                            <option value=""></option>
+                                        </select>
+                                        </select>
+							</div>
+						</div>
+
+                        <div class="form-group" >
+                            <label style="float:left;width:30%;text-align:center;height:40px;line-height:40px;">大数据系统给银行家成本：</label>
+                            <div class="col-sm-2 checkbox"  >{{conf.price}}</div>
+                        </div>
+
+                        <div class="form-group" style="clear:left;margin-top:20px;">
+                            <label style="float:left;width:30%;text-align:center;height:40px;line-height:40px;"><i class="red_req">*</i>报告售价：</label>
+                            <div class="" style="float:left;height:40px;line-height:40px;">
+                                <span ><input type="text" style="height: 30px" class="form-group" name="productPrice"  ng-model="conf.productPrice" required></span>
+                            </div>
+                            <div class="req_mesg" ng-show="horizontal.productPrice.$dirty && horizontal.productPrice.$invalid">
+                                <span ng-show="horizontal.productPrice.$error.required">报告售价不能为空</span>
+                            </div>
+                        </div>
+						<div class="form-group" style="clear:left;margin-top:20px;">
+							<label style="float:left;width:30%;text-align:center;height:40px;line-height:40px;"><i class="red_req">*</i>公司截留：</label>
+							<div class="" style="float:left;height:40px;line-height:40px;">
+                                <span ><input type="text" style="height: 30px" class="form-group" name="oemTotalBonus" ng-model="conf.oemTotalBonus" required></span>
+							</div>
+                            <div class="req_mesg" ng-show="horizontal.oemTotalBonus.$dirty && horizontal.oemTotalBonus.$invalid">
+                                <span ng-show="horizontal.oemTotalBonus.$error.required">公司截留不能为空</span>
+                            </div>
+						</div>
+						<div class="form-group" style="clear:left;margin-top:20px;">
+							<label style="float:left;width:30%;text-align:center;height:40px;line-height:40px;"><i class="red_req">*</i>品牌截留：</label>
+							<div class="" style="float:left;height:40px;line-height:40px;">
+							 <span ><input type="text" style="height: 30px" class="form-group" name="oemBonus" ng-model="conf.oemBonus" required></span>
+							</div>
+                            <div class="req_mesg" ng-show="horizontal.oemBonus.$dirty && horizontal.oemBonus.$invalid">
+                                <span ng-show="horizontal.oemBonus.$error.required">品牌截留不能为空</span>
+                            </div>
+						</div>
+						<div style="clear:left;margin-top:40px;">&nbsp;</div>
+						<div class="form-group control-label">
+							<label class="col-sm-2 control-label" ></label>
+							<div class="col-sm-6">
+									<button class="btn btn-primary btn-mr20" type="button"  ng-disabled="horizontal.$invalid || submitting"  ng-click='saveCreditTotal()' >确定</button>
+									<button class="btn btn-primary8 " type="button" ng-click='cancel()'>取消</button>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+    </form>
+</div>

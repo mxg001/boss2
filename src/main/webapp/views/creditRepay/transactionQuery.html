@@ -1,0 +1,156 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>信用卡还款</a></li>
+			<li class="active"><strong>交易查询</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="transactionQueryCtrl">
+	<form class="form-horizontal" id="form1">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>交易查询</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">订单ID：</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" ng-model="baseInfo.orderNo" onchange="keyChange()">
+							</div>
+							<label class="col-sm-2 control-label">用户编号：</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" ng-model="baseInfo.merchantNo" onchange="keyChange()">
+							</div>
+							<label class="col-sm-2 control-label">手机号：</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" ng-model="baseInfo.mobileNo">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">订单类型：</label>
+							<div class="col-sm-2">
+								<select class="form-control" ng-model="baseInfo.service" ng-options="x.value as x.text for x in serviceSelect">
+									<option value="" selected>全部</option>
+								</select>
+							</div>
+							<label class="col-sm-2 control-label">交易方式：</label>
+							<div class="col-sm-2">
+								<select class="form-control" ng-model="baseInfo.transType" ng-options="x.value as x.text for x in transTypeSelect">
+									<option value="" selected>全部</option>
+								</select>
+							</div>
+							<label class="col-sm-2 control-label">交易状态：</label>
+							<div class="col-sm-2">
+								<select class="form-control" ng-model="baseInfo.transStatus" ng-options="x.value as x.text for x in transStatusSelect">
+									<option value="" selected>全部</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">关联业务订单：</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" ng-model="baseInfo.serviceOrderNo" onchange="keyChange()">
+							</div>
+							<label class="col-sm-2 control-label">交易通道：</label>
+							<div class="col-sm-2">
+								<select class="form-control" ng-model="baseInfo.acqCode" ng-options="x.value as x.text for x in acqCodeSelect">
+									<option value="" selected>全部</option>
+								</select>
+							</div>
+							<label class="col-sm-2 control-label">记账状态：</label>
+							<div class="col-sm-2">
+								<select class="form-control" ng-model="baseInfo.recordStatus" ng-options="x.value as x.text for x in recordStatusSelect">
+									<option value="" selected>全部</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">交易金额：</label>
+							<div class="col-sm-3">
+								<input type="text" ng-model="baseInfo.sTransAmount" class="form-control ng-pristine ng-untouched ng-valid ng-empty" 
+									style="width:40%;display:inline-block" >
+								~
+								<input type="text" ng-model="baseInfo.eTransAmount" class="form-control ng-pristine ng-untouched ng-valid ng-empty" 
+									style="width:40%;display:inline-block" >
+							</div>
+							<label class="col-sm-1 control-label">创建时间：</label>
+							<div class="col-sm-5">
+								<input id="d5221" class="form-control" type="datetime" ng-model="baseInfo.sCreateTime" onchange=""  style="width:auto;display:inline-block;"
+									   onFocus="var d5222=$dp.$('d5222');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',changed:verifyTime(1,'#d5221','#d5222',31,isVerifyTime),onpicked:function(){d5222.focus();},maxDate:'#F{$dp.$D(\'d5222\')||\'%y-%M-%d\'}'})"/>
+								~
+								<input id="d5222" class="form-control" type="datetime"  ng-model="baseInfo.eCreateTime" onchange=""  style="width:auto;display:inline-block;"
+									   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',changed:verifyTime(2,'#d5221','#d5222',31,isVerifyTime),minDate:'#F{$dp.$D(\'d5221\')}',maxDate:'%y-%M-%d 23:59:59'})"/>
+								<br/><span><font color="#999">备注：查询范围不能超过一个月</font></span>
+							</div>
+							
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">交易手续费：</label>
+							<div class="col-sm-3">
+								<input type="text" ng-model="baseInfo.sTransFee" class="form-control ng-pristine ng-untouched ng-valid ng-empty" 
+									style="width:40%;display:inline-block" >
+								~
+								<input type="text" ng-model="baseInfo.eTransFee" class="form-control ng-pristine ng-untouched ng-valid ng-empty" 
+									style="width:40%;display:inline-block" >
+							</div>
+							<label class="col-sm-1 control-label">交易时间：</label>
+							<div class="col-sm-5">
+								<input id="d6221" class="form-control" type="datetime" ng-model="baseInfo.sTransTime" onchange=""  style="width:auto;display:inline-block;"
+									   onFocus="var d6222=$dp.$('d6222');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d6222.focus();},maxDate:'#F{$dp.$D(\'d6222\')}'})"/>
+								~
+								<input id="d6222" class="form-control" type="datetime"  ng-model="baseInfo.eTransTime" onchange=""  style="width:auto;display:inline-block;"
+									   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d6221\')}'})"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">上游商户号：</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" ng-model="baseInfo.acqMerchantNo">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-8">
+								<button class="btn btn-primary6 btn-mr20"  ng-click="query()">查询</button>
+								<button class="btn btn-primary3 btn-mr20" type="button" ng-click="resetForm()">清空</button>
+								<button class="btn btn-new btn-mr20" type="button" ng-click="exportInfo()">导出</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>查询列表</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+							<div class="col-sm-3 checkbox">
+								交易笔数:
+								<span class="ng-binding">{{myGrid.totalItems}}</span>
+							</div>
+							<div class="col-sm-3 checkbox">
+								交易金额:
+								<span ng-bind="countAmount.sumAmount | currency:''"></span>
+							</div>
+							<div class="col-sm-3 checkbox">
+								交易手续费:
+								<span ng-bind="countAmount.sumFeeAmount | currency:''"></span>
+							</div>
+						</div>
+						<div class="gridStyle" ui-grid="myGrid" ui-grid-selection ui-grid-pagination ui-grid-resize-columns ui-grid-pinning>
+							<div ng-show="loadImg" class="timg"></div>
+						</div>
+					</div>
+				</div>
+				<div style="height:30px;"></div>
+			</div>
+		</div>
+	</form>
+</div>

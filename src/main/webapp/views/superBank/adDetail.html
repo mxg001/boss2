@@ -1,0 +1,105 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a href="index.html">主页</a></li>
+            <li>超级银行家</li>
+            <li class="active"><strong>banner广告详情</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="adDetailCtrl">
+    <form class="form-horizontal" id="form1">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>banner列表</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">所属组织：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="detailData.orgName">
+                            </div>
+                            <label class="col-sm-2 control-label">应用类型：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="detailData.applyType" ng-options="p.value as p.text for p in applyTypeList" readonly>
+                                </select>
+                            </div>
+                            <label class="col-sm-2 control-label">banner位置：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="detailData.postionType" ng-options="p.value as p.text for p in postionTypeList" readonly>
+                                </select>
+                            </div>
+                        </div>
+                        
+                         
+                         <div class="form-group">
+                         	 <label class="col-sm-2 control-label">广告标题：</label>
+                            <div class="col-sm-2">
+                                    <input type="text" ng-model="detailData.title" ng-disabled="true" class="form-control" style="width:auto;display:inline-block;"> 
+                            </div>
+                         
+                            <label class="col-sm-2 control-label">权重：</label>
+                            <div class="col-sm-2">
+                                   <input type="text" ng-model="detailData.showNo" ng-disabled="true" class="form-control" style="width:auto;display:inline-block;"> 
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                         	 <label class="col-sm-2 control-label">上线时间：</label>
+                            <div class="col-sm-2">
+                                <input type="text" ng-model="detailData.upDate" ng-disabled="true" class="form-control" style="width:auto;display:inline-block;"> 
+                            </div>
+                         
+                            <label class="col-sm-2 control-label">下线时间：</label>
+                            <div class="col-sm-2">
+                             	<input type="text" ng-model="detailData.downDate" ng-disabled="true" class="form-control" style="width:auto;display:inline-block;"> 
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                           <label class="col-sm-2 control-label">状态：</label>
+                             <div class="col-sm-2">
+                                   <input type="text" ng-disabled="true" ng-model="detailData.status" class="form-control" style="width:auto;display:inline-block;"> 
+                            </div>
+                             
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">图片：</label>
+                            <div class="col-sm-4" style="padding: 0">
+                                <a ng-show="detailData.imgUrlStr" href="{{detailData.imgUrlStr}}" fancybox  rel="group">
+                                    <img width="250px" height="150px" ng-src="{{detailData.imgUrlStr}}"/>
+                                </a>
+                            </div>
+                        </div>
+                        
+                         <div class="form-group">
+                         	<label class="col-sm-2 control-label">链接：</label>
+                            <div class="col-sm-2">
+                                    <input type="text" ng-model="detailData.link" ng-disabled="true" class="form-control" style="width:600px;display:inline-block;"> 
+                            </div>
+                        </div>
+                        <div class="form-group">
+                         	<label class="col-sm-2 control-label">备注：</label>
+                            <div class="col-sm-2">
+                                   <textarea class="form-control ng-pristine ng-valid ng-empty ng-touched" rows="6" style="width:600px;" readonly="readonly" ng-model="detailData.remark"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-top: 30px">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-8">
+                                 <button class="btn btn-primary4" type="button" ng-click="goback()" >返回</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+             </div>
+        </div>
+       
+    </form>
+ 
+    
+</div>

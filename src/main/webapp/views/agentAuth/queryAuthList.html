@@ -1,0 +1,171 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>三方授权</a></li>
+			<li class="active"><strong>查询代理商</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app ng-controller="agentAuthCtrl">
+	<form class="form-horizontal" id="form1">
+		<div class="row">
+			<div class="col-lg-12">
+					<div class="panel-body ibox float-e-margins">
+						<div class="ibox-title"><h5>代理商查询</h5></div>
+						<div class="ibox-content">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">代理商:</label>
+								<div class="col-sm-2">
+									<select  name="agent_authorized" id="autocomplete-select2"
+											 ng-model="baseInfo.agent_authorized" ng-options="x.value as x.text for x in oneAgentListA"
+											 style="width: 100%" chosen chosen-data="agent_authorized" chosen-keyup="getOneStatesA">
+									</select>
+								</div>
+								<label class="col-sm-2 control-label">授权查询代理商:</label>
+								<div class="col-sm-2">
+									<select  name="agent_link" id="autocomplete-select3"
+											 ng-model="baseInfo.agent_link" ng-options="x.value as x.text for x in oneAgentListB"
+											 style="width: 100%" chosen chosen-data="agent_link" chosen-keyup="getOneStatesB">
+									</select>
+								</div>
+								<label class="col-sm-2 control-label">审核状态:</label>
+								<div class="col-sm-2">
+									<select class="form-control" ng-model="baseInfo.record_check" ng-options="x.value as x.text for x in recordCheckSelect"/>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-2 control-label">是否为顶层代理商:</label>
+								<div class="col-sm-2">
+									<select class="form-control" ng-model="baseInfo.is_top" ng-options="x.value as x.text for x in isTopes"/>
+								</div>
+							</div>
+							<div class="col-lg-12 bgff">
+								<div class="col-sm-2"></div>
+								<div class="col-sm-10">
+									<button class="btn btn-primary6 btn-mr20" ng-click="query()">查询</button>
+									<button class="btn btn-primary3 btn-mr20" type="button" ng-click="resetForm()">清空</button>
+									<button class="btn btn-new btn-mr20" type="button" ng-show="hasPermit('agent.updateProgitSwitchBatch')" ng-click="addRecordModal()">新增代理商</button>
+									<button class="btn btn-new btn-mr20" type="button" ng-show="hasPermit('agentAuth.importDiscount')" ng-click="importDiscountShow()" >导入</button>
+									<button class="btn btn-primary7 btn-mr20" type="button" ng-show="hasPermit('agentAuth.importDetail')" ng-click="exportInfo()" >导出</button>
+									<button class="btn btn-new btn-mr20" type="button" ng-show="hasPermit('agentAuth.topAgentManagement')" ui-sref="func.topAgentManagement">顶层代理商管理</button>
+								</div>
+							</div>
+						</div>
+					</div>
+			</div>
+		</div>
+		<div class="panel-body ibox float-e-margins">
+			<div class="ibox-title">
+				<h5>代理商列表</h5>
+			</div>
+			<div class="ibox-content">
+				<div class="tposition">
+					<div class="gridStyle" ui-grid="agentGrid" ui-grid-selection  ui-grid-resize-columns ui-grid-pagination ui-grid-pinning></div>
+					<div ng-show="loadImg" class="timg"></div>
+				</div>
+			</div>
+			<div style="clear: both; height: 30px;"></div>
+		</div>
+	</form>
+
+	<div id="addRecordModal" class="modal fade form-horizontal" tabindex="3" role="dialog">
+		<div class="modal-dialog" style="height:300px;width: 700px">
+			<div class="modal-content" style="height:300px;width: 750px">
+			<form class="form-horizontal" name="horizontal">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h3 class="modal-title" id="opTypeTitle"></h3>
+				</div> 
+				<div class="modal-body">
+					<div class="form-group">
+						<input type="hidden" ng-model="addRecordData.record_code">
+						<label class="col-sm-3 control-label">代理商编号：</label>
+						<div class="col-sm-3">
+							<input type="text" class="form-control" ng-model="addRecordData.agent_authorized" required="required">
+						</div>
+						<label class="col-sm-3 control-label">授权查询代理商编号：</label>
+						<div class="col-sm-3">
+							<input type="text" class="form-control" ng-model="addRecordData.agent_link" ng-blur="getAgent()" required="required">
+						</div>
+					</div>
+					<!--<div class="form-group">
+						<label class="col-sm-3 control-label">数据开始汇总日期：</label>
+						<div class="col-sm-4">
+							<input id="d5231" class="form-control" type="datetime" ng-model="addRecordData.createDate | date:'yyyy-MM-dd HH:mm:ss'" onchange=""  style="width:auto;display:inline-block;"
+								   onFocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'%y-%M-#{%d-30}',onpicked:function(){}})" required="required"/>
+						</div>
+					</div>-->
+					<!--<div class="form-group">-->
+						<!--<label class="col-sm-3 control-label">状态：</label>-->
+						<!--<div class="col-sm-3" style="padding-top: 5px;">-->
+							<!--<switch class="switch switch-s" ng-model="addRecordData.record_status" />-->
+						<!--</div>-->
+					<!--</div>-->
+				</div>
+				<div class="modal-footer">
+					<div class="form-group control-label">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-6">
+									<button class="btn btn-primary btn-mr20" type="button" ng-click='addRecord()' ng-disabled="horizontal.$invalid || selectedAgent.length<=0" >确定</button>
+									<button class="btn btn-primary8" type="button" ng-click='cancel()' >返回</button>
+							</div>
+						</div>
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<form class="form-horizontal" novalidate>
+		<div id="importDiscount" class="modal fade" tabindex="-1" role="dialog">
+			<div class="modal-dialog" style="width: 900px">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							&times;</button>
+						<h3 class="modal-title">批量导入代理商</h3>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">导入文件:</label>
+							<div class="col-sm-3 checkbox ">
+								<input type="file" nv-file-select="" ng-model="fileSelect" uploader="uploader" multiple/>
+								<table class="table">
+									<tbody>
+									<tr ng-repeat="item in uploader.queue">
+										<td>
+											<strong>{{ item.file.name }}</strong>
+										</td>
+										<td nowrap>
+											<button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+												<span class="glyphicon glyphicon-trash"></span>删除
+											</button>
+										</td>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-3 checkbox ">
+								<a href="agentAuth/downloadTemplate" >批量导入代理商模板下载</a>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-6">
+								<button class="btn btn-primary btn-mr20" type="button" ng-click='importDiscount()'
+										ng-disabled="uploader.queue.length==0||submitting">提交</button>
+								<button class="btn btn-primary8" type="button" ng-click='importDiscountHide()'
+								>取消</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

@@ -1,0 +1,96 @@
+<!-- head -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>功能管理</a></li>
+            <li class="active"><strong>贷款理财配置修改</strong></li>
+        </ol>
+    </div>
+</div>
+
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="loanFinancingEditCtrl">
+    <form class="form-horizontal" id="form1" name="horizontalCard">
+        <div class="form-group">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="ibox-title">
+                            <h5>基本资料</h5>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>产品名称:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="productName" required ng-model="addInfo.productName">
+                                <div class="req_mesg" ng-show="horizontalCard.productName.$dirty && horizontalCard.productName.$invalid">
+                                    <span ng-show="horizontalCard.productName.$error.required">产品名称不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>排序:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="sortNo" required ng-model="addInfo.sortNo" ng-pattern="/^[1-9]+\d?$/">
+                                <div class="req_mesg" ng-show="horizontalCard.sortNo.$dirty && horizontalCard.sortNo.$invalid">
+                                    <span ng-show="horizontalCard.sortNo.$error.required">排序不能为空</span>
+                                    <span ng-show="horizontalCard.sortNo.$error.pattern">排序格式不符</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>产品链接:</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" name="productLinkUrl" required ng-model="addInfo.productLinkUrl">
+                                <div class="req_mesg" ng-show="horizontalCard.productLinkUrl.$dirty && horizontalCard.productLinkUrl.$invalid">
+                                    <span ng-show="horizontalCard.productLinkUrl.$error.required">产品链接不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ibox-title">
+                            <h5>产品logo</h5>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>产品logo:</label>
+                            <div class="col-img" ng-if="addInfo.logImg!=null&&addInfo.logImg!=''" >
+                                <a href="{{addInfo.logImg}}" fancybox rel="group">
+                                    <img width="250px" height="150px" ng-src="{{addInfo.logImg}}"/>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-7">
+                                <input type="file" nv-file-select="" uploader="uploaderImg"   multiple  />
+                                <label style="color:red; float:left;">注:1.尺寸要求:40*40;2.产品logo只能上传一张;3.支持png格式;4.不能超过40KB</label>
+                                <table class="table">
+                                    <tbody>
+                                    <tr ng-repeat="item in uploaderImg.queue">
+                                        <td>
+                                            <div ng-show="uploaderImg.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                                        </td>
+                                        <td nowrap>
+                                            <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                                <span class="glyphicon glyphicon-trash"></span> 删除
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 bgff">
+                <div class="col-sm-12">
+                    <div class="col-lg-3"></div>
+                    <div class="col-sm-6">
+                        <button class="btn btn-primary btn-mr20" type="button" ng-click="subAddInfo()" ng-disabled="horizontalCard.$invalid || submitting">提交</button>
+                        <a class="btn btn-primary4" ui-sref="func.loanFinancing" >返回</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

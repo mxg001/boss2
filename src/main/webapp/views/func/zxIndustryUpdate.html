@@ -1,0 +1,74 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>功能管理</a></li>
+			<li class="active"><strong>活动管理</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="zxIndustryUpdateCtrl">
+	<form class="form-horizontal" id="form1">
+			<div class="row">
+				<div class="col-lg-12">
+						<div class="panel-body ibox float-e-margins">
+							<div class="ibox-title">
+								<h5>活动管理</h5>
+							</div>
+							<div class="ibox-content">
+								<div class="form-group">
+									<label class="col-sm-2 control-label">活动名称：</label>
+									<div class="col-lg-2">
+										<p class="form-control-static">{{baseInfo.activityName}}</p>
+									</div>
+									<label class="col-sm-2 control-label">活动开关：</label>
+                                    <div class="col-lg-2">
+                                        <switch class="switch" ng-model="baseInfo.statusInt" />
+                                    </div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">活动简介：</label>
+									<div class="col-lg-8">
+										<textarea class="form-control" rows="6" ng-model="baseInfo.activityExplain"></textarea>
+									</div>
+								</div>
+								<div class="form-group">
+								    <div ng-repeat="config in list">
+                                        <label class="col-sm-2 control-label" style="margin-bottom: 10px;">{{config.teamName}}:</label>
+                                        <div class="col-lg-1" style="margin-bottom: 10px;">
+                                            <input ng-show="config.rateType==2" class="form-control" type="text" maxlength="10" style="width: 85%; float: left; margin-right: 5px;"
+                                             ng-model="config.rate" >
+                                             </input>
+                                             <input ng-show="config.rateType==1" class="form-control" type="text" maxlength="10" style="width: 85%; float: left; margin-right: 5px;"
+                                             ng-model="config.fixedAmount" >
+                                             </input>
+                                        </div>
+                                        <div class="col-lg-1" style="margin-bottom: 10px;">
+                                            <select ng-model="config.rateType" ng-options="x.value as x.text for x in rateTypes" >
+                                             </select>
+                                        </div>
+                                    </div>
+                                </div>
+							</div>
+
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-12 bgff">
+                        <div class="col-sm-12">
+                            <div class="col-sm-2"></div>
+                            <div class="col-sm-6">
+                                <div style="padding: 0 15px;">
+                                    <input type="button" class="btn btn-primary btn-mr20"
+                                     ng-disabled='horizontal.$invalid || submitting'
+                                           ng-click="submit()" value='提交'>
+                                    <input type="button" class="btn btn-primary4 btn-mr20" ui-sref="func.couponActivity" value='返回'>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+	</form>
+</div>

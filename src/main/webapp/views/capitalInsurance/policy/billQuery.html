@@ -1,0 +1,82 @@
+<!-- 超级银行家用户管理页面 -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>对账管理</a></li>
+            <li class="active"><strong>对账信息查询</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app ng-controller="billQueryCtrl">
+    <form class="form-horizontal" id="form1">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="">
+                    <div class="panel-body ibox float-e-margins">
+                        <div class="ibox-content">
+                            <div class="ibox-title">
+                                <h5>对账信息</h5>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">对账次号:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.batchNo">
+                                </div>
+                                <label class="col-sm-2 control-label">上游渠道:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.insurer" ng-options="x.value as x.text for x in insurerList"></select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">承保单位:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.insurer" ng-options="x.value as x.text for x in insurerList"></select>
+                                </div>
+                                <label class="col-sm-2 control-label">订单类型:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.orderType" ng-options="x.value as x.text for x in orderTypeList"></select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">创建时间:</label>
+                                <div class="col-sm-5">
+                                    <input id="d5241" class="form-control" type="datetime" ng-model="info.createTime" onchange=""  style="width:auto;display:inline-block;"
+                                           onFocus="var d5242=$dp.$('d5242');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5242.focus();},maxDate:'#F{$dp.$D(\'d5242\')}'})"/>
+                                    ~
+                                    <input id="d5242" class="form-control" type="datetime"  ng-model="info.createTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+                                           onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5241\')}'})"/>
+                               <br/><span><font color="#999">备注：查询范围不能超过三个月</font></span>
+                                </div>
+                                <label class="col-sm-2 control-label">对账结果:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.checkStatus" ng-options="x.value as x.text for x in checkStatusList"></select>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-top: 30px">
+                                <div class="col-sm-8">
+                                    <label class="col-sm-2 control-label"></label>
+                                    <button class="btn btn-primary6 btn-mr20" type="button" ng-click="query()" >查询</button>
+                                    <button class="btn btn-primary3 btn-mr20" type="button" ng-click="clear()" >清空</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body ibox float-e-margins">
+                        <div class="ibox-title">
+                            <div class="ibox-content">
+
+                                <div class="tposition">
+									 <div ui-grid="billGrid" ui-grid-pagination ui-grid-selection ui-grid-resize-columns ui-grid-pinning class="grid"></div>
+									<div ng-show="loadImg" class="timg"></div>
+								</div>
+                            </div>
+                        </div>
+                        <div style="height:30px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

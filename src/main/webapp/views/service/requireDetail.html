@@ -1,0 +1,106 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<!-- 导航URL -->
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>产品服务</a></li>
+			<li class="active"><strong>增加进件要求项定义详情</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn"
+	ng-controller="requireDetailCtrl">
+	<form class="form-horizontal" id="form1">
+		<div class="form-group">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="ibox float-e-margins">
+						<div class="ibox-title">
+							<h5>增加进件要求项定义详情</h5>
+							<!--<div ibox-tools></div>-->
+						</div>
+						<div class="ibox-content">
+							<div class="form-group" >
+								<label class="col-sm-2 control-label">进件要求项名称：</label>
+								<div class="col-sm-2">
+									<input type="text" class="form-control"
+										value="{{requireItem.itemName}}" readonly>
+								</div>
+								<label class="col-sm-2 control-label">是否需要审核：</label>
+								<div class="col-sm-2">
+									<select class="form-control" ng-model="requireItem.checkStatus"
+										ng-options="x.value as x.text for x in bool"
+										disabled /> </select>
+								</div>
+
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">类型：</label>
+								<div class="col-sm-2">
+									<select class="form-control" ng-model="requireItem.exampleType"
+										ng-options="x.value as x.text for x in exampleType" disabled />
+									</select>
+								</div>
+								<div ng-switch on='requireItem.exampleType'>
+								<div ng-switch-when='1'>
+									<label class="col-sm-2 control-label">图片来源：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="requireItem.photo"
+											ng-options="x.value as x.text for x in photo" disabled /> </select>
+									</div>
+								</div>
+								</div>
+							</div>
+						<div ng-switch on='requireItem.exampleType'>
+							<div class="form-group" ng-switch-when='3'>
+								<label class="col-sm-2 control-label">文字示例：</label>
+								<div class="col-sm-2">
+									<input type="text" class="form-control"
+										ng-model='requireItem.example' readonly>
+								</div>
+								<input type="hidden" ng-model='textExample'>
+							</div>
+							<div class="form-group" ng-switch-when='1'>
+								<label class="col-sm-2 control-label">图片示例：</label> <input
+									type="hidden">
+								<div class="col-sm-4" >
+									<img ng-show="requireItem.photoAddressUrl!=null && requireItem.photoAddressUrl!=''" alt="" ng-src="{{requireItem.photoAddressUrl}}" style="width: 198px;height: 100px">
+								</div>
+							</div>
+							<div class="form-group" ng-switch-when='2'>
+								<label class="col-sm-2 control-label">文件示例：</label> <input
+									type="hidden">
+								<div class="col-sm-4" style="margin-top:7px">
+									<a href="{{requireItem.photoAddressUrl}}">{{requireItem.photoAddress}}</a>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">备注：</label>
+								<div class="col-sm-8">
+									<textarea rows="5" cols="20" class="form-control"
+										ng-model='requireItem.remark' readonly></textarea>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">审核错误提示：</label>
+								<div class="col-sm-8">
+									<textarea rows="5" cols="20" class="form-control"
+										ng-model='requireItem.checkMsg' readonly></textarea>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label"></label>
+								<div class="col-sm-4">
+									<a class="btn btn-primary4" ui-sref='service.queryRequireItem'>返回</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+</div>

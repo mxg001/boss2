@@ -1,0 +1,191 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a href="index.html">主页</a></li>
+            <li>超级银行家</li>
+            <li class="active"><strong>彩票订单查询</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="lotteryOrderCtrl">
+    <form class="form-horizontal" id="form1">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>彩票订单查询</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">订单ID：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.orderNo">
+                            </div>
+                            <label class="col-sm-2 control-label">投注时间：</label>
+                            <div class="col-sm-6">
+                                <input id="d5221" class="form-control" type="datetime" ng-model="baseInfo.startTime" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="var d5222=$dp.$('d5222');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5222.focus();},maxDate:'#F{$dp.$D(\'d5222\')}'})"/>
+                                ~
+                                <input id="d5222" class="form-control" type="datetime"  ng-model="baseInfo.endTime" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5221\')}'})"/>
+                            </div>
+                            <label class="col-sm-2 control-label">记账状态：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="baseInfo.accountStatus" ng-options="x.value as x.text for x in accountStatusList">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                        	<label class="col-sm-2 control-label">所属组织：</label>
+                            <div class="col-sm-2">
+                                <select chosen="{width:'100%'}" id="autocomplete-select2" class="chosen-select" tabindex="5" ng-model="baseInfo.orgId" ng-options="x.orgId as x.orgName for x in orgInfoList">
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                            <label class="col-sm-2 control-label">贡献人ID：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.userCode">
+                            </div>
+                            <label class="col-sm-2 control-label">贡献人名称：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.userName">
+                            </div>
+                            <label class="col-sm-2 control-label">贡献人手机号：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.phone">
+                            </div>
+                            <label class="col-sm-2 control-label">导入批次号：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.batchNo">
+                            </div>
+                        </div>
+                       
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">一级编号：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.oneCode">
+                            </div>
+                            <label class="col-sm-2 control-label">一级名称：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.oneName">
+                            </div>
+                            <label class="col-sm-2 control-label">一级身份：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="baseInfo.oneRole" ng-options="x.value as x.text for x in roles">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12" style="text-align: right; color: #0e9aef;cursor:pointer;" ng-click="changeCondition()">
+                            {{condition.conditionMsg}}
+                        </div>
+                        <div ng-show="condition.conditionStatus">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">二级编号：</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="baseInfo.twoCode">
+                                </div>
+                                <label class="col-sm-2 control-label">二级名称：</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="baseInfo.twoName">
+                                </div>
+                                <label class="col-sm-2 control-label">二级身份：</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="baseInfo.twoRole" ng-options="x.value as x.text for x in roles">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">三级编号：</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="baseInfo.threeCode">
+                                </div>
+                                <label class="col-sm-2 control-label">三级名称：</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="baseInfo.threeName">
+                                </div>
+                                <label class="col-sm-2 control-label">三级身份：</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="baseInfo.threeRole" ng-options="x.value as x.text for x in roles">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">四级编号：</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="baseInfo.fourCode">
+                                </div>
+                                <label class="col-sm-2 control-label">四级名称：</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="baseInfo.fourName">
+                                </div>
+                                <label class="col-sm-2 control-label">四级身份：</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="baseInfo.fourRole" ng-options="x.value as x.text for x in roles">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">订单贡献人所属区域：</label>
+                                <div class="col-lg-2">
+                                    <select class="form-control input-s-sm inline" ng-model="baseInfo.openProvince"  ng-change="getCities()" ng-options="x.name as x.name for x in provinceGroup"/>
+                                </div>
+                                <div class="col-lg-2">
+                                    <select class="form-control input-s-sm inline" ng-model="baseInfo.openCity"  ng-change="getAreas()" ng-options="x.name as x.name for x in cityGroup"/>
+                                </div>
+                                <div class="col-lg-2">
+                                    <select class="form-control input-s-sm inline" ng-model="baseInfo.openRegion"  ng-options="x.name as x.name for x in areaGroup"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">订单贡献人备注：</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="baseInfo.remark">
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group" style="margin-top: 30px">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-8">
+                                <button class="btn btn-primary6 btn-mr20"  ng-click="query()" ng-disabled="submitting">查询</button>
+                                <button class="btn btn-primary3 btn-mr20" type="button" ng-click="resetForm()">清空</button>
+                                <button class="btn btn-primary7 btn-mr20" type="button" ng-click="exportInfo()"
+                                        ng-show="true">导出</button>
+                                <button class="btn btn-new btn-mr20" type="button" ui-sref="superBank.lotteryImportRecords"
+                                        ng-show="true">导入彩票订单管理</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>彩票订单列表</h5>
+                    </div>
+
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <div class="col-sm-3 checkbox">彩票机构发放总奖金汇总：<span ng-bind="orderMainSum.sumAmount | currency:''"></span>元</div>
+                            <div class="col-sm-3 checkbox">平台分润汇总：<span ng-bind="orderMainSum.sumPlatProfit | currency:''"></span>元</div>
+                            <div class="col-sm-3 checkbox">品牌分润汇总：<span ng-bind="orderMainSum.sumOrgProfit | currency:''"></span>元</div>
+                        </div>
+                        <div class="tposition">
+                            <div class="gridStyle" ui-grid="orderGrid" ui-grid-selection ui-grid-pagination
+                                 ui-grid-resize-columns ui-grid-pinning></div>
+                            <div ng-show="loadImg" class="timg"></div>
+                        </div>
+                        <div class="block m-t-xs">
+                           
+                        </div>
+                    </div>
+                </div>
+                <div style="height:30px;"></div>
+            </div>
+        </div>
+    </form>
+    
+    
+</div>

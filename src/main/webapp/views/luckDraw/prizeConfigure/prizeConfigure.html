@@ -1,0 +1,117 @@
+<!-- 超级银行家用户管理页面 -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>功能管理</a></li>
+            <li class="active"><strong>抽奖活动设置</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="prizeConfigureCtrl">
+    <form class="form-horizontal" id="form1" name="horizontalCard">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="tabs-container tab_other">
+                        <uib-tabset>
+                            <uib-tab>
+                                <uib-tab-heading>
+									<span class="block m-t-xs"> <i class="fa fa-laptop"></i> <strong
+                                            class="font-bold">活动属性</strong>
+									</span>
+                                </uib-tab-heading>
+                                <div class="panel-body ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <h5>活动属性</h5>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label"><i class="red_req">*</i>活动名称:</label>
+                                        <div class="col-sm-5">
+                                            <input type="text" class="form-control" name="funcName" required maxlength="20" ng-model="addInfo.funcName">
+                                            <div class="req_mesg" ng-show="horizontalCard.funcName.$dirty && horizontalCard.funcName.$invalid">
+                                                <span ng-show="horizontalCard.funcName.$error.required">活动名称不能为空</span>
+                                            </div>
+                                        </div>
+                                        <label style="margin-top:7px;">注:不能多于20个字</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label"><i class="red_req">*</i>活动说明:</label>
+                                        <div class="col-lg-7">
+                                            <summernote type="text" config="summeroptions" id="summernote" class="form-control" name="funcDesc" required  ng-model="addInfo.funcDesc" on-image-upload="imageUploadALL(files)" editable="editable" editor="editor" >
+                                            </summernote>
+                                            <div class="req_mesg" ng-show="horizontalCard.funcDesc.$dirty && horizontalCard.funcDesc.$invalid">
+                                                <span ng-show="horizontalCard.funcDesc.$error.required">活动说明不能为空</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label"><i class="red_req">*</i>活动时间:</label>
+                                        <div class="col-sm-5">
+                                            <input id="d5231" class="form-control" type="datetime" ng-model="addInfo.startTime" onchange=""  style="width:auto;display:inline-block;"
+                                                   onFocus="var d5232=$dp.$('d5232');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5232.focus();},maxDate:'#F{$dp.$D(\'d5232\')}'})"/>
+                                            ~
+                                            <input id="d5232" class="form-control" type="datetime"  ng-model="addInfo.endTime" onchange=""  style="width:auto;display:inline-block;"
+                                                   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5231\')}'})"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label"><i class="red_req">*</i>抽奖次数为零提示:</label>
+                                        <div class="col-sm-7">
+                                            <textarea class="form-control" rows="3" cols="15" name="warn" ng-model="addInfo.warn"></textarea>
+                                            <div class="req_mesg" ng-show="horizontalCard.warn.$dirty && horizontalCard.warn.$invalid">
+                                                <span ng-show="horizontalCard.warn.$error.required">抽奖次数为零提示不能为空</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label"><i class="red_req">*</i>抽奖条件:</label>
+                                        <div class="col-sm-10">
+                                            <div style="float:left;">
+                                                <label style="margin-top: 7px">当天每笔成功交易且金额 >= </label>
+                                                <input type="text"  class="textClass" required name="amount" ng-model="addInfo.amount">
+                                                <label class="fontClass">,即为用户获得一次抽奖机会</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label"></label>
+                                        <div class="col-sm-6">
+                                            <button class="btn btn-primary btn-mr20" type="button" ng-click="submitInfo()" ng-disabled="horizontalCard.$invalid || submitting">提交</button>
+                                            <a class="btn btn-primary4" ui-sref="func.couponActivity" >返回</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </uib-tab>
+                            <uib-tab>
+                                <uib-tab-heading>
+									<span class="block m-t-xs"> <i class="fa fa-laptop"></i> <strong
+                                            class="font-bold">奖项配置</strong>
+									</span>
+                                </uib-tab-heading>
+                                <div class="panel-body ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <h5>奖项配置</h5>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-lg-12" >
+                                            <a class="btn btn-primary5 btn-mr20" style="float:right;" type="button" ng-show="hasPermit('prizeConfigure.addPrize')" target="_blank" ui-sref="func.prizeAdd({funcCode:funcCode})" >新增</a>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-1 control-label"></label>
+                                        <div class="col-lg-11">
+                                            <div class="gridStyle"  ui-grid="userGrid" ui-grid-selection ui-grid-resize-columns ui-grid-pinning></div>
+                                            <div ng-show="loadImg" class="timg"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </uib-tab>
+                        </uib-tabset>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

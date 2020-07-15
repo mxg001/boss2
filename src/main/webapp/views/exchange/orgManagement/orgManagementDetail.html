@@ -1,0 +1,104 @@
+<!-- head -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>超级兑</a></li>
+            <li class="active"><strong>积分机构详情</strong></li>
+        </ol>
+    </div>
+</div>
+
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn"
+     ng-controller="orgManagementEditCtrl">
+    <form class="form-horizontal" id="form1" name="horizontalCard">
+        <div class="form-group">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>基础资料</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>机构名称:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="orgName" maxlength="5" readonly ng-model="addinfo.orgName">
+                                <div class="req_mesg" ng-show="horizontalCard.orgName.$dirty && horizontalCard.orgName.$invalid">
+                                    <span ng-show="horizontalCard.orgName.$error.required">机构名称不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>顺序:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="sort" readonly ng-model="addinfo.sort">
+                                <div class="req_mesg" ng-show="horizontalCard.sort.$dirty && horizontalCard.sort.$invalid">
+                                    <span ng-show="horizontalCard.sort.$error.required">顺序不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>logo:</label>
+                            <div class="col-img" ng-if="addinfo.orgLogo!=null&&addinfo.orgLogo!=''" >
+                                <a href="{{addinfo.orgLogo}}" fancybox rel="group">
+                                    <img width="250px" height="150px" ng-src="{{addinfo.orgLogo}}"/>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>积分查询方式:</label>
+                            <div class="col-sm-6">
+                                <textarea class="form-control" rows="6" cols="10" name="remark" readonly ng-model="addinfo.remark"></textarea>
+                                <div class="req_mesg" ng-show="horizontalCard.remark.$dirty && horizontalCard.remark.$invalid">
+                                    <span ng-show="horizontalCard.remark.$error.required">积分查询方式不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>是否具备金融属性:</label>
+                            <div class="col-sm-5">
+                                <label><input type="radio" ng-model='addinfo.finance' disabled name="finance"  ng-value="'1'"/>是</label>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <label><input type="radio" ng-model='addinfo.finance' disabled name="finance"  ng-value="'0'"/>否</label>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <label style="color:red;">注:IOS审核过滤使用</label>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-repeat="item in listOrgDefault">
+                            <div ng-if="item.isNeed=='1'">
+                                <label class="col-sm-2 control-label">
+                                    <i class="red_req">*</i>
+                                    {{item.propertyDesc}}:
+                                </label>
+                                <div class="col-sm-6">
+                                    <input class="form-control" name="{{item.propertyCode}}" readonly ng-model="item.configValue">
+                                    <div class="req_mesg" ng-show="horizontalCard.{{item.propertyCode}}.$dirty && horizontalCard.{{item.propertyCode}}.$invalid">
+                                        <span ng-show="horizontalCard.{{item.propertyCode}}.$error.required">{{item.propertyDesc}}不能为空</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-if="item.isNeed!='1'">
+                                <label class="col-sm-2 control-label">
+                                    {{item.propertyDesc}}:
+                                </label>
+                                <div class="col-sm-6">
+                                    <input class="form-control" readonly ng-model="item.configValue">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-12 bgff">
+                <div class="col-sm-12">
+                    <div class="col-lg-3"></div>
+                    <div class="col-sm-6">
+                        <a class="btn btn-primary4" ui-sref="exchange.orgManagement" >返回</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

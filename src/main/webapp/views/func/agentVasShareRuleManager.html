@@ -1,0 +1,165 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a href="index.html">主页</a></li>
+			<li><a>功能管理</a></li>
+			<li class="active"><strong>增值业务分润管理</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="agentVasShareRuleQueryCtrl">
+<div class="row">
+	<div class="col-lg-12">
+		<div class="ibox float-e-margins">
+		    <div class="ibox-title">
+		        <h5>代理商分润</h5>
+		    </div>
+		    <div class="ibox-content">
+		    	<form class="form-horizontal">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">代理商:</label>
+						<div class="col-sm-2">
+							<select  name="autocomplete-select" id="autocomplete-select"
+									 ng-model="queryInfo.agentNo" ng-options="x.value as x.text for x in agentList"
+									 style="width: 100%" chosen chosen-data="agentNo" chosen-keyup="getStates">
+								<option value="">全部</option>
+							</select>
+						</div>
+						<label class="col-sm-2 control-label">手机号：</label>
+						<div class="col-sm-2">
+							<input type="text" class="form-control" ng-model="queryInfo.mobilephone" maxlength="30">
+						</div>
+						<label class="col-sm-2 control-label">是否包含下级：</label>
+						<div class="col-sm-2">
+							<select class="form-control" ng-model="queryInfo.hasSubInt" ng-options="x.value as x.text for x in bool">
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">代理商级别:</label>
+						<div class="col-sm-2">
+							<select class="form-control" ng-model="queryInfo.agentLevelInt" ng-options="x.value as x.text for x in agentLevel"/>
+						</div>
+						<label class="col-sm-2 control-label">分润日结是否打开:</label>
+						<div class="col-sm-2">
+							<select class="form-control" ng-model="queryInfo.profitSwitch" ng-options="x.value as x.text for x in profitSwitchStr"/>
+						</div>
+					</div>
+					<div class="col-lg-12 bgff">
+						<div class="col-sm-2"></div>
+						<div class="col-sm-10">
+							<button class="btn btn-primary6 btn-mr20" ng-click="query()">查询</button>
+							<button class="btn btn-primary3 btn-mr20" type="button" ng-click="clear()">清空</button>
+							<button class="btn btn-primary7 btn-mr20" type="button" ng-click="exportInfo()" >导出</button>
+						</div>
+					</div>
+					<div class="panel-body ibox float-e-margins">
+						<div class="ibox-content">
+							<div class="gridStyle" ui-grid="gridOptions"  ui-grid-pinning ui-grid-pagination ui-grid-resize-columns></div>
+						</div>
+					</div>
+				
+		     	</form>
+		    </div>
+		</div>
+	</div>
+</div>
+
+	<div style="height: 30px;"></div>
+	<div id="editModal" class="modal fade form-horizontal" tabindex="3" role="dialog">
+		<form class="form-horizontal" name="horizontalAdd">
+			<div class="modal-dialog" style="height:500px;width: 700px">
+				<div class="modal-content" style="height:500px;width: 700px">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							&times;</button>
+						<h3 class="modal-title">分润修改</h3>
+					</div>
+					<div class="modal-body">
+
+						<div class="form-group">
+							<label class="col-sm-3 control-label"><i class="red_req">*</i>代理商分润:</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" ng-model="info.rateInput"  ng-pattern="/^([1-9]\d{0,9}|0)(\.\d{1,3})?$/" required
+									   name="rateInput" />
+								<div class="req_mesg" ng-show="horizontalAdd.rateInput.$dirty && horizontalAdd.rateInput.$invalid">
+									<span ng-show="horizontalAdd.rateInput.$error.required">不能为空</span>
+									<span ng-show="horizontalAdd.rateInput.$error.pattern">格式不正确</span>
+								</div>
+							</div>
+							<div class="col-sm-0 lh30">
+								<label>{{info.rateTypeName}}</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label"><i class="red_req">*</i>分润比例:</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" ng-model="info.shareProfitPercent"  ng-pattern="/^([1-9]{1}[0-9]{0,1}|0|100)$/" required
+									   name="shareProfitPercent" />
+								<div class="req_mesg" ng-show="horizontalAdd.shareProfitPercent.$dirty && horizontalAdd.shareProfitPercent.$invalid">
+									<span ng-show="horizontalAdd.shareProfitPercent.$error.required">不能为空</span>
+									<span ng-show="horizontalAdd.shareProfitPercent.$error.pattern">必须在0-100之间的整数</span>
+								</div>
+							</div>
+							<div class="col-sm-0 lh30">
+								<label>%</label>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<div class="form-group control-label">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-6">
+								<button class="btn btn-primary btn-mr20" type="button" ng-click='ruleUpdate()'
+										ng-disabled="horizontalAdd.$invalid || submittingMode">确定</button>
+								<button class="btn btn-primary8" type="button" ng-click='editModalHide()'
+								>返回</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<div id="recordModal" class="modal fade form-horizontal" tabindex="3" role="dialog">
+		<form class="form-horizontal" name="horizontalRecord">
+			<div class="modal-dialog" style="height:900px;width: 1000px">
+				<div class="modal-content" style="height:700px;width: 900px">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							&times;</button>
+						<h3 class="modal-title">分润记录</h3>
+					</div>
+					<div class="modal-body">
+
+						<div class="ibox-content">
+							<form class="form-horizontal">
+								<div class="panel-body ibox float-e-margins">
+									<div class="ibox-content">
+										<div class="gridStyle" ui-grid="recordGridOptions"  ui-grid-pinning ui-grid-pagination ui-grid-auto-resize></div>
+									</div>
+								</div>
+
+							</form>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<div class="form-group control-label">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-6">
+								<button class="btn btn-primary btn-mr20" type="button" ng-click='recordModalHide()'
+										ng-disabled="horizontalAdd.$invalid || submittingMode">确定</button>
+								<button class="btn btn-primary8" type="button" ng-click='recordModalHide()'
+								>返回</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

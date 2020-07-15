@@ -1,0 +1,91 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>红包业务管理</a></li>
+            <li class="active"><strong>用户幸运值管理</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="luckConfCtrl">
+    <form class="form-horizontal" name="horizontal" >
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>用户幸运值管理</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">初始值：</label>
+                            <div class="col-sm-2 checkbox wbba" ng-bind="baseInfo.initValue">
+                            </div>
+                            <label class="col-sm-2 control-label">最低值：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.lowestValue">
+                            </div>
+                            <label class="col-sm-2 control-label">最高值：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.highestValue">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">单个红包评论：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.singleCommentValue" name="singleCommentValue" required >
+                                <div class="req_mesg" ng-show="horizontal.singleCommentValue.$dirty && horizontal.singleCommentValue.$invalid">
+                                    <span ng-show="horizontal.singleCommentValue.$error.required">单个红包评论不能为空</span>
+                                </div>
+                            </div>
+                            <label class="col-sm-2 control-label">单个红包首位评论：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.firstCommentValue" name="firstCommentValue" required>
+                                <div class="req_mesg" ng-show="horizontal.firstCommentValue.$dirty && horizontal.firstCommentValue.$invalid">
+                                    <span ng-show="horizontal.firstCommentValue.$error.required">单个红包首位评论不能为空</span>
+                                </div>
+                            </div>
+                            <label class="col-sm-2 control-label">领取红包无评论：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.receiveRedValue" name="receiveRedValue" required>
+                                <div class="req_mesg" ng-show="horizontal.receiveRedValue.$dirty && horizontal.receiveRedValue.$invalid">
+                                    <span ng-show="horizontal.receiveRedValue.$error.required">领取红包无评论不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">发一个红包：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.pushRedValue" name="pushRedValue" required>
+                                <div class="req_mesg" ng-show="horizontal.pushRedValue.$dirty && horizontal.pushRedValue.$invalid">
+                                    <span ng-show="horizontal.pushRedValue.$error.required">发一个红包不能为空</span>
+                                </div>
+                            </div>
+                            <label class="col-sm-2 control-label">恶意评论：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.badCommentValue" name="badCommentValue" required>
+                                <div class="req_mesg" ng-show="horizontal.badCommentValue.$dirty && horizontal.badCommentValue.$invalid">
+                                    <span ng-show="horizontal.badCommentValue.$error.required">恶意评论不能为空</span>
+                                </div>
+                            </div>
+                            <label class="col-sm-2 control-label">评论发广告：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="baseInfo.adCommentValue" name="adCommentValue" required>
+                                <div class="req_mesg" ng-show="horizontal.adCommentValue.$dirty && horizontal.adCommentValue.$invalid">
+                                    <span ng-show="horizontal.adCommentValue.$error.required">评论发广告不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-top:30px">
+                            <label class="col-sm-1 control-label"></label>
+                            <div class="col-sm-8">
+                                <input type="button" class="btn btn-primary btn-mr20" ng-click="submit()"
+                                       ng-disabled="submitting" value='提交'>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,241 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a href="index.jsp">主页</a></li>
+            <li>代理商工单</li>
+            <li class="active"><strong>工单记录</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn"
+     ng-controller="workOrderCtrl">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>工单类型查询</h5>
+                </div>
+                <div class="ibox-content">
+                    <form class="form-horizontal" id="form1">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="panel-body ibox float-e-margins">
+                                    <div class="ibox-content">
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">工单编号：</label>
+                                            <div class="col-sm-2">
+                                                <input type="text" class="form-control"  ng-model='info.orderNo'  />
+                                            </div>
+                                            <label class="col-sm-2 control-label">工单类型：</label>
+                                            <div class="col-sm-2">
+                                                <select  name="autocomplete-select" id="autocomplete-select1"
+                                                         ng-model="info.workTypeId" ng-options="x.value as x.text for x in nameSelect"
+                                                         style="width: 100%" chosen chosen-data="nameSelect" >
+                                                </select>
+                                            </div>
+                                            <label class="col-sm-2 control-label">当前处理部门：</label>
+                                            <div class="col-sm-2">
+                                                <select class="form-control"  required ng-model="info.currentDeptNo"  ng-options="x.value as x.text for x in deptSelect"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">工单状态：</label>
+                                            <div class="col-sm-2">
+                                                <select class="form-control" ng-model="info.status" ng-options="x.value as x.text for x in statusSelect"/>
+                                            </div>
+                                            <label class="col-sm-2 control-label">处理人：</label>
+                                            <div class="col-sm-2">
+                                                <select  name="autocomplete-select" id="autocomplete-select2"
+                                                         ng-model="info.currentUserId" ng-options="x.value as x.text for x in currentDeptUserSelect"
+                                                         style="width: 100%" chosen chosen-data="currentDeptUserSelect" >
+                                                </select>
+                                            </div>
+                                            <label class="col-sm-2 control-label">发起人：</label>
+                                            <div class="col-sm-2">
+                                                <input type="text" class="form-control"  ng-model='info.createUserName'  />
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">发起人类型：</label>
+                                            <div class="col-sm-2">
+                                                <select class="form-control" ng-model="info.createType" ng-options="x.value as x.text for x in createType"/>
+                                            </div>
+                                            <label class="col-sm-2 control-label">逾期回复状态：</label>
+                                            <div class="col-sm-2">
+                                                <select class="form-control" ng-model="info.overDueReply" ng-options="x.value as x.text for x in overDueStatusSelect"/>
+                                            </div>
+                                            <label class="col-sm-2 control-label">一级代理商：</label>
+                                            <div class="col-sm-2">
+                                                <select name="autocomplete-select" id="autocomplete-select" ng-model="info.oneAgentNode" chosen-data="agentList"
+                                                        ng-options="x.value as x.text for x in agentList" style="width: 100%" chosen  chosen-keyup="getAgentList">
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">创建日期：</label>
+                                            <div class="col-sm-4">
+                                                <input id="d5233" class="form-control" type="datetime" ng-model="info.createTimeBegin" onchange=""  style="width:auto;display:inline-block;"
+                                                       onFocus="var d5234=$dp.$('d5234');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5234.focus();},maxDate:'#F{$dp.$D(\'d5234\')||\'%y-%M-%d\'}'})"/>
+                                                ~
+                                                <input id="d5234" class="form-control" type="datetime"  ng-model="info.createTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+                                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5233\')}',maxDate:'%y-%M-%d 23:59:59'})"/>
+                                            </div>
+                                            <label class="col-sm-2 control-label">最后更新日期：</label>
+                                            <div class="col-sm-4">
+                                                <input id="d5225" class="form-control" type="datetime" ng-model="info.lastUpdateTimeBegin" onchange=""  style="width:auto;display:inline-block;"
+                                                       onFocus="var d5226=$dp.$('d5226');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5226.focus();},maxDate:'#F{$dp.$D(\'d5226\')}'})"/>
+                                                ~
+                                                <input id="d5226" class="form-control" type="datetime"  ng-model="info.lastUpdateTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+                                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5225\')}'})"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">代理截止回复日期：</label>
+                                            <div class="col-sm-4">
+                                                <input id="d5227" class="form-control" type="datetime" ng-model="info.endReplyTimeBegin" onchange=""  style="width:auto;display:inline-block;"
+                                                       onFocus="var d5228=$dp.$('d5228');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5228.focus();},maxDate:'#F{$dp.$D(\'d5228\')}'})"/>
+                                                ~
+                                                <input id="d5228" class="form-control" type="datetime"  ng-model="info.endReplyTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+                                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5227\')}'})"/>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            <label class="col-sm-1"></label>
+                                            <div class="col-sm-10">
+                                                <button class="btn btn-primary6 btn-mr20" type="button"
+                                                        ng-disabled="submitting"
+                                                        ng-click='query()' id="btnSubmit">查询
+                                                </button>
+                                                <button class="btn btn-primary3 btn-mr20" type="button"
+                                                        ng-click="resetForm()">清空
+                                                </button>
+                                                <button class="btn btn-primary5 btn-mr20" type="button" ng-show="hasPermit('workOrder.add')"
+                                                        ui-sref="workOrder.workOrderAdd">新增
+                                                </button>
+                                                <button class="btn btn-new btn-mr20" type="button" ng-show="hasPermit('workOrder.transfer')"
+                                                        ng-click="showTransferModal()">转单
+                                                </button>
+                                                <button class="btn btn-primary7 btn-mr20" type="button" ng-show="hasPermit('workOrder.export')"
+                                                        ng-click="export()">导出
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="panel-body ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <h5>列表</h5>
+                                    </div>
+                                    <div class="col-sm-5 checkbox ">
+                                        <label ><input type="radio" name="queryType" ng-click="query()" ng-model="info.queryType" value="0" />待处理</label>
+                                        <label ><input type="radio" name="queryType" ng-click="query()" ng-model="info.queryType" value="2" />已处理</label>
+                                        <label ><input type="radio" name="queryType" ng-click="query()" ng-model="info.queryType" value="1" />我发起的工单</label>
+                                        <label ><input type="radio" name="queryType" ng-click="query()" ng-model="info.queryType" value="3" />我负责的代理</label>
+                                        <label ng-show="managerFlag"><input type="radio" name="queryType"  ng-click="query()" ng-model="info.queryType" value="4" />我部门发起的工单</label>
+                                    </div>
+                                    <div class="ibox-content">
+                                        <div class="tposition">
+                                            <div class="gridStyle" ui-grid="workOrderGrid"
+                                                 ui-grid-pagination ui-grid-selection ui-grid-resize-columns ui-grid-pinning>
+                                                <div ng-show="loadImg" class="timg"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="height: 50px"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+
+
+                    <form class="form-horizontal" id="transferForm" name="transferHorizontal" novalidate>
+                        <div id="transferModal" class="modal fade" tabindex="-2" role="dialog">
+                            <div class="modal-dialog" style="width: 900px">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h3 class="modal-title">请选择接收人</h3>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>请选择接收人：</label>
+                                            <div class="col-sm-4">
+                                                <select class="form-control" name="receiverId" required ng-model="transferInfo.receiverId"  ng-options="x.value as x.text for x in transferUserSelect"/>
+                                            </div>
+                                            <div class="req_mesg" ng-show="transferHorizontal.receiverId.$dirty && transferHorizontal.receiverId.$invalid">
+                                                <span ng-show="transferHorizontal.receiverId.$error.required">接收人不能空</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"></label>
+                                            <div class="col-sm-6">
+                                                <button class="btn btn-primary btn-mr20" ng-disabled="transferHorizontal.$invalid || submitting" type="button" ng-click='transferOrder()'
+                                                        id="btnSubmitImg" >确定</button>
+                                                <button class="btn btn-primary8" type="button" ng-click='hideTransferModal()'>取消</button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <form class="form-horizontal" id="transferResultForm" name="transferResultHorizontal" novalidate>
+                        <div id="transferResultModal" class="modal fade" tabindex="-1" role="dialog">
+                            <div class="modal-dialog" style="width: 900px">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h3 class="modal-title">转单结果</h3>
+                                    </div>
+                                    <div class="modal-body">
+
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">转单成功：</label>
+                                            <div class="col-sm-2">
+                                                {{transferResultInfo.success}}
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">转单失败：</label>
+                                            <div class="col-sm-2">
+                                                {{transferResultInfo.fail}}
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">转单失败工单列表：</label>
+                                            <div class="col-sm-8" >
+                                                <div class="gridStyle"  ui-grid="transferResultGrid" ui-grid-resize-columns ui-grid-selection ui-grid-pinning/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"></label>
+                                            <div class="col-sm-6">
+                                                <button class="btn btn-primary btn-mr20" ng-disabled="transferHorizontal.$invalid || submitting" type="button" ng-click='hideTransferResultModal()'
+                                                        id="btnSubmitResult" >确定</button>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="height: 30px;"></div>
+
+</div>

@@ -1,0 +1,120 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>产品服务</a></li>
+			<li class="active"><strong>业务产品查询</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="queryProductCtrl">
+	<form class="form-horizontal" id="form1">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>业务产品条件查询</h5>
+						<!--<div ibox-tools></div>-->
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">业务产品名称：</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" ng-model='baseInfo.bpName'>
+							</div>
+							<label class="col-sm-2 control-label">代理商展示名称：</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" ng-model='baseInfo.agentShowName'>
+							</div>
+							<label class="col-sm-2 control-label">类型：</label>
+							<div class="col-sm-2">
+								<select class="form-control" ng-model='baseInfo.bpType'
+									ng-options="x.value as x.text for x in type">
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">所属组织：</label>
+							<div class="col-sm-2">
+								<select class="form-control" ng-model='baseInfo.teamId'
+									ng-options="x.value as x.text for x in team">
+								</select>
+							</div>
+							<label class="col-sm-2 control-label">硬件产品类型：</label>
+							<div class="col-sm-2">
+								<select class="form-control" ng-model='baseInfo.hpId'
+									ng-options="x.value as x.text for x in hardwareTypes">
+								</select>
+							</div>
+							<label class="col-sm-2 control-label">是否OEM：</label>
+							<div class="col-sm-2">
+								<select class="form-control" ng-model='baseInfo.isOem'
+												ng-options="x.value as x.text for x in isOemSelect">
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">状态：</label>
+							<div class="col-sm-2">
+								<select class="form-control" ng-model='baseInfo.effectiveStatus'
+										ng-options="x.value as x.text for x in effectiveStatusList">
+								</select>
+							</div>
+							<label class="col-sm-2 control-label">创建人：</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control"
+											 ng-model='baseInfo.createPerson'>
+							</div>
+							<label class="col-sm-2 control-label">是否允许单独申请：</label>
+							<div class="col-sm-2">
+								<select class="form-control" ng-model='baseInfo.allowIndividualApply'
+												ng-options="x.value as x.text for x in allowIndividualApplySelect">
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">群组号：</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" ng-model='baseInfo.groupNo'>
+							</div>
+
+							<label class="col-sm-2 control-label">创建时间：</label>
+							<div class="col-sm-5">
+								<input id="d5231" class="form-control" type="datetime" ng-model="baseInfo.createTimeBegin" onchange=""  style="width:auto;display:inline-block;"
+											 onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',changed:verifyTime(1,'#d5231','#d5232',31,isVerifyTime),onpicked:function(){d5232.focus();},maxDate:'#F{$dp.$D(\'d5232\')||\'%y-%M-%d\'}'})"/>
+								~
+								<input id="d5232" class="form-control" type="datetime"  ng-model="baseInfo.createTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+											 onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',changed:verifyTime(2,'#d5231','#d5232',31,isVerifyTime),minDate:'#F{$dp.$D(\'d5231\')}',maxDate:'%y-%M-%d 23:59:59'})"/>
+								<!--<br/><span><font color="#999">备注：查询范围不能超过一个月</font></span>-->
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2"></label>
+							<div class="col-sm-6">
+								<button class="btn btn-primary6 btn-mr20" type="button" ng-click='query()'
+									id="btnSubmit">查询</button><button class="btn btn-primary3 btn-mr20" type="button" ng-click="resetForm()">清空</button>
+								<button class="btn btn-primary7 btn-mr20" type="button" ng-show="hasPermit('businessProductDefine.exportQueryProduct')" ng-click="exportQueryProduct()">导出</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>业务产品信息列表</h5>
+						<!--<div ibox-tools="" class="ng-scope"></div>-->
+					</div>
+					<div class="ibox-content">
+						<div class="gridStyle" ui-grid="productGrid" ui-grid-pagination ui-grid-resize-columns ui-grid-pinning></div>
+					</div>
+				</div>
+				<div style="height: 50px"></div>
+			</div>
+		</div>
+	</form>
+
+</div>

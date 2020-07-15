@@ -1,0 +1,64 @@
+<!-- head -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>功能管理</a></li>
+            <li class="active"><strong>贷款理财配置详情</strong></li>
+        </ol>
+    </div>
+</div>
+
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="loanFinancingEditCtrl">
+    <form class="form-horizontal" id="form1" name="horizontalCard">
+        <div class="form-group">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="ibox-title">
+                            <h5>基本资料</h5>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>产品名称:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="productName" readonly ng-model="addInfo.productName">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>排序:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="sortNo" readonly ng-model="addInfo.sortNo">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>产品链接:</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" name="productLinkUrl" readonly ng-model="addInfo.productLinkUrl">
+                            </div>
+                        </div>
+                        <div class="ibox-title">
+                            <h5>产品logo</h5>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>产品logo:</label>
+                            <div class="col-img" ng-if="addInfo.logImg!=null&&addInfo.logImg!=''" >
+                                <a href="{{addInfo.logImg}}" fancybox rel="group">
+                                    <img width="250px" height="150px" ng-src="{{addInfo.logImg}}"/>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 bgff">
+                <div class="col-sm-12">
+                    <div class="col-lg-3"></div>
+                    <div class="col-sm-6">
+                        <a class="btn btn-primary4" ui-sref="func.loanFinancing" >返回</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

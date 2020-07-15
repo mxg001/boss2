@@ -1,0 +1,190 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>交易查询</a></li>
+			<li class="active"><strong>充值详情</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app ng-controller="activityOrderInfoCtrl">
+	<form class="form-horizontal" id="form1">
+		<div class="row">
+			<div class="col-lg-12">
+
+
+
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>订单信息</h5>
+					</div>
+					<div class="ibox-content">
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">订单编号：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.orderNo"></div>
+							<label class="col-sm-2 control-label">商户编号：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.merchantNo"></div>
+							<label class="col-sm-2 control-label">商户名称：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.merchantName"></div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">商户手机号：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.mobileNo"></div>
+							<label class="col-sm-2 control-label">订单类型：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.couponCode |formatDropping:couponCodes"></div>
+							<label class="col-sm-2 control-label">交易金额：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.transAmount | currency:''"></div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">收款商户：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.accMerNo"></div>
+							<label class="col-sm-2 control-label">状态：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.transStatus |formatDropping:transStatusAll"></div>
+							<label class="col-sm-2 control-label">交易时间：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.transTime | date:'yyyy-MM-dd HH:mm:ss'"></div>
+						</div>
+
+					</div>
+
+				</div>
+
+
+
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>充值返信息</h5>
+					</div>
+					<div class="ibox-content">
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">购买券名称：</label>
+							<div class="col-sm-2 checkbox" ng-bind="couponInfo.couponName"></div>
+							<label class="col-sm-2 control-label">券类型：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.couponCode |formatDropping:couponCodes"></div>
+
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">购买券单价（元）：</label>
+							<div class="col-sm-2 checkbox" ng-bind="couponInfo.couponAmount | currency:''"></div>
+							<label class="col-sm-2 control-label">赠送金额（元）：</label>
+							<div class="col-sm-2 checkbox" ng-bind="couponInfo.giftAmount | currency:''"></div>
+							<label class="col-sm-2 control-label">总价值金额：</label>
+							<div class="col-sm-2 checkbox" ng-bind="couponInfo.faceValue | currency:''"></div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label">有效期：</label>
+							<div class="col-sm-2 checkbox" ng-bind="couponInfo.startEndTime"></div>
+							<label class="col-sm-2 control-label">券编号：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.couponNo"></div>
+						</div>
+						
+						<div class="form-group">
+							<div class="form-group" ng-show="remarkFlag == 0" id="remarkChange">
+								<label class="col-sm-2 control-label">备注：</label>
+								<div class="col-sm-2 checkbox" ng-bind="infoDetail.remark"></div>
+								<input type="button" ng-click="remarkChange()" value="修改" >
+							</div>
+							<div class="form-group" id="remarkUpdate" ng-show="remarkFlag == 1">
+								<label class="col-sm-2 control-label">备注：</label>
+								<input ng-model="infoDetail.remark" type="text" />
+								<input type="button" ng-click="remarkUpdate()" value="保存">
+								<input type="button" ng-click="remarkCancel()" value="取消">
+							</div>
+
+
+						</div>
+						
+
+
+					</div>
+					
+				</div>
+
+
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>支付订单信息</h5>
+					</div>
+					<div class="ibox-content">
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">支付订单编号：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.payOrderNo"></div>
+							<!--<label class="col-sm-2 control-label">消费者：</label>
+							&lt;!&ndash;infoDetail.settleStatus |formatDropping:settleStatus&ndash;&gt;
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.settleStatus |formatDropping:settleStatus "></div>
+							<label class="col-sm-2 control-label">商户结算日期：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.merchantSettleDate | date:'yyyy-MM-dd'"></div>-->
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">消费者：</label>
+							<div class="col-sm-6 checkbox" ng-bind="infoDetail.merInfo"></div>
+							<!--<label class="col-sm-2 control-label">结算卡号：</label>
+							<div class="col-sm-2 checkbox" ng-bind="pcb1.bankNo"></div>-->
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">业务产品：</label>
+							<div class="col-sm-2 checkbox" ng-bind="settleInfo.bpName"></div>
+							<label class="col-sm-2 control-label">服务：</label>
+							<div class="col-sm-2 checkbox" ng-bind="settleInfo.serviceName"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">服务费率：</label>
+							<div class="col-sm-2 checkbox" ng-bind="settleInfo.merchantRate"></div>
+							<label class="col-sm-2 control-label">服务手续费：</label>
+							<div class="col-sm-2 checkbox" ng-bind="settleInfo.merchantFee"></div>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>结算信息</h5>
+					</div>
+					<div class="ibox-content">
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label">结算周期：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.settlementMethod |formatDropping:settlementMethods"></div>
+							<label class="col-sm-2 control-label">结算状态：</label>
+							<div class="col-sm-2 checkbox" ng-bind="infoDetail.settleStatus |formatDropping:settleStatus "></div>
+							<label class="col-sm-2 control-label">商户结算日期：</label>
+							<div class="col-sm-2 checkbox" ng-bind="settleInfo.createTime | date:'yyyy-MM-dd'"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">结算卡银行：</label>
+							<div class="col-sm-2 checkbox" ng-bind="settleInfo.inBankName"></div>
+							<label class="col-sm-2 control-label">结算卡号：</label>
+							<div class="col-sm-2 checkbox" ng-bind="settleInfo.inAccNo"></div>
+							<label class="col-sm-2 control-label">实际结算金额：</label>
+							<div class="col-sm-2 checkbox" ng-bind="settleInfo.outAmount"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">结算错误编号：</label>
+							<div class="col-sm-2 checkbox" ng-bind="settleInfo.errCode"></div>
+							<label class="col-sm-2 control-label">结算错误信息：</label>
+							<div class="col-sm-2 checkbox" ng-bind="settleInfo.errMsg"></div>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-content">
+						<div class="form-group">
+							<a class="btn btn-primary4 btn-rounded" type="button" ui-sref="func.activityOrderInfoQuery">返回</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

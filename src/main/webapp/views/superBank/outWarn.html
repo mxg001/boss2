@@ -1,0 +1,113 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>超级银行家 </a></li>
+            <li class="active"><strong>出款余额不足预警</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn"
+     ng-controller="outWarnCtrl">
+    <form class="form-horizontal" name="horizontal" >
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox-content">
+                    <div class="ibox-title">
+                        <h5>预警设置</h5>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">出款账户余额不足预警手机号：</label>
+                        <div class="col-sm-4">
+                            <input type="text"  class="form-control"  name="warnPhone" ng-model="baseInfo.warnPhone"  />
+                            <div style="padding: 5px 0px">
+                                <span>备注：如有多个，请用英文逗号,隔开，最多三个</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12" style="padding:20px 0 20px 50px;">
+                            <div class="col-sm-5" style="font-weight: bold; line-height: 30px;"> <i class="red_req">*</i>
+                                当金额低于<input type="text" style="width: 100px; margin:0 10px; "
+                                            name="warnAmount" ng-model="baseInfo.warnAmount"> 元时，发送预警短信。</div>
+                            <div class="col-sm-4">
+                                <input type="button" class="btn btn-new btn-mr20"
+                                       ng-disabled='updateWarnInfoStatus || baseInfo.warnAmount==null || baseInfo.warnAmount==""'
+                                       ng-show="hasPermit('superBank.updateOutWarn')"
+                                       ng-click="updateWarnInfo()" value='保存修改'>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ibox-title">
+                        <h5>余额查询</h5>
+                    </div>
+                    <div class="form-group ">
+                        <div class="col-sm-12" style="padding:20px 0 20px 50px;">
+                            <label class="col-sm-2 control-label">账户余额：</label>
+                            <div class="col-sm-3 checkbox">
+                                <span ng-bind="baseInfo.accountBalance"></span> 元
+                            </div>
+                            <div class="col-sm-4">
+                                <input type="button" class="btn btn-new btn-mr20" ng-disabled='getWarnAccountStatus'
+                                                          ng-click="getWarnAccount()" value='刷新'>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ibox-title" ng-show="hasPermit('superBank.recharge')">
+                        <h5>账户充值</h5>
+                    </div>
+                    <div class="form-group" ng-show="hasPermit('superBank.recharge')">
+                        <div class="col-sm-12" style="padding:20px 0 20px 50px;">
+                            <label class="col-sm-2 control-label">充值金额：</label>
+                            <div class="col-sm-3">
+                                <input type="number" style="width: 90%; float: left; margin-right: 10px;"  class="form-control"  name="amount" ng-model="amount"  />
+                                <span class="lh30">元</span>
+                            </div>
+                            <div class="col-sm-4">
+                                <input type="button" class="btn btn-new btn-mr20"
+                                       ng-disabled='rechargeStatus || amount==null || amount==""'
+                                       ng-click="recharge()" value='充值'>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ibox-title">
+                        <h5>账户充值记录</h5>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">充值时间：</label>
+                        <div class="col-sm-6">
+                            <input id="d5221" class="form-control" type="datetime" ng-model="record.createDateStart" onchange=""  style="width:auto;display:inline-block;"
+                                   onFocus="var d5222=$dp.$('d5222');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5222.focus();},maxDate:'#F{$dp.$D(\'d5222\')}'})"/>
+                            ~
+                            <input id="d5222" class="form-control" type="datetime"  ng-model="record.createDateEnd" onchange=""  style="width:auto;display:inline-block;"
+                                   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5221\')}'})"/>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top: 30px">
+                        <label class="col-sm-2 control-label"></label>
+                        <div class="col-sm-8">
+                            <button class="btn btn-primary6 btn-mr20"  ng-click="getRechargeList()" ng-disabled="submitting">查询</button>
+                            <button class="btn btn-primary3 btn-mr20" type="button" ng-click="resetForm()">清空</button>
+                        </div>
+                    </div>
+                    <div class="panel-body ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>充值记录列表</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="tposition">
+                                <div class="gridStyle" ui-grid="rechargeGrid" ui-grid-pagination ui-grid-resize-columns></div>
+                                <div ng-show="loadImg" class="timg"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="height:30px;"></div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

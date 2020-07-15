@@ -1,0 +1,58 @@
+<!-- 超级银行家用户管理页面 -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>超级兑</a></li>
+            <li class="active"><strong>积分产品类别管理</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app ng-controller="productTypeQueryCtrl">
+    <form class="form-horizontal" id="form1">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="">
+                    <div class="panel-body ibox float-e-margins">
+                        <div class="ibox-content">
+                            <div class="ibox-title">
+                                <h5>积分产品类别管理</h5>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">机构名称:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.orgCode" ng-options="x.value as x.text for x in orgList"/>
+                                </div>
+                                <label class="col-sm-2 control-label">产品类别名称:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.typeName">
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-top: 30px">
+                                <div class="col-sm-12">
+                                    <label class="col-sm-2 control-label"></label>
+                                    <button class="btn btn-primary6 btn-mr20" type="button" ng-click="query()" >查询</button>
+                                    <button class="btn btn-primary3 btn-mr20" type="button" ng-click="clear()" >清空</button>
+                                    <a class="btn btn-primary5 btn-mr20" type="button" ng-show="hasPermit('productType.addProductType')" target="_blank" ui-sref="exchange.productTypeAdd" >新增</a>
+                                    <button class="btn btn-primary10 btn-mr20" type="button" ng-show="hasPermit('productType.deleteProductTypeBatch')" ng-click="deleteTypeBatch()" >批量删除</button>
+                                    <button class="btn btn-primary7 btn-mr20" type="button"  ng-show="hasPermit('productType.importDetail')" ng-click="exportInfo()" >导出</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body ibox float-e-margins">
+                        <div class="ibox-title">
+                            <div class="ibox-content">
+                                <div class="gridStyle" ui-grid="userGrid" ui-grid-selection ui-grid-pagination
+                                     ui-grid-resize-columns ui-grid-pinning></div>
+                                <div ng-show="loadImg" class="timg"></div>
+                            </div>
+                        </div>
+                        <div style="height:30px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,151 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>产品服务</a></li>
+			<li class="active"><strong>服务种类查询</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="queryServiceCtrl">
+<div class="row">
+	<div class="col-lg-12">
+		<div class="ibox float-e-margins">
+		    <div class="ibox-title">
+		        <h5>服务信息查询</h5>
+		        <!--<div ibox-tools></div>-->
+		    </div>
+		    <div class="ibox-content">
+		    	<form class="form-horizontal" id="form1">
+		     		<div class="form-group">
+						<label class="col-sm-2 control-label">服务名称：</label>
+						<div class="col-sm-2">
+							<input type="text" class="form-control" ng-model='baseInfo.serviceName' required>
+						</div>
+						<label class="col-sm-2 control-label">代理商展示名称：</label>
+						<div class="col-sm-2">
+							<input type="text" class="form-control" ng-model='baseInfo.agentShowName' required>
+						</div>
+						<label class="col-sm-2 control-label">费率区分节假日：</label>
+						<div class="col-sm-2">
+							<select class="form-control" ng-model="baseInfo.rateHolidays" ng-options="x.value as x.text for x in boolAll"/>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-sm-2 control-label">服务类型：</label>
+						<div class="col-sm-2">
+							<select class="form-control" ng-model="baseInfo.serviceType" ng-options="x.value as x.text for x in serviceTypeAll"/>
+						</div>
+						
+						<label class="col-sm-2 control-label">额度区分银行卡种类：</label>
+						<div class="col-sm-2">
+							<select class="form-control" ng-model="baseInfo.quotaCard" ng-options="x.value as x.text for x in boolAll"/>
+						</div>
+						<label class="col-sm-2 control-label">限额区分节假日：</label>
+						<div class="col-sm-2">
+							<select class="form-control" ng-model="baseInfo.quotaHolidays" ng-options="x.value as x.text for x in boolAll"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">服务管控费率固定标志：</label>
+						<div class="col-sm-2">
+							<select class="form-control" ng-model="baseInfo.fixedRate" ng-options="x.value as x.text for x in fixedMark"/>
+						</div>
+						<label class="col-sm-2 control-label">服务管控额度固定标志：</label>
+						<div class="col-sm-2">
+							<select class="form-control" ng-model="baseInfo.fixedQuota" ng-options="x.value as x.text for x in fixedMark"/>
+						</div>
+						<label class="col-sm-2 control-label">商户服务管控费率审核：</label>
+						<div class="col-sm-2">
+							<select class="form-control" ng-model="baseInfo.rateCheckStatus" ng-options="x.value as x.text for x in audits"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">商户服务管控额度审核：</label>
+						<div class="col-sm-2">
+							<select class="form-control" ng-model="baseInfo.quotaCheckStatus" ng-options="x.value as x.text for x in audits"/>
+						</div>
+						<label class="col-sm-2 control-label">商户服务管控额度锁定：</label>
+						<div class="col-sm-2">
+							<select class="form-control" ng-model="baseInfo.quotaLockStatus" ng-options="x.value as x.text for x in lock"/>
+						</div>
+						<label class="col-sm-2 control-label">商户服务管控费率锁定：</label>
+						<div class="col-sm-2">
+							<select class="form-control" ng-model="baseInfo.rateLockStatus" ng-options="x.value as x.text for x in lock"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">状态：</label>
+						<div class="col-sm-2">
+							<select class="form-control" ng-model='baseInfo.effectiveStatus'
+									ng-options="x.value as x.text for x in effectiveStatusList">
+							</select>
+						</div>
+						<label class="col-sm-2 control-label">费率区分银行卡种类：</label>
+						<div class="col-sm-2">
+							<select class="form-control" ng-model="baseInfo.rateCard" ng-options="x.value as x.text for x in boolAll"/>
+						</div>
+
+						<label class="col-sm-2 control-label">服务ID：</label>
+						<div class="col-sm-2">
+							<input type="text" class="form-control" ng-model='baseInfo.serviceId' required>
+						</div>
+					</div>
+
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">T0T1标志：</label>
+						<div class="col-sm-2">
+							<select class="form-control" ng-model='baseInfo.tFlag'
+											ng-options="x.value as x.text for x in tFlags">
+							</select>
+						</div>
+						<label class="col-sm-2 control-label">创建人：</label>
+						<div class="col-sm-2">
+							<input type="text" class="form-control"
+										 ng-model='baseInfo.createPerson'>
+						</div>
+
+					</div>
+
+					<div class="form-group">
+
+						<label class="col-sm-2 control-label">创建时间：</label>
+						<div class="col-sm-5">
+							<input id="d5231" class="form-control" type="datetime" ng-model="baseInfo.createTimeBegin" onchange=""  style="width:auto;display:inline-block;"
+								   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',changed:verifyTime(1,'#d5231','#d5232',31,isVerifyTime),onpicked:function(){d5232.focus();},maxDate:'#F{$dp.$D(\'d5232\')||\'%y-%M-%d\'}'})"/>
+							~
+							<input id="d5232" class="form-control" type="datetime"  ng-model="baseInfo.createTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+								   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',changed:verifyTime(2,'#d5231','#d5232',31,isVerifyTime),minDate:'#F{$dp.$D(\'d5231\')}',maxDate:'%y-%M-%d 23:59:59'})"/>
+							<!--<br/><span><font color="#999">备注：查询范围不能超过一个月</font></span>-->
+						</div>
+
+					</div>
+
+					<div class="form-group" style="margin-bottom: -10px;">
+						<div class="col-sm-2"> </div>
+						<div class="col-sm-6">
+				       		<button class="btn btn-primary6 btn-rounded btn-mr20" type="button" ng-click="queryServiceList()">查询</button><button class="btn btn-primary  btn-mr20" type="button" ng-click="resetForm()">清空</button>
+							<button class="btn btn-primary7 btn-rounded btn-mr20" ng-show="hasPermit('service.exportSelectList')" type="button" ng-click="exportServiceList()">导出</button>
+						</div>
+				    </div>    
+		     	</form>
+		    </div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-lg-12">
+		<div class="ibox float-e-margins">
+		    <div class="ibox-content">
+		       <div class="gridStyle" ui-grid="servicesGrid" ui-grid-pinning ui-grid-pagination ui-grid-resize-columns ui-grid-pinning></div>
+		    </div>
+		</div>
+	</div>
+</div>
+	<div style="height: 30px;"></div>
+</div>

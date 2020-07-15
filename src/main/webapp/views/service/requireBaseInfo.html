@@ -1,0 +1,145 @@
+<div class="form-group">
+	<label class="col-sm-2 control-label"><i class="red_req">*</i>进件要求项名称：</label>
+	<div class="col-sm-2">
+		<input type="text" class="form-control" ng-model='baseInfo.itemName' name="itemName" required>
+        <div class="req_mesg" ng-show="horizontal.itemName.$dirty && horizontal.itemName.$invalid">
+            <span ng-show="horizontal.itemName.$error.required">进件要求项名称不能为空</span>
+        </div>
+	</div>
+	<label class="col-sm-2 control-label"><i class="red_req">*</i>是否需要审核：</label>
+		<div class="col-sm-2">
+			<select class="form-control" ng-model="baseInfo.checkStatus" ng-options="x.value as x.text for x in bool"/>
+			</select>
+		</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label"><i class="red_req">*</i>类型：</label>
+	<div class="col-sm-2">
+		<select class="form-control" ng-disabled="baseInfo.itemId!=null" name="exampleType" ng-model="baseInfo.exampleType" ng-options="x.value as x.text for x in exampleType"/>
+		</select>
+	</div>
+	<div ng-switch on="baseInfo.exampleType">
+	<div ng-switch-when='1'>
+		<label class="col-sm-2 control-label"><i class="red_req">*</i>图片来源：</label>
+		<div class="col-sm-2">
+			<select class="form-control" ng-model="baseInfo.photo" ng-options="x.value as x.text for x in photo" />
+			</select>
+
+		</div>
+	</div>
+	</div>
+</div>
+<div ng-switch on="baseInfo.exampleType">
+<div class="form-group" ng-switch-when='3'>
+	<label class="col-sm-2 control-label" ><i class="red_req">*</i>文字示例：</label>
+	<div class="col-sm-2">
+		<input type="text" class="form-control" ng-model='baseInfo.example' name="example" ng-required="baseInfo.exampleType == 3">
+        <div class="req_mesg" ng-show="horizontal.example.$dirty && horizontal.example.$invalid">
+            <span ng-show="horizontal.example.$error.required">文字示例不能为空</span>
+        </div>
+	</div>
+</div>
+<div class="form-group" ng-switch-when='1' >
+	<label class="col-sm-2 control-label">图片示例：</label>
+	<div class="col-sm-4">
+	<!--<input type="file"  nv-file-select="" uploader="uploaderTwo" name="uploaderTwo"  multiple ng-click="twoCodeHide()" required />-->
+	<input type="file" nv-file-select="" uploader="uploaderImg"  multiple />
+	<br>
+	<div ng-hide="imgFlag">
+		<img ng-show="baseInfo.photoAddressUrl!=null && baseInfo.photoAddressUrl!=''" alt="" ng-src="{{baseInfo.photoAddressUrl}}" style="width: 198px;height: 100px">
+	</div>
+	<table class="table">
+        <tbody>
+            <tr ng-repeat="item in uploaderImg.queue">
+                <td>
+                    <strong>{{ item.file.name }}</strong>
+                    <div ng-show="uploaderImg.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                </td>
+                <td ng-show="uploaderImg.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                <td ng-show="uploaderImg.isHTML5">
+                    <div class="progress" style="margin-bottom: 0;">
+                        <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                    <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                    <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                </td>
+                <td nowrap>
+                    <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                        <span class="glyphicon glyphicon-trash"></span> Remove
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+     </table>
+   </div>
+</div>
+<div class="form-group" ng-switch-when='2' >
+	<label class="col-sm-2 control-label"><i class="red_req">*</i>文件示例：</label>
+	<div class="col-sm-4">
+    <input type="file" nv-file-select="" uploader="uploaderFile" multiple />
+	<div ng-hide="fileFlag">
+		<br>
+		<div class="col-sm-4" style="margin-top:7px">
+			<a href="{{baseInfo.photoAddressUrl}}">{{baseInfo.photoAddress}}</a>
+		</div>
+	 </div>
+		<table class="table">
+                  <tbody>
+                      <tr ng-repeat="item in uploaderFile.queue">
+                          <td>
+                              <strong>{{ item.file.name }}</strong>
+                              <div ng-show="uploaderFile.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                          </td>
+                          <td ng-show="uploaderFile.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                          <td ng-show="uploaderFile.isHTML5">
+                              <div class="progress" style="margin-bottom: 0;">
+                        <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                    <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                    <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                </td>
+                <td nowrap>
+                    <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                        <span class="glyphicon glyphicon-trash"></span> Remove
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+</div>
+</div>
+
+<!-- <div class="form-group">
+	<label class="col-sm-2 control-label"></label>
+	<div class="col-sm-4">
+		<input type="text" class="form-control" name="accountNo">
+	</div>
+</div> -->
+<div class="form-group">
+	<label class="col-sm-2 control-label"><i class="red_req">*</i>备注：</label>
+	<div class="col-sm-8">
+		<textarea rows="5" cols="20"  class="form-control" name="remark" ng-model="baseInfo.remark" required></textarea>
+        <div class="req_mesg"  ng-show="horizontal.remark.$dirty && horizontal.remark.$invalid ">
+            <span ng-show="horizontal.remark.$error.required">备注不能为空</span>
+        </div>
+      <div>
+        <span>{{getCount()}}/60</span>
+      </div>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label"><i class="red_req">*</i>审核错误提示：</label>
+	<div class="col-sm-8">
+		<textarea rows="5" cols="20" class="form-control" name="checkMsg" ng-model='baseInfo.checkMsg' required></textarea>
+        <div class="req_mesg" ng-show="horizontal.checkMsg.$dirty && horizontal.checkMsg.$invalid">
+            <span ng-show="horizontal.checkMsg.$error.required">审核错误提示不能为空</span>
+        </div>
+	</div>
+</div>

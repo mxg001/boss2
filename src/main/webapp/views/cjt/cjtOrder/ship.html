@@ -1,0 +1,111 @@
+<!-- head -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>超级推</a></li>
+            <li><a>机具物料申领订单</a></li>
+            <li class="active"><strong>发货</strong></li>
+        </ol>
+    </div>
+</div>
+
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn"
+     ng-controller="ship">
+    <form class="form-horizontal" id="form1" name="horizontal">
+        <div class="form-group">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content row">
+                    <div class="ibox-title">
+                        <h5>发货信息</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group ">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>快递公司：</label>
+                            <div class="col-lg-2">
+                                <select class="form-control" required ng-model="baseInfo.logisticsCompany" ng-options="x.text as x.text for x in allAgentExpress" required/>
+                                <div class="req_mesg" ng-show="horizontal.logisticsCompany.$dirty && horizontal.logisticsCompany.$invalid">
+                                   <span ng-show="horizontal.logisticsCompany.$error.required">快递公司不能为空</span>
+                               </div>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>物流单号：</label>
+                            <div class="col-lg-2">
+                                <input class="col-lg-2 form-control" type="text" name="logisticsOrderNo" ng-model="baseInfo.logisticsOrderNo" maxlength="30" required>
+                                <div class="req_mesg" ng-show="horizontal.logisticsOrderNo.$dirty && horizontal.logisticsOrderNo.$invalid">
+                                   <span ng-show="horizontal.logisticsOrderNo.$error.required">物流单号不能为空</span>
+                               </div>
+                            </div>
+                        </div>
+                        <!--
+                        <div class="form-group ">
+                            <label class="col-lg-2 control-label">发货机具</label>
+                            <div class="col-lg-6">
+                                <div class="gridStyle" ui-grid="grid" ui-grid-resize-columns ui-grid-selection ui-grid-pagination></div>
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                    <div class="ibox-title">
+                        <h5>发货机具</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group ">
+                            <label class="col-sm-2 control-label">机具SN号：</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" style="width:auto;display:inline-block;" ng-model="terInfo.snStart"> -
+                                <input type="text" class="form-control" style="width:auto;display:inline-block;" ng-model="terInfo.snEnd">
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="col-lg-2 control-label">硬件产品种类：</label>
+                            <div class="col-lg-2">
+                                <select class="form-control" ng-model="terInfo.type" ng-options="x.hpId as x.typeName for x in cjtHpListAll"></select>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="col-lg-2 control-label"></label>
+                            <div class="col-lg-6">
+                                <button type="button" class="btn btn-primary6 btn-mr20" ng-click="query()">查询</button>
+                                <button type="button" class="btn btn-primary3 btn-mr20" ng-click="resetForm()">清空</button>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <div class="col-lg-6">
+                                <div class="ibox-title">
+                                    <h5>选择机具</h5>
+                                </div>
+                                <div class="col-lg-10">
+                                    <div class="gridStyle" ui-grid="grid" ui-grid-resize-columns ui-grid-selection ui-grid-pagination></div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="ibox-title">
+                                    <h5>已选择机具：{{selectGrid.data.length}}</h5>
+                                </div>
+                                <div class="col-lg-10">
+                                    <div class="gridStyle" ui-grid="selectGrid" ui-grid-resize-columns></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-12 bgff">
+                <div class="col-sm-12">
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-6">
+                        <button class="btn btn-new btn-mr20 " ng-disabled="horizontal.$invalid || selectGrid.data.length<1  || baseInfo.logisticsCompany=='请选择'|| submitting" type="button"
+                                ng-show="hasPermit('cjtOrder.ship')"
+                                ng-click="submit()" id="btnSubmit">确定发货</button>
+                        <button class="btn btn-primary4 btn-mr20" type="button"
+                                ui-sref="cjt.queryCjtOrder">返回</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

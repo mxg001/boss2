@@ -1,0 +1,223 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>直清商户管理</a></li>
+            <li class="active"><strong>查询直清商户</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn"
+     ng-controller="zqMerchantQueryCtrl">
+    <form class="form-horizontal" id="form1" name="horizontal">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="">
+                    <div class="panel-body ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>直清商户信息多条列表查询</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="form-group">
+
+                                <label class="col-sm-2 control-label">代理商名称：</label>
+                                <div class="col-sm-2">
+                                    <select name="autocomplete-select" id="autocomplete-select"
+                                            ng-model="info.agentNo" ng-options="x.value as x.text for x in agent"
+                                            style="width: 100%" chosen chosen-data="agent" chosen-keyup="getStates">
+                                    </select>
+                                </div>
+
+                                <label class="col-sm-2 control-label">商户进件编号：</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.mbpId">
+                                </div>
+
+                                <label class="col-sm-2 control-label">商户名称/编号：</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.merchantNo" onchange="keyChange()">
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+
+                                <label class="col-sm-2 control-label">商户手机号：</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.mobilephone"  onchange="keyChange()">
+                                </div>
+
+                                <label class="col-sm-2 control-label">业务产品：</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.productType"
+                                            ng-options="x.bpId as x.bpName for x in productTypes"/>
+                                </div>
+
+                                <label class="col-sm-2 control-label">持卡人姓名：</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.accountName">
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+
+                                <label class="col-sm-2 control-label">身份证号码：</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.cardId" onchange="keyChange()">
+                                </div>
+
+                                <label class="col-sm-2 control-label">银联报备商户编号：</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.unionpayMerNo" onchange="keyChange()">
+                                </div>
+
+                                <label class="col-sm-2 control-label">直清通道名称：</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.channelCode"
+                                            ng-options="x.value as x.text for x in zqAcqOrgs"/>
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+
+                                <label class="col-sm-2 control-label">终端号：</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.terminalNo">
+                                </div>
+
+                                <label class="col-sm-2 control-label">交易模式:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.tradeType"
+                                            ng-options="x.value as x.text for x in tradeType"
+                                            ng-change="changeTradeType()"/>
+                                </div>
+
+                                <label class="col-sm-2 control-label" id="syncLabel"
+                                       style="display: none">直清同步状态：</label>
+                                <div class="col-sm-2" id="syncDiv" style="display: none">
+                                    <select class="form-control" ng-model="info.syncStatus"
+                                            ng-options="x.value as x.text for x in syncStatus"/>
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+
+                                <label class="col-sm-2 control-label">创建时间：</label>
+                                <div class="col-sm-6">
+                                    <input id="d5221" class="form-control" type="datetime" ng-model="info.sTime"
+                                           onchange="" style="width:auto;display:inline-block;"
+                                           onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',changed:verifyTime(1,'#d5221','#d5222',93,isVerifyTime),onpicked:function(){d5222.focus();},maxDate:'#F{$dp.$D(\'d5222\')||\'%y-%M-%d\'}'})"/>
+                                    ~
+                                    <input id="d5222" class="form-control" type="datetime" ng-model="info.eTime"
+                                           onchange="" style="width:auto;display:inline-block;"
+                                           onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',changed:verifyTime(2,'#d5221','#d5222',93,isVerifyTime),minDate:'#F{$dp.$D(\'d5221\')}',maxDate:'%y-%M-%d 23:59:59'})"/>
+                                    <br/><span><font color="#999">备注：查询范围不能超过三个月</font></span>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-lg-12">
+                                    <div class="col-sm-2"></div>
+                                    <button class="btn btn-primary6 btn-mr20" type="button"
+                                            ng-click="selectInfo()">查询
+                                    </button>
+                                    <button class="btn btn-primary3 btn-mr20" type="button"
+                                            ng-click="clear()">清空
+                                    </button>
+                                    <button class="btn btn-primary7 btn-mr20" type="button"
+                                            ng-click="exportInfo()"  ng-show="hasPermit('merchant.exportInfo')" >导出
+                                    </button>
+                                    <button class="btn btn-warning btn-mr20" type="button"
+                                            ng-click="openImpZqMerModal()" ng-show="hasPermit('merchant.openImpZqMerModal')">直清商户批量导入
+                                    </button>
+                                    <button class="btn btn-danger" type="button"
+                                            ng-click="batchSyncZqMer()" ng-show="hasPermit('merchant.batchSyncZqMer')">同步
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="panel-body ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>直清商户信息列表</h5>
+
+                            <div class="ibox-content">
+                                <div ui-grid="gridOptions" ui-grid-resize-columns ui-grid-pagination ui-grid-selection
+                                    ui-grid-pinning class="grid">
+                                    <div ng-show="loadImg" class="timg"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="height: 30px; clear: both"></div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <!-- 直清商户导入 -->
+    <div id="exportZqMerModal" class="modal fade" tabindex="3" role="dialog">
+        <div class="modal-dialog" style="height:300px;width: 900px">
+            <div class="modal-content" style="height:300px;width: 900px">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        &times;</button>
+                    <h3 class="modal-title">直清商户批量导入</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group control-label" style="overflow:hidden;">
+                        <label class="col-sm-2 control-label">直清通道：</label>
+
+                        <div class="col-sm-3">
+                            <select class="form-control" name="impChannelCode" ng-model="info.impChannelCode"
+                                    ng-options="x.value as x.text for x in zqAcqOrgs"></select>
+                        </div>
+                    </div>
+                    <br>
+
+                    <div class="form-group control-label" style="overflow:hidden;">
+                        <label class="col-sm-2 control-label">导入文件：</label>
+
+                        <div class="col-sm-3">
+                            <input type="file" nv-file-select="" ng-model="fileSelect" uploader="uploader" multiple/>
+                            <table class="table">
+                                <tbody>
+                                <tr ng-repeat="item in uploader.queue">
+                                    <td>
+                                        <strong>{{ item.file.name }}</strong>
+                                    </td>
+                                    <td nowrap>
+                                        <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                            <span class="glyphicon glyphicon-trash"></span>删除
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <a ng-click='downloadZqMerTemplate()' style="margin-left: 80px;">直清商户导入模板</a>
+                    </div>
+                    <div class="form-group control-label">
+                        <label class="col-sm-2 control-label"></label>
+
+                        <div class="col-sm-6">
+                            <button class="btn btn-primary btn-mr20" ng-disabled="submitting || upload.queue.length==0"
+                                    type="button" ng-click='uploadZqMerInfo()'>提交
+                            </button>
+                            <button class="btn btn-primary4" type="button" ng-click='cancel()'>返回</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+

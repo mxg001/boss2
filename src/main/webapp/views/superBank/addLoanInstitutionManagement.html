@@ -1,0 +1,314 @@
+<!-- head -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>超级银行家</a></li>
+            <li class="active"><strong>新增贷款机构</strong></li>
+        </ol>
+    </div>
+</div>
+
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn"
+     ng-controller="addLoanInstitutionManagementCtrl">
+    <form class="form-horizontal" id="form1" name="horizontal">
+        <div class="form-group">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>基本信息</h5>
+                    <!--<div ibox-tools></div>-->
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>贷款机构名称：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" name="loanProduct" ng-model="baseInfo.loanProduct" required maxlength="20"/>
+                                <div class="req_mesg" ng-show="horizontal.loanProduct.$dirty && horizontal.loanProduct.$invalid">
+                                    <span ng-show="horizontal.loanProduct.$error.required">贷款机构名称不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>贷款机构别称：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" name="loanAlias" ng-model="baseInfo.loanAlias" required maxlength="20"/>
+                                <div class="req_mesg" ng-show="horizontal.loanAlias.$dirty && horizontal.loanAlias.$invalid">
+                                    <span ng-show="horizontal.loanAlias.$error.required">贷款机构别称不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                       <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>来源：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" name="source" ng-model="baseInfo.source" required />
+                                <div class="req_mesg" ng-show="horizontal.source.$dirty && horizontal.source.$invalid">
+                                    <span ng-show="horizontal.source.$error.required">来源不能为空</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-3" style="line-height: 36px;">
+                                                                                      如直签，深圳银联
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>LOGO：</label>
+                            <div class="col-lg-7">
+                                <input type="file" nv-file-select="" uploader="uploaderLogo"   multiple  />
+                                <table class="table">
+                                    <tbody>
+                                    <tr ng-repeat="item in uploaderLogo.queue">
+                                        <td>
+                                            <strong>{{ item.file.name }}</strong>
+                                            <div ng-show="uploaderLogo.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                                        </td>
+                                        <td ng-show="uploaderLogo.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                                        <td ng-show="uploaderLogo.isHTML5">
+                                            <div class="progress" style="margin-bottom: 0;">
+                                                <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                            </div>
+                                        </td>
+                                        <td nowrap>
+                                            <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                                <span class="glyphicon glyphicon-trash"></span> 删除
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>显示顺序：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" name="showOrder" ng-model="baseInfo.showOrder" required maxlength="20"/>
+                                <div class="req_mesg" ng-show="horizontal.showOrder.$dirty && horizontal.showOrder.$invalid">
+                                    <span ng-show="horizontal.showOrder.$error.required">显示顺序不能为空</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-3" style="line-height: 36px;">
+                                如10，20，间隔大点，方便调整
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>宣传语1：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" name="propaganda" ng-model="baseInfo.propaganda" required maxlength="20"/>
+                                <div class="req_mesg" ng-show="horizontal.propaganda.$dirty && horizontal.propaganda.$invalid">
+                                    <span ng-show="horizontal.propaganda.$error.required">宣传语1不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>宣传语2：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" name="propaganda2" ng-model="baseInfo.propaganda2" required maxlength="20"/>
+                                <div class="req_mesg" ng-show="horizontal.propaganda2.$dirty && horizontal.propaganda2.$invalid">
+                                    <span ng-show="horizontal.propaganda2.$error.required">宣传语2不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>宣传语3：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" name="propaganda3" ng-model="baseInfo.propaganda3" required maxlength="20"/>
+                                <div class="req_mesg" ng-show="horizontal.propaganda3.$dirty && horizontal.propaganda3.$invalid">
+                                    <span ng-show="horizontal.propaganda3.$error.required">宣传语3不能为空</span>
+                                </div>
+                            </div>
+                              </div>
+                           
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>奖金方式：</label>
+                            <div class="col-lg-7">
+                                <label style="margin-right: 20px;margin-top: 6px"><input type="radio" value="1" name="profitType" ng-model="baseInfo.profitType"/>固定奖金</label>
+                                <label style="margin-top: 6px"><input type="radio" value="2" name="profitType" ng-model="baseInfo.profitType"/>按比例发放</label>
+                            </div>
+                        </div>
+
+						<div class="form-group col-sm-12" ng-show="baseInfo.profitType==1">
+							<label class="col-lg-2 control-label"><i class="red_req">*</i>固定总奖金：</label>
+							<div class="col-lg-7">
+								<input type="text" class="form-control" name="loanBonus"
+									ng-model="baseInfo.loanBonus" required maxlength="20" />
+								<div class="req_mesg"
+									ng-show="horizontal.loanBonus.$dirty && horizontal.loanBonus.$invalid">
+									<span ng-show="horizontal.loanBonus.$error.required">固定总奖金不能为空</span>
+								</div>
+							</div>
+						</div>
+
+					<div class="form-group col-sm-12" ng-show="baseInfo.profitType==2">
+						<label class="col-lg-2 control-label"><i class="red_req">*</i>按批贷金额比例：批贷金额*</label>
+						<div class="col-lg-6">
+							<input type="text" class="form-control" name="loanBonus"
+								ng-model="baseInfo.loanBonus" required maxlength="20" />
+							<div class="req_mesg"
+								ng-show="horizontal.loanBonus.$dirty && horizontal.loanBonus.$invalid">
+								<span ng-show="horizontal.loanBonus.$error.required">金额比例不能为空</span>
+							</div>
+						</div>
+						 <div class="col-sm" style="line-height: 36px;">
+                             %
+                            </div>
+					</div>
+                <div class="form-group col-sm-12">
+                        <label class="col-sm-2 control-label"><i class="red_req">*</i>奖励要求：</label>
+                        <div class="col-sm-2">
+                            <select class="form-control" ng-model="baseInfo.rewardRequirements" ng-options="x.value as x.text for x in rewardRequirementsList">
+                            </select>
+                        </div>
+                        <div class="col-sm-2 control-label" ng-show="baseInfo.rewardRequirements==2">
+                            <input type="checkbox" ng-true-value='0' ng-false-value='1'  ng-model="baseInfo.loanStatus">每次借款都有佣金
+                        </div>
+                    </div>
+                        <div class="form-group col-sm-12">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>接入方式：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="baseInfo.accessWay" ng-options="x.value as x.text for x in accessWayList">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12"  ng-show="baseInfo.accessWay==2">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>API链接：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" name="apiUrl" ng-model="baseInfo.apiUrl"  />
+                                <!--<div class="req_mesg" ng-show="horizontal.apiUrl.$dirty && horizontal.apiUrl.$invalid && baseInfo.accessWay==2">-->
+                                    <!--<span ng-show="horizontal.apiUrl.$error.required">API链接</span>-->
+                                <!--</div>-->
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12" ng-show="baseInfo.accessWay==1">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>申请h5链接：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" name="loanLink" ng-model="baseInfo.loanLink"  />
+                                <!--<div class="req_mesg" ng-show="horizontal.loanLink.$dirty && horizontal.loanLink.$invalid && baseInfo.accessWay==1">-->
+                                    <!--<span ng-show="horizontal.loanLink.$error.required">申请h5链接不能为空</span>-->
+                                <!--</div>-->
+                            </div>
+                        </div>
+                     <div class="form-group col-sm-12"  >
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>注册链接：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" name="registerLink" ng-model="baseInfo.registerLink" required />
+                                <div class="req_mesg" ng-show="horizontal.registerLink.$dirty && horizontal.registerLink.$invalid">
+                                    <span ng-show="horizontal.registerLink.$error.required">注册链接不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>结算周期：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" name="settlementCycle" ng-model="baseInfo.settlementCycle"  maxlength="20"/>
+	                            <div class="req_mesg" ng-show="horizontal.settlementCycle.$dirty && horizontal.settlementCycle.$invalid">
+	                                    <span ng-show="horizontal.settlementCycle.$error.required">结算周期不能为空</span>
+	                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>结算规则：</label>
+                            <div class="col-lg-7">
+                                <textarea rows="6" class="form-control" name="settlementRules" ng-model="baseInfo.settlementRules"></textarea>
+                                <div class="req_mesg" ng-show="horizontal.settlementRules.$dirty && horizontal.settlementRules.$invalid">
+                                    <span ng-show="horizontal.settlementRules.$error.required">结算规则不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                       <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label">导入匹配规则编码：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" name="ruleCode" ng-model="baseInfo.ruleCode"  maxlength="20"/>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <label class="col-lg-2 control-label">引导页图片：</label>
+                            <div class="col-lg-7">
+                                <input type="file" nv-file-select="" uploader="uploaderImg"   multiple  />
+                                <table class="table">
+                                    <tbody>
+                                    <tr ng-repeat="item in uploaderImg.queue">
+                                        <td>
+                                            <strong>{{ item.file.name }}</strong>
+                                            <div ng-show="uploaderImg.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                                        </td>
+                                        <td ng-show="uploaderImg.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                                        <td ng-show="uploaderImg.isHTML5">
+                                            <div class="progress" style="margin-bottom: 0;">
+                                                <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                            <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                            <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                                        </td>
+                                        <td nowrap>
+                                            <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                                <span class="glyphicon glyphicon-trash"></span> 删除
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="col-lg-2 control-label">特别推荐位置：</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" name="title" ng-model="baseInfo.specialPosition"  maxlength="20"/>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="col-lg-2 control-label">特别推荐图片：</label>
+                            <div class="col-lg-7">
+                                <input type="file" nv-file-select="" uploader="uploaderSpecial"   multiple  />
+                                <table class="table">
+                                    <tbody>
+                                    <tr ng-repeat="item in uploaderSpecial.queue">
+                                        <td>
+                                            <strong>{{ item.file.name }}</strong>
+                                            <div ng-show="uploaderSpecial.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                                        </td>
+                                        <td ng-show="uploaderSpecial.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                                        <td ng-show="uploaderSpecial.isHTML5">
+                                            <div class="progress" style="margin-bottom: 0;">
+                                                <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                            <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                            <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                                        </td>
+                                        <td nowrap>
+                                            <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                                <span class="glyphicon glyphicon-trash"></span> 删除
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+			</div>
+            <div class="col-lg-12 bgff">
+                <div class="col-sm-12">
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-6">
+                        <button class="btn btn-new btn-mr20" type="button"
+                                ng-click="submit()" ng-disabled="horizontal.$invalid||submitting
+                                ||(!baseInfo.showLogo&&uploaderLogo.queue.length==0)
+                                ||(uploaderImg.queue.length>0&&uploaderImg.queue[0].isSuccess!=1) ">提交</button>
+                        <button class="btn btn-primary4 btn-mr20" type="button"
+                                ui-sref="superBank.loanInstitutionManagement">返回</button>
+                    </div>
+                </div>
+            </div>
+             </div>
+    </form>
+</div>

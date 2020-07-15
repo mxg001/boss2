@@ -1,0 +1,89 @@
+<style>
+	.switch{margin-top: 5px;float:left;}
+</style>
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>信用卡管家</a></li>
+			<li class="active"><strong>信用卡管家设置</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="cmSettingCtrl">
+	<form class="form-horizontal" id="form1" name="horizontal" novalidate>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-content">
+						<div style="height:30px;"></div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">是否开启会员收费功能:</label>
+							<div class="col-sm-8">
+								<switch class="switch switch-s"  ng-model="info.vipCharge" />
+								<div style="float:left; padding:7px 0 0 10px" ng-hide="!info.vipCharge">（开关开启，表示所有普通用户必须开通会员才能查阅评测报告和提额任务） </div>
+								<div style="float:left; padding:7px 0 0 10px" ng-hide="info.vipCharge">（开关关闭，表示所有用户都能查阅评测报告和提额任务，无须开通会员） </div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">普通用户添卡数量上限:</label>
+							<div class="col-sm-8">
+								<switch class="switch switch-s"  ng-model="info.cardLimit" />
+								<div style="float:left; padding:7px 0 0 10px" ng-hide="!info.cardLimit">（开关开启，表示启用添卡数量限制，上限值为输入的添卡数量上限）</div>
+								<div style="float:left; padding:7px 0 0 10px" ng-hide="info.cardLimit">（开关关闭，表示不限制添卡数量限制，可以无限添卡）</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">添卡数量上限:</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control" style="float:left; width:100px" ng-model="info.cardLimitNum" ng-disabled="!info.cardLimit">
+								<div style="float:left; padding:7px 0 0 10px"> （输入值范围：0&lt;X&lt;=20） </div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">是否开启代理商控制:</label>
+							<div class="col-sm-8">
+								<switch class="switch switch-s"  ng-model="info.agentComfig" />
+								<div style="float:left; margin-left: 20px;"><a class="btn btn-new btn-mr20" ui-sref="creditMgr.cmSettingAgent()" ng-hide="!info.agentComfig">去添加代理商设置</a></div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">会员服务费:</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control" style="float:left; width:100px" ng-model="info.vipFee" required>
+								<div style="float:left; padding:7px 0 0 10px"> 元 </div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">有效期:</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control" style="float:left; width:100px" ng-model="info.validPeriod" required>
+								<div style="float:left; padding:7px 0 0 10px"> 天（有效期从支付当天开始计算） </div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">代理商分润:</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control" style="float:left; width:100px" ng-model="info.agentShare" required>
+								<div style="float:left; padding:7px 0 0 10px"> %（指一级代理商的分润设置） </div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label"></label>
+							<div style="float:left; padding:7px 0 0 10px"> 备注：代理商分润＝会员服务费*分润百分比 </div>
+						</div>
+						<div style="height:30px;"></div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-8">
+								<button class="btn btn-new" ng-disabled="horizontal.$invalid || submitting" ng-click="update()">提交</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

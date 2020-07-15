@@ -1,0 +1,159 @@
+<!-- head -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>超级盟主</a></li>
+            <li class="active"><strong>排行榜配置</strong></li>
+        </ol>
+    </div>
+</div>
+
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="rankConfigAddCtrl">
+    <form class="form-horizontal" id="form1" name="horizontalCard">
+        <div class="form-group">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+
+                    <div class="row">
+                        <div class="ibox-title">
+                            <h5>名次奖金配置</h5>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>最大排行名次:</label>
+                            <div class="col-sm-3">
+                                <select class="form-control" ng-model="addInfo.rankMax" required name="rankMax" ng-options="x.value as x.text for x in rankMaxSelect" ng-change="rankMaxChange()" />
+                                <div class="req_mesg" ng-show="horizontalCard.rankMax.$dirty && horizontalCard.rankMax.$invalid">
+                                    <span ng-show="horizontalCard.rankMax.$error.required">最大排行名次不能为空</span>
+                                </div>
+                            </div>
+                            <label style="margin-top: 7px">名</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>各个名次奖金:</label>
+                            <div class="col-lg-9">
+                                <div style="height:300px" class="gridStyle" ui-grid="rankAmountGrid" ui-grid-selection class="grid" ui-grid-resize-columns></div>
+                            </div>
+                        </div>
+
+                        <div class="ibox-title">
+                            <h5>基本信息配置</h5>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label"><i class="red_req">*</i>选择组织:</label>
+                            <div class="col-lg-5">
+                                <div style="height:207px" class="gridStyle" ui-grid="oemGrid" ui-grid-selection class="grid" ui-grid-resize-columns></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>机构是否参与:</label>
+                            <div class="col-sm-5" style="margin-top:7px;">
+                                <label><input type="radio" ng-model='addInfo.oneJoin' name="oneJoin"  ng-value="1" ng-change="oneJoinState()" />参与排行榜</label>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <label><input type="radio" ng-model='addInfo.oneJoin' name="oneJoin"  ng-value="0" ng-change="oneJoinState()" />不参与排行榜</label>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show="oneShowState">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>机构不参与是否显示入口:</label>
+                            <div class="col-sm-5" style="margin-top:7px;" >
+                                <label><input type="radio" ng-model='addInfo.oneShow' name="oneShow"  ng-value="1"/>显示入口</label>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <label><input type="radio" ng-model='addInfo.oneShow' name="oneShow"  ng-value="0"/>不显示入口</label>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>大盟主是否参与:</label>
+                            <div class="col-sm-5" style="margin-top:7px;" >
+                                <label><input type="radio" ng-model='addInfo.twoJoin' name="twoJoin"  ng-value="1" ng-change="twoJoinState()"/>参与排行榜</label>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <label><input type="radio" ng-model='addInfo.twoJoin' name="twoJoin"  ng-value="0" ng-change="twoJoinState()"/>不参与排行榜</label>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show="twoShowState" >
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>大盟主不参与是否显示入口:</label>
+                            <div class="col-sm-5" style="margin-top:7px;" >
+                                <label><input type="radio" ng-model='addInfo.twoShow' name="twoShow"  ng-value="1"/>显示入口</label>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <label><input type="radio" ng-model='addInfo.twoShow' name="twoShow"  ng-value="0"/>不显示入口</label>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>上/下线时间:</label>
+                            <div class="col-sm-5">
+                                <input id="d5231" class="form-control" type="datetime" ng-model="addInfo.startTime" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="var d5232=$dp.$('d5232');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5232.focus();},maxDate:'#F{$dp.$D(\'d5232\')}'})"/>
+                                ~
+                                <input id="d5232" class="form-control" type="datetime"  ng-model="addInfo.endTime" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5231\')}'})"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>封面图片:</label>
+                            <div class="col-img" ng-if="imgUrl!=null&&imgUrl!=''" >
+                                <a href="{{imgUrl}}" fancybox rel="group">
+                                    <img width="250px" height="150px" ng-src="{{imgUrl}}"/>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-lg-5">
+                                <label style="margin-top: 7px">注:请上传封面图(尺寸:750*280)</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-7" >
+                                <input type="file" nv-file-select="" uploader="uploaderImg" multiple  />
+                                <table class="table" class="col-sm-4" >
+                                    <tbody>
+                                    <tr ng-repeat="item in uploaderImg.queue">
+                                        <td>
+                                            <div ng-show="uploaderImg.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                                        </td>
+                                        <td nowrap>
+                                            <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                                <span class="glyphicon glyphicon-trash"></span> 删除
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">封面跳转链接:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" ng-model="addInfo.rankUrl">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>活动规则:</label>
+                            <div class="col-lg-10">
+                                <summernote type="text" config="summeroptions" id="summernote" class="form-control" name="rankRule" required  ng-model="addInfo.rankRule" on-image-upload="imageUploadALL(files)" editable="editable" editor="editor" >
+                                </summernote>
+                                <div class="req_mesg" ng-show="horizontalCard.rankRule.$dirty && horizontalCard.rankRule.$invalid">
+                                    <span ng-show="horizontalCard.rankRule.$error.required">活动规则不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 bgff">
+                <div class="col-sm-12">
+                    <div class="col-lg-3"></div>
+                    <div class="col-sm-6">
+                        <button class="btn btn-primary btn-mr20" ng-show="hasPermit('rankConfig.rankConfigAdd')"
+                                type="button" ng-click="commitInfo()" ng-disabled="horizontalCard.$invalid || submitting">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

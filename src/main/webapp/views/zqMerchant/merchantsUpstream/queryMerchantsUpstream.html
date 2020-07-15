@@ -1,0 +1,64 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>商户管理</a></li>
+            <li class="active"><strong>商户上游账户查询</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn"
+     ng-controller="queryMerchantsUpstreamCtrl">
+    <form class="form-horizontal" id="form1" name="horizontal">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="">
+                    <div class="panel-body ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>商户上游账户查询</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">银联报备商户编号:</label>
+                                <div class="col-sm-4">
+                                    <textarea class="form-control" rows="6" cols="10" ng-model="info.unionpayMerNo"></textarea>
+                                </div>
+                                <label class="col-sm-6 control-label" style="color:red;">必填;提示:若需查询多个报备商户,则用小写逗号分隔,最多支持50个,如xxx1,xxx2,xxx3</label>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-lg-12">
+                                    <div class="col-sm-2"></div>
+                                    <button class="btn btn-primary6 btn-mr20" type="button" ng-click="query()">查询</button>
+                                    <button class="btn btn-primary3 btn-mr20" type="button" ng-click="clear()">清空</button>
+                                    <button class="btn btn-primary7 btn-mr20" type="button" ng-click="import()">导出</button>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="panel-body ibox float-e-margins">
+                        <div class="form-group" ng-show="unlist!=null">
+                            <label class="col-sm-2 control-label">在直清商户表中不存在的银联报备商户编号:</label>
+                            <div class="col-sm-9">
+                                <textarea class="form-control" rows="3" cols="10" ng-bind="unlist" disabled></textarea>
+                            </div>
+                        </div>
+                        <div class="ibox-title">
+                            <h5>列表</h5>
+                            <div class="ibox-content">
+                                <div ui-grid="gridOptions" ui-grid-resize-columns ui-grid-pagination ui-grid-selection
+                                     ui-grid-pinning class="grid"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+

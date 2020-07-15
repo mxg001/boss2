@@ -1,0 +1,241 @@
+<form class="form-horizontal" name="horizontal" >
+		<div class="row">
+			<div class="col-lg-12">
+			<div class="ibox-content">
+				<div class="form-group">
+					<label class="col-sm-2 control-label" ng-show="baseInfo.id!=null">id：</label>
+					<div class="col-sm-2 checkbox" ng-show="baseInfo.id!=null" ng-bind="baseInfo.id">
+					</div>
+					<label class="col-sm-2 control-label"><i class="red_req">*</i>状态：</label>
+					<div class="col-sm-2">
+						<select  class="form-control" ng-model="baseInfo.status" ng-options="x.value as x.text for x in status">
+			            </select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label"><i class="red_req">*</i>跳转目标路由集群：</label><!-- style="width: 100%" chosen chosen-data="groupList"  chosen-keyup="getStates" -->
+					<div class="col-sm-5" ng-show="baseInfo.id==null">
+						<select class="form-control" name="groupCode" required style="width: 100%" chosen required
+							 ng-model='baseInfo.groupCode' ng-options="x.groupCode as x.groupName for x in groupList"  ng-disabled="baseInfo.id!=null">
+						</select>
+						<div class="req_mesg" ng-show="horizontal.groupCode.$dirty && horizontal.groupCode.$invalid">
+							<span ng-show="horizontal.groupCode.$error.required">路由集群不能为空</span>
+						</div>
+					</div>
+					<div class="col-sm-5 checkbox" ng-show="baseInfo.id!=null" ng-bind="baseInfo.groupName">
+                    </div>
+				</div>
+				<div class="form-group">
+				    <label class="col-sm-2 control-label"><i class="red_req">*</i>生效日期：</label>
+				    <div class="col-sm-2">
+				        <select class="form-control" ng-model="baseInfo.effectiveDateType" ng-options="x.value as x.text for x in effectiveDateTypeList"></select>
+				    </div>
+                </div>
+				<div class="form-group" ng-show="baseInfo.effectiveDateType==4">
+					<label class="col-sm-2 control-label"><i class="red_req">*</i>开始生效日期：</label>
+					<div class="col-sm-2">
+						<input type="datetime" ng-disabled="false"  class="form-control" style="width:auto;display:inline-block;"
+						  date-time name="startDate" ng-model="baseInfo.startDate" date-change="changeMinMax"
+						  max-date="maxDate"  view="date"  min-view="date" format="YYYY-MM-DD"
+						  ng-required="baseInfo.effectiveDateType==4">
+						  <div class="req_mesg" ng-show="horizontal.startDate.$dirty && horizontal.startDate.$invalid">
+                          							<span ng-show="horizontal.startDate.$error.required">开始生效日期不能为空</span>
+                          						</div>
+					</div>
+					<label class="col-sm-2 control-label"><i class="red_req">*</i>截止生效日期：</label>
+					<div class="col-sm-2">
+						<input type="datetime" ng-disabled="false"  class="form-control" style="width:auto;display:inline-block;"
+						  date-time name="endDate" ng-model="baseInfo.endDate" date-change="changeMinMax"
+						   max-date="maxDate"  view="date"  min-view="date" format="YYYY-MM-DD"
+						   ng-required="baseInfo.effectiveDateType==4">
+						   <div class="req_mesg" ng-show="horizontal.endDate.$dirty && horizontal.endDate.$invalid">
+                           							<span ng-show="horizontal.endDate.$error.required">截止生效日期不能为空</span>
+                           						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label"><i class="red_req">*</i>每天生效时间：</label>
+					<div class="col-sm-2">
+					<div class="input-group " clock-picker data-autoclose="true">
+		                <input type="text" class="form-control" name="startTime" ng-model="baseInfo.startTime" required>
+		                <span class="input-group-addon">
+		                    <span class="fa fa-clock-o"></span>
+		                </span>
+		                <div class="req_mesg" ng-show="horizontal.startTime.$dirty && horizontal.startTime.$invalid">
+							<span ng-show="horizontal.startTime.$error.required">生效时间不能为空</span>
+						</div>
+		            </div>
+		        	</div> 
+					<label class="col-sm-2 control-label"><i class="red_req">*</i>每天截止时间：</label>
+					<div class="col-sm-2">
+					<div class="input-group " clock-picker data-autoclose="true">
+		                <input type="text" class="form-control" name="endTime" ng-model="baseInfo.endTime" required>
+		                <span class="input-group-addon">
+		                    <span class="fa fa-clock-o"></span>
+		                </span>
+		                <div class="req_mesg" ng-show="horizontal.endTime.$dirty && horizontal.endTime.$invalid">
+							<span ng-show="horizontal.endTime.$error.required">截止时间不能为空</span>
+						</div>
+		            </div>
+		       	 </div> 
+				</div>
+			    <div class="form-group">
+					<label class="col-sm-2 control-label"><i class="red_req">*</i>交易最小金额：</label>
+					<div class="col-sm-2">
+						<input type="text" class="form-control" name="minTransAmount" ng-model="baseInfo.minTransAmount" ng-pattern="/^(([1-9]\d{0,9}))(\.\d{1,2})?$/" required >
+						<div class="req_mesg" ng-show="horizontal.minTransAmount.$dirty && horizontal.minTransAmount.$invalid">
+							<span ng-show="horizontal.minTransAmount.$error.required">交易最小金额不能为空</span>
+							<span ng-show="horizontal.minTransAmount.$error.pattern">金额格式不正确</span>
+						</div>
+					</div>
+					<label class="col-sm-2 control-label"><i class="red_req">*</i>交易最大金额：</label>
+					<div class="col-sm-2">
+						<input type="text" class="form-control" name="maxTransAmount" ng-model="baseInfo.maxTransAmount" ng-pattern="/^(([1-9]\d{0,9}))(\.\d{1,2})?$/" required >
+						<div class="req_mesg" ng-show="horizontal.maxTransAmount.$dirty && horizontal.maxTransAmount.$invalid">
+							<span ng-show="horizontal.maxTransAmount.$error.required">交易最大金额不能为空</span>
+							<span ng-show="horizontal.maxTransAmount.$error.pattern">金额格式不正确</span>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+                    <label class="col-sm-2 control-label">目标金额：</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" name="targetAmount" ng-model="baseInfo.targetAmount" ng-pattern="/^((0)|([1-9]\d{0,9}))(\.\d{1,2})?$/"  >
+                        <div class="req_mesg" ng-show="horizontal.targetAmount.$dirty && horizontal.targetAmount.$invalid">
+                            <span ng-show="horizontal.targetAmount.$error.pattern">目标金额格式不正确</span>
+                        </div>
+                    </div>
+                </div>
+				 <div class="form-group">
+					<label class="col-sm-2 control-label">跳转次数：</label>
+					<div class="col-sm-2">
+						<input type="number" ng-disabled="true"  class="form-control" name="jumpTimes"  ng-model="baseInfo.jumpTimes">
+					</div>
+					<label class="col-sm-2 control-label">相隔天数：</label>
+					<div class="col-sm-2">
+						<input type="number" ng-disabled="true"  class="form-control"  name="apartDays" ng-model="baseInfo.apartDays">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label"><i class="red_req">*</i>卡类型：</label>
+					<div class="col-sm-2">
+						<select class="form-control" ng-model='baseInfo.cardType' ng-change="changeCardType()" ng-options="x.value as x.text for x in cardType"  >
+						</select>
+					</div>
+					<label class="col-sm-2 control-label"><i class="red_req">*</i>收单机构：</label>
+					<div class="col-sm-2">
+						<select class="form-control"  name="acqId" ng-model='baseInfo.acqId' ng-change="setAcqMerchantShowState()" ng-options="x.id as x.acqName for x in acqList" required >
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">备注：</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" ng-model="baseInfo.remark">
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-sm-2 control-label"><i class="red_req">*</i>业务产品：</label>
+					<div class="col-sm-2">
+                        <select class="form-control" ng-model='baseInfo.bpType' ng-options="x.value as x.text for x in bpTypeList"  >
+                        </select>
+                    </div>
+				</div>
+
+				<div class="form-group">
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="col-sm-3">
+                        <div class="gridStyle" ui-grid="teamGrid" ui-grid-selection ui-grid-resize-columns class="grid"></div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="gridStyle" ui-grid="bpGrid" ui-grid-selection ui-grid-resize-columns class="grid"></div>
+                    </div>
+                </div>
+
+				<div class="form-group">
+                    <label class="col-sm-2 control-label"><i class="red_req">*</i>商户省份：</label>
+                    <div class="col-sm-2">
+                        <select class="form-control" ng-model='baseInfo.provinceType' ng-options="x.value as x.text for x in provinceTypeList"  >
+                        </select>
+                    </div>
+					<label class="col-sm-2 control-label"><i class="red_req">*</i>是否关联活动：</label>
+					<div class="col-sm-2">
+						<select class="form-control" ng-model='baseInfo.relationActivity' ng-options="x.value as x.text for x in relationActivitySelect"  >
+						</select>
+					</div>
+                </div>
+
+				<div class="form-group">
+					<label class="control-label col-sm-2"></label>
+					<div class="col-sm-3" ng-show="baseInfo.provinceType!=0">
+						<div class="gridStyle" ui-grid="provinceGrid" ui-grid-selection ui-grid-resize-columns class="grid"></div>
+					</div>
+					<label class="control-label" ng-class="col-sm-1"></label>
+					<div class="col-sm-3" ng-show="baseInfo.provinceType!=0">
+						<div class="gridStyle" ui-grid="cityGrid" ui-grid-selection ui-grid-resize-columns class="grid"></div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label"><i class="red_req">*</i>服务类型：</label>
+					<div class="col-sm-2">
+						<select class="form-control" ng-model='baseInfo.serviceTypeSelect' ng-change='changeServiceTypeSelect()'  ng-options="x.value as x.text for x in serviceTypeSelectList"  >
+						</select>
+					</div>
+					<label class="col-sm-2 control-label"><i class="red_req">*</i>发卡行：</label>
+					<div class="col-sm-2">
+						<select class="form-control" ng-model='baseInfo.cardBinType' ng-change="changeCardType()" ng-options="x.value as x.text for x in cardBinList"  >
+						</select>
+					</div>
+					<div ng-show="baseInfo.acqMerchantShowState==1">
+						<label class="col-sm-2 control-label"><i class="red_req">*</i>指定行业:</label>
+						<div class="col-sm-2">
+							<select class="form-control" ng-model='baseInfo.acqMerchantState'  ng-options="x.value as x.text for x in acqMerchantList"  >
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label" ng-class="serviceTypeClass"></label>
+					<div class="col-sm-3" ng-show="baseInfo.serviceTypeSelect!='0'">
+						<div class="gridStyle" ui-grid="serviceTypeGrid" ui-grid-selection ui-grid-resize-columns class="grid"></div>
+					</div>
+					<label class="col-sm-2 control-label"></label>
+					<div class="col-sm-3" ng-show="baseInfo.cardBinType!=0">
+						<div class="gridStyle" ui-grid="cardBinGrid" ui-grid-selection ui-grid-resize-columns class="grid"></div>
+					</div>
+					<label class="control-label" ng-class="acqMerchantClass"></label>
+					<div class="col-sm-3" ng-show="baseInfo.acqMerchantState!=0">
+						<div class="gridStyle" ui-grid="acqMerchantGrid" ui-grid-selection ui-grid-resize-columns class="grid"></div>
+					</div>
+				</div>
+				<!--
+				<div class="form-group">
+					<label class="col-sm-2 control-label">每周重复：</label>
+					<div class="col-sm-4">
+					
+						<label><input type="checkbox" ng-disabled="true" ng-model='baseInfo.monday'  ng-true-value="0" ng-false-value="-1"/>周一 </label> 
+						<label><input type="checkbox" ng-disabled="true"  ng-model="baseInfo.tuesday" ng-true-value="1" ng-false-value="-1" />周二 </label> 
+						<label><input type="checkbox" ng-disabled="true"  ng-model="baseInfo.wednesday" ng-true-value="2" ng-false-value="-1" />周三 </label> 
+						<label><input type="checkbox" ng-disabled="true"  ng-model="baseInfo.thursday" ng-true-value="3" ng-false-value="-1" />周四 </label> 
+						<label><input type="checkbox" ng-disabled="true"  ng-model="baseInfo.friday" ng-true-value="4" ng-false-value="-1" />周五 </label> 
+						<label><input type="checkbox" ng-disabled="true"  ng-model="baseInfo.saturday" ng-true-value="5" ng-false-value="-1" />周六 </label> 
+						<label><input type="checkbox" ng-disabled="true"  ng-model="baseInfo.sunday" ng-true-value="6" ng-false-value="-1" />周日 </label> 
+					</div>
+				</div>
+				-->
+				<div class="form-group">
+					<label class="col-sm-2 control-label"></label>
+					<div class="col-sm-8">
+						<input type="button" class="btn btn-primary btn-mr20" ng-disabled="horizontal.$invalid|| submitting
+							|| (baseInfo.bpType==1 && bpGridApi.selection.getSelectedRows().length==0)
+							||(baseInfo.cardBinType==1 && cardBinGridApi.selection.getSelectedRows().length==0)
+							||(baseInfo.acqMerchantState==1 && acqMerchantGridApi.selection.getSelectedRows().length==0)
+							|| (baseInfo.provinceType==1 && provinceGridApi.selection.getSelectedRows().length==0)" ng-click="submit()" value='提交'>
+						<input type="button" class="btn btn-primary4 btn-mr20" ui-sref="org.jumpRoute" value='返回'>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+	</form>

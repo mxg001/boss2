@@ -1,0 +1,130 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a href="index.html">主页</a></li>
+            <li>超级银行家</li>
+            <li class="active"><strong>彩票总奖金管理</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="lotteryBonusCtrl">
+    <form class="form-horizontal" id="form1">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>彩票代购总奖金管理</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">组织：</label>
+                            <div class="col-sm-2">
+                                    <select chosen="{width:'100%'}" id="autocomplete-select3" class="chosen-select" tabindex="6" ng-model="conf.orgId" ng-options="org.orgId as org.orgName for org in orgInfoAllList">
+                                    </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group" style="margin-top: 30px">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-8">
+                                <button class="btn btn-primary6 btn-mr20"  ng-click="query()" ng-disabled="submitting">查询</button>
+                                <button class="btn btn-primary5 btn-mr20" type="button" 
+                                        ng-click="addLottery()">新增</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>列表</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="tposition">
+                            <div class="gridStyle" ui-grid="lotteryBonusGrid" ui-grid-selection ui-grid-pagination
+                                 ui-grid-resize-columns ui-grid-pinning></div>
+                            <div ng-show="loadImg" class="timg"></div>
+                        </div>
+                    </div>
+                </div>
+                <div style="height:30px;"></div>
+            </div>
+        </div>
+    </form>
+    
+    <div id="addLottery" class="modal fade" tabindex="3" role="dialog">
+			<div class="modal-dialog" style="height:500px;width: 900px">
+				<div class="modal-content" style="height:500px;width: 900px">
+					<h3 class="modal-title" style="margin:10px 20px;">彩票代购组织新增</h3>
+					<div class="modal-body">
+						<div class="form-group" style="clear:left;margin-top:20px;">
+							<label style="float:left;width:30%;text-align:center;height:40px;line-height:40px;">所属组织：</label>
+							<div class="" style="float:left;height:40px;line-height:40px;width: 180px">
+								<select chosen="{width:'100%'}" id="autocomplete-select3" class="chosen-select" tabindex="6" ng-model="lottery.orgId" ng-options="org.orgId as org.orgName for org in orgInfoList">
+                                     	
+                                </select>
+							</div>
+						</div>
+						
+						<div class="form-group" style="clear:left;margin-top:20px;">
+							<label style="float:left;width:30%;text-align:center;height:40px;line-height:40px;">奖金方式：</label>
+							<div class="" style="float:left;height:40px;line-height:40px;">
+								按购彩金额比例
+								<input type="hidden" required ng-model="lottery.bonusType" ng-init="lottery.bonusType=1" />
+							</div>					
+						</div>
+						
+						<div class="form-group" style="clear:left;margin-top:20px;">
+							<label style="float:left;width:30%;text-align:center;height:40px;line-height:40px;">奖励要求：</label>
+							<div class="" style="float:left;height:40px;line-height:40px;">
+								成功出票购彩
+								<input type="hidden" required ng-model="lottery.bonusRequest" ng-init="lottery.bonusRequest=1" />
+							</div>					
+						</div>
+						
+						<div class="form-group" style="clear:left;margin-top:20px;">
+							<label style="float:left;width:30%;text-align:center;height:40px;line-height:40px;">彩票机构给的总奖金：</label>
+							<div class="" style="float:left;height:40px;line-height:40px;">
+								N*&nbsp;<input type="text" ng-model="lottery.lotteryOrgTotalBonus" class="form-control" style="width:80px;text-align:center;display:inline-block;">%
+							</div>					
+						</div>
+						
+						<div class="form-group" style="clear:left;margin-top:20px;">
+							<label style="float:left;width:30%;text-align:center;height:40px;line-height:40px;">公司截留：</label>
+							<div class="" style="float:left;height:40px;line-height:40px;">
+								付款金额N*&nbsp;<input type="text" ng-model="lottery.companyBonus" class="form-control" style="width:80px;text-align:center;display:inline-block;">%
+							</div>
+						</div>
+						
+						<div class="form-group" style="clear:left;margin-top:20px;">
+							<label style="float:left;width:30%;text-align:center;height:40px;line-height:40px;">品牌截留：</label>
+							<div class="" style="float:left;height:40px;line-height:40px;">
+								付款金额N*&nbsp;<input type="text" ng-model="lottery.orgBonus" class="form-control" style="width:80px;text-align:center;display:inline-block;">%
+							</div>
+						</div>
+						
+						<div class="form-group" style="clear:left;margin-top:20px;">
+								<label style="float:left;width:30%;text-align:center;height:40px;line-height:40px;">&nbsp;</label>
+									<div class="" style="float:left;height:40px;line-height:40px;">
+										<span style="color:red">备注：Ｎ为购买彩票金额</span>
+									</div>
+						</div>
+						
+						<div style="clear:left;margin-top:40px;">&nbsp;</div>
+						
+						<div class="form-group control-label">
+							<label class="col-sm-2 control-label" ></label>
+							<div class="col-sm-6">
+									<button class="btn btn-primary btn-mr20" type="button" ng-click='savelottery()'>确定</button>
+									<button class="btn btn-primary8 " type="button" ng-click='cancel()'>取消</button>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+    
+</div>

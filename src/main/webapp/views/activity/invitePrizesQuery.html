@@ -1,0 +1,280 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a href="index.html">主页</a></li>
+			<li>活动查询</li>
+			<li class="active"><strong>邀请有奖查询</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="invitePrizesQueryCtrl">
+	<form class="form-horizontal" id="form1">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>邀请有奖查询</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">邀请商户编号：</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" ng-model="baseInfo.merchantNo" onchange="keyChange()">
+							</div>
+							<label class="col-sm-2 control-label">创建时间：</label>
+							<div class="col-sm-6">
+								<input id="d5221" class="form-control" type="datetime" ng-model="baseInfo.startCreateTime" onchange=""  style="width:auto;display:inline-block;"
+									   onFocus="var d5222=$dp.$('d5222');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',changed:verifyTime(1,'#d5221','#d5222',31,isVerifyTime),onpicked:function(){d5222.focus();},maxDate:'#F{$dp.$D(\'d5222\')||\'%y-%M-%d\'}'})"/>
+								~
+								<input id="d5222" class="form-control" type="datetime"  ng-model="baseInfo.endCreateTime" onchange=""  style="width:auto;display:inline-block;"
+									   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',changed:verifyTime(2,'#d5221','#d5222',31,isVerifyTime),minDate:'#F{$dp.$D(\'d5221\')}',maxDate:'%y-%M-%d 23:59:59'})"/>
+								<br/><span><font color="#999">备注：查询范围不能超过一个月</font></span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">所属代理商/编号：</label>
+							<div class="col-sm-2">
+								<select name="autocomplete-select" id="autocomplete-select" ng-model="baseInfo.agentNode" ng-options="x.value as x.text for x in agent" 
+									style="width: 100%" chosen chosen-data="agent" chosen-keyup="getStates">
+								</select>
+							</div>
+							<label class="col-sm-2 control-label">是否包含下级：</label>
+							<div class="col-sm-2">
+								<select class="form-control" ng-model="baseInfo.containSub">
+									<option value="1" selected>是</option>
+									<option value="0">否</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">入账状态：</label>
+							<div class="col-sm-2">
+								<select class="form-control" ng-model="baseInfo.accountStatus" ng-options="x.value as x.text for x in accountStatusSelect">
+									<option value="" selected>全部</option>
+								</select>
+							</div>
+							<label class="col-sm-2 control-label">奖励用户类型：</label>
+							<div class="col-sm-2">
+								<select class="form-control" ng-model="baseInfo.prizesType" ng-options="x.value as x.text for x in prizesTypeSelect">
+									<option value="" selected>全部</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">奖励商户编号：</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" ng-model="baseInfo.prizesObject" onchange="keyChange()">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-8">
+								<button class="btn btn-primary6 btn-mr20"  ng-click="query()">查询</button>
+								<button class="btn btn-primary3 btn-mr20" type="button" ng-click="resetForm()">清空</button>
+								<button class="btn btn-new btn-mr20" type="button" ng-click="batchRecorded()"
+									ng-show="hasPermit('invitePrizes.batchRecordAccount')" >批量入账</button>
+								<button class="btn btn-new btn-mr20" type="button" ng-click="exportInfo()">导出</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>邀请有奖查询列表</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+							<div class="col-sm-3 checkbox">
+								邀请商户:
+								<span class="ng-binding">{{invitePrizesGrid.totalItems}}</span>
+								个
+							</div>
+							<div class="col-sm-3 checkbox">
+								奖励总金额:
+								<span ng-bind="countInvitePrizesMerchant.sumAmount | currency:''"></span>
+							</div>
+							<div class="col-sm-3 checkbox">
+								已入账:
+								<span ng-bind="countInvitePrizesMerchant.recordedAmount | currency:''"></span>
+							</div>
+							<div class="col-sm-3 checkbox">
+								未入账:
+								<span ng-bind="countInvitePrizesMerchant.unrecordedAmount | currency:''"></span>
+							</div>
+						</div>
+						<div class="gridStyle" ui-grid="invitePrizesGrid" ui-grid-selection ui-grid-pagination
+							 ui-grid-resize-columns ui-grid-pinning>
+							<div ng-show="loadImg" class="timg"></div>
+						</div>
+					</div>
+				</div>
+				<div style="height:30px;"></div>
+			</div>
+		</div>
+	</form>
+</div>
+
+
+<!-- 主要内容
+<div class="wrapper wrapper-content animated fadeIn"
+	ng-controller="invitePrizesQueryCtrl">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox float-e-margins">
+				<div class="ibox-content">
+					<form class="form-horizontal" id="form1">
+							<div class="col-lg-12">
+								<div class="panel-body ibox float-e-margins">
+									<div class="ibox-content">
+										<div class="form-group">
+											<label class="col-sm-2 control-label">邀请商户编号：</label>
+											<div class="col-sm-2">
+												<input type="text" class="form-control" ng-model='baseInfo.activeOrder'>
+											</div>
+											<label class="col-sm-2 control-label">创建时间：</label>
+											<div class="col-sm-5">
+												<input id="d5223" class="form-control" type="datetime" ng-model="baseInfo.activeTimeStart" onchange=""  style="width:auto;display:inline-block;"
+													onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5224.focus();}})"/>
+												~
+												<input id="d5224" class="form-control" type="datetime"  ng-model="baseInfo.activeTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+													onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss'})"/>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label">所属代理商/编号：</label>
+											<div class="col-sm-2">
+												<input type="text" class="form-control" ng-model='baseInfo.merchantN'>
+											</div>
+											<label class="col-sm-2 control-label">是否包含下级：</label>
+											<div class="col-sm-2">
+												<select name="autocomplete-select" id="autocomplete-select" ng-model="baseInfo.agentN" ng-options="x.value as x.text for x in agent" 
+													style="width: 100%" chosen chosen-data="agent" chosen-keyup="getStates" ng-change="changeAgentNode()" >
+												</select>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label">入账状态：</label>
+											<div class="col-sm-2">
+												<select class="form-control" ng-model='baseInfo.status' ng-change="hideActivityTime()" ng-options="x.value as x.text for x in activityStatus">
+												</select>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2"></label>
+											<div class="col-sm-10">
+												<button class="btn btn-primary6 btn-mr20" type="button" ng-disabled="submitting"
+													ng-click='query()' id="btnSubmit">查询</button>
+													<button class="btn btn-primary3 btn-mr20" type="button"
+													ng-click="resetForm()">清空</button>
+												<button class="btn btn-new btn-mr20" type="button"
+													ng-show="hasPermit('activity.liquidation')"
+													ng-click="liquidationBatch()">批量入账</button>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body ibox float-e-margins">
+									<div class="ibox-title">
+										<h5>列表</h5>
+									</div>
+									<div class="ibox-content">
+										<div class="form-group">
+											<label class="col-sm-1 control-label">汇总</label>
+											<div class="col-sm-2 checkbox">笔数：<span ng-bind="activityGrid.totalItems"></span></div>
+											<div class="col-sm-2 checkbox">金额：<span ng-bind="totalAmount | currency:''"></span>元</div>
+										</div>
+										<div class="tposition">
+											<div class="gridStyle" ui-grid="activityGrid"
+												ui-grid-pagination ui-grid-selection ui-grid-resize-columns ui-grid-pinning></div>
+											<div ng-show="loadImg" class="timg"></div>
+										</div>
+								</div>
+								<div style="height: 50px"></div>
+							</div>
+						</div>
+					</form>
+					<form class="form-horizontal" id="form3" name="horizontalClear" novalidate>
+					<div id="liquidationModal" class="modal fade" tabindex="-1" role="dialog">
+						<div class="modal-dialog" style="width: 900px">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">
+										&times;</button>
+									<h3 class="modal-title">清算核算</h3>
+								</div>
+								<div class="modal-body">
+								<div class="form-group">
+									<label class="col-sm-5 control-label">您正在执行清算核算，请确认无误后，再做以下选择：</label>
+								</div>
+								<div class="form-group" ng-show="selectNums>0">
+									<label class="col-sm-5 control-label">满足需要清算核算的数据{{selectNums}}条</label>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">清算状态：</label>
+									<div class="col-sm-3 checkbox ">
+										<label ><input type="radio" name="liquidationStatus" ng-model="liquidationStatus" value="1" />同意</label>
+										<label ><input type="radio" name="liquidationStatus" ng-model="liquidationStatus" value="2" />不同意</label>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label"></label>
+									<div class="col-sm-6">
+										<button class="btn btn-primary btn-mr20" type="button" ng-click='submitClear()'
+											 ng-disabled="submitting">提交</button>
+											<button class="btn btn-primary8" type="button" ng-click='cancel()'
+											>取消</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					</div>
+					</form>
+					<form class="form-horizontal" id="form3" name="horizontalCheck" novalidate>
+					<div id="accountCheckModal" class="modal fade" tabindex="-1" role="dialog">
+						<div class="modal-dialog" style="width: 900px">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">
+										&times;</button>
+									<h3 class="modal-title">财务核算</h3>
+								</div>
+								<div class="modal-body">
+								<div class="form-group">
+									<label class="col-sm-5 control-label">您正在执行财务核算，请确认无误后，再做以下选择：</label>
+								</div>
+								<div class="form-group" ng-show="selectNums>0">
+									<label class="col-sm-5 control-label">满足需要财务核算的数据{{selectNums}}条</label>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">核算状态：</label>
+									<div class="col-sm-3 checkbox ">
+										<label ><input type="radio" name="accountCheckStatus" ng-model="accountCheckStatus" value="1" />同意</label>
+										<label ><input type="radio" name="accountCheckStatus" ng-model="accountCheckStatus" value="2" />不同意</label>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label"></label>
+									<div class="col-sm-6">
+										<button class="btn btn-primary btn-mr20" type="button" ng-click='submitCheck()'
+											 ng-disabled="submitting">提交</button>
+											<button class="btn btn-primary8" type="button" ng-click='cancel()'
+											>取消</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div style="height: 30px;"></div>
+</div> -->

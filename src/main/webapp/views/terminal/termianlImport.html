@@ -1,0 +1,147 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>机具管理</a></li>
+			<li class="active"><strong>机具修改</strong></li>
+		</ol>
+	</div>
+</div>
+
+
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="termianlImportCtrl">
+	<form class="form-horizontal" name="horizontal">
+		<div class="row">
+			<div class="col-lg-12">
+
+				<div class="panel-body ibox float-e-margins">
+
+					<div class="ibox-title">
+						<h5>机具信息</h5>
+					</div>
+					<div class="ibox-content">
+
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">硬件产品：</label>
+							<div class="col-sm-3">
+								<select class="form-control" ng-model="info.termianlType" ng-change="changeClear()"   ng-options="x.hpId as x.typeName for x in termianlTypes" required></select>
+								<!--<div class="req_mesg" ng-show="horizontal.typeName.$dirty && horizontal.typeName.$invalid">
+									<span ng-show="horizontal.typeName.$error.required">硬件产品不能为空</span>
+								</div>-->
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">代理商名称：</label>
+							<div class="col-sm-3">
+								<select chosen name="autocomplete-select" id="autocomplete-select" ng-model="info.agentNo" ng-options="x.value as x.text for x in agent" style="width: 100%"  chosen-data="agent" chosen-keyup="getStates">
+								</select>
+								<div class="req_mesg" ng-show="horizontal.autocomplete-select.$dirty && horizontal.autocomplete-select.$invalid">
+									<span ng-show="horizontal.autocomplete-select.$error.required">代理商不能为空</span>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">活动：</label>
+							<div class="col-sm-7">
+								<div class="gridStyle"  ui-grid="activityTypeGrid" ui-grid-resize-columns />
+							</div>
+						</div>
+
+						<div class="form-group" ng-show="isActivityHardware">
+							<label class="col-sm-2 control-label">欢乐返子类型：</label>
+							<div class="col-sm-3">
+								<select chosen name="autocomplete-select" id="autocomplete-select1" ng-model="info.activityTypeNo" ng-options="x.value as x.text for x in typeNos" style="width: 100%"  chosen-data="typeNos" >
+								</select>
+								<div class="req_mesg" ng-show="horizontal.autocomplete-select.$dirty && horizontal.autocomplete-select.$invalid">
+									<span ng-show="horizontal.autocomplete-select.$error.required">欢乐返子类型不能为空</span>
+								</div>
+							</div>
+						</div>
+
+						<!--<div class="form-group" ng-show="isActivityHardware">
+							<label class="col-sm-2 control-label"><i class="red_req">*</i>请选择欢乐返子类型：</label>
+							<div class="col-sm-7">
+								<div class="gridStyle"  ui-grid="activityHlfGrid" style="height: 300px" ui-grid-resize-columns />
+							</div>
+						</div>-->
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label">导入文件：</label>
+							<div class="col-sm-3">
+								<input type="file" nv-file-select="" ng-model="fileSelect" uploader="uploader" multiple/>
+								<table class="table">
+							        <tbody>
+										<tr ng-repeat="item in uploader.queue">
+											<td>
+												<strong>{{ item.file.name }}</strong>
+											</td>
+											<td nowrap>
+												<button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+													<span class="glyphicon glyphicon-trash"></span>删除
+												</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							
+							<div class="col-sm-3">
+								<a href="terminalInfo/downloadTemplate" >机具导入模板</a>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="col-lg-12 bgff">
+			<div class="col-lg-12">
+				<label class="col-sm-2"></label>
+				<button class="btn btn-primary btn-rounded btn-mr20" type="submit"
+					ng-disabled="horizontal.$invalid || uploader.queue.length==0 || submitting"
+					ng-click="commit()">提交</button>
+				<a class="btn btn-primary4 btn-rounded" type="button" ui-sref="terminal.terminalQuery"
+					id="btnSubmit">返回</a>
+			</div>
+			<div ng-show="loadImgA" style="position: absolute; left: 0; top:0;right:0;bottom:0; background: rgba(255,255,255,0.8);">
+				<div class="timg"></div>
+				<p style="    position: absolute;left: 0;top: 62%;text-align: center;width: 100%;">正在导入中，请不要关闭浏览器...</p>
+			</div>
+		</div>
+	</form>
+	<div id="importResultButchModel" class="modal fade" tabindex="-1"
+		 role="dialog">
+		<form class="form-horizontal" id="form2">
+			<div class="modal-dialog" style="height: 400px; width: 900px">
+				<div class="modal-content" style="height: 600px; width: 900px">
+					<div class="modal-body">
+						<div class="ibox-content">
+							<div class="form-group">
+								<label class="col-sm-8 control-label" style="text-align:left;">成功导入 {{successCount}} 台，导入失败 {{errorCount}} 台</label>
+							</div>
+							<div class="panel-body ibox float-e-margins">
+								<label class="col-sm-3 control-label" style="text-align:left;"></label>
+								<div class="ibox-content">
+									<div class="gridStyle" ui-grid="serviceGrid" style="height: 300px;"  ui-grid-pinning ui-grid-resize-columns></div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group control-label">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-6">
+								<button class="btn btn-primary8 " type="button" ng-click='cancelImportButchModel()'>返回</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

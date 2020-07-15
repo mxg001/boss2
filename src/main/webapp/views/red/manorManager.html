@@ -1,0 +1,374 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li class="active"><strong>领地业务管理</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="manorManagerCtrl">
+	<form class="form-horizontal" id="form1" name="horizontal">
+		<div class="row">
+			<div class="col-lg-12" style="padding-bottom: 80px;">
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>领地转让溢价分成</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">1.原领主专享转让溢价分成收益:</label>
+							<div class="col-sm-10" style="float: left">
+								<input type="text" class="form-control"
+									style="float: left; width: 100px"
+									ng-model="info.premiumTerritory">
+								<div style="float: left; padding: 7px 0 0 10px">%</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">2.溢价的：</label>
+							<div class="col-sm-10" style="float: left">
+								<input type="text" class="form-control"
+									style="float: left; width: 100px"
+									ng-model="info.premiumProfit">
+								<div style="float: left; padding: 7px 0 0 10px">%
+									做为总奖金，拿来给原领主用户连条上的专员经理银行家分润</div>
+							</div>
+							<label class="col-sm-2 control-label">专员：</label>
+							<div class="col-sm-2" style="float: left">
+								<input type="text" class="form-control"
+									style="float: left; width: 100px"
+									ng-model="info.profitMember">
+								<div style="float: left; padding: 7px 0 0 10px">%</div>
+							</div>
+							<label class="col-sm-2 control-label">经理：</label>
+							<div class="col-sm-2" style="float: left">
+								<input type="text" class="form-control"
+									style="float: left; width: 100px"
+									ng-model="info.profitManager">
+								<div style="float: left; padding: 7px 0 0 10px">%</div>
+							</div>
+							<label class="col-sm-2 control-label">银行家：</label>
+							<div class="col-sm-2" style="float: left">
+								<input type="text" class="form-control"
+									style="float: left; width: 100px"
+									ng-model="info.profitBanker">
+								<div style="float: left; padding: 7px 0 0 10px">%</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">3、原领主所属品牌商享受溢价：</label>
+							<div class="col-sm-10" style="float: left">
+								<input type="text" class="form-control"
+									style="float: left; width: 100px"
+									ng-model="info.premiumOem">
+								<div style="float: left; padding: 7px 0 0 10px">%
+									加上专员经理银行家未分完的总奖金</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>领地买卖</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">领地初始价格:</label>
+							<div class="col-sm-10" style="float: left">
+								<input type="text" class="form-control"
+									style="float: left; width: 100px"
+									ng-model="info.territoryPrice">
+								<div style="float: left; padding: 7px 0 0 10px">
+								元&emsp;	是否各个区域都不一样</div>
+							</div>
+						</div>
+						<div class="ibox-content">
+							<label class="col-sm-3 control-label">领地交易，收取原领地领地交易成交金额的</label>
+							<div  style="float: left">
+								<input type="text" class="form-control"
+									   style="float: left; width: 100px"
+									   ng-model="info.tradeFee">
+								<div style="float: left; padding: 7px 0 0 10px">
+									% ，作为交易手续费</div>
+							</div>
+
+						</div>
+						<div class="ibox-content">
+							<label class="col-sm-3 control-label">领地交易，当地领地售价低于</label>
+							<div  style="float: left">
+								<input type="text" class="form-control"
+									   style="float: left; width: 100px"
+									   ng-model="info.needImageAmount">
+								<div style="float: left; padding: 7px 0 0 10px">
+									元时 ，需要进行图形验证码校验</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>其他</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">普通会员最多只能同时拥有:</label>
+							<div class="col-sm-10" style="float: left">
+								<input type="text" class="form-control"
+									style="float: left; width: 100px"
+									ng-model="info.userMaxTerritory">
+								<div style="float: left; padding: 7px 0 0 10px">
+									块领块，专员最多只能同时拥有</div>
+								<input type="text" class="form-control"
+									style="float: left; width: 100px"
+									ng-model="info.memberMaxTerritory">
+								<div style="float: left; padding: 7px 0 0 10px">
+									块领块，</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">经理最多只能同时拥有:</label>
+							<div class="col-sm-10" style="float: left">
+								<input type="text" class="form-control"
+									style="float: left; width: 100px"
+									ng-model="info.managerMaxTerritory">
+								<div style="float: left; padding: 7px 0 0 10px">
+									块领块，银行家最多只能同时拥有</div>
+								<input type="text" class="form-control"
+									style="float: left; width: 100px"
+									ng-model="info.bankerMaxTerritory">
+								<div style="float: left; padding: 7px 0 0 10px">
+									块领块，</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>每日领地溢价交易分红配置</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-4 control-label">每日领地溢价交易分红总奖金=前一天领地溢价交易总奖金的:</label>
+							<div  style="float: left">
+								<input type="text" class="form-control"
+									   style="float: left; width: 100px"
+									   ng-model="info.premiumDividend">
+								<div style="float: left; padding: 7px 0 0 10px">
+									%</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">活动日期:</label>
+							<div class="col-sm-10" style="float: left">
+								<div class="col-sm-6">
+									<input id="d5235" class="form-control" type="datetime" ng-model="info.premiumBeginDateStr" onchange=""  style="width:auto;display:inline-block;"
+										   onFocus="var d5232=$dp.$('d5232');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5232.focus();},maxDate:'#F{$dp.$D(\'d5232\')}'})"/>
+									~
+									<input id="d5236" class="form-control" type="datetime"  ng-model="info.premiumEndDateStr" onchange=""  style="width:auto;display:inline-block;"
+										   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5231\')}'})"/>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>每日随机分红配置</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">所有领地每日随机分红总奖金:</label>
+							<div  style="float: left">
+								<input type="radio"  ng-value="1"  style="float: left; margin-top : 10px;"  ng-model="info.fenhongType">
+								<div style="float: left; padding: 7px 0 0 10px">
+									固定金额</div>
+								<input type="text" class="form-control"
+									   style="float: left; width: 100px"
+									   ng-model="info.fenhongTotalMoney">
+								<div style="float: left; padding: 7px 0 0 10px">
+									元</div>
+							</div>
+
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"></label>
+							<div  style="float: left">
+								<input type="radio"  ng-value="2" style="float: left; margin-top : 10px;"  ng-model="info.fenhongType">
+								<div style="float: left; padding: 7px 0 0 10px">
+									领地每日交易额的</div>
+								<input type="text" class="form-control"
+									   style="float: left; width: 100px"
+									   ng-model="info.fenhongProportion">
+								<div style="float: left; padding: 7px 0 0 10px">
+									% ，封顶</div>
+								<input type="text" class="form-control" style="float: left; width: 100px" ng-model="info.fenhongProportionMax">
+								<div style="float: left; padding: 7px 0 0 10px">
+									元</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">大奖领地设置:</label>
+							<div  style="float: left">
+								<input type="text" class="form-control"
+									   style="float: left; width: 100px"
+									   ng-model="info.fenhongBigNum">
+								<div style="float: left; padding: 7px 0 0 10px">
+									块领地占</div>
+								<input type="text" class="form-control"
+									   style="float: left; width: 100px"
+									   ng-model="info.fenhongBigRate">
+								<div style="float: left; padding: 7px 0 0 10px">
+									%的奖金</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">活动日期:</label>
+							<div class="col-sm-10" style="float: left">
+								<div class="col-sm-6">
+									<input id="d5231" class="form-control" type="datetime" ng-model="info.fenhongBeginDateStr" onchange=""  style="width:auto;display:inline-block;"
+										   onFocus="var d5232=$dp.$('d5232');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5232.focus();},maxDate:'#F{$dp.$D(\'d5232\')}'})"/>
+									~
+									<input id="d5232" class="form-control" type="datetime"  ng-model="info.fenhongEndDateStr" onchange=""  style="width:auto;display:inline-block;"
+										   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5231\')}'})"/>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>领地领主业务基准分红</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+						<label class="col-sm-2 control-label">即时享有领地内用户抢红包金额的:</label>
+						<div  style="float: left">
+							<input type="text" class="form-control"
+								   style="float: left; width: 100px"
+								   ng-model="info.redProfit">
+							<div style="float: left; padding: 7px 0 0 10px">
+								%</div>
+						</div>
+					</div>
+					<div class="form-group">
+							<label class="col-sm-2 control-label">发展每个专员分润:</label>
+							<div  style="float: left">
+								<input type="text" class="form-control"
+									   style="float: left; width: 100px"
+									   ng-model="info.commissionerProfit">
+								<div style="float: left; padding: 7px 0 0 10px">
+									元</div>
+							</div>
+					</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">每办一张信用卡发卡分润:</label>
+							<div  style="float: left">
+								<input type="text" class="form-control"
+									   style="float: left; width: 100px"
+									   ng-model="info.creditCardProfit">
+								<div style="float: left; padding: 7px 0 0 10px">
+									元</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">每笔贷款分润:放贷金额*</label>
+							<div  style="float: left">
+								<input type="text" class="form-control"
+									   style="float: left; width: 100px"
+									   ng-model="info.loanProfitProportion">
+								<div style="float: left; padding: 7px 0 0 10px">
+									%或每笔固得</div>
+								<input type="text" class="form-control"
+									   style="float: left; width: 100px"
+									   ng-model="info.loanProfit">
+								<div style="float: left; padding: 7px 0 0 10px">
+									元</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">每笔商户收款分润:</label>
+							<div  style="float: left">
+								<input type="text" class="form-control"
+									   style="float: left; width: 100px"
+									   ng-model="info.receiptProfit">
+								<div style="float: left; padding: 7px 0 0 10px">
+									元</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">每笔保险分润：投保金额*</label>
+							<div  style="float: left">
+								<input type="text" class="form-control"
+									   style="float: left; width: 100px"
+									   ng-model="info.insuranceProfit">
+								<div style="float: left; padding: 7px 0 0 10px">
+									%</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">每笔智能信用查询分润:</label>
+							<div  style="float: left">
+								<input type="text" class="form-control"
+									   style="float: left; width: 100px"
+									   ng-model="info.bigDataProfit">
+								<div style="float: left; padding: 7px 0 0 10px">
+									元</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">每笔违章代缴分润:</label>
+							<div  style="float: left">
+								<input type="text" class="form-control"
+									   style="float: left; width: 100px"
+									   ng-model="info.payProfit">
+								<div style="float: left; padding: 7px 0 0 10px">
+									元</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">每笔信用卡还款分润:实际消费金额*</label>
+							<div  style="float: left">
+								<input type="text" class="form-control"
+									   style="float: left; width: 100px"
+									   ng-model="info.cardPaymentProfit">
+								<div style="float: left; padding: 7px 0 0 10px">
+									%</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">活动日期:</label>
+							<div class="col-sm-10" style="float: left">
+								<div class="col-sm-6">
+									<input id="d5233" class="form-control" type="datetime" ng-model="info.benchmarkBeginDateStr" onchange=""  style="width:auto;display:inline-block;"
+										   onFocus="var d5232=$dp.$('d5232');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5232.focus();},maxDate:'#F{$dp.$D(\'d5232\')}'})"/>
+									~
+									<input id="d5234" class="form-control" type="datetime"  ng-model="info.benchmarkEndDateStr" onchange=""  style="width:auto;display:inline-block;"
+										   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5231\')}'})"/>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-7">
+								<button class="btn btn-primary btn-mr20 "
+									ng-disabled="horizontal.$invalid || submitting" type="button"
+									ng-click="commit()" id="btnSubmit">保存</button>
+								<button class="btn btn-primary4" type="button"
+									ng-click="submitCancel()">清空</button>
+							</div>
+						</div>
+			   </div>
+			</div>
+	</form>
+
+</div>

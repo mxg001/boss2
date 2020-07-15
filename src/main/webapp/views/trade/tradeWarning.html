@@ -1,0 +1,95 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>交易查询</a></li>
+            <li class="active"><strong>交易预警</strong></li>
+        </ol>
+    </div>
+</div>
+
+
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+     ng-controller="tradeWarningCtrl">
+    <form class="form-horizontal" id="form1" name="horizontal" novalidate>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="tabs-container tab_other">
+                    <div class="panel-body ibox float-e-margins">
+                        <!--交易预警-->
+                        <div class="ibox-content">
+                            <div class="form-group">
+                                <h5 style="font-size:14px;">交易预警</h5>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">同一商户连续N次错误预警:</label>
+                                <div class="col-sm-10 checkbox" ng-bind="info.content">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><i class="red_req">*</i>交易错误预警阈值设置:</label>
+                                <div class="col-sm-10" style="float:left">
+                                    <div id="tradeWarning">
+                                        <div ng-repeat="(index,item) in tradeWarning" style="width: 100%;overflow: hidden; margin-bottom: 5px;">
+                                            <input type="hidden" ng-model="item.id">
+                                            <input type="text" class="form-control" style="float:left;width:100px" ng-model="item.cycle" ng-pattern="/^([1-9])\d{0,10}$/" required>
+                                            <span  style="float:left;margin:7px 10px 0 10px;"> 分钟 </span>
+                                            <input type="text" class="form-control" style="float:left;width:100px" ng-model="item.num" ng-pattern="/^([1-9])\d{0,10}$/" required>
+                                            <span  style="float:left;margin:7px 10px 0 10px;"> 次 </span>
+                                            <input type="text" class="form-control" style="float:left;width:100px" ng-model="item.err_code" required>
+                                            <span  style="float:left;margin:7px 10px 0 10px;"> 错误 </span>
+                                            <a ng-click="delrule(index,item)" style="line-height: 36px; margin-left: 10px;">删除规则</a>
+                                        </div>
+                                    </div>
+                                    <a ng-click="addrule()" style="line-height: 36px; margin-left: 10px;">新建规则</a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-sm-10">
+                                    <span style="color:red">备注:在设置的时间范围内,超时的商户总次数达到设置的次数,则会发送预警短信</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><i class="red_req">*</i>预警缓冲时间设置:</label>
+                                <div class="col-sm-10" style="float:left">
+                                    <input type="text" class="form-control" style="float:left;width:100px" ng-model="info.cd_time" ng-pattern="/^[1-9]\d{0,10}|0$/" required>
+                                    <span  style="float:left;margin:7px 10px 0 10px;">分钟</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-sm-10">
+                                    <span style="color:red">备注:触发预警后缓冲时间内不会发送短信,缓冲时间结束后重新记录预警事件</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><i class="red_req">*</i>短信接收人:</label>
+                                <div class="col-sm-10">
+                                    <textarea style="width:400px;height:100px;" ng-model="info.phones" required></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-sm-10" >
+                                    <span style="color: red;">注:若需多人同时接收短信时,请用英文逗号隔开</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 bgff">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6">
+                <button class="btn btn-new btn-mr20" style="width: 130px;" type="button"
+                        ng-click="updatetradeWarning()" ng-disabled="horizontal.$invalid ||submitting" id="btnSubmit">保存</button>
+                <a class="btn btn-primary4 btn-mr20" style="width: 130px;" type="button" ui-sref="trade.tradeQuery">返回</a>
+            </div>
+        </div>
+    </form>
+</div>

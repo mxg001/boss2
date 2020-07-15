@@ -1,0 +1,294 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>信用卡还款</a></li>
+			<li class="active"><strong>商户详情</strong></li>
+		</ol>
+	</div>
+</div>
+
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	 ng-controller="userDetailCtrl">
+	<form class="form-horizontal" id="form1">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="tabs-container tab_other">
+					<uib-tabset>
+						<uib-tab>
+							<uib-tab-heading>
+								<span class="block m-t-xs"> <i class="fa fa-laptop"></i> <strong
+										class="font-bold">基本资料</strong>
+								</span>
+							</uib-tab-heading>
+
+							<div class="panel-body ibox float-e-margins">
+								<div class="ibox-title">
+									<h5>基本资料</h5>
+								</div>
+								<div class="ibox-content">
+									<div class="form-group">
+										<label class="col-sm-2 control-label">用户编号：</label>
+										<div class="col-sm-2 checkbox" ng-bind="info.merchantNo">
+										</div>
+										<label class="col-sm-2 control-label">呢称：</label>
+										<div class="col-sm-2 checkbox" ng-bind="info.nickname">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label">手机号：</label>
+										<div class="col-sm-2 checkbox" >
+											<span ng-bind="info.mobileNo"></span>
+											<button type="button" ng-show="dataSta&&hasPermit('repayMerchant.getDataProcessing')" ng-click="getDataProcessing()">显示</button>
+										</div>
+
+										<label class="col-sm-2 control-label">姓名：</label>
+										<div class="col-sm-2 checkbox" ng-bind="info.userName">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label">归属服务商：</label>
+										<div class="col-sm-2 checkbox" ng-bind="info.agentName">
+										</div>
+										<label class="col-sm-2 control-label">身份证号：</label>
+										<div class="col-sm-3 checkbox" >
+											<span ng-bind="info.idCardNo"></span>
+											<button type="button" ng-show="dataSta&&hasPermit('repayMerchant.getDataProcessing')" ng-click="getDataProcessing()">显示</button>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label">服务商编号：</label>
+										<div class="col-sm-2 checkbox" ng-bind="info.agentNo">
+										</div>
+										<label class="col-sm-2 control-label">入驻时间：</label>
+										<div class="col-sm-2 checkbox" ng-bind="info.enterTime | date:'yyyy年MM月dd日  HH:mm:ss'">
+										</div>
+									</div>
+									<div class="form-group" style="padding-bottom: 20px;">
+										<div class="col-img"  ng-repeat="x in imageList">
+											<div>{{x.itemName}}</div>
+											<div><a href="{{x.url}}" fancybox rel="fb" title=""><img width="200px" height="200px" src="{{x.url}}"/></a></div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="panel-body ibox float-e-margins">
+								<div class="ibox-title">
+									<h5>打开/关闭用户备注</h5>
+								</div>
+								<div class="ibox-content">
+									<div class="gridStyle" ui-grid="merStatusChangeLog" ui-grid-selection ui-grid-pagination
+										 ui-grid-resize-columns ui-grid-pinning>
+										<div ng-show="loadImg" class="timg"></div>
+									</div>
+								</div>
+							</div>
+						</uib-tab>
+
+						<uib-tab>
+							<uib-tab-heading>
+								<span class="block m-t-xs"> <i class="fa fa-laptop"></i> <strong
+										class="font-bold">通道同步</strong>
+								</span>
+							</uib-tab-heading>
+							<div class="panel-body ibox float-e-margins">
+
+								<div class="ibox-content">
+									<div class="form-group">
+										<div class="gridStyle" style="height: 200px;" ui-grid-resize-columns ui-grid="channelSyn"/>
+									</div>
+								</div>
+							</div>
+							<div class="panel-body ibox float-e-margins">
+								<div class="ibox-title">
+									<h5>同步日志</h5>
+								</div>
+								<div class="ibox-content">
+									<div class="form-group">
+										<div class="gridStyle" style="height: 200px;" ui-grid-resize-columns ui-grid="channelSynLog"/>
+									</div>
+								</div>
+							</div>
+						</uib-tab>
+
+
+						<uib-tab>
+							<uib-tab-heading>
+								<span class="block m-t-xs"> <i class="fa fa-laptop"></i> <strong
+										class="font-bold">还款业务资料</strong>
+								</span>
+							</uib-tab-heading>
+
+							<div class="panel-body ibox float-e-margins">
+								<div class="ibox-title">
+									<h5>还款业务资料</h5>
+								</div>
+								<div class="ibox-content">
+									<div class="form-group">
+										<label class="col-sm-2 control-label">归属服务商：</label>
+										<div class="col-sm-2 checkbox" ng-bind="info.agentName">
+										</div>
+										<label class="col-sm-2 control-label">服务商编号：</label>
+										<div class="col-sm-2 checkbox" ng-bind="info.agentNo">
+										</div>
+										<label class="col-sm-2 control-label">激活时间：</label>
+										<div class="col-sm-2 checkbox" ng-bind="info.createTime | date:'yyyy年MM月dd日  HH:mm:ss'">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="panel-body ibox float-e-margins">
+								<div class="ibox-title">
+									<h5>绑定的贷记卡</h5>
+								</div>
+								<div class="ibox-content">
+									<div class="form-group">
+										<div ng-repeat="x in creditCardList">
+											<div class="form-group">
+											<label class="col-sm-1 control-label">{{x.title}}</label>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-2 control-label">卡号：</label>
+												<div class="col-sm-2 checkbox">
+												{{x.accountNo}}
+												</div>
+												<label class="col-sm-2 control-label">银行：</label>
+												<div class="col-sm-2 checkbox">
+												{{x.bankName}}
+												</div>
+												<label class="col-sm-2 control-label">预留手机号：</label>
+												<div class="col-sm-2 checkbox" >
+													<span>{{x.mobileNo}}</span>
+													<button type="button" ng-show="dataSta&&hasPermit('repayMerchant.getDataProcessing')" ng-click="getDataProcessing()">显示</button>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-2 control-label">账单日：</label>
+												<div class="col-sm-2 checkbox">
+													{{x.statementDate}}
+												</div>
+												<label class="col-sm-2 control-label">还款日：</label>
+												<div class="col-sm-2 checkbox">
+													{{x.repaymentDate}}
+												</div>
+											</div>
+
+											<!--绑卡记录-->
+											<table id="dataList" class="table table-bordered table-striped table-hover dataTable"
+												   style="width: 450px;margin-left: 100px;margin-top: 10px" ng-show="x.bindCardRecords.length >0">
+												<thead>
+												<tr>
+													<th style="text-align: center">同步通道</th>
+													<th style="text-align: center">同步结果</th>
+													<th style="text-align: center">同步时间</th>
+												</tr>
+												</thead>
+												<tbody ng-repeat="entity in x.bindCardRecords">
+												<tr>
+													<td style="text-align: center">{{entity.channelName}}</td>
+													<td style="text-align: center">{{entity.respMsg}}</td>
+													<td style="text-align: center">{{entity.createTime}}</td>
+												</tr>
+												</tbody>
+											</table>
+
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="panel-body ibox float-e-margins">
+								<div class="ibox-title">
+									<h5>绑定的借记卡</h5>
+								</div>
+								<div class="ibox-content">
+									<div class="form-group">
+										<div ng-repeat="y in debitCardList">
+											<div class="form-group">
+											<label class="col-sm-1 control-label">{{y.title}}</label>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-2 control-label">卡号：</label>
+												<div class="col-sm-2 checkbox">
+												{{y.accountNo}}
+												</div>
+												<label class="col-sm-2 control-label">银行：</label>
+												<div class="col-sm-2 checkbox">
+												{{y.bankName}}
+												</div>
+												<label class="col-sm-2 control-label">预留手机号：</label>
+												<div class="col-sm-2 checkbox" >
+													<span>{{y.mobileNo}}</span>
+													<button type="button" ng-show="dataSta&&hasPermit('repayMerchant.getDataProcessing')" ng-click="getDataProcessing()">显示</button>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-2 control-label">是否结算卡：</label>
+												<div class="col-sm-2 checkbox">
+													{{y.isSettleCard}}
+												</div>
+												<label class="col-sm-2 control-label">银行卡正面照：</label>
+												<div class="col-sm-2 checkbox">
+													<a href="{{y.yhkzmUrl}}" fancybox rel="grop1"><img width="200px" height="120px" src="{{y.yhkzmUrl}}"></a>
+												</div>
+											</div>
+
+											<!--绑卡记录-->
+											<table id="dataList2" class="table table-bordered table-striped table-hover dataTable"
+												   style="width: 450px;margin-left: 100px;margin-top: 10px" ng-show="x.bindCardRecords.length >0">
+												<thead>
+												<tr>
+													<th style="text-align: center">同步通道</th>
+													<th style="text-align: center">同步结果</th>
+													<th style="text-align: center">同步时间</th>
+												</tr>
+												</thead>
+												<tbody ng-repeat="entity in y.bindCardRecords">
+												<tr>
+													<td>{{entity.channelName}}</td>
+													<td>{{entity.respMsg}}</td>
+													<td>{{entity.createTime}}</td>
+												</tr>
+												</tbody>
+											</table>
+
+										</div>
+									</div>
+								</div>
+							</div>
+						</uib-tab>
+
+						<uib-tab>
+							<uib-tab-heading>
+								<span class="block m-t-xs"> <i class="fa fa-laptop"></i> <strong
+										class="font-bold">用户钱包</strong>
+								</span>
+							</uib-tab-heading>
+							<div class="panel-body ibox float-e-margins">
+								<div class="ibox-title">
+									<h5>账户余额</h5>
+								</div>
+								<div class="ibox-content">
+									<div class="form-group">
+										<div class="gridStyle" style="height: 200px;" ui-grid-resize-columns ui-grid="accountBalance"/>
+									</div>
+								</div>
+							</div>
+						</uib-tab>
+
+					</uib-tabset>
+
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-12 bgff">
+			<div class="col-sm-12">
+				<div class="col-sm-2"></div>
+				<div class="col-sm-6"><a class="btn btn-primary4 btn-rounded" type="button" ui-sref="creditRepay.manage"
+										 id="btnSubmit">返回</a></div>
+			</div>
+		</div>
+
+	</form>
+</div>

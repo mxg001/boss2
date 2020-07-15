@@ -1,0 +1,1293 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>银行家组织管理</a></li>
+            <li class="active"><strong>银行家组织新增</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn"
+     ng-controller="addOrgInfoCtrl">
+    <form class="form-horizontal" name="horizontal" >
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="tabs-container tab_other">
+                    <uib-tabset>
+                        <uib-tab>
+                            <uib-tab-heading>
+									<span class="block m-t-xs"> <i class="fa fa-laptop"></i> <strong
+                                            class="font-bold">基本信息</strong>
+									</span>
+                            </uib-tab-heading>
+                                <div class="ibox-content">
+                                        <div class="ibox-title">
+                                            <h5>基本信息</h5>
+                                        </div>
+                                    <div class="panel-body ibox float-e-margins">
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>组织名称：</label>
+                                            <div class="col-sm-2">
+                                                <input type="text"  class="form-control"  name="orgName" ng-model="baseInfo.orgName" required />
+                                                <div class="req_mesg" ng-show="horizontal.orgName.$dirty && horizontal.orgName.$invalid">
+                                                    <span ng-show="horizontal.orgName.$error.required">组织名称不能为空</span>
+                                                </div>
+                                            </div>
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>对应V2代理商编号：</label>
+                                            <div class="col-sm-2">
+                                                <input type="text"  class="form-control"  name="v2AgentNumber" ng-blur="checkOrgId(baseInfo.v2AgentNumber)" ng-model="baseInfo.v2AgentNumber" required />
+                                                <div class="req_mesg" ng-show="(horizontal.v2AgentNumber.$dirty && horizontal.v2AgentNumber.$invalid) || checkOrgIdMsg!='' ">
+                                                    <span ng-show="horizontal.v2AgentNumber.$error.required">对应V2代理商编号不能为空</span>
+                                                    <span ng-show='checkOrgIdMsg != ""'>{{checkOrgIdMsg}}</span>
+                                                </div>
+                                            </div>
+                                            <!--<label class="col-sm-2 control-label">组织ID：</label>
+                                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.orgId">
+                                            </div>-->
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>微信公众号：</label>
+                                            <div class="col-sm-2">
+                                                <input type="text"  class="form-control"  name="publicAccount" ng-model="baseInfo.publicAccount" required />
+                                                <div class="req_mesg" ng-show="horizontal.publicAccount.$dirty && horizontal.publicAccount.$invalid">
+                                                    <span ng-show="horizontal.publicAccount.$error.required">微信公众号不能为空</span>
+                                                </div>
+                                            </div>
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>客服电话：</label>
+                                            <div class="col-sm-2">
+                                                <input type="text" class="form-control"  name="servicePhone" ng-model="baseInfo.servicePhone" required />
+                                                <div class="req_mesg" ng-show="horizontal.servicePhone.$dirty && horizontal.servicePhone.$invalid">
+                                                    <span ng-show="horizontal.servicePhone.$error.required">客服电话不能为空</span>
+                                                </div>
+                                            </div>
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>授权单位：</label>
+                                            <div class="col-sm-2">
+                                                <input type="text"  class="form-control"  name="authorizedUnit" ng-model="baseInfo.authorizedUnit"  />
+                                                <div class="req_mesg" ng-show="horizontal.authorizedUnit.$dirty && horizontal.authorizedUnit.$invalid">
+                                                    <span ng-show="horizontal.authorizedUnit.$error.required">授权单位不能为空</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>公司编号：</label>
+                                            <div class="col-sm-2">
+                                                <input type="text" class="form-control"  name="companyNo" ng-model="baseInfo.companyNo" required />
+                                                <div class="req_mesg" ng-show="horizontal.companyNo.$dirty && horizontal.companyNo.$invalid">
+                                                    <span ng-show="horizontal.companyNo.$error.required">公司编号不能为空</span>
+                                                </div>
+                                            </div>
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>公司名称：</label>
+                                            <div class="col-sm-2">
+                                                <input type="text"  class="form-control"  name="companyName" ng-model="baseInfo.companyName" required />
+                                                <div class="req_mesg" ng-show="horizontal.companyName.$dirty && horizontal.companyName.$invalid">
+                                                    <span ng-show="horizontal.companyName.$error.required">公司名称不能为空</span>
+                                                </div>
+                                            </div>
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>公众号名称：</label>
+                                            <div class="col-sm-2">
+                                                <input type="text"  class="form-control"  name="publicAccountName" ng-model="baseInfo.publicAccountName" required />
+                                                <div class="req_mesg" ng-show="horizontal.publicAccountName.$dirty && horizontal.publicAccountName.$invalid">
+                                                    <span ng-show="horizontal.publicAccountName.$error.required">公众号名称不能为空</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>公众号appid：</label>
+                                            <div class="col-sm-2">
+                                                <input type="text" class="form-control"  name="appid" ng-model="baseInfo.appid" required />
+                                                <div class="req_mesg" ng-show="horizontal.appid.$dirty && horizontal.appid.$invalid">
+                                                    <span ng-show="horizontal.appid.$error.required">公众号appid不能为空</span>
+                                                </div>
+                                            </div>
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>公众号secret：</label>
+                                            <div class="col-sm-2">
+                                                <input type="text"  class="form-control"  name="secret" ng-model="baseInfo.secret" required />
+                                                <div class="req_mesg" ng-show="horizontal.secret.$dirty && horizontal.secret.$invalid">
+                                                    <span ng-show="horizontal.secret.$error.required">secret不能为空</span>
+                                                </div>
+                                            </div>
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>公众号密文：</label>
+                                            <div class="col-sm-2">
+                                                <input type="text" class="form-control"  name="encodingAesKey" ng-model="baseInfo.encodingAesKey" required />
+                                                <div class="req_mesg" ng-show="horizontal.encodingAesKey.$dirty && horizontal.encodingAesKey.$invalid">
+                                                    <span ng-show="horizontal.encodingAesKey.$error.required">公众号密文不能为空</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">极光推送AppKey：</label>
+                                            <div class="col-sm-2">
+                                                <input type="text" class="form-control"  name="appid" ng-model="baseInfo.pushAppKey"  />
+                                            </div>
+                                            <label class="col-sm-2 control-label">极光推送Master Secret：</label>
+                                            <div class="col-sm-2">
+                                                <input type="text"  class="form-control"  name="secret" ng-model="baseInfo.pushMasterSecret"  />
+                                            </div>
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>用户积分兑换比例：</label>
+                                            <div class="col-sm-2">
+                                                <input type="text"  class="form-control"  name="pointExchangeRatio" ng-model="baseInfo.pointExchangeRatio" required />
+                                                <div class="req_mesg" ng-show="horizontal.pointExchangeRatio.$dirty && horizontal.pointExchangeRatio.$invalid">
+                                                    <span ng-show="horizontal.pointExchangeRatio.$error.required">用户积分兑换比例不能为空</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>商务邮箱：</label>
+                                            <div class="col-sm-2">
+                                                <input type="text"  class="form-control"  name="businessEmail" ng-model="baseInfo.businessEmail" required />
+                                                <div class="req_mesg" ng-show="horizontal.businessEmail.$dirty && horizontal.businessEmail.$invalid">
+                                                    <span ng-show="horizontal.businessEmail.$error.required">商务邮箱不能为空</span>
+                                                </div>
+                                            </div>
+                                            <label class="col-sm-2 control-label"><input type="checkbox" ng-model='baseInfo.isSupportPay'  ng-true-value="'1'" ng-false-value="'0'"/>
+                                                <span class=""><i class="red_req">*</i>是否支持支付</span></lable>
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>平台UI风格：</label>
+                                            <div class="col-sm-2">
+                                                <select class="form-control" ng-model="baseInfo.uiStatus" ng-options="x.value as x.text for x in uiStatusList">
+                                                </select>
+                                            </div>
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>首页样式：</label>
+                                            <div class="col-sm-2">
+                                                <select class="form-control" ng-model="baseInfo.indexStyle" ng-options="x.value as x.text for x in indexStyleList">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">备注：</label>
+                                            <div class="col-sm-6">
+                                                <textarea rows="6" class="form-control" ng-model="baseInfo.remark"></textarea>
+                                            </div>
+                                        </div>
+
+                                        <!--<div ng-show="threeModel">-->
+                                        <div class="form-group">
+                                            <div class="col-sm-6">
+                                                备注：除超级银行家，其它组织没有优秀导师和银行家大学模块
+                                            </div>
+                                        </div>
+                                        <div class="ibox-title">
+                                            <h5>优秀导师模块</h5>
+                                        </div>
+                                        <div class="form-group">
+                                            <table style="margin-left:40px;">
+                                                <tr ng-repeat="tutorModel in tutorModelList" style="width:1143px;">
+                                                    <label class="col-sm-2 control-label">活动图片：</label>
+                                                    <td><div class="col-sm-4" style="width: 110px;display: inline-block;margin-bottom: 13px;">上传图片:</div></td>
+                                                    <td>
+                                                        <div class="col-sm-4">
+                                                            <input type="file" nv-file-select="" uploader="tutorModel.uploaderTutor" ng-model="tutorModel.modulesImages"  multiple  />
+                                                            <table class="table" class="col-sm-4">
+                                                                <tbody>
+                                                                <tr ng-repeat="item in tutorModel.uploaderTutor.queue">
+                                                                    <td>
+                                                                        <strong style="word-break: break-all;">{{ item.file.name }}</strong>
+                                                                        <div ng-show="tutorModel.uploaderTutor.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                                                                    </td>
+                                                                    <td ng-show="tutorModel.uploaderTutor.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                                                                    <td ng-show="tutorModel.uploaderTutor.isHTML5">
+                                                                        <div class="progress" style="margin-bottom: 0;">
+                                                                            <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td class="text-center">
+                                                                        <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                                                        <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                                                        <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                                                                    </td>
+                                                                    <td nowrap>
+                                                                        <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                                                            <span class="glyphicon glyphicon-trash"></span> 删除
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </td>
+
+                                                    <td><div class="col-sm-2 control-label" style="width: 100px;display: inline-block;margin-bottom: 14px;">对应链接：</div></td>
+                                                    <td><div class="col-sm-2"><input style="width: 280px; float: left; margin-right: 5px;" class="form-control" ng-model="tutorModel.modulesMatchUrl" /></div></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+
+                                        <div class="ibox-title">
+                                            <h5>银行家大学模块</h5>
+                                        </div>
+                                        <div class="form-group">
+                                            <table style="margin-left:40px;">
+                                                <tr ng-repeat="bankModel in bankModelList" style="width:1143px;">
+                                                    <label class="col-sm-2 control-label">活动图片：</label>
+                                                    <td><div class="col-sm-4" style="width: 110px;display: inline-block;margin-bottom: 13px;">上传图片:</div></td>
+                                                    <td>
+                                                        <div class="col-sm-4">
+                                                            <input type="file" nv-file-select="" uploader="bankModel.uploaderBank" ng-model="bankModel.modulesImages"  multiple  />
+                                                            <table class="table" class="col-sm-4">
+                                                                <tbody>
+                                                                <tr ng-repeat="item in bankModel.uploaderBank.queue">
+                                                                    <td>
+                                                                        <strong style="word-break: break-all;">{{ item.file.name }}</strong>
+                                                                        <div ng-show="bankModel.uploaderBank.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                                                                    </td>
+                                                                    <td ng-show="bankModel.uploaderBank.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                                                                    <td ng-show="bankModel.uploaderBank.isHTML5">
+                                                                        <div class="progress" style="margin-bottom: 0;">
+                                                                            <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td class="text-center">
+                                                                        <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                                                        <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                                                        <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                                                                    </td>
+                                                                    <td nowrap>
+                                                                        <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                                                            <span class="glyphicon glyphicon-trash"></span> 删除
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </td>
+
+                                                    <td><div class="col-sm-2 control-label" style="width: 100px;display: inline-block;margin-bottom: 14px;">对应链接：</div></td>
+                                                    <td><div class="col-sm-2"><input style="width: 280px; float: left; margin-right: 5px;" class="form-control" ng-model="bankModel.modulesMatchUrl" /></div></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+
+                                     <!--</div>-->
+
+                                        <div class="ibox-title">
+
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>首页LOGO：</label>
+                                            <div class="col-sm-4">
+                                                <input type="file" nv-file-select="" uploader="uploaderImg"   multiple  />
+                                                <table class="table" class="col-sm-4">
+                                                    <tbody>
+                                                    <tr ng-repeat="item in uploaderImg.queue">
+                                                        <td>
+                                                            <strong style="word-break: break-all;">{{ item.file.name }}</strong>
+                                                            <div ng-show="uploaderImg.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                                                        </td>
+                                                        <td ng-show="uploaderImg.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                                                        <td ng-show="uploaderImg.isHTML5">
+                                                            <div class="progress" style="margin-bottom: 0;">
+                                                                <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                                            <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                                            <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                                                        </td>
+                                                        <td nowrap>
+                                                            <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                                                <span class="glyphicon glyphicon-trash"></span> 删除
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                                <div>
+                                                    注：建议首页LOGO尺寸为 314*80
+                                                </div>
+                                            </div>
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>授权单位印章：</label>
+                                            <div class="col-sm-4">
+                                                <input type="file" nv-file-select="" uploader="uploaderSeal"   multiple  />
+                                                <table class="table" class="col-sm-4">
+                                                    <tbody>
+                                                    <tr ng-repeat="item in uploaderSeal.queue">
+                                                        <td>
+                                                            <strong style="word-break: break-all;">{{ item.file.name }}</strong>
+                                                            <div ng-show="uploaderSeal.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                                                        </td>
+                                                        <td ng-show="uploaderSeal.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                                                        <td ng-show="uploaderSeal.isHTML5">
+                                                            <div class="progress" style="margin-bottom: 0;">
+                                                                <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                                            <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                                            <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                                                        </td>
+                                                        <td nowrap>
+                                                            <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                                                <span class="glyphicon glyphicon-trash"></span> 删除
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                                <div>
+                                                    注：建议印章尺寸为 140*140
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+					                        <label class="col-sm-2 control-label"><i class="red_req">*</i>首页背景：</label>
+					                        <div class="col-sm-4">
+					                            <input type="file" nv-file-select="" uploader="uploaderHomeBackground"   multiple  />
+					                            <table class="table" class="col-sm-4">
+					                                <tbody>
+					                                <tr ng-repeat="item in uploaderHomeBackground.queue">
+					                                    <td>
+					                                        <strong style="word-break: break-all;">{{ item.file.name }}</strong>
+					                                        <div ng-show="uploaderHomeBackground.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+					                                    </td>
+					                                    <td ng-show="uploaderHomeBackground.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+					                                    <td ng-show="uploaderHomeBackground.isHTML5">
+					                                        <div class="progress" style="margin-bottom: 0;">
+					                                            <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+					                                        </div>
+					                                    </td>
+					                                    <td class="text-center">
+					                                        <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+					                                        <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+					                                        <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+					                                    </td>
+					                                    <td nowrap>
+					                                        <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+					                                            <span class="glyphicon glyphicon-trash"></span> 删除
+					                                        </button>
+					                                    </td>
+					                                </tr>
+					                                </tbody>
+					                            </table>
+					                            <div>
+					                                注：建议首页背景尺寸为 750*420
+					                            </div>
+					                        </div>
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>启动页：</label>
+                                            <div class="col-sm-4">
+                                                <input type="file" nv-file-select="" uploader="uploaderStartPage"   multiple  />
+                                                <table class="table" class="col-sm-4">
+                                                    <tbody>
+                                                    <tr ng-repeat="item in uploaderStartPage.queue">
+                                                        <td>
+                                                            <strong style="word-break: break-all;">{{ item.file.name }}</strong>
+                                                            <div ng-show="uploaderStartPage.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                                                        </td>
+                                                        <td ng-show="uploaderStartPage.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                                                        <td ng-show="uploaderStartPage.isHTML5">
+                                                            <div class="progress" style="margin-bottom: 0;">
+                                                                <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                                            <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                                            <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                                                        </td>
+                                                        <td nowrap>
+                                                            <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                                                <span class="glyphicon glyphicon-trash"></span> 删除
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                                <div>
+                                                    注：建议启动页尺寸为 750*1334
+                                                </div>
+                                            </div>
+					                    </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>会员中心LOGO：</label>
+                                            <div class="col-sm-4">
+                                                <input type="file" nv-file-select="" uploader="uploaderMemeberLogo"   multiple  />
+                                                <table class="table" class="col-sm-4">
+                                                    <tbody>
+                                                    <tr ng-repeat="item in uploaderMemeberLogo.queue">
+                                                        <td>
+                                                            <strong style="word-break: break-all;">{{ item.file.name }}</strong>
+                                                            <div ng-show="uploaderMemeberLogo.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                                                        </td>
+                                                        <td ng-show="uploaderMemeberLogo.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                                                        <td ng-show="uploaderMemeberLogo.isHTML5">
+                                                            <div class="progress" style="margin-bottom: 0;">
+                                                                <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                                            <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                                            <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                                                        </td>
+                                                        <td nowrap>
+                                                            <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                                                <span class="glyphicon glyphicon-trash"></span> 删除
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                                <div>
+                                                    注：建议会员中心LOGO尺寸为 158*42
+                                                </div>
+                                            </div>
+                                            <label class="col-sm-2 control-label">APP下载二维码图片：</label>
+                                            <div class="col-sm-4">
+                                                <input type="file" nv-file-select="" uploader="uploaderAPPQR"   multiple  />
+                                                <table class="table" class="col-sm-4">
+                                                    <tbody>
+                                                    <tr ng-repeat="item in uploaderAPPQR.queue">
+                                                        <td>
+                                                            <strong style="word-break: break-all;">{{ item.file.name }}</strong>
+                                                            <div ng-show="uploaderAPPQR.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                                                        </td>
+                                                        <td ng-show="uploaderAPPQR.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                                                        <td ng-show="uploaderAPPQR.isHTML5">
+                                                            <div class="progress" style="margin-bottom: 0;">
+                                                                <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                                            <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                                            <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                                                        </td>
+                                                        <td nowrap>
+                                                            <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                                                <span class="glyphicon glyphicon-trash"></span> 删除
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                                <div>
+                                                    注：建议APP下载二维码图片尺寸为 750*1334
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>APP LOGO：</label>
+                                            <div class="col-sm-4">
+                                                <input type="file" nv-file-select="" uploader="uploaderAppLogo"   multiple  />
+                                                <table class="table" class="col-sm-3">
+                                                    <tbody>
+                                                    <tr ng-repeat="item in uploaderAppLogo.queue">
+                                                        <td>
+                                                            <strong style="word-break: break-all;">{{ item.file.name }}</strong>
+                                                            <div ng-show="uploaderAppLogo.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                                                        </td>
+                                                        <td ng-show="uploaderAppLogo.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                                                        <td ng-show="uploaderAppLogo.isHTML5">
+                                                            <div class="progress" style="margin-bottom: 0;">
+                                                                <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                                            <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                                            <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                                                        </td>
+                                                        <td nowrap>
+                                                            <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                                                <span class="glyphicon glyphicon-trash"></span> 删除
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                                <div>注：建议APP LOGO尺寸为 424*110</div>
+                                            </div>
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>公众号二维码：</label>
+                                            <div class="col-sm-4">
+                                                <input type="file" nv-file-select="" uploader="uploaderQr"   multiple  />
+                                                <table class="table" class="col-sm-4">
+                                                    <tbody>
+                                                    <tr ng-repeat="item in uploaderQr.queue">
+                                                        <td>
+                                                            <strong style="word-break: break-all;">{{ item.file.name }}</strong>
+                                                            <div ng-show="uploaderQr.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                                                        </td>
+                                                        <td ng-show="uploaderQr.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                                                        <td ng-show="uploaderQr.isHTML5">
+                                                            <div class="progress" style="margin-bottom: 0;">
+                                                                <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                                            <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                                            <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                                                        </td>
+                                                        <td nowrap>
+                                                            <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                                                <span class="glyphicon glyphicon-trash"></span> 删除
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                                <div>注：建议公众号二维码图片尺寸为 400*400</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>分享消息LOGO：</label>
+                                            <div class="col-sm-4">
+                                                <input type="file" nv-file-select="" uploader="uploaderShareMessage"   multiple  />
+                                                <table class="table" class="col-sm-4">
+                                                    <tbody>
+                                                    <tr ng-repeat="item in uploaderShareMessage.queue">
+                                                        <td>
+                                                            <strong style="word-break: break-all;">{{ item.file.name }}</strong>
+                                                            <div ng-show="uploaderShareMessage.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                                                        </td>
+                                                        <td ng-show="uploaderShareMessage.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                                                        <td ng-show="uploaderShareMessage.isHTML5">
+                                                            <div class="progress" style="margin-bottom: 0;">
+                                                                <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                                            <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                                            <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                                                        </td>
+                                                        <td nowrap>
+                                                            <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                                                <span class="glyphicon glyphicon-trash"></span> 删除
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                                <div>注：建议分享消息LOGO尺寸为 300*300</div>
+                                            </div>
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>分享模板图片1：</label>
+                                            <div class="col-sm-4">
+                                                <input type="file" nv-file-select="" uploader="uploaderShare1"   multiple  />
+                                                <table class="table" class="col-sm-4">
+                                                    <tbody>
+                                                    <tr ng-repeat="item in uploaderShare1.queue">
+                                                        <td>
+                                                            <strong style="word-break: break-all;">{{ item.file.name }}</strong>
+                                                            <div ng-show="uploaderShare1.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                                                        </td>
+                                                        <td ng-show="uploaderShare1.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                                                        <td ng-show="uploaderShare1.isHTML5">
+                                                            <div class="progress" style="margin-bottom: 0;">
+                                                                <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                                            <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                                            <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                                                        </td>
+                                                        <td nowrap>
+                                                            <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                                                <span class="glyphicon glyphicon-trash"></span> 删除
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                                <div>注：建议分享模板尺寸为 750*1334</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">分享模板图片2：</label>
+                                            <div class="col-sm-4">
+                                                <input type="file" nv-file-select="" uploader="uploaderShare2"   multiple  />
+                                                <table class="table" class="col-sm-4">
+                                                    <tbody>
+                                                    <tr ng-repeat="item in uploaderShare2.queue">
+                                                        <td>
+                                                            <strong style="word-break: break-all;">{{ item.file.name }}</strong>
+                                                            <div ng-show="uploaderShare2.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                                                        </td>
+                                                        <td ng-show="uploaderShare2.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                                                        <td ng-show="uploaderShare2.isHTML5">
+                                                            <div class="progress" style="margin-bottom: 0;">
+                                                                <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                                            <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                                            <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                                                        </td>
+                                                        <td nowrap>
+                                                            <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                                                <span class="glyphicon glyphicon-trash"></span> 删除
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                                <div>注：建议分享模板尺寸为 750*1334</div>
+                                            </div>
+                                            <label class="col-sm-2 control-label">分享模板图片3：</label>
+                                            <div class="col-sm-4">
+                                                <input type="file" nv-file-select="" uploader="uploaderShare3"   multiple  />
+                                                <table class="table" class="col-sm-4">
+                                                    <tbody>
+                                                    <tr ng-repeat="item in uploaderShare3.queue">
+                                                        <td>
+                                                            <strong style="word-break: break-all;">{{ item.file.name }}</strong>
+                                                            <div ng-show="uploaderShare3.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                                                        </td>
+                                                        <td ng-show="uploaderShare3.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                                                        <td ng-show="uploaderShare3.isHTML5">
+                                                            <div class="progress" style="margin-bottom: 0;">
+                                                                <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                                            <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                                            <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                                                        </td>
+                                                        <td nowrap>
+                                                            <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                                                <span class="glyphicon glyphicon-trash"></span> 删除
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                                <div>注：建议分享模板尺寸为 750*1334</div>
+                                            </div>
+                                        </div>
+                                        <div class="ibox-title">
+                                            <h5>费率信息</h5>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>代理售价：</label>
+                                            <div class="col-sm-2">
+                                                <input type="text"  style="width: 85%; float: left; margin-right: 5px;" class="form-control"  name="agentPrice" ng-model="baseInfo.agentPrice" required />
+                                                <span class="lh30">元</span>
+                                                <div class="req_mesg" ng-show="horizontal.agentPrice.$dirty && horizontal.agentPrice.$invalid">
+                                                    <span ng-show="horizontal.agentPrice.$error.required">代理价格不能为空</span>
+                                                </div>
+                                            </div>
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>品牌代理成本（公司收入）：</label>
+                                            <div class="col-sm-2">
+                                                <input type="text"  style="width: 85%; float: left; margin-right: 5px;" class="form-control"  name="agentCost" ng-model="baseInfo.agentCost" required />
+                                                <span class="lh30">元</span>
+                                                <div class="req_mesg" ng-show="horizontal.agentCost.$dirty && horizontal.agentCost.$invalid">
+                                                    <span ng-show="horizontal.agentCost.$error.required">品牌代理成本（公司收入）不能为空</span>
+                                                </div>
+                                            </div>
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>品牌代理发放总奖金：</label>
+                                            <div class="col-sm-2">
+                                                <input type="text"  style="width: 85%; float: left; margin-right: 5px;" class="form-control"  name="agentPushCost" ng-model="baseInfo.agentPushCost" required />
+                                                <span class="lh30">元</span>
+                                                <div class="req_mesg" ng-show="horizontal.agentPushCost.$dirty && horizontal.agentPushCost.$invalid">
+                                                    <span ng-show="horizontal.agentPushCost.$error.required">品牌代理发放总奖金不能为空</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>超级还激活售价：</label>
+                                            <div class="col-sm-2">
+                                                <input type="text"  style="width: 85%; float: left; margin-right: 5px;" class="form-control"  name="openRepayPrice" ng-model="baseInfo.openRepayPrice" required />
+                                                <span class="lh30">元</span>
+                                                <div class="req_mesg" ng-show="horizontal.openRepayPrice.$dirty && horizontal.openRepayPrice.$invalid">
+                                                    <span ng-show="horizontal.openRepayPrice.$error.required">超级还激活售价不能为空</span>
+                                                </div>
+                                            </div>
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>品牌超级还激活成本（公司收入）：</label>
+                                            <div class="col-sm-2">
+                                                <input type="text"  style="width: 85%; float: left; margin-right: 5px;" class="form-control"  name="agentCost" ng-model="baseInfo.openRepayCost" required />
+                                                <span class="lh30">元</span>
+                                                <div class="req_mesg" ng-show="horizontal.openRepayCost.$dirty && horizontal.openRepayCost.$invalid">
+                                                    <span ng-show="horizontal.openRepayCost.$error.required">品牌超级还激活成本（公司收入）不能为空</span>
+                                                </div>
+                                            </div>
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>品牌超级还激活发放总奖金：</label>
+                                            <div class="col-sm-2">
+                                                <input type="text"  style="width: 85%; float: left; margin-right: 5px;" class="form-control"  name="agentPushCost" ng-model="baseInfo.openRepayPushCost" required />
+                                                <span class="lh30">元</span>
+                                                <div class="req_mesg" ng-show="horizontal.openRepayPushCost.$dirty && horizontal.openRepayPushCost.$invalid">
+                                                    <span ng-show="horizontal.openRepayPushCost.$error.required">品牌超级还激活发放总奖金不能为空</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--<div class="form-group">
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>品牌收款微信成本：</label>
+                                            <div class="col-sm-2">
+                                                <input type="text"  class="form-control"  name="receiveWxCost" ng-model="baseInfo.receiveWxCost" required />
+                                                <div class="req_mesg" ng-show="horizontal.receiveWxCost.$dirty && horizontal.receiveWxCost.$invalid">
+                                                    <span ng-show="horizontal.receiveWxCost.$error.required">品牌收款微信成本不能为空</span>
+                                                </div>
+                                            </div>
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>品牌收款支付宝成本：</label>
+                                            <div class="col-sm-2">
+                                                <input type="text"  class="form-control"  name="receiveZfbCost" ng-model="baseInfo.receiveZfbCost" required />
+                                                <div class="req_mesg" ng-show="horizontal.receiveZfbCost.$dirty && horizontal.receiveZfbCost.$invalid">
+                                                    <span ng-show="horizontal.receiveZfbCost.$error.required">品牌收款支付宝成本不能为空</span>
+                                                </div>
+                                            </div>
+                                        </div>-->
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>品牌快捷收款成本扣率：</label>
+                                            <div class="col-sm-2">
+                                                <input type="text"  style="width: 85%; float: left; margin-right: 5px;" class="form-control"  name="receiveKjCost" ng-model="baseInfo.receiveKjCost" required />
+                                                <span class="lh30">%</span>
+                                                <div class="req_mesg" ng-show="horizontal.receiveKjCost.$dirty && horizontal.receiveKjCost.$invalid">
+                                                    <span ng-show="horizontal.receiveKjCost.$error.required">品牌快捷收款成本扣率不能为空</span>
+                                                </div>
+                                            </div>
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>品牌快捷收款发放奖金扣率：</label>
+                                            <div class="col-sm-2">
+                                                <input type="text" style="width: 85%; float: left; margin-right: 5px;" class="form-control"  name="receivePushCost" ng-model="baseInfo.receivePushCost" required />
+                                                <span class="lh30">%</span>
+                                                <div class="req_mesg" ng-show="horizontal.receivePushCost.$dirty && horizontal.receivePushCost.$invalid">
+                                                    <span ng-show="horizontal.receivePushCost.$error.required">品牌快捷收款发放奖金扣率不能为空</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>品牌超级还(分期计划)成本扣率：</label>
+                                            <div class="col-sm-2">
+                                                <input type="text" style="width: 85%; float: left; margin-right: 5px;" class="form-control"  name="repaymentCost" ng-model="baseInfo.repaymentCost" required>
+                                                <span class="lh30">%</span>
+                                                <div class="req_mesg" ng-show="horizontal.repaymentCost.$dirty && horizontal.repaymentCost.$invalid">
+                                                    <span ng-show="horizontal.repaymentCost.$error.required">品牌超级还(分期计划)成本扣率不能为空</span>
+                                                </div>
+                                            </div>
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>品牌超级还(分期计划)发放奖金扣率：</label>
+                                            <div class="col-sm-2">
+                                                <input type="text" style="width: 85%; float: left; margin-right: 5px;" class="form-control"  name="repaymentPushCost" ng-model="baseInfo.repaymentPushCost" required />
+                                                <span class="lh30">%</span>
+                                                <div class="req_mesg" ng-show="horizontal.repaymentPushCost.$dirty && horizontal.repaymentPushCost.$invalid">
+                                                    <span ng-show="horizontal.repaymentPushCost.$error.required">品牌超级还(分期计划)发放奖金扣率不能为空</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>超级还(分期计划)商户交易费率：</label>
+                                            <div class="col-sm-2">
+                                                <input style="width: 85%; float: left; margin-right: 5px;" type="number"  class="form-control"  name="tradeFeeRate" ng-model="baseInfo.tradeFeeRate" required /><span class="lh30">%</span>
+                                                <div class="req_mesg" ng-show="horizontal.tradeFeeRate.$dirty && horizontal.tradeFeeRate.$invalid">
+                                                    <span ng-show="horizontal.tradeFeeRate.$error.required">超级还(分期计划)商户交易费率不能为空</span>
+                                                </div>
+                                            </div>
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>超级还(分期计划)商户交易单笔手续费：</label>
+                                            <div class="col-sm-2">
+                                                <input type="number" style="width: 85%; float: left; margin-right: 5px;" class="form-control"  name="tradeSingleFee" ng-model="baseInfo.tradeSingleFee" required /><span class="lh30">元</span>
+                                                <div class="req_mesg" ng-show="horizontal.tradeSingleFee.$dirty && horizontal.tradeSingleFee.$invalid">
+                                                    <span ng-show="horizontal.tradeSingleFee.$error.required">超级还(分期计划)商户交易单笔手续费不能为空</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>品牌超级还(完美计划)成本扣率：</label>
+                                            <div class="col-sm-2">
+                                                <input type="text" style="width: 85%; float: left; margin-right: 5px;" class="form-control"  name="repaymentCostWmjh" ng-model="baseInfo.repaymentCostWmjh" required>
+                                                <span class="lh30">%</span>
+                                                <div class="req_mesg" ng-show="horizontal.repaymentCostWmjh.$dirty && horizontal.repaymentCostWmjh.$invalid">
+                                                    <span ng-show="horizontal.repaymentCostWmjh.$error.required">品牌超级还(完美计划)成本扣率不能为空</span>
+                                                </div>
+                                            </div>
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>品牌超级还(完美计划)发放奖金扣率：</label>
+                                            <div class="col-sm-2">
+                                                <input type="text" style="width: 85%; float: left; margin-right: 5px;" class="form-control"  name="repaymentPushCostWmjh" ng-model="baseInfo.repaymentPushCostWmjh" required />
+                                                <span class="lh30">%</span>
+                                                <div class="req_mesg" ng-show="horizontal.repaymentPushCostWmjh.$dirty && horizontal.repaymentPushCostWmjh.$invalid">
+                                                    <span ng-show="horizontal.repaymentPushCostWmjh.$error.required">品牌超级还(完美计划)发放奖金扣率不能为空</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>超级还商户(完美计划)交易费率：</label>
+                                            <div class="col-sm-2">
+                                                <input style="width: 85%; float: left; margin-right: 5px;" type="number"  class="form-control"  name="tradeFeeRateWmjh" ng-model="baseInfo.tradeFeeRateWmjh" required /><span class="lh30">%</span>
+                                                <div class="req_mesg" ng-show="horizontal.tradeFeeRateWmjh.$dirty && horizontal.tradeFeeRateWmjh.$invalid">
+                                                    <span ng-show="horizontal.tradeFeeRateWmjh.$error.required">超级还商户(完美计划)交易费率不能为空</span>
+                                                </div>
+                                            </div>
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>超级还商户(完美计划)交易单笔手续费：</label>
+                                            <div class="col-sm-2">
+                                                <input type="number" style="width: 85%; float: left; margin-right: 5px;" class="form-control"  name="tradeSingleFeeWmjh" ng-model="baseInfo.tradeSingleFeeWmjh" required /><span class="lh30">元</span>
+                                                <div class="req_mesg" ng-show="horizontal.tradeSingleFeeWmjh.$dirty && horizontal.tradeSingleFeeWmjh.$invalid">
+                                                    <span ng-show="horizontal.tradeSingleFeeWmjh.$error.required">超级还商户(完美计划)交易单笔手续费不能为空</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>超级还商户提现手续费：</label>
+                                            <div class="col-sm-2">
+                                                <input type="number" style="width: 85%; float: left; margin-right: 5px;" class="form-control"  name="withdrawFeeRate" ng-model="baseInfo.withdrawFeeRate" required /><span class="lh30">%</span>
+                                                <div class="req_mesg" ng-show="horizontal.withdrawFeeRate.$dirty && horizontal.withdrawFeeRate.$invalid">
+                                                    <span ng-show="horizontal.withdrawFeeRate.$error.required">超级还商户提现手续费不能为空</span>
+                                                </div>
+                                            </div>
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>超级还商户提现单笔手续费：</label>
+                                            <div class="col-sm-2">
+                                                <input type="number"  style="width: 85%; float: left; margin-right: 5px;" class="form-control"  name="withdrawSingleFee" ng-model="baseInfo.withdrawSingleFee" required /><span class="lh30">元</span>
+                                                <div class="req_mesg" ng-show="horizontal.withdrawSingleFee.$dirty && horizontal.withdrawSingleFee.$invalid">
+                                                    <span ng-show="horizontal.withdrawSingleFee.$error.required">超级还商户提现单笔手续费不能为空</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--<div class="ibox-title">
+                                            <h5>代理升级方案</h5>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>升级经理需要发展代理数：</label>
+                                            <div class="col-sm-2">
+                                                <input type="number" style="width: 85%; float: left; margin-right: 5px;" class="form-control"  name="upManagerNum" ng-model="baseInfo.upManagerNum" required />
+                                                <span class="lh30">个</span>
+                                                <div class="req_mesg" ng-show="horizontal.upManagerNum.$dirty && horizontal.upManagerNum.$invalid">
+                                                    <span ng-show="horizontal.upManagerNum.$error.required">升级经理需要发展代理数不能为空</span>
+                                                </div>
+                                            </div>
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>升级经理需要办卡数：</label>
+                                            <div class="col-sm-2">
+                                                <input type="number" style="width: 85%; float: left; margin-right: 5px;" class="form-control"  name="upManagerCardnum" ng-model="baseInfo.upManagerCardnum" required />
+                                                <span class="lh30">个</span>
+                                                <div class="req_mesg" ng-show="horizontal.upManagerCardnum.$dirty && horizontal.upManagerCardnum.$invalid">
+                                                    <span ng-show="horizontal.upManagerCardnum.$error.required">升级经理需要办卡数不能为空</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>升级银行家需要发展代理数：</label>
+                                            <div class="col-sm-2">
+                                                <input type="number" style="width: 85%; float: left; margin-right: 5px;" class="form-control"  name="upBankerNum" ng-model="baseInfo.upBankerNum" required />
+                                                <span class="lh30">个</span>
+                                                <div class="req_mesg" ng-show="horizontal.upBankerNum.$dirty && horizontal.upBankerNum.$invalid">
+                                                    <span ng-show="horizontal.upBankerNum.$error.required">升级银行家需要发展代理数不能为空</span>
+                                                </div>
+                                            </div>
+                                            <label class="col-sm-2 control-label"><i class="red_req">*</i>升级银行家需要办卡数：</label>
+                                            <div class="col-sm-2">
+                                                <input type="number" style="width: 85%; float: left; margin-right: 5px;" class="form-control"  name="upBankerCardnum" ng-model="baseInfo.upBankerCardnum" required />
+                                                <span class="lh30">个</span>
+                                                <div class="req_mesg" ng-show="horizontal.upBankerCardnum.$dirty && horizontal.upBankerCardnum.$invalid">
+                                                    <span ng-show="horizontal.upBankerCardnum.$error.required">升级银行家需要办卡数不能为空</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="ibox-title">
+                                            <h5>代理退费方案</h5>
+                                        </div>
+                                        <div class="form-group">
+                                            <div  class="col-sm-12" style="padding-left:60px;">
+                                                以下条件满足任意一条：
+                                            </div>
+                                            <div  class="col-sm-12" style="padding:20px 0 0px 50px;">
+                                                <i class="red_req">*</i>1.当月 <input type="text" style="width: 50px;" name="dayStart"  ng-model="baseInfo.dayStart" required>
+                                                一 <input type="text" style="width: 50px;"  name="dayEnd" ng-model="baseInfo.dayEnd" required> 号
+                                                直推办理 <input type="text" style="width: 50px;"  name="monthCardNum" ng-model="baseInfo.monthCardNum" required/> 张信用卡。
+                                            </div>
+                                            <div class="req_mesg" ng-show="horizontal.dayStart.$dirty && horizontal.dayStart.$invalid">
+                                                <span ng-show="horizontal.dayStart.$error.required">起始日期不能为空</span>
+                                            </div>
+                                            <div class="req_mesg" ng-show="horizontal.dayEnd.$dirty && horizontal.dayEnd.$invalid">
+                                                <span ng-show="horizontal.dayEnd.$error.required">结束日期不能为空</span>
+                                            </div>
+                                            <div class="req_mesg" ng-show="horizontal.monthCardNum.$dirty && horizontal.monthCardNum.$invalid">
+                                                <span ng-show="horizontal.monthCardNum.$error.required">信用卡张数不能为空</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-12" style="padding:20px 0 20px 50px;">
+                                                <i class="red_req">*</i>2.当年累计直推办理 <input type="text" style="width: 50px;" name="yearCardNum" ng-model="baseInfo.yearCardNum" required>
+                                                张信用卡。
+                                            </div>
+                                            <div class="req_mesg" ng-show="horizontal.yearCardNum.$dirty && horizontal.yearCardNum.$invalid">
+                                                <span ng-show="horizontal.yearCardNum.$error.required">信用卡张数不能为空</span>
+                                            </div>
+                                        </div>-->
+                                       <!-- <div class="ibox-title">
+                                            <h5>全民拆红包方案</h5>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-12" style="padding:20px 0 0px 50px;">
+                                                用户成功办理信用卡、贷款等业务，红包随机金额：
+                                                <input type="text" style="width: 50px;" name="redMoneyMin" ng-model="baseInfo.redMoneyMin" required> 元
+                                                一 <input type="text" style="width: 50px;" name="redMoneyMax" ng-model="baseInfo.redMoneyMax" required> 元。
+                                            </div>
+                                            <div class="req_mesg" ng-show="horizontal.redMoneyMin.$dirty && horizontal.redMoneyMin.$invalid">
+                                                <span ng-show="horizontal.redMoneyMin.$error.required">最小金额不能为空</span>
+                                            </div>
+                                            <div class="req_mesg" ng-show="horizontal.redMoneyMax.$dirty && horizontal.redMoneyMax.$invalid">
+                                                <span ng-show="horizontal.redMoneyMax.$error.required">最大金额不能为空</span>
+                                            </div>
+                                        </div>-->
+                                       <!-- <div class="ibox-title">
+                                            <h5>分润账户留存金额</h5>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-12" style="padding:20px 0 20px 50px;">
+                                                由于用户红包奖励，给达标的代理退费，都要扣除OEM相应的分润账户，因此要求分润账户超过
+                                                <input type="text" style="width: 100px;" name="withdrawMoneyMin" ng-model="baseInfo.withdrawMoneyMin" required>
+                                                元的部分才能提现。
+                                            </div>
+                                            <div class="req_mesg" ng-show="horizontal.withdrawMoneyMin.$dirty && horizontal.withdrawMoneyMin.$invalid">
+                                                <span ng-show="horizontal.withdrawMoneyMin.$error.required">最小提现金额不能为空</span>
+                                            </div>
+                                        </div>-->
+                                    </div>
+                                </div>
+                        </uib-tab>
+                        <uib-tab>
+                            <uib-tab-heading>
+									<span class="block m-t-xs">
+										<i class="fa fa-desktop"></i>
+										<strong class="font-bold">外放功能</strong>
+									</span>
+                            </uib-tab-heading>
+                            <div class="ibox-content">
+                                 <div class="ibox-title">
+                                    <h5>开通服务</h5>
+                                </div>
+                                <div class="panel-body ibox float-e-margins">
+                                    <div class="form-group">
+                                            <label class="col-lg-2 control-label"><i class="red_req">*</i>是否是外放组织：</label>
+                                            <div class="col-lg-7">
+                                                <label style="margin-right: 20px; margin-top: 6px">
+                                                <input type="radio" value="0" name="isOpen" ng-model="baseInfo.isOpen" />否</label>
+                                                <label style="margin-top: 6px">
+                                                <input type="radio" value="1"name="isOpen" ng-model="baseInfo.isOpen" />是</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group " ng-show="baseInfo.isOpen==1">
+                                            <div class="form-group  col-sm-12">
+                                                <div  class="col-lg-10" style="padding: 0" ng-repeat="org in openFunctionConfList">
+                                                    <label style="padding: 5px 200px 0;"><input type="checkbox" ng-true-value="1" ng-false-value="0"  ng-checked="org.isEnable" ng-model="org.isEnable" name="functionName" />{{org.functionName}}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group " ng-show="baseInfo.isOpen==1">
+                                            <label class="col-lg-2 control-label"><i class="red_req">*</i>订单结果通知地址：</label>
+                                            <div class="col-lg-7">
+                                                <input  type="text" class="form-control" name="batchOrderNotifyUrl"
+                                                    ng-model="baseInfo.batchOrderNotifyUrl" ng-required ="baseInfo.isOpen==1"/>
+                                            </div>
+                                            <div class="req_mesg" ng-show="horizontal.batchOrderNotifyUrl.$dirty && horizontal.batchOrderNotifyUrl.$invalid">
+                           				 		<span ng-show="horizontal.batchOrderNotifyUrl.$error.required">订单结果通知地址不能为空</span>
+                              				</div>
+                                        </div>
+                                          <div class="form-group " ng-show="baseInfo.isOpen==1">
+                                            <label class="col-lg-2 control-label"><i class="red_req">*</i>用户信息查询地址：</label>
+                                            <div class="col-lg-7">
+                                                <input  type="text" class="form-control" name="getUserinfoUrl "
+                                                    ng-model="baseInfo.getUserinfoUrl" ng-required ="baseInfo.isOpen==1"/>
+                                            </div>
+                                            <div class="req_mesg" ng-show="horizontal.getUserinfoUrl.$dirty && horizontal.getUserinfoUrl.$invalid">
+                           				 		<span ng-show="horizontal.getUserinfoUrl.$error.required">用户信息查询地址不能为空</span>
+                              				</div>
+                                        </div>
+                                        <div class="form-group " ng-show="baseInfo.isOpen==1">
+                                            <label class="col-lg-2 control-label">app首页地址（公众号无需填写）：</label>
+                                            <div class="col-lg-7">
+                                                <input type="text" class="form-control" name="openAppUrl"
+                                                    ng-model="baseInfo.openAppUrl" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group " ng-show="baseInfo.isOpen==1">
+                                            <label class="col-lg-2 control-label">应用名称：</label>
+                                            <div class="col-lg-7">
+                                                <input type="text" class="form-control" name="openAppName"
+                                                    ng-model="baseInfo.openAppName"  />
+                                            </div>
+                                        </div>
+                                        <div class="form-group " ng-show="baseInfo.isOpen==1">
+                                            <label class="col-lg-2 control-label">应用简介（非必填）：</label>
+                                            <div class="col-lg-7">
+                                                <textarea rows="6" class="form-control" ng-model="baseInfo.openAppIntro"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group " ng-show="baseInfo.isOpen==1">
+                                              <label class="col-sm-2 control-label"><i class="red_req">*</i>商户应用秘钥：</label>
+                                               <div class="col-lg-7">
+	                                                <input type="text" class="form-control" style="width:40%; display:inline-block"
+														name="openMerchantKey" 
+														ng-model="baseInfo.openMerchantKey" ng-required ="baseInfo.isOpen==1" /> 
+	                                                <input type="button" class="btn btn-new"  ng-click="switchStatus()" value="随机生成" />
+                                                </div>
+		                                            <div class="req_mesg" ng-show="horizontal.openMerchantKey.$dirty && horizontal.openMerchantKey.$invalid">
+		                           				 		<span ng-show="horizontal.openMerchantKey.$error.required">请点击生成商户应用秘钥</span>
+                              				</div>
+                                        </div>
+                                </div>
+                            </div>
+                        </uib-tab>
+                        <!--<uib-tab>
+                            <uib-tab-heading>
+									<span class="block m-t-xs">
+										<i class="fa fa-desktop"></i>
+										<strong class="font-bold">支付配置</strong>
+									</span>
+                            </uib-tab-heading>
+                            <div class="ibox-content">
+                                <div class="ibox-title">
+                                    <h5>支付宝配置</h5>
+                                </div>
+                                <div class="panel-body ibox float-e-margins">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">支付宝支付PID：</label>
+                                        <div class="col-sm-8">
+                                            <input type="text"  class="form-control"  name="aliPId" ng-model="baseInfo.aliPId"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">支付宝支付APPID：</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control"  name="aliAppId" ng-model="baseInfo.aliAppId" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">支付宝私钥：</label>
+                                        <div class="col-sm-8">
+                                            <textarea rows="6" class="form-control" ng-model="baseInfo.aliPrivateKey"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">支付宝公钥：</label>
+                                        <div class="col-sm-8">
+                                            <textarea rows="6" class="form-control" ng-model="baseInfo.aliPublicKey"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </uib-tab>-->
+                        <uib-tab>
+                            <uib-tab-heading>
+                                <span class="block m-t-xs">
+                                    <i class="fa fa-desktop"></i>
+                                    <strong class="font-bold">会员等级规则</strong>
+                                </span>
+                            </uib-tab-heading>
+                            <div class="ibox-content">
+                                <div class="panel-body ibox float-e-margins">
+                                    <div class="form-group">
+                                        <div class="col-sm-8">
+                                            <label style="padding: 5px 15px 0; ">用户是否发放佣金：</label>
+                                            <label style="padding: 5px 15px 0; width: 230px;"><input
+                                                    type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
+                                                    ng-checked="baseInfo.isUserSendprofit" ng-model="baseInfo.isUserSendprofit"
+                                                    name="isUserSendprofit" />是</label>
+                                        </div>
+                                    </div>
+                                    <div class="ibox-title">
+                                        <h5>三级代理别名设置</h5>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-1 control-label"><i class="red_req">*</i>普通会员别名为：</label>
+                                        <div class="col-sm-2">
+                                            <input type="text"  class="form-control"  name="userAlias" ng-model="baseInfo.userAlias" required/>
+                                            <div class="req_mesg" ng-show="horizontal.userAlias.$dirty && horizontal.userAlias.$invalid">
+                                                <span ng-show="horizontal.userAlias.$error.required">普通会员别名不能为空</span>
+                                            </div>
+                                        </div>
+
+                                        <label class="col-sm-1 control-label"><i class="red_req">*</i>专员别名为：</label>
+                                        <div class="col-sm-2">
+                                            <input type="text"  class="form-control"  name="memberAlias" ng-model="baseInfo.memberAlias" required/>
+                                            <div class="req_mesg" ng-show="horizontal.memberAlias.$dirty && horizontal.memberAlias.$invalid">
+                                                <span ng-show="horizontal.memberAlias.$error.required">专员别名不能为空</span>
+                                            </div>
+                                        </div>
+
+                                        <label class="col-sm-1 control-label"><i class="red_req">*</i>经理别名为：</label>
+                                        <div class="col-sm-2">
+                                            <input type="text"  class="form-control"  name="managerAlias" ng-model="baseInfo.managerAlias" required/>
+                                            <div class="req_mesg" ng-show="horizontal.managerAlias.$dirty && horizontal.managerAlias.$invalid">
+                                                <span ng-show="horizontal.managerAlias.$error.required">经理别名不能为空</span>
+                                            </div>
+                                        </div>
+
+                                        <label class="col-sm-1 control-label"><i class="red_req">*</i>银行家别名为：</label>
+                                        <div class="col-sm-2">
+                                            <input type="text"  class="form-control"  name="bankerAlias" ng-model="baseInfo.bankerAlias" required/>
+                                            <div class="req_mesg" ng-show="horizontal.bankerAlias.$dirty && horizontal.bankerAlias.$invalid">
+                                                <span ng-show="horizontal.bankerAlias.$error.required">银行家别名不能为空</span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="ibox-title">
+                                        <h5>代理升级方案</h5>
+                                    </div>
+                                    <div class="form-group" >
+                                        <div class="col-sm-6">
+                                            <div style="padding: 5px 15px 0; ">
+                                                <div class="gridStyle" ui-grid="businessList" ui-grid-resize-columns />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <label style="padding: 5px 15px 0; ">升级专员条件：</label>
+
+                                            <label style="padding: 5px 15px 0;font-weight: 100; "><input
+                                                    type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
+                                                    ng-checked="baseInfo.upMemberNeedpay" ng-model="baseInfo.upMemberNeedpay"
+                                                    name="upMemberNeedpay" />交198元(外放不支持)且</label>
+
+                                            <label style="padding: 5px 15px 0;font-weight: 100;"><input
+                                                    type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
+                                                    ng-checked="baseInfo.upMemberNeedperfect" ng-model="baseInfo.upMemberNeedperfect"
+                                                    name="upMemberNeedperfect" />完善资料且</label>
+
+                                         <!--   <label style="padding: 5px 15px 0;font-weight: 100; "><input
+                                                    type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
+                                                    ng-checked="baseInfo.upMemberNeedcard" ng-model="baseInfo.upMemberNeedcard"
+                                                    name="upMemberNeedcard" />办理业务数</label>
+                                            <input type="text"  class="form-control" style="width: 70px; display: inline-block;height: 30px;" name="upMemberCardnum" ng-model="baseInfo.upMemberCardnum"/>
+
+                                            <label style="padding: 5px 0;font-weight: 100; ">且</label>-->
+
+                                            <label style="padding: 5px 15px 0;font-weight: 100; "><input
+                                                    type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
+                                                    ng-checked="baseInfo.upMemberNeedlock" ng-model="baseInfo.upMemberNeedlock"
+                                                    name="upMemberNeedlock" />锁粉人数(下级完善资料才算)</label>
+
+                                            <input type="text"  class="form-control" style="width: 70px; display: inline-block;height: 30px;"  name="upMemberLocknum" ng-model="baseInfo.upMemberLocknum"/>
+                                            <label style="padding: 0px 20px;">或升级专员条件二：</label>
+                                            <label style="padding: 5px  0;font-weight: 100;">采购mpos机</label>
+                                            <input type="text"  class="form-control" style="width: 70px; display: inline-block;height: 30px;"  name="upMemberMposnum" ng-model="baseInfo.upMemberMposnum"/>
+                                            <label style="padding: 5px  0;font-weight: 100;">台</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <label style="padding: 5px 15px 0; ">升级经理条件：</label>
+                                            <label style="padding: 5px 15px 0;font-weight: 100;">需要发展代理数：</label>
+                                            <input type="text"  class="form-control" style="width: 70px; display: inline-block;height: 30px;"  name="upManagerNum" ng-model="baseInfo.upManagerNum"/>
+
+                                            <label style="padding: 5px 15px 0;font-weight: 100;">或办理业务数：</label>
+                                            <input type="text"  class="form-control" style="width: 70px; display: inline-block;height: 30px;"  name="upManagerCardnum" ng-model="baseInfo.upManagerCardnum"/>
+
+                                            <label style="padding: 5px 15px 0;font-weight: 100;">或锁粉笔数：</label>
+                                            <input type="text"  class="form-control" style="width: 70px; display: inline-block;height: 30px;" name="upManagerLocknum" ng-model="baseInfo.upManagerLocknum"/>
+
+                                            <label style="padding: 0px 20px;">或升级经理条件二：</label>
+                                            <label style="padding: 5px  0;font-weight: 100;">采购mpos机</label>
+                                            <input type="text"  class="form-control" style="width: 70px; display: inline-block;height: 30px;" name="upManagerMposnum" ng-model="baseInfo.upManagerMposnum"/>
+                                            <label style="padding: 5px 0;font-weight: 100;">台</label>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <label style="padding: 5px 15px 0; ">升级银行家条件：</label>
+                                            <label style="padding: 5px 15px 0;font-weight: 100;">需要发展代理数：</label>
+                                            <input type="text"  class="form-control" style="width: 70px; display: inline-block;height: 30px;"  name="upBankerNum" ng-model="baseInfo.upBankerNum"/>
+
+                                            <label style="padding: 5px 15px 0;font-weight: 100;">或办理业务数：</label>
+                                            <input type="text"  class="form-control" style="width: 70px; display: inline-block;height: 30px;"  name="upBankerCardnum" ng-model="baseInfo.upBankerCardnum"/>
+
+                                            <label style="padding: 5px 15px 0;font-weight: 100;">或锁粉笔数：</label>
+                                            <input type="text"  class="form-control" style="width: 70px; display: inline-block;height: 30px;"  name="upBankerLocknum" ng-model="baseInfo.upBankerLocknum"/>
+
+                                            <label style="padding: 0px 20px;">或银行家条件二：</label>
+                                            <label style="padding: 5px  0;font-weight: 100;">采购mpos机</label>
+                                            <input type="text"  class="form-control" style="width: 70px; display: inline-block;height: 30px;" name="upBankerMposnum" ng-model="baseInfo.upBankerMposnum"/>
+                                            <label style="padding: 5px 0;font-weight: 100;">台</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-8">
+                                            <label style="padding: 5px 15px 0; width: 230px;"><input
+                                                    type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
+                                                    ng-checked="baseInfo.isUserShare" ng-model="baseInfo.isUserShare"
+                                                    name="isUserShare" />普通用户可以分享</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-8">
+                                            <label style="padding: 5px 15px 0; width: 230px;"><input
+                                                    type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
+                                                    ng-checked="baseInfo.isProfitBankerBanker" ng-model="baseInfo.isProfitBankerBanker"
+                                                    name="isProfitBankerBanker" />银行家上面的银行家参与分润</label>
+                                        </div>
+                                    </div>
+                                    <div class="ibox-title">
+                                        <h5>奖励退费方案</h5>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 ">以下条件满足任意一条：</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <div  class="col-sm-12" style="padding:20px 0 0px 0px;">
+                                            <label style="padding: 0px 20px;"><i class="red_req">*</i>1.当月 </label>
+                                            <input type="text" class="form-control" style="width: 100px; display: inline-block;" name="dayStart"  ng-model="baseInfo.dayStart" required>
+                                            一
+                                            <input type="text" class="form-control" style="width: 100px; display: inline-block;"  name="dayEnd" ng-model="baseInfo.dayEnd" required>
+                                            <label>号</label>
+                                            <label>直推办理</label>
+                                            <input type="text" class="form-control" style="width: 100px; display: inline-block;"  name="monthCardNum" ng-model="baseInfo.monthCardNum" required/>
+                                            <label>张信用卡。</label>
+                                        </div>
+                                        <div class="req_mesg" ng-show="horizontal.dayStart.$dirty && horizontal.dayStart.$invalid">
+                                            <span ng-show="horizontal.dayStart.$error.required">起始日期不能为空</span>
+                                        </div>
+                                        <div class="req_mesg" ng-show="horizontal.dayEnd.$dirty && horizontal.dayEnd.$invalid">
+                                            <span ng-show="horizontal.dayEnd.$error.required">结束日期不能为空</span>
+                                        </div>
+                                        <div class="req_mesg" ng-show="horizontal.monthCardNum.$dirty && horizontal.monthCardNum.$invalid">
+                                            <span ng-show="horizontal.monthCardNum.$error.required">信用卡张数不能为空</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-12" style="padding:20px 0 20px  0px;">
+                                            <label style="padding: 0px 20px;"><i class="red_req">*</i>2.当年累计直推办理</label>
+                                            <input type="text" class="form-control" style="width: 100px; display: inline-block;" name="yearCardNum" ng-model="baseInfo.yearCardNum" required>
+                                            <label>张信用卡。</label>
+                                        </div>
+                                        <div class="req_mesg" ng-show="horizontal.yearCardNum.$dirty && horizontal.yearCardNum.$invalid">
+                                            <span ng-show="horizontal.yearCardNum.$error.required">信用卡张数不能为空</span>
+                                        </div>
+                                    </div>
+                                    <div class="ibox-title">
+                                        <h5>分润账户留存金额</h5>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-12" style="padding:20px 0 20px 0px;">
+                                            <label style="padding: 0px 20px;">由于用户红包奖励，给达标的代理退费，都要扣除OEM相应的分润账户，因此要求分润账户超过</label>
+                                            <input type="text" class="form-control" style="width: 100px; display: inline-block;" name="withdrawMoneyMin" ng-model="baseInfo.withdrawMoneyMin" required>
+                                            <label>元的部分才能提现。</label>
+                                        </div>
+                                        <div class="req_mesg" ng-show="horizontal.withdrawMoneyMin.$dirty && horizontal.withdrawMoneyMin.$invalid">
+                                            <span ng-show="horizontal.withdrawMoneyMin.$error.required">最小提现金额不能为空</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </uib-tab>
+                    </uib-tabset>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 bgff">
+            <div class="col-sm-12">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-6">
+                    <div style="padding: 0 15px;">
+                        <input type="button" class="btn btn-primary btn-mr20" ng-disabled='horizontal.$invalid
+                            || checkOrgIdMsg!="" || submitting'
+                               ng-click="submit()" value='提交'>
+                        <input type="button" class="btn btn-primary4 btn-mr20" ui-sref="superBank.orgInfoManager" value='返回'>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+

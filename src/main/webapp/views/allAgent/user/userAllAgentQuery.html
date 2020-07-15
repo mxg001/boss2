@@ -1,0 +1,137 @@
+<!-- 超级银行家用户管理页面 -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>超级盟主</a></li>
+            <li class="active"><strong>盟主管理</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app ng-controller="userAllAgentQueryCtrl">
+    <form class="form-horizontal" id="form1">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="">
+                    <div class="panel-body ibox float-e-margins">
+                        <div class="ibox-content">
+                            <div class="ibox-title">
+                                <h5>盟主管理</h5>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">盟主编号:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.userCode">
+                                </div>
+                                <label class="col-sm-2 control-label">代理商编号:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.agentNo">
+                                </div>
+                                <label class="col-sm-2 control-label">盟主姓名:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.realName">
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                            <label class="col-sm-2 control-label">注册手机:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" maxlength="11" ng-model="info.mobile">
+                                </div>
+                                <label class="col-sm-2 control-label">所属品牌:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.brandCode" ng-options="x.value as x.text for x in oemList"/>
+                                </div>
+                                <label class="col-sm-2 control-label">用户类型:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.userType"  ng-options="x.value as x.text for x in userTypeSelect"/>
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                            <label class="col-sm-2 control-label">上级盟主编号:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.parentId">
+                                </div>
+                                <label class="col-sm-2 control-label">大盟主编号:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.twoUserCode">
+                                </div>
+                                <label class="col-sm-2 control-label">机构编号:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.oneUserCode">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">身份证号:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.idCardNo">
+                                </div>
+                                <label class="col-sm-2 control-label">盟主身份:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.grade" ng-options="x.value as x.text for x in gradeSelect"/>
+                                </div>
+                                <label class="col-sm-2 control-label">盟主昵称:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.nickName">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">是否已认证:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.idCardNoState" ng-options="x.value as x.text for x in idCardNoStateCopySelect"/>
+                                </div>
+                                <label class="col-sm-2 control-label">注册时间:</label>
+                                <div class="col-sm-5">
+                                    <input id="d5231" class="form-control" type="datetime" ng-model="info.createTimeBegin" onchange=""  style="width:auto;display:inline-block;"
+                                           onFocus="var d5232=$dp.$('d5232');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5232.focus();},maxDate:'#F{$dp.$D(\'d5232\')}'})"/>
+                                    ~
+                                    <input id="d5232" class="form-control" type="datetime"  ng-model="info.createTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+                                           onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5231\')}'})"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">交易日期：</label>
+                                <div class="col-sm-5">
+                                    <input id="d5668" class="form-control" type="datetime" ng-model="info.transStartTime" onchange=""  style="width:auto;display:inline-block;"
+                                           onFocus="var d5667=$dp.$('d5669');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5669.focus();},maxDate:'#F{$dp.$D(\'d5669\')||\'%y-%M-%d\'}'})"/>
+                                    ~
+                                    <input id="d5669" class="form-control" type="datetime"  ng-model="info.transEndTime" onchange=""  style="width:auto;display:inline-block;"
+                                           onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5668\')}',maxDate:'%y-%M-%d 23:59:59'})"/>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-top: 30px">
+                                <div class="col-sm-10">
+                                    <label class="col-sm-2 control-label"></label>
+                                    <button class="btn btn-primary6 btn-mr20" type="button" ng-click="query()" >查询</button>
+                                    <button class="btn btn-primary3 btn-mr20" type="button" ng-click="clear()" >清空</button>
+                                    <button class="btn btn-primary7 btn-mr20" type="button" ng-show="hasPermit('userAllAgent.importDetail')" ng-click="exportInfo()" >导出</button>
+                                    <button class="btn btn-new2 btn-mr20" type="button" ng-show="hasPermit('userAllAgent.importDividedAdjustDetail')" ng-click="exportDividedAdjustDetailInfo()" >导出分润比例调整记录</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body ibox float-e-margins">
+                        <div class="ibox-title">
+                            <div class="ibox-content">
+                                <div class="form-group">
+                                    <div class="col-sm-2 checkbox">机构总数:<span ng-bind="countSet.allyOneCount "></span>名</div>
+                                    <div class="col-sm-2 checkbox">大盟主总数:<span ng-bind="countSet.allyTwoCount "></span>名</div>
+                                    <div class="col-sm-2 checkbox">盟主总数:<span ng-bind="countSet.allyCount "></span>名</div>
+                                    <div class="col-sm-3 checkbox">其中商家成为盟主总数:<span ng-bind="countSet.businessCount "></span>名</div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="gridStyle" ui-grid="userGrid" ui-grid-selection ui-grid-pagination
+                                         ui-grid-resize-columns ui-grid-pinning></div>
+                                    <div ng-show="loadImg" class="timg"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="height:30px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

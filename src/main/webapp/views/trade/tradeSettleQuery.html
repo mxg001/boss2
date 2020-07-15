@@ -1,0 +1,188 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>交易查询</a></li>
+			<li class="active"><strong>代付订单查询</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app ng-controller="queryTradeSettleCtrl">
+	<form class="form-horizontal" id="form1">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="">
+						<div class="ibox float-e-margins">
+							<div class="ibox-title">
+								<h5>交易信息多条列表查询</h5>
+							</div>
+							
+							<div class="ibox-content">
+								<div class="form-group">
+									<label class="col-sm-1 control-label">来源单号：</label>
+									<div class="col-sm-11">
+										<textarea type="text" class="form-control" rows="5" cols="12"
+												  placeholder="每次批量查询最多支持100个；只能输入来源单号；多个来源单号以逗号隔开"
+												  ng-model="info.orderNo" onchange="keyChange()"></textarea>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label">商户编号：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" ng-model="info.merchantNo" onchange="keyChange()">
+									</div>
+									<label class="col-sm-1 control-label">代付结算订单号：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" ng-model="info.shareSettleNo" onchange="keyChange()">
+									</div>
+									<!--<label class="col-sm-1 control-label">来源单号：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" ng-model="info.orderNo" onchange="keyChange()">
+									</div>-->
+									<label class="col-sm-1 control-label">来源类型：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.type" ng-options="x.value as x.text for x in typeAll">
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label">代付金额：</label>
+									<div class="col-sm-5">
+										<input type="text" class="form-control" ng-model="info.amountMin" style="width:auto;display:inline-block;">
+										~
+										<input type="text" class="form-control" ng-model="info.amountMax" style="width:auto;display:inline-block;">
+									</div>
+
+									<label class="col-sm-1 control-label">收单商户号：</label>
+									<div class="col-sm-2">
+										<input type="text" class="form-control" ng-model="info.zqMerchantNo">
+									</div>
+									<label class="col-sm-1 control-label">收单机构：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.acqEnname" ng-options="x.value as x.text for x in acqOrgs">
+							             </select>
+									</div>
+								</div>
+								
+								
+								
+								<div class="form-group">
+									<label class="col-sm-1 control-label">活动类型：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.orderType"  ng-options="x.value as x.text for x in orderTypeAll">
+										</select>
+									</div>
+									<label class="col-sm-1 control-label">状态：</label>
+									<div class="col-sm-2">
+										<select class="form-control" ng-model="info.status"  ng-options="x.value as x.text for x in statusAll"/>
+									</div>
+									<label class="col-sm-1 control-label">创建时间：</label>
+									<div class="col-sm-5">
+										<input id="d5221" class="form-control" type="datetime" ng-model="info.startTimeMin" onchange=""  style="width:auto;display:inline-block;"
+											   onFocus="var d5222=$dp.$('d5222');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',changed:verifyTime(1,'#d5221','#d5222',31,isVerifyTime),onpicked:function(){d5222.focus();},maxDate:'#F{$dp.$D(\'d5222\')||\'%y-%M-%d\'}'})"/>
+										~
+										<input id="d5222" class="form-control" type="datetime"  ng-model="info.startTimeMax" onchange=""  style="width:auto;display:inline-block;"
+											   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',changed:verifyTime(2,'#d5221','#d5222',31,isVerifyTime),minDate:'#F{$dp.$D(\'d5221\')}',maxDate:'%y-%M-%d 23:59:59'})"/>
+										<br/><span><font color="#999">备注：查询范围不能超过一个月</font></span>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="col-sm-1 control-label">完成时间：</label>
+									<div class="col-sm-5">
+										<input id="d5231" class="form-control" type="datetime" ng-model="info.endTimeMin" onchange=""  style="width:auto;display:inline-block;"
+											   onFocus="var d5232=$dp.$('d5232');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5232.focus();},maxDate:'#F{$dp.$D(\'d5232\')}'})"/>
+										~
+										<input id="d5232" class="form-control" type="datetime"  ng-model="info.endTimeMax" onchange=""  style="width:auto;display:inline-block;"
+											   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5231\')}'})"/>
+									</div>
+
+									<label class="col-sm-1 control-label">交易/提现时间：</label>
+									<div class="col-sm-5">
+										<input id="d523" class="form-control" type="datetime" ng-model="info.originTimeMin" onchange=""  style="width:auto;display:inline-block;"
+											   onFocus="var d523=$dp.$('d523');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){d523.focus();},maxDate:'#F{$dp.$D(\'d522\')}'})"/>
+										~
+										<input id="d522" class="form-control" type="datetime"  ng-model="info.originTimeMax" onchange=""  style="width:auto;display:inline-block;"
+											   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d523\')}'})"/>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<div class="col-lg-12">
+										<div class="col-sm-1"></div>
+										<button class="btn btn-primary6 btn-mr20" type="button"
+										 id="btnSubmit" ng-click="query()">查询</button>
+										 <button class="btn btn-primary3 btn-mr20" type="button" ng-click="clear()"
+										id="btnSubmit1">清空</button>
+										 <button class="btn btn-primary7 btn-mr20" type="button" ng-show="hasPermit('trade.tradeSettleExport')"
+										 id="btnSubmit2" ng-click="exportInfo()">导出</button>
+										 <button class="btn btn-new btn-rounded " style="width:120px; padding:7px 0;" type="button" ng-click="settleButch()"
+										ng-show="hasPermit('trade.settleBatch')"	id="btnSubmit3" >批量手工结算</button>
+
+										<a class="btn btn-new btn-rounded " style="width:120px; padding:7px 0;" type="button" ui-sref="trade.acqSingleImport"
+										   ng-show="hasPermit('trade.acqSingleImport')"	id="btnSubmit4" >导入长款处理</a>
+									</div>
+								</div>
+								
+							</div>
+						</div>
+
+						<div class="ibox float-e-margins">
+							<div class="ibox-title">
+								<h5>代付订单列表</h5>
+							</div>
+							<div class="ibox-content">
+								<div class="tposition">
+									 <div ui-grid="gridOptions" ui-grid-pagination ui-grid-selection ui-grid-resize-columns ui-grid-pinning class="grid"></div>
+									<div ng-show="loadImg" class="timg"></div>
+								</div>
+							</div>
+							
+						</div>
+					
+					</div>
+				</div>
+			</div>
+	</form>
+	<form id="saveForm" method="post">
+		<input type="hidden" name="info" id="inputInfo"/>
+		<input type="hidden" name="_csrf" id="token"/>
+		<input type="hidden" name="header" id="header"/>
+	</form>
+	<!-- settleModal -->
+	<form class="form-horizontal" id="form3" name="settleModal" novalidate>
+	<div id="settleModal" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog" style="width: 900px">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						&times;</button>
+					<h3 class="modal-title">批量结算返回信息</h3>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label class="col-sm-3 control-label">成功笔数：</label>
+						<div class="col-sm-3 checkbox" ng-bind="settleMsg.successTimes"></div>
+						<label class="col-sm-3 control-label">成功总金额：</label>
+						<div class="col-sm-3 checkbox" ng-bind="settleMsg.successAmount"></div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label">失败笔数：</label>
+						<div class="col-sm-3 checkbox" ng-bind="settleMsg.failTimes"></div>
+						<label class="col-sm-3 control-label">失败总金额：</label>
+						<div class="col-sm-3 checkbox" ng-bind="settleMsg.failAmount"></div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-5 control-label"></label>
+						<div class="col-sm-6">
+								<button class="btn btn-primary8" type="button" ng-click='settleModalHide()'>关闭</button>
+						</div>
+					</div>
+			</div>
+		</div>
+	</div>
+	</div>
+	</form>
+</div>

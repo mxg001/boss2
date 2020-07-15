@@ -1,0 +1,118 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a href="index.html">主页</a></li>
+            <li>超级银行家-红包</li>
+            <li class="active"><strong>领地调整价格记录</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="manorAdjustRecoreCtrl">
+    <form class="form-horizontal" id="form1">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>查询条件</h5>
+                    </div>
+                    <div class="ibox-content">
+                    	 <div class="form-group">
+                                 <label class="col-sm-2 control-label">领地:</label>
+                                <div class="col-sm-2">
+									<select class="form-control input-s-sm inline" ng-model="selected" ng-options="s.name for s in list" ng-change="c()">   
+											<option value="">全部</option>
+									</select>                        
+							    </div>
+                                <div class="col-sm-2">
+                                    <select class="form-control input-s-sm inline" ng-model="selected2" ng-options="sh.name for sh in selected.child" ng-change="c2()">
+                                    	<option value="">全部</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-2">
+                                    <select class="form-control input-s-sm inline" ng-model="selected3" ng-options="x.name for x in selected2.child">
+                                    	<option value="">全部</option>
+                                    </select>
+                                </div>
+                                 <label class="col-sm-2 control-label">暂不转让：</label>
+	                            <div class="col-sm-2">
+	                            	 <select class="form-control" ng-model="baseInfo.isTrade" ng-options="x.value as x.text for x in isTradeList">
+                                </select>
+	                            </div>
+                            </div>
+                    
+                    
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">当时领主所属组织：</label>
+                            <div class="col-sm-2">
+                                <select chosen="{width:'100%'}"  class="chosen-select" tabindex="5" ng-model="baseInfo.lordsOrgId" ng-options="x.orgId as x.orgName for x in orgInfoList">
+                                        <option value=""></option>
+                                </select>
+                            </div>
+                            <label class="col-sm-2 control-label">当时领主ID：</label>
+                            <div class="col-sm-2">
+                            	<input type="text" class="form-control" ng-model='baseInfo.lordsUserCode'>
+                            </div>
+                             <label class="col-sm-2 control-label">当时领主姓名：</label>
+                            <div class="col-sm-2">
+                            	<input type="text" class="form-control" ng-model='baseInfo.userName'>
+                            </div>
+                        </div>
+
+						  <div class="form-group">
+						    <label class="col-sm-2 control-label">当时领主手机号：</label>
+                            <div class="col-sm-2">
+                            	<input type="text" class="form-control" ng-model='baseInfo.phone'>
+                            </div>
+                              <label class="col-sm-2 control-label">排序：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="baseInfo.oderByCol" ng-options="x.value as x.text for x in orderByList">
+                                </select>
+                            </div>
+                              <label class="col-sm-2 control-label">排序方式：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="baseInfo.type" ng-options="x.value as x.text for x in descList">
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">调价时间：</label>
+                            <div class="col-sm-6">
+                                <input id="d5221" class="form-control" type="datetime" ng-model="baseInfo.createTimeStart" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="var d5222=$dp.$('d5222');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5222.focus();},maxDate:'#F{$dp.$D(\'d5222\')}'})"/>
+                                ~
+                                <input id="d5222" class="form-control" type="datetime"  ng-model="baseInfo.createTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5221\')}'})"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-top: 30px">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-8">
+                                <button class="btn btn-primary6 btn-mr20"  ng-click="query()" ng-disabled="submitting">查询</button>
+                                <button class="btn btn-primary3 btn-mr20" type="button" ng-click="resetForm()">清空</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>查询结果</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="tposition">
+                            <div class="gridStyle" ui-grid="grid" ui-grid-selection ui-grid-pagination
+                                 ui-grid-resize-columns ui-grid-pinning></div>
+                            <div ng-show="loadImg" class="timg"></div>
+                        </div>
+                    </div>
+                </div>
+                <div style="height:30px;"></div>
+            </div>
+        </div>
+    </form>
+
+</div>

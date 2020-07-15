@@ -1,0 +1,208 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a href="index.html">主页</a></li>
+			<li>活动查询</li>
+			<li class="active"><strong>超级返活动查询</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn"
+	 ng-controller="superHappyBackQueryCtrl">
+
+	<div id="agentAwardDetailModel" class="modal fade" tabindex="3"
+		 role="dialog">
+		<div class="modal-dialog" style="height: 600px; width: 1100px">
+			<div class="modal-content" style="height: 600px; width: 1100px">
+				<div class="modal-body">
+					<div class="ibox-content">
+						<div class="panel-body ibox float-e-margins">
+							<label class="col-sm-3 control-label" style="text-align:left;">代理商奖励明细</label>
+							<div class="ibox-content">
+								<div class="gridStyle" ui-grid="agentAwardDetailGrid" style="height: 400px;"   ui-grid-resize-columns ui-grid-pinning></div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group control-label">
+						<label class="col-sm-4 control-label"></label>
+						<div class="col-sm-6">
+							<button class="btn btn-default" type="button" ng-click='closeAgentAwardDetail()'>关闭</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>超级返活动查询</h5>
+				</div>
+				<div class="ibox-content">
+					<form class="form-horizontal" id="form1">
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="panel-body ibox float-e-margins">
+									<div class="ibox-content">
+										<div class="form-group">
+											<label class="col-sm-1 control-label">激活订单号：</label>
+											<div class="col-sm-10">
+												<textarea class="form-control" rows="6" cols="10" ng-model="baseInfo.activeOrder" placeholder="支持批量查找，多个用英文逗号隔开"></textarea>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-1 control-label">考核周期：</label>
+											<div class="col-sm-2">
+												<select class="form-control" ng-model='baseInfo.currentCycle'  ng-options="x.value as x.text for x in currentCycleList"/>
+											</div>
+											<label class="col-sm-2 control-label">当前考核达标状态：</label>
+											<div class="col-sm-2">
+												<select class="form-control" ng-model='baseInfo.currentTargetStatus'  ng-options="x.value as x.text for x in currentTargetStatusList">
+												</select>
+											</div>
+											<label class="col-sm-2 control-label">活动达标状态：</label>
+											<div class="col-sm-2">
+												<select class="form-control" ng-model='baseInfo.activityTargetStatus'  ng-options="x.value as x.text for x in activityTargetStatusList">
+												</select>
+											</div>
+										</div>
+										<div class="form-group">
+
+											<label class="col-sm-1 control-label">所属商户编号：</label>
+											<div class="col-sm-2">
+												<input type="text" class="form-control" ng-model='baseInfo.merchantNo' placeholder="请输入商户编号" >
+											</div>
+											<!--<label class="col-sm-2 control-label">代理商：</label>
+											<div class="col-sm-2">
+												<select name="autocomplete-select" id="autocomplete-select" ng-model="baseInfo.agentNo" ng-options="x.value as x.text for x in agent"
+														style="width: 100%" chosen chosen-data="agent" chosen-keyup="getStates" ng-change="changeAgentNode()" >
+												</select>
+											</div>-->
+											<label class="col-sm-2 control-label">代理商：</label>
+											<div class="col-sm-2">
+												<select name="autocomplete-select" id="autocomplete-select" ng-model="baseInfo.agentNo" ng-options="x.value as x.text for x in agent"
+														style="width: 100%" chosen chosen-data="agent" chosen-keyup="getStates" ng-change="changeAgentNode()" >
+												</select>
+											</div>
+											<label class="col-sm-2 control-label">包含下级:</label>
+											<div class="col-sm-2">
+												<select class="form-control" ng-model='baseInfo.containsLower' ng-options="x.value as x.text for x in agentGrades"></select>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label">硬件产品ID：</label>
+											<div class="col-sm-2">
+												<input type="text" class="form-control" ng-model='baseInfo.hardId' placeholder="请输入硬件产品ID" >
+											</div>
+											<label class="col-sm-2 control-label">欢乐返子类型编号：</label>
+											<div class="col-sm-2">
+												<input type="text" class="form-control" ng-model='baseInfo.activityTypeNo' placeholder="请输入欢乐返子类型编号" >
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label">考核达标日期：</label>
+											<div class="col-sm-5">
+												<input id="d5221" class="form-control" type="datetime" ng-model="baseInfo.currentTargetTimeStart" onchange=""  style="width:auto;display:inline-block;"
+													   onFocus="var d5222=$dp.$('d5222');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd',onpicked:function(){d5222.focus();},maxDate:'#F{$dp.$D(\'d5222\')}'})"
+													   placeholder="开始日期"/>-
+												<input id="d5222" class="form-control" type="datetime"  ng-model="baseInfo.currentTargetTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+													   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd',minDate:'#F{$dp.$D(\'d5221\')}'})" placeholder="结束日期"/>
+											</div>
+											<label class="col-sm-1 control-label">活动达标日期：</label>
+											<div class="col-sm-5">
+												<input id="d5231" class="form-control" type="datetime" ng-model="baseInfo.activityTargetTimeStart" onchange=""  style="width:auto;display:inline-block;"
+													   onFocus="var d5232=$dp.$('d5232');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd',onpicked:function(){d5232.focus();},maxDate:'#F{$dp.$D(\'d5232\')}'})"
+													   placeholder="开始日期"/>-
+												<input id="d5232" class="form-control" type="datetime"  ng-model="baseInfo.activityTargetTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+													   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd',minDate:'#F{$dp.$D(\'d5231\')}'})" placeholder="结束日期"/>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label">激活日期：</label>
+											<div class="col-sm-5">
+												<input id="d5241" class="form-control" type="datetime" ng-model="baseInfo.activeTimeStart" onchange=""  style="width:auto;display:inline-block;"
+													   onFocus="var d5242=$dp.$('d5242');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd',onpicked:function(){d5242.focus();},maxDate:'#F{$dp.$D(\'d5242\')}'})"
+													   placeholder="开始日期"/>-
+												<input id="d5242" class="form-control" type="datetime"  ng-model="baseInfo.activeTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+													   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd',minDate:'#F{$dp.$D(\'d5241\')}'})"placeholder="结束日期"/>
+											</div>
+											<label class="col-sm-1 control-label">奖励入账日期：</label>
+											<div class="col-sm-5">
+												<input id="d5251" class="form-control" type="datetime" ng-model="baseInfo.rewardAccountTimeStart" onchange=""  style="width:auto;display:inline-block;"
+													   onFocus="var d5252=$dp.$('d5252');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd',onpicked:function(){d5252.focus();},maxDate:'#F{$dp.$D(\'d5252\')}'})"
+													   placeholder="开始日期"/>-
+												<input id="d5252" class="form-control" type="datetime"  ng-model="baseInfo.rewardAccountTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+													   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd',minDate:'#F{$dp.$D(\'d5251\')}'})"placeholder="结束日期"/>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label">考核开始日期：</label>
+											<div class="col-sm-5">
+												<input id="d5261" class="form-control" type="datetime" ng-model="baseInfo.rewardStartTimeStart" onchange=""  style="width:auto;display:inline-block;"
+													   onFocus="var d5262=$dp.$('d5262');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd',onpicked:function(){d5262.focus();},maxDate:'#F{$dp.$D(\'d5262\')}'})"
+													   placeholder="开始日期"/>-
+												<input id="d5262" class="form-control" type="datetime"  ng-model="baseInfo.rewardStartTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+													   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd',minDate:'#F{$dp.$D(\'d5261\')}'})"placeholder="结束日期"/>
+											</div>
+											<label class="col-sm-1 control-label">考核结束日期：</label>
+											<div class="col-sm-5">
+												<input id="d5271" class="form-control" type="datetime" ng-model="baseInfo.rewardEndTimeStart" onchange=""  style="width:auto;display:inline-block;"
+													   onFocus="var d5272=$dp.$('d5272');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd',onpicked:function(){d5272.focus();},maxDate:'#F{$dp.$D(\'d5272\')}'})"
+													   placeholder="开始日期"/>-
+												<input id="d5272" class="form-control" type="datetime"  ng-model="baseInfo.rewardEndTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+													   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd',minDate:'#F{$dp.$D(\'d5271\')}'})"placeholder="结束日期"/>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-2"></label>
+											<div class="col-sm-10">
+												<button class="btn btn-primary6 btn-mr20" type="button"
+														ng-click='query()' id="btnSubmit">查询</button>
+												<button class="btn btn-primary3 btn-mr20" type="button"
+														ng-click="resetForm()">清空</button>
+												<button class="btn btn-new btn-mr20" type="button"
+														ng-show="hasPermit('activity.exportHappySendNew')"
+														ng-click="exportExcel()">导出</button>
+												<button class="btn btn-new btn-mr20" type="button"
+														ng-show="hasPermit('activity.happySendNewAgentRewardIsBooked')"
+														ng-click="rewardIsBooked()">奖励入账</button>
+											</div>
+
+
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body ibox float-e-margins">
+									<div class="ibox-title">
+										<h5>列表</h5>
+										<!--<div ibox-tools="" class="ng-scope"></div>-->
+									</div>
+									<div class="form-group">
+										<label class="col-sm-1 control-label">总计：</label>
+										<div class="col-sm-2 checkbox">已奖励：{{totalData.totalReward==null?'0.00':totalData.totalReward }} 元</div>
+										<div class="col-sm-2 checkbox" >待奖励：{{totalData.totalNoReward==null?'0.00':totalData.totalNoReward }} 元</div>
+									</div>
+									<div class="ibox-content">
+										<div class="gridStyle" ui-grid="activityGrid"
+											 ui-grid-pagination ui-grid-selection ui-grid-resize-columns ui-grid-pinning></div>
+									</div>
+								</div>
+								<div style="height: 50px"></div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div style="height: 30px;"></div>
+</div>

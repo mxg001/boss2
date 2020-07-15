@@ -1,0 +1,157 @@
+<!-- head -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>功能管理</a></li>
+            <li class="active"><strong>奖项详情</strong></li>
+        </ol>
+    </div>
+</div>
+
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="prizeDetailCtrl">
+    <form class="form-horizontal" id="form1" name="horizontalCard">
+        <div class="form-group">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+
+                    <div class="row">
+                        <div class="ibox-title">
+                            <h5>基本信息</h5>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>奖项说明:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="awardDesc" readonly ng-model="addInfo.awardDesc">
+                                <div class="req_mesg" ng-show="horizontalCard.awardDesc.$dirty && horizontalCard.awardDesc.$invalid">
+                                    <span ng-show="horizontalCard.awardDesc.$error.required">奖项说明不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>奖品名称:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="awardName" readonly ng-model="addInfo.awardName">
+                                <div class="req_mesg" ng-show="horizontalCard.awardName.$dirty && horizontalCard.awardName.$invalid">
+                                    <span ng-show="horizontalCard.awardName.$error.required">奖品名称不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>奖品数量:</label>
+                            <div class="col-sm-3">
+                                <input type="number" class="form-control" name="awardCount" readonly ng-model="addInfo.awardCount">
+                                <div class="req_mesg" ng-show="horizontalCard.awardCount.$dirty && horizontalCard.awardCount.$invalid">
+                                    <span ng-show="horizontalCard.awardCount.$error.required">奖品数量不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>中奖概率:</label>
+                            <div class="col-sm-3">
+                                <input type="number" class="form-control" name="prob" readonly ng-model="addInfo.prob">
+                                <div class="req_mesg" ng-show="horizontalCard.prob.$dirty && horizontalCard.prob.$invalid">
+                                    <span ng-show="horizontalCard.prob.$error.required">中奖概率不能为空</span>
+                                </div>
+                            </div>
+                            <label style="margin-top:7px;">%</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>每天最多派发数量:</label>
+                            <div class="col-sm-3">
+                                <input type="number" class="form-control" name="dayCount" readonly ng-model="addInfo.dayCount">
+                                <div class="req_mesg" ng-show="horizontalCard.dayCount.$dirty && horizontalCard.dayCount.$invalid">
+                                    <span ng-show="horizontalCard.dayCount.$error.required">每天最多派发数量不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>每天最多中奖次数:</label>
+                            <div class="col-sm-3">
+                                <input type="number" class="form-control" name="merDayCount" readonly ng-model="addInfo.merDayCount" ng-pattern="/^\d+$/">
+                                <div class="req_mesg" ng-show="horizontalCard.merDayCount.$dirty && horizontalCard.merDayCount.$invalid">
+                                    <span ng-show="horizontalCard.merDayCount.$error.required">每天最多中奖次数不能为空</span>
+                                    <span ng-show="horizontalCard.merDayCount.$error.pattern">每天最多中奖次数格式不符</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>下发序列号:</label>
+                            <div class="col-sm-3">
+                                <input type="number" class="form-control" name="sort" readonly ng-model="addInfo.sort">
+                                <div class="req_mesg" ng-show="horizontalCard.sort.$dirty && horizontalCard.sort.$invalid">
+                                    <span ng-show="horizontalCard.sort.$error.required">下发序列号不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>中奖提示:</label>
+                            <div class="col-sm-7">
+                                <textarea class="form-control" rows="3" cols="15" readonly name="awardHit" ng-model="addInfo.awardHit"></textarea>
+                                <div class="req_mesg" ng-show="horizontalCard.awardHit.$dirty && horizontalCard.awardHit.$invalid">
+                                    <span ng-show="horizontalCard.awardHit.$error.required">中奖提示不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>奖品图片:</label>
+                            <div class="col-img" ng-if="addInfo.awardPic!=null&&addInfo.awardPic!=''" >
+                                <a href="{{addInfo.awardPic}}" fancybox rel="group">
+                                    <img width="250px" height="150px" ng-src="{{addInfo.awardPic}}"/>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="red_req">*</i>奖品类型:</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="addInfo.awardType" name="awardType" readonly ng-options="x.value as x.text for x in awardTypeSelect"/>
+                                <div class="req_mesg" ng-show="horizontalCard.awardType.$dirty && horizontalCard.awardType.$invalid">
+                                    <span ng-show="horizontalCard.awardType.$error.required">奖品类型不能为空</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-if="conSta">
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">选择券:</label>
+                                <div class="col-lg-4">
+                                    <div style="height:207px" class="gridStyle" ui-grid="adGrid" ui-grid-selection class="grid" ui-grid-resize-columns></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label"><i class="red_req">*</i>设置数量:</label>
+                                <label class="col-lg-8" style="margin-top:7px;color: red;">注:数量填正整数</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label"></label>
+                                <div class="col-lg-8">
+                                    <div style="height:400px" class="gridStyle" ui-grid="groupAdGrid" ui-grid-selection class="grid" ui-grid-resize-columns></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-if="moneySta">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><i class="red_req">*</i>金额:</label>
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" name="money" readonly ng-model="addInfo.money">
+                                    <div class="req_mesg" ng-show="horizontalCard.money.$dirty && horizontalCard.money.$invalid">
+                                        <span ng-show="horizontalCard.money.$error.required">金额不能为空</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 bgff">
+                <div class="col-sm-12">
+                    <div class="col-lg-3"></div>
+                    <div class="col-sm-6">
+                        <a class="btn btn-primary4" ui-sref="func.prizeConfigure({funcCode:funcCode})" >返回</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

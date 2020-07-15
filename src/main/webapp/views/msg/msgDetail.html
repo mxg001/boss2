@@ -1,0 +1,113 @@
+<!-- head -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>管理中心</a></li>
+            <li class="active"><strong>提示语详情</strong></li>
+        </ol>
+    </div>
+</div>
+
+<!-- content-->
+<div class="wrapper wrapper-content animated fadeIn"
+     ng-controller="msgDetailCtrl">
+    <form class="form-horizontal" id="form1" name="horizontal">
+        <div class="form-group">
+            <div class="ibox float-e-margins">
+
+                <div class="ibox-content">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><i class="red_req">*</i>错误码：</label>
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control" name="msgCode" ng-model="info.msgCode" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><i class="red_req">*</i>消息类型：</label>
+                        <div class="col-sm-2">
+                            <select class="form-control"  ng-model="info.msgType" ng-options="x.value as x.text for x in msgTypeList" disabled/>
+                        </div>
+                        <label class="col-sm-2 control-label"><i class="red_req">*</i>模块名：</label>
+                        <div class="col-sm-2">
+                            <select class="form-control"  ng-model="info.moduleName" ng-options="x.value as x.text for x in modelTypeList" disabled/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><i class="red_req">*</i>提示信息：</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="userMsg" ng-model="info.userMsg" required disabled>
+                        </div>
+                        <div class="req_mesg" ng-show="horizontal.userMsg.$dirty && horizontal.userMsg.$invalid">
+                            <span ng-show="horizontal.userMsg.$error.required">提示信息不能为空</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><i class="red_req">*</i>错误原因：</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="reason" ng-model="info.reason" required disabled>
+                        </div>
+                        <div class="req_mesg" ng-show="horizontal.reason.$dirty && horizontal.reason.$invalid">
+                            <span ng-show="horizontal.reason.$error.required">错误原因不能为空</span>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">解决方案：</label>
+                        <div class="col-sm-4">
+                            <textarea rows="10" class="form-control" style="min-width: 350px;" cols="30" ng-model="info.solution" disabled></textarea>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">收单机构：</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="sourceOrg" ng-model="info.sourceOrg" disabled>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">收单机构错误编号：</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="sourceCode" ng-model="info.sourceCode" disabled>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">收单机构错误信息：</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="sourceMsg" ng-model="info.sourceMsg" disabled>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">收单机构错误备注：</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="sourceRemark" ng-model="info.sourceRemark" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">生效状态：</label>
+                        <div class="col-sm-2">
+                            <select class="form-control"  ng-model="info.status" ng-options="x.value as x.text for x in statusType" disabled/>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-lg-12 bgff">
+                <div class="col-sm-12">
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-6">
+                        <button class="btn btn-primary4 btn-mr20" type="button"
+                                ui-sref="sys.msg">返回</button>
+                    </div>
+                </div>
+            </div>
+    </form>
+</div>

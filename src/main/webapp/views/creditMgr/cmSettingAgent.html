@@ -1,0 +1,215 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a href="index.html">主页</a></li>
+			<li><a>信用卡管家</a></li>
+			<li class="active"><strong>信用卡管家设置</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app ng-controller="cmSettingAgentCtrl">
+	<form class="form-horizontal" id="form1">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="">
+					<div class="panel-body ibox float-e-margins">
+						<div class="ibox-content">
+							<div class="ibox-title">
+								<h5>组织会员费设置查询</h5>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">组织ID：</label>
+								<div class="col-sm-2">
+									<input type="text" class="form-control" ng-model="info.srcOrgId" />
+								</div>
+								<label class="col-sm-2 control-label">组织名称：</label>
+								<div class="col-sm-2">
+									<input type="text" class="form-control" ng-model="info.srcOrgPrduct">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">代理商编号：</label>
+								<div class="col-sm-2">
+									<input type="text" class="form-control" ng-model="info.agentNo">
+								</div>
+								<label class="col-sm-2 control-label">代理商名称：</label>
+								<div class="col-sm-2">
+									<input type="text" class="form-control" ng-model="info.agentName" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">创建时间：</label>
+								<div class="col-sm-5">
+									<input id="d5221" class="form-control" type="datetime" ng-model="info.startTime" onchange=""  style="width:auto;display:inline-block;"
+										   onFocus="var d5222=$dp.$('d5222');WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5222.focus();},maxDate:'#F{$dp.$D(\'d5222\')||\'%y-%M-%d\'}'})"/>
+									~
+									<input id="d5222" class="form-control" type="datetime"  ng-model="info.endTime" onchange=""  style="width:auto;display:inline-block;"
+										   onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5221\')}',maxDate:'%y-%M-%d 23:59:59'})"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-lg-12">
+									<div class="col-sm-2"></div>
+									<button class="btn btn-primary6 btn-mr20" type="button" ng-click="query()" >查询</button>
+									<button class="btn btn-primary3 btn-mr20" ng-click="clear()">清空</button>
+									<button class="btn btn-primary5 btn-mr20" type="button" ng-click="cmSettingAgentAddModel()">新增</button>
+									<button class="btn btn-primary5 btn-mr20" type="button" ng-click="cmSettingAgentAddButchModel()">批量添加</button>
+									<button class="btn btn-primary10 btn-mr20" type="button" ng-click="del()" >批量删除</button>
+									<a class="btn btn-primary4" type="button" ui-sref="creditMgr.cmSetting()">返回</a>
+								</div>
+
+							</div>
+							<div class="ibox-title">
+								<h5>组织列表（{{numCount}}）</h5>
+							</div>
+							<div class="form-group">
+								<div ui-grid="switchSetTable" ui-grid-resize-columns ui-grid-pagination ui-grid-selection ui-grid-pinning class="grid"></div>
+							</div>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<div id="cmSettingAgentAddModel" class="modal fade" tabindex="3"
+		 role="dialog">
+		<form class="form-horizontal" id="form2">
+			<div class="modal-dialog" style="height: 550px; width: 900px">
+				<div class="modal-content" style="height: 550px; width: 900px">
+					<div class="ibox-title">
+						<button type="button" class="close" data-dismiss="modal">×</button>
+						<h5 class="modal-title">会员和分润设置（<i class="red_req">*</i> 为必填项）</h5>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label class="col-sm-3 control-label"><i class="red_req">*</i>代理商编号：</label>
+							<div class="col-sm-5">
+								<input type="text" id="agentNo" ng-model="cmVipConfigAgent.agentNo" class="form-control" ng-blur="selectAgentTeamByAgentNo()">
+							</div>
+							<div style="padding:7px 0 0 10px"> （只能输入设置一级代理商才有效） </div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label"><i class="red_req">*</i>代理商名称：</label>
+							<div class="col-sm-5">
+								<input type="text" ng-model="cmVipConfigAgent.agentName" ng-disabled="true" class="form-control">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label"><i class="red_req">*</i>代理商级别：</label>
+							<div class="col-sm-5">
+								<input type="text" ng-model="cmVipConfigAgent.agentLevel" ng-disabled="true" class="form-control">
+							</div>
+							<div style="padding:7px 0 0 10px"> 级 </div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label"><i class="red_req">*</i>所属组织：</label>
+							<div class="col-sm-5">
+								<input type="text" ng-model="cmVipConfigAgent.srcOrgPrduct" ng-disabled="true" class="form-control">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label"><i class="red_req">*</i>组织ID：</label>
+							<div class="col-sm-5">
+								<input type="text" ng-model="cmVipConfigAgent.srcOrgId" ng-disabled="true" class="form-control">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label"><i class="red_req">*</i>会员服务费：</label>
+							<div class="col-sm-5">
+								<input type="text" ng-model="cmVipConfigAgent.vipFee" class="form-control">
+							</div>
+							<div style="padding:7px 0 0 10px"> 元 </div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label"><i class="red_req">*</i>会员有效期：</label>
+							<div class="col-sm-5">
+								<input type="text" ng-model="cmVipConfigAgent.validPeriod" class="form-control">
+							</div>
+							<div style="padding:7px 0 0 10px"> 天（有效期从支付当天开始计算） </div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label"><i class="red_req">*</i>代理商分润比：</label>
+							<div class="col-sm-5">
+								<input type="text" ng-model="cmVipConfigAgent.agentShare" class="form-control">
+							</div>
+							<div style="padding:7px 0 0 10px"> %（代理商分润＝会员评测服务费*分润百分比） </div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">备注：</label>
+							<div class="col-sm-5">
+								<input type="text" ng-model="cmVipConfigAgent.remark" class="form-control">
+							</div>
+						</div>
+						<div class="form-group control-label">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-6">
+								<button class="btn btn-primary btn-mr20" type="button" id="saveButton" ng-click='saveCmSettingAgent()'>确定</button>
+								<button class="btn btn-primary btn-mr20" type="button" id="editButton" ng-click='editCmSettingAgent()'>修改</button>
+								<button class="btn btn-primary8 " type="button" ng-click='cancelCmSettingAgentAddModel()'>返回</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<div id="cmSettingAgentAddButchModel" class="modal fade" tabindex="3"
+		 role="dialog">
+		<form class="form-horizontal" id="form3">
+			<div class="modal-dialog" style="height: 400px; width: 900px">
+				<div class="modal-content" style="height: 400px; width: 900px">
+					<div class="ibox-title">
+						<button type="button" class="close" data-dismiss="modal">×</button>
+						<h5>批量添加【会员和分润设置】</h5>
+					</div>
+					<div class="modal-body">
+						<div class="ibox-content">
+							<div class="form-group">
+								<label class="col-sm-3 control-label">导入文件：</label>
+								<div class="col-sm-3">
+									<input type="file" nv-file-select="" ng-model="fileSelect"
+										   uploader="uploader" multiple />
+									<table class="table">
+										<tbody>
+										<tr ng-repeat="item in uploader.queue">
+											<td><strong>{{ item.file.name }}</strong></td>
+											<td nowrap>
+												<button type="button" class="btn btn-danger btn-xs"
+														ng-click="item.remove()">
+													<span class="glyphicon glyphicon-trash"></span>删除
+												</button>
+											</td>
+										</tr>
+										</tbody>
+									</table>
+								</div>
+								<div class="col-sm-3" style="margin: 7px 0 0 0;">
+									<a href="cmSetting/downloadTemplate" >批量新增模板</a>
+								</div>
+							</div>
+							<div class="form-group" id="errorDate">
+								<label class="col-sm-3 control-label" style="color: red">错误数据{{errorCount}}条：</label>
+								<div class="col-sm-3" style="margin: 7px 0 0 0;">
+									<a href="cmSetting/downloadErrorDate">下载错误数据</a>
+								</div>
+							</div>
+						</div>
+						<div class="form-group control-label">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-6">
+								<button class="btn btn-primary btn-mr20" type="button" ng-click='submit()'>提交</button>
+								<button class="btn btn-primary8 " type="button" ng-click='cancelCmSettingAgentAddButch()'>返回</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

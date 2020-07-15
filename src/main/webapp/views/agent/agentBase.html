@@ -1,0 +1,277 @@
+<div class="row">
+	<div class="col-lg-12">
+	    <div class="ibox float-e-margins">
+	        <div class="ibox-title">
+	            <h5>基本信息</h5>
+	            <!--<div ibox-tools></div>-->
+	        </div>
+	        <div class="ibox-content">
+	            <div class="row">
+	                <div class="col-sm-12">
+						<div class="form-group">
+							<label class="col-lg-2 control-label"><i class="red_req">*</i>代理商类型：</label>
+							<div class="col-lg-2">
+								<select class="form-control input-s-sm inline" ng-disabled="editAgentFlag" ng-model="agent.agentType" ng-options="x.value as x.text for x in allAgentType"/>
+							</div>
+							<label class="col-lg-2 control-label"><i class="red_req">*</i>所属品牌：</label>
+							<div class="col-lg-2">
+								<select class="form-control input-s-sm inline" ng-model="agent.agentOem" ng-options="x.value as x.text for x in allAgentOem"/>
+							</div>
+						</div>
+	                	<div class="form-group">
+	                		<label class="col-lg-2 control-label"><i class="red_req">*</i>代理商名称：</label>
+							<div class="col-lg-6">
+								<input type="text" class="form-control" ng-model="agent.agentName" name="agentName"  required/>
+								<div class="req_mesg" ng-show="horizontal.agentName.$dirty && horizontal.agentName.$invalid">
+									<span ng-show="horizontal.agentName.$error.required">代理商名称不能为空</span>
+								</div>
+							</div>
+					 	</div>
+					 	<div class="form-group">
+	                		<label class="col-lg-2 control-label">邮箱：</label>
+							<div class="col-lg-2">
+								<input type="email" name="email" class="form-control" ng-model="agent.email"/>
+								<div class="req_mesg" ng-show="horizontal.email.$dirty && horizontal.email.$invalid">
+								<!--<span ng-show="horizontal.email.$error.required">邮箱不能为空</span>-->
+								</div>
+								<div class="req_mesg" ng-show="horizontal.email.$dirty && horizontal.email.$invalid">
+									<span ng-show="horizontal.email.$error.email">邮箱格式不正确</span>
+								</div>
+							</div>
+							<label class="col-lg-2 control-label"><i class="red_req">*</i>手机号：</label>
+
+							<div class="col-lg-2">
+								<input type="text" class="form-control" ng-model="agent.mobilephone" name="mobilephone"  ng-pattern="/^1\d{10}$/" required/>
+								<div class="req_mesg" ng-show="horizontal.mobilephone.$dirty && horizontal.mobilephone.$invalid">
+									<span ng-show="horizontal.mobilephone.$error.required">手机号不能为空</span>
+									<span ng-show="horizontal.mobilephone.$error.pattern">输入手机号有误,请重新输入!</span>
+								</div>
+							</div>
+	                		<label class="col-lg-2 control-label"><i class="red_req" ng-show="agent.agentType==11">*</i>联系电话：</label>
+							<div class="col-lg-2">
+								<input type="text" class="form-control f_num" name="phone" ng-model="agent.phone">
+							</div>
+					 	</div>
+					 	<div class="form-group">
+	                		<label class="col-lg-2 control-label">代理商联系人：</label>
+							<div class="col-lg-2">
+								<input type="text" class="form-control" ng-model="agent.linkName">
+							</div>
+						 	<label class="col-lg-2 control-label"><i class="red_req">*</i>销售名称：</label>
+							<div class="col-lg-2">
+								<input type="text" class="form-control" ng-model="agent.saleName" name="saleName" required>
+								<div class="req_mesg" ng-show="horizontal.saleName.$dirty && horizontal.saleName.$invalid">
+									<span ng-show="horizontal.saleName.$error.required">销售名称不能为空</span>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+	                		<label class="col-lg-2 control-label">是否投资：</label>
+							<div class="col-lg-2">
+								<select class="form-control input-s-sm inline" ng-change="resetInvestAmount()" ng-model="agent.invest" ng-options="x.value as x.text for x in bool"/>
+							</div>
+	                		<label class="col-lg-2 control-label">投资金额：</label>
+							<div class="col-lg-2">
+								<input type="number" class="form-control" ng-readonly="agent.invest==0" ng-required="agent.invest==1" ng-model="agent.investAmount" ng-pattern="/^(([1-9]\d{0,9}|0))(\.\d{1,2})?$/" name="investAmount">
+								<div class="req_mesg" ng-show="horizontal.investAmount.$dirty && horizontal.investAmount.$invalid">
+									<span ng-show="horizontal.investAmount.$error.required">投资金额不能为空</span>
+									<span ng-show="horizontal.investAmount.$error.pattern">请输入正确金额</span>
+								</div>
+							</div>
+	                		<label class="col-lg-2 control-label">代理区域：</label>
+							<div class="col-lg-2">
+								<input type="text" class="form-control" ng-model="agent.agentArea" name="agentArea" >
+							</div>
+					 	</div>
+					 	<div class="form-group">
+					 		<label class="col-lg-2 control-label"><i class="red_req">*</i>代理商地址：</label>
+					 		<div class="col-lg-2">
+								<select class="form-control input-s-sm inline" required ng-model="agent.province" name="province" ng-change="getCities()" ng-options="x.name as x.name for x in provinceGroup"/>
+							</div>
+					 		<div class="col-lg-2">
+								<select class="form-control input-s-sm inline" required ng-model="agent.city" name="city" ng-change="getAreas()" ng-options="x.name as x.name for x in cityGroup"/>
+							</div>
+					 		<div class="col-lg-2">
+								<select class="form-control input-s-sm inline" required ng-model="agent.area" name="area" ng-options="x.name as x.name for x in areaGroup"/>
+							</div>
+							<div class="req_mesg">
+									<span ng-show="horizontal.province.$error.required || horizontal.city.$error.required ||
+									horizontal.area.$error.required ">代理商地址不能为空</span>
+								</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-2 control-label"><i class="red_req">*</i>详细地址：</label>
+							<div class="col-lg-6">
+								<input type="text" class="form-control" ng-model="agent.address" name="address"  required>
+								<div class="req_mesg" ng-show="horizontal.address.$dirty && horizontal.address.$invalid">
+									<span ng-show="horizontal.address.$error.required">代理商详细地址不能为空</span>
+								</div>
+							</div>
+						</div>
+	                </div>								                     
+	            </div>
+	        
+	        </div>
+	    </div>
+	    
+	    <div class="ibox float-e-margins">
+	        <div class="ibox-title">
+	            <h5>结算账户信息</h5>
+	            <!--<div ibox-tools></div>-->
+	        </div>
+	        <div class="ibox-content">
+	            <div class="row">
+	                <div class="col-sm-12">								                        	
+	                	<div class="form-group">
+							<label class="col-lg-2 control-label"><i class="red_req">*</i>账户类型：</label>
+							<div class="col-lg-2">
+								<select class="form-control input-s-sm inline" ng-model="agent.accountType"
+										ng-options="x.value as x.text for x in accountType"/>
+							</div>
+	                		<label class="col-lg-2 control-label"><i class="red_req">*</i>开户名：</label>
+							<div class="col-lg-2">
+								<input type="text" class="form-control" ng-model="agent.accountName" name="accountName"  required>
+								<div class="req_mesg" ng-show="horizontal.accountName.$dirty && horizontal.accountName.$invalid">
+									<span ng-show="horizontal.accountName.$error.required">开户名不能为空</span>
+								</div>
+							</div>
+	                		<!--<label class="col-lg-2 control-label"><i class="red_req">*</i>开户行全称：</label>
+							<div class="col-lg-2">
+								<input type="text" class="form-control" ng-model="agent.bankName" name="bankName"  required>
+								<div class="req_mesg" ng-show="horizontal.bankName.$dirty && horizontal.bankName.$invalid">
+									<span ng-show="horizontal.bankName.$error.required">开户行全称不能为空</span>
+								</div>
+							</div>-->
+					 	</div>                       									 	                 									 								                       
+	                	<div class="form-group">
+	                		<!--<label class="col-lg-2 control-label"><i class="red_req">*</i>开户账号：</label>
+							<div class="col-lg-2">
+								<input type="text" class="form-control f_num" ng-model="agent.accountNo" name="accountNo" ng-pattern="/^(\d{9,21})$/"  ng-required="">
+								<div class="req_mesg" ng-show="horizontal.accountNo.$dirty && horizontal.accountNo.$invalid">
+									<span ng-show="horizontal.accountNo.$error.required">开户账号不能为空</span>
+									<span ng-show="horizontal.accountNo.$error.pattern">开户账号不正确</span>
+								</div>
+							</div>-->
+
+
+							<label class="col-sm-2 control-label"><i class="red_req">*</i>开户账号：</label>
+							<div class="col-sm-3">
+								<input type="text" ng-blur="getBankName()" class="form-control" ng-model="agent.accountNo" name="accountNo" ng-pattern="/^\d{9,21}$/" required>
+								<div class="req_mesg" ng-show="horizontal.accountNo.$dirty && horizontal.accountNo.$invalid">
+									<span ng-show="horizontal.accountNo.$error.required">开户账号不能为空</span>
+									<span ng-show="horizontal.accountNo.$error.pattern">开户账号格式不正确</span>
+								</div>
+								<div class="req_mesg">
+									<span ng-show="accountNoFlag">开户账号不正确</span>
+								</div>
+							</div>
+							<div ng-show="agent.accountType == 2">
+								<label class="col-sm-2 control-label">开户银行：</label>
+								<div class="col-sm-3">
+									<select class=" form-control inline" ng-model="agent.bankName"
+											ng-options="x.bankName as x.bankName for x in accountList"/>
+								</div>
+							</div>
+							<div ng-show="agent.accountType == 1">
+								<label class="col-sm-2 control-label">开户行全称：</label>
+								<div class="col-sm-3">
+									<input type="text" ng-model="agent.bankName" class="form-control">
+								</div>
+							</div>
+	                		<!--<label class="col-lg-2 control-label"><i class="red_req">*</i>联行行号：</label>
+							<div class="col-lg-2">
+								<input type="text" class="form-control f_num" ng-model="agent.cnapsNo" name="cnapsNo" ng-pattern="/^(\d{12})$/" required>
+								<div style="float:left; padding:7px 0 0 10px">
+									<a target="_blank" ng-click="getPoscnapsNo()">自动获取</a>
+								</div>
+								<div class="req_mesg" ng-show="horizontal.cnapsNo.$dirty && horizontal.cnapsNo.$invalid">
+									<span ng-show="horizontal.cnapsNo.$error.required">联行行号不能为空</span>
+									<span ng-show="horizontal.cnapsNo.$error.pattern">联行行号不正确</span>
+								</div>
+							</div>-->
+	                		<!--<label class="col-lg-2 control-label"><a href="http://www.posp.cn/" target="_blank">联行行号查询</a></label>-->
+					 	</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><i class="red_req">*</i>开户地区：</label>
+							<div class="col-sm-2">
+								<select class="form-control input-s-sm inline"
+										ng-model="agent.accountProvince" ng-change="getCitiess()"
+										ng-options="x.name as x.name for x in provinceGroups" />
+							</div>
+							<div class="col-sm-2">
+								<select class="form-control input-s-sm inline"
+										ng-model="agent.accountCity" ng-change="getPosCnaps()"
+										ng-options="x.name as x.name for x in cityGroups" />
+							</div>
+							<div class="col-sm-4">
+								<p class="red_req" style="margin-top:7px">备注：获取支行需要开户账号、开户银行、开户地区的相关信息</p>
+							</div>
+						</div>
+						<div class="form-group">
+							<div ng-show="agent.accountType == 2">
+								<label class="col-sm-2 control-label"><i class="red_req">*</i>支行：</label>
+								<div class="col-sm-4">
+									<select name="autocomplete-select" id="autocomplete-select2"
+											ng-model="agent.cnapsNo" ng-options="x.cnapsNo as x.bankName for x in bankNames"
+											style="width: 250px" chosen chosen-data="bankNames">
+									</select>
+								</div>
+							</div>
+							<label class="col-sm-2 control-label"><i class="red_req">*</i>联行行号：</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" ng-model="agent.cnapsNo" required>
+							</div>
+							<!--<div ng-show="agent.accountType == 1">
+								<label class="col-lg-2 control-label"><a href="http://www.posp.cn/"  rel="noopener noreferrer" target="_blank">联行行号查询</a></label>
+							</div>-->
+						</div>
+						<div class="form-group">
+							<label class="col-lg-2 control-label"><i class="red_req">*</i>身份证号：</label>
+							<div class="col-lg-2">
+								<input type="text" class="form-control" ng-model="agent.idCardNo" name="idCardNo" required>
+								<div class="req_mesg" ng-show="horizontal.idCardNo.$dirty && horizontal.idCardNo.$invalid">
+									<span ng-show="horizontal.idCardNo.$error.required">身份证号不能为空</span>
+								</div>
+							</div>
+						</div>
+	                </div>								                     
+	            </div>
+	        </div>
+	    </div>
+	    
+	    <div class="ibox float-e-margins">
+	        <div class="ibox-title">
+	            <h5>商户进件审核</h5>
+	            <!--<div ibox-tools></div>-->
+	        </div>
+	        <div class="ibox-content">
+	            <div class="row">
+	                <div class="col-sm-12">								                        	
+	                	<div class="form-group">
+	                		<label class="col-lg-2 control-label"><i class="red_req">*</i>一级代理商对商户进件进行初审：</label>
+							<div class="col-lg-2">
+								<select class="form-control input-s-sm inline" ng-model="agent.isApprove" ng-options="x.value as x.text for x in bool"/>
+							</div>
+					 	   
+							<label class="col-lg-2 control-label"><i class="red_req">*</i>代理商层级链条长度限制：</label>
+							<div class="col-lg-2">
+								<select class="form-control input-s-sm inline" ng-model="agent.countLevel" ng-options="x.value as x.text for x in agentLevel"/>
+							</div>
+							<label class="col-lg-2 control-label">客服电话：</label>
+							<div class="col-lg-2">
+								<input type="text" class="form-control" ng-model="agent.customTel">
+							</div>
+					 	</div>
+						<div class="form-group" ng-show="agent.agentType==11">
+							<label class="col-lg-2 control-label"><i class="red_req">*</i>交易分润等级最高可调级数：</label>
+							<div class="col-lg-2">
+								<select class="form-control input-s-sm inline" ng-model="agent.agentShareLevel" ng-options="x.value as x.text for x in agentShareLevel"/>
+							</div>
+						</div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>								        
+</div>
+							

@@ -1,0 +1,181 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>功能管理</a></li>
+			<li class="active"><strong>微创业活动设置</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	ng-controller="superPushConfigCtrl">
+	<form class="form-horizontal" id="form1" name="horizontal">
+		<div class="row">
+			<div class="col-lg-12" style="padding-bottom:80px;">
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>商户分润设置</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+							<div style="height:290px" ui-grid="shareRuleGrid" ui-grid-resize-columns class="grid"></div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>提现服务：</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+						<label class="col-sm-2 control-label"><i class="red_req">*</i>商户微创业提现服务ID：</label>
+						<div class="col-sm-2">
+							<input type="text" class="form-control" ng-model="baseInfo.txServiceId" 
+							ng-pattern="/^(\d{0,10})$/"
+							required name="txServiceId" />
+							<div class="req_mesg" ng-show="horizontal.txServiceId.$dirty && horizontal.txServiceId.$invalid">
+								<span ng-show="horizontal.txServiceId.$error.required">提现服务不能为空</span>
+								<span ng-show="horizontal.txServiceId.$error.pattern">提现服务格式不正确</span>
+							</div>
+						</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>是否关联鼓励金开关：</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+						<label class="col-sm-2 control-label"></label>
+						<div class="col-sm-2">
+							<switch class="switch switch-s" ng-model="baseInfo.incentiveFundSwitch" />
+						</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>分享奖励商户设置：</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">开关控制:</label>
+							<div class="col-sm-2">
+								<switch class="switch switch-s"  ng-model="baseInfo.rewardPointSwitch" />
+							</div>
+							<label class="col-sm-2 control-label">奖励金额:</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" ng-model="baseInfo.prizesAmount"
+									   ng-pattern="/^(([0-9]\d{0,9}))(\.\d{1,2})?$/"
+									   ng-disabled="!baseInfo.rewardPointSwitch"
+									   required name="prizesAmount" />
+							</div>
+							<div class="col-sm-2">
+								<label class="col-sm-2 control-label">元</label>
+
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- <div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>自定义客户端界面代理商设置：</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+							<label class=" control-label"></label>
+							<div class="col-sm-2">
+								<button class="btn btn-new" type="button" ng-click='addAgentModal()'
+								>增加</button>
+							</div>
+						</div>
+						<div class="form-group" >
+							<div style="height:280px" ui-grid="agentGrid" ui-grid-resize-columns ui-grid-pinning class="grid"></div>
+						</div>
+					</div>
+				</div> -->
+		
+				<div class="panel-body ibox float-e-margins">
+					<div class="ibox-title">
+						<h5><i class="red_req">*</i>推送短信模板</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-1 control-label"></label>
+							<div class="col-sm-9">
+							<textarea class="form-control" rows="6" cols="10" ng-model="baseInfo.messageModule" required name="messageModule"></textarea>
+							<div class="req_mesg" ng-show="horizontal.messageModule.$dirty && horizontal.messageModule.$invalid">
+								<span ng-show="horizontal.messageModule.$error.required">推送短信模板不能为空</span>
+							</div>
+							</div>
+						</div>
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-1 control-label"></label>
+							<div class="col-sm-9">
+								<textarea class="form-control" rows="6" cols="10" ng-model="baseInfo.bonusMessageModule" required name="bonusMessageModule"></textarea>
+								<div class="req_mesg" ng-show="horizontal.bonusMessageModule.$dirty && horizontal.bonusMessageModule.$invalid">
+									<span ng-show="horizontal.bonusMessageModule.$error.required">分享奖励,推送短信模板不能为空</span>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group" style="padding-top:30px;">
+						<label class="col-sm-2 control-label"></label>
+						<div class="col-sm-7">
+							<button class="btn btn-primary btn-mr20 " ng-disabled="horizontal.$invalid || submitting" type="button"
+							ng-show="hasPermit('superPushConfig.saveConfig')"
+							ng-click="submit()" id="btnSubmit">提交</button>
+							<button class="btn btn-primary8  " type="button" ng-click="submitCancel()" 
+									>取消</button>
+						</div>
+					</div>
+
+				</div>
+				
+			</div>
+		</div>
+	</form>
+	<!-- <div id="addAgentModal" class="modal fade form-horizontal" tabindex="3" role="dialog">
+		<div class="modal-dialog" style="height:530px;width: 700px">
+			<div class="modal-content" style="height:530px;width: 700px">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						&times;</button>
+					<h3 class="modal-title">添加代理商</h3>
+				</div> 
+				<div class="modal-body">
+					<div class="form-group">
+						<label class="col-sm-3 control-label">代理商编号/名称：</label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control"  ng-keyup="getStates(baseInfo.addAgentNo)" ng-model="baseInfo.addAgentNo" />
+						</div>
+					</div>
+					<div class="form-group">
+						<div style="height:280px" ui-grid="addAgentGrid" ui-grid-selection ui-grid-resize-columns ui-grid-pinning class="grid"></div>
+					</div>
+					
+				</div>
+				<div class="modal-footer">
+					<div class="form-group control-label">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-6">
+									<button class="btn btn-primary btn-mr20" type="button" ng-click='addAgentList()'
+									>确定</button>
+									<button class="btn btn-primary8" type="button" ng-click='cancel()'
+									>返回</button>
+							</div>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div> -->
+</div>

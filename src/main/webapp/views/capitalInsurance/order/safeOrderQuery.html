@@ -1,0 +1,122 @@
+<!--账户资金损失险-->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>账户资金损失险</a></li>
+            <li class="active"><strong>保险订单查询</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app ng-controller="safeOrderQueryCtrl">
+    <form class="form-horizontal" id="form1">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="">
+                    <div class="panel-body ibox float-e-margins">
+                        <div class="ibox-content">
+                            <div class="ibox-title">
+                                <h5>保险订单查询</h5>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">保险订单号:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.bxOrderNo">
+                                </div>
+                                <label class="col-sm-2 control-label">承保单位:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.bxUnit" ng-options="x.value as x.text for x in bxUnitSelect"/>
+                                </div>
+                                <label class="col-sm-2 control-label">产品编码:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.prodNo" ng-options="x.value as x.text for x in prodNoList"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">保单号:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.thirdOrderNo">
+                                </div>
+                                <label class="col-sm-2 control-label">投保状态:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.bxType" ng-options="x.value as x.text for x in bxTypeSelect"/>
+                                </div>
+                                <label class="col-sm-2 control-label">支付状态:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.transStatus" ng-options="x.value as x.text for x in transStatusAll"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">交易订单号:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.orderNo">
+                                </div>
+                                <label class="col-sm-2 control-label">结算周期:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.settlementMethod" ng-options="x.value as x.text for x in settlementMethodSelect"/>
+                                </div>
+                                <label class="col-sm-2 control-label">商户编号:</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" ng-model="info.merchantNo">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">所属代理商名称:</label>
+                                <div class="col-sm-2">
+                                    <select  name="agentNo" id="autocomplete-select1"
+                                             ng-model="info.agentNo" ng-options="x.value as x.text for x in agentList"
+                                             style="width: 100%" chosen chosen-data="agentNo" chosen-keyup="getStates">
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label">包含下级:</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="info.lowerAgent" ng-options="x.value as x.text for x in lowerAgentSelect"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">投保时间:</label>
+                                <div class="col-sm-5">
+                                    <input id="d5231" class="form-control" type="datetime" ng-model="info.tTimeBegin" onchange=""  style="width:auto;display:inline-block;"
+                                           onFocus="var d5232=$dp.$('d5232');WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5232.focus();},maxDate:'#F{$dp.$D(\'d5232\')}'})"/>
+                                    ~
+                                    <input id="d5232" class="form-control" type="datetime"  ng-model="info.tTimeEnd" onchange=""  style="width:auto;display:inline-block;"
+                                           onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5231\')}'})"/>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-top: 30px">
+                                <div class="col-sm-8">
+                                    <label class="col-sm-2 control-label"></label>
+                                    <button class="btn btn-primary6 btn-mr20" type="button" ng-click="query()" >查询</button>
+                                    <button class="btn btn-primary3 btn-mr20" type="button" ng-click="clear()" >清空</button>
+                                    <button class="btn btn-primary7 btn-mr20" type="button" ng-show="hasPermit('safeOrder.importDetail')" ng-click="exportInfo()" >导出</button>
+                                    <button class="btn btn-new btn-mr20" type="button" ng-show="hasPermit('safeOrder.retreatsSafe')" ng-click="retreatsSafeBatch()" >手工退保</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body ibox float-e-margins">
+                        <div class="ibox-title">
+                            <div class="ibox-content">
+                                <div class="ibox-title">
+                                    <h5>保险订单列表</h5>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-2 checkbox">保险订单总笔数:<span ng-bind="total.countTotal"></span>笔</div>
+                                    <div class="col-sm-2 checkbox">保费售价总计:<span ng-bind="total.nPrmTotal | currency:''"></span>元</div>
+                                    <div class="col-sm-2 checkbox">保费成本总计:<span ng-bind="total.nFeeTotal | currency:''"></span>元</div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="gridStyle" ui-grid="userGrid" ui-grid-selection ui-grid-pagination
+                                         ui-grid-resize-columns ui-grid-pinning></div>
+                                    <div ng-show="loadImg" class="timg"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="height:30px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

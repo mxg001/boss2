@@ -1,0 +1,124 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a>主页</a></li>
+			<li><a>收单机构管理</a></li>
+			<li class="active"><strong>集群中普通商户转移</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app
+	 ng-controller="groupMerTransfer">
+	<form class="form-horizontal">
+	<div class="row">
+		<div class="col-lg-12"> 		
+			<div class="ibox float-e-margins">
+				<div class="ibox-content">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">集群编号：</label>
+						<div class="col-sm-2">
+							<input type="text" class="form-control" ng-model="info.groupCode">
+						</div>
+						<label class="col-sm-2 control-label">集群状态：</label>
+						<div class="col-sm-2">
+							<select class="form-control" ng-model="info.status" ng-options="x.value as x.text for x in statusAll"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">收单机构：</label>
+						<div class="col-sm-2">
+							<select class="form-control" ng-model="info.acqId" ng-change="getAcqServiceList()" ng-options="x.id as x.acqName for x in acqOrgList"/>
+						</div>
+						<label class="col-sm-2 control-label">收单机构服务：</label>
+						<div class="col-sm-2">
+							<select class="form-control" ng-model="info.acqServiceId" ng-options="x.id as x.serviceName for x in acqServiceList"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">所属省份：</label>
+						<div class="col-sm-2">
+							<select class="form-control" ng-model="info.groupProvince" ng-change="getCities()" ng-options="x.name as x.name for x in provinceList"/>
+						</div>
+						<label class="col-sm-2 control-label">所属城市：</label>
+						<div class="col-sm-2">
+							<select class="form-control" ng-model="info.groupCity" ng-options="x.name as x.name for x in cityList"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">所属代理商：</label>
+						<div class="col-sm-2">
+							<select name="autocomplete-select" id="autocomplete-select" ng-model="info.agentNode" ng-options="x.value as x.text for x in agent" style="width: 100%" chosen chosen-data="agent" chosen-keyup="getStates">
+							</select>
+						</div>
+						<label class="col-sm-2 control-label">商户服务类型：</label>
+						<div class="col-sm-2">
+							<select class="form-control" ng-model="info.serviceType" ng-options="x.value as x.text for x in newServiceTypes"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">商户编号：</label>
+						<div class="col-sm-2">
+							<input type="text" class="form-control" ng-model="info.merchantNo">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label"></label>
+						<div class="col-sm-6">
+							<input type="button" class="btn btn-primary6 btn-mr20" ng-click="query()" ng-disabled="submitting" value='查询'>
+							<input type="button" class="btn btn-primary3 btn-mr20" ng-click="reset()" value='清空'>
+							<input type="button" class="btn btn-new" ng-show="hasPermit('groupMer.transfer')" ng-click="transferGroup()" value='转移集群'>
+						</div>
+					</div>
+					<div class="form-group tposition">
+						<div class="grid" ui-grid="merGrid" ui-grid-pagination ui-grid-selection ui-grid-pinning ui-grid-resize-columns></div>
+						<div ng-show="loadImg" class="timg"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</form>
+	
+	<!-- 模态框（Modal）转移集群 -->
+	<div id="transferModal" class="modal fade" tabindex="-1" role="dialog">
+	   <div class="modal-dialog">
+	      <div class="modal-content">
+	         <div class="modal-header">
+	            <button type="button" class="close" data-dismiss="modal">
+	                  &times;
+	            </button>
+	            <h3 class="modal-title">集群中普通商户转移</h3>
+	         </div>
+	         <form id="form3" name="horizontal">
+	         <div class="modal-body form-horizontal">
+	         	
+	         		<div class="form-group" style="overflow:hidden">
+						<label class="col-sm-4 control-label">商户总数量：</label>
+						<span class="col-sm-4 control-label" style="text-align:left">{{merSum}}</span>
+						<!-- <div style="padding: 0 20px;"><input ng-model="roll.merchantNo" type="text" class="form-control"></div> -->
+					</div>
+					<div class="form-group" style="overflow:hidden">
+						<label class="col-sm-4 control-label">转入集群编号：</label>
+						<div class="col-sm-4">
+							<input class="form-control" type="text" ng-model="groupCode" ng-blur="getGroupName()" required>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-4 control-label"></label>
+						<input class="form-control" type="text" ng-show="groupNameShow" ng-model="groupName" readonly >
+						<span class="req_mesg" ng-show="groupNameMsgShow">{{groupNameMsg}}</span>
+					</div>
+	         	
+	         </div>
+	         <div class="modal-footer">
+			    <button type="button" ng-click="transferGroupSubmit()" ng-disabled=" horizontal.$invalid || submitting" class="btn btn-primary">确定</button>
+			 	<button type="button" ng-click="cancel()" class="btn btn-primary4">取消</button>
+			 </div>
+			 </form>
+	      </div>
+		</div>
+	</div>
+
+</div>

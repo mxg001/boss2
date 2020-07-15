@@ -1,0 +1,131 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a href="index.html">主页</a></li>
+			<li><a>功能管理</a></li>
+			<li class="active"><strong>代理商账户控制</strong></li>
+		</ol>
+	</div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-app ng-controller="agentAccountControlCtrl">
+	<form class="form-horizontal" id="form1" name="horizontal">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>默认设置：</h5>
+						<!--<div ibox-tools></div>-->
+					</div>
+					<div class="ibox-content">
+						<div class="form-group">
+								<label class="col-sm-2 control-label">账户总控制：</label>
+								<div class="col-sm-10">
+									<switch class="switch switch-s" style="float:left;"  ng-model="baseInfo.status" />
+									<div style="float:left; padding:7px 0 0 10px">（打开则启用，关闭则不启用）</div>
+								</div>
+
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">账户留存金额：</label>
+							<div class="col-sm-10" style="float:left">
+								<input type="text" class="form-control" style="float:left; width:100px" ng-model="baseInfo.retainAmount"
+									   ng-pattern="/^(([0-9]\d{0,9}))(\.\d{1,2})?$/"
+									   ng-disabled="!baseInfo.status"
+									   required name="retainAmount" />
+								<div style="float:left; padding:7px 0 0 10px">元  （指一级代理商的活动补贴账户可用余额控制金额，留存金额不可以提现）</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-7">
+								<button class="btn btn-primary btn-mr20 "
+										ng-disabled="submitting" type="button"
+										ng-show="hasPermit('agentAccountControl.saveAgentAccountControl')"
+										ng-click="commit()" id="btnSubmit">提交</button>
+								<button class="btn btn-primary4" type="button"
+										ng-click="submitCancel()">取消</button>
+							</div>
+						</div>
+
+						<div class="ibox-title">
+							<h5>按代理商差异化设置：</h5>
+							<!--<div ibox-tools></div>-->
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">代理商名称：</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" name="info.agentName" ng-model="info.agentName">
+							</div>
+							<label class="col-sm-2 control-label">代理商编号：</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" name="info.agentNo" ng-model="info.agentNo">
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-lg-12">
+								<div class="col-sm-1"></div>
+								<button class="btn btn-primary6 btn-mr20" style="float:left;" type="button" ng-click="query()">查询</button>
+								<button class="btn btn-primary3 btn-mr20" style="float:left;" type="button" ng-click="clear()">清空</button>
+								<button class="btn btn-primary5 btn-mr20" style="float:left;" type="button" ng-show="hasPermit('agentAccountControl.addAgentAccountControl')" ng-click="hardWardAddModel()" >新增</button>
+								<div style="float:left; padding:10px 0 0 0">只能新增一级代理商</div>
+							</div>
+						</div>
+
+						<div class="ibox float-e-margins">
+							<div class="ibox-content">
+								<div class="tposition">
+									<div ui-grid="gridOptions" ui-grid-pagination  ui-grid-resize-columns ui-grid-pinning class="grid"></div>
+									<div ng-show="loadImg" class="timg"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<div id="hardWardAddModel" class="modal fade" tabindex="3"
+		 role="dialog">
+		<form class="form-horizontal" id="form2">
+			<div class="modal-dialog" style="height: 400px; width: 900px">
+				<div class="modal-content" style="height: 400px; width: 900px">
+					<div class="modal-body">
+						<div class="form-group">
+							<label class="col-sm-3 control-label"><i class="red_req">*</i>代理商编号：</label>
+							<div class="col-sm-5">
+								<input ng-blur="queryAgentNoById()" type="text" class="form-control" id="agentNo" name="agentAccountControl.agentNo" ng-model="agentAccountControl.agentNo">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label"><i class="red_req">*</i>代理商名称：</label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control" name="agentAccountControl.agentName" ng-model="agentAccountControl.agentName" readonly>
+							</div>
+						</div>
+						<div class="form-group" id="activityTypeNo">
+							<label class="col-sm-3 control-label"><i class="red_req">*</i>留存金额：</label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control" ng-model="agentAccountControl.retainAmount"
+									   ng-pattern="/^(([0-9]\d{0,9}))(\.\d{1,2})?$/"
+									   required name="retainAmount" />
+							</div>
+							<div class="col-sm-2">
+								<label class="col-sm-2 control-label">元</label>
+							</div>
+						</div>
+						<div class="form-group control-label">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-6">
+								<button class="btn btn-primary btn-mr20" type="button" ng-click='addAgentAccountControl()'>提交</button>
+								<button class="btn btn-primary8 " type="button" ng-click='cancel()'>返回</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

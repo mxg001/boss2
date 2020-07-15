@@ -1,0 +1,96 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li><a>排行榜详细</a></li>
+            <li class="active"><strong>榜单详细</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn" ng-controller="findRankingRecordDetailCtrl">
+    <form class="form-horizontal" name="horizontal" >
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>基本信息</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">编号：</label>
+                            <div class="col-sm-2 checkbox wbba" ng-bind="baseInfo.rankingNo">
+                            </div>
+                            <label class="col-sm-1 control-label">榜单状态：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.rankingStatus">
+                            </div>
+                            <label class="col-sm-1 control-label">规则编号：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.ruleNo">
+                            </div>
+                            <label class="col-sm-1 control-label">排行榜名称：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.rankingName">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">统计周期：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.rankingType">
+                            </div>
+                            <label class="col-sm-1 control-label">期号：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.batchNo">
+                            </div>
+                            <label class="col-sm-1 control-label">本期获奖人数：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.pushNum">
+                            </div>
+                            <label class="col-sm-1 control-label">本期奖金：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.pushTotalAmount">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">所属组织：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.orgName">
+                            </div>
+                            <label class="col-sm-1 control-label">实发获奖人数：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.pushRealNum">
+                            </div>
+                            <label class="col-sm-1 control-label">实发奖金：</label>
+                            <div class="col-sm-2 checkbox" ng-bind="baseInfo.pushRealAmount">
+                            </div>
+                            <label class="col-sm-1 control-label">统计时间段：</label>
+                            <div class="col-sm-2 checkbox">
+                            {{baseInfo.startDate | date:'yyyy-MM-dd HH:mm:ss'}} ~ {{baseInfo.endDate | date:'yyyy-MM-dd HH:mm:ss'}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              	
+              	<div class="panel-body ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>榜单明细</h5>
+                        <input type="text" ng-model="baseInfo.recordId" class="form-control" style="width:auto;display:none;">
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <div class="col-sm-3 checkbox">人数：<span ng-bind="orderGrid.totalItems"></span></div>
+                            <div class="col-sm-3 checkbox">统计总额：<span ng-bind="baseInfo.allUsersTotal"></span></div>
+                        </div>
+                        <div class="tposition">
+                            <div class="gridStyle" ui-grid="orderGrid" ui-grid-selection ui-grid-pagination
+                                 ui-grid-resize-columns ui-grid-pinning></div>
+                            <div ng-show="loadImg" class="timg"></div>
+                        </div>
+
+                    </div>
+                </div>
+                <div style="height:30px;"></div>
+              	
+              	<div class="col-sm-8" style="text-align-center;">
+                    <input type="button" class="btn btn-primary4 btn-mr20" style="margin-left:50%"  ui-sref="superBank.rankingRecord" value="返回" href="#/superBank/superBank/orgInfoManager">
+                </div>
+              	
+            </div>
+        </div>
+    </form>
+    
+    
+</div>

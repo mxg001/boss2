@@ -1,0 +1,313 @@
+<!-- 导航URL -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a>主页</a></li>
+            <li>超级兑(激活版)</li>
+            <li class="active"><strong>激活码查询</strong></li>
+        </ol>
+    </div>
+</div>
+<!-- 主要内容 -->
+<div class="wrapper wrapper-content animated fadeIn"
+     ng-controller="activationCodeCtrl">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>激活码查询</h5>
+                </div>
+                <div class="ibox-content">
+                    <form class="form-horizontal" id="form1">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="panel-body ibox float-e-margins">
+                                    <div class="ibox-content">
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">服务商编号：</label>
+                                            <div class="col-sm-2">
+                                                <select name="autocomplete-select" id="autocomplete-select"
+                                                        ng-model="info.agentNode" ng-options="x.value as x.text for x in agentList"
+                                                        style="width: 100%" chosen chosen-data="agent" chosen-keyup="ayncQueryAgentList">
+                                                    <option value="" selected>全部</option>
+                                                </select>
+                                            </div>
+                                            <label class="col-sm-2 control-label">激活码状态：</label>
+                                            <div class="col-sm-2">
+                                                <select ng-model="info.status" class="form-control"  ng-options="x.value as x.text for x in activationCodeStatus">
+                                                    <option value="">全部</option>
+                                                </select>
+                                            </div>
+                                            <label class="col-sm-2 control-label">用户编号：</label>
+                                            <div class="col-sm-2">
+                                                <input type="text" class="form-control" ng-model="info.merNo">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">激活码编号：</label>
+                                            <div class="col-sm-6">
+                                                <input type="number" class="form-control"
+                                                       style="width:auto;display:inline-block;" ng-model="info.minId">
+                                                ~
+                                                <input type="number" class="form-control"
+                                                       style="width:auto;display:inline-block;" ng-model="info.maxId">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">激活日期：</label>
+                                            <div class="col-sm-6">
+                                                <input id="d5221" class="form-control" type="datetime" ng-model="info.startActivateTime" onchange=""  style="width:auto;display:inline-block;"
+                                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss',onpicked:function(){d5222.focus();}})"/>
+                                                 -
+                                                <input id="d5222" class="form-control" type="datetime"  ng-model="info.endActivateTime" onchange=""  style="width:auto;display:inline-block;"
+                                                       onFocus="WdatePicker({skin:'whyGreen',dateFmt: 'yyyy-MM-dd HH:mm:ss'})"/>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-1"></label>
+                                            <div class="col-sm-10">
+                                                <button class="btn btn-primary6 btn-mr20" type="button"
+                                                        ng-disabled="submitting"
+                                                        ng-click='listActivationCode()' id="btnSubmit">查询
+                                                </button>
+                                                <button class="btn btn-primary3 btn-mr20" type="button"
+                                                        ng-click="resetForm()">清空
+                                                </button>
+                                                <button class="btn btn-new btn-mr20" type="button"
+                                                        ng-show="hasPermit('exchangeActivate.build')"
+                                                        ng-click="showBuildActivationCodeModel()">生成激活码
+                                                </button>
+                                                <button class="btn btn-new btn-mr20" type="button"
+                                                        ng-show="hasPermit('exchangeActivate.divide')"
+                                                        ng-click="showDivideActivationCodeModal()">划分激活码
+                                                </button>
+                                                <button class="btn btn-new btn-mr20" type="button"
+                                                        ng-show="hasPermit('exchangeActivate.recovery')"
+                                                        ng-click="showRecoveryActivationCodeModal()">回收激活码
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="panel-body ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <h5>列表</h5>
+                                    </div>
+                                    <div class="ibox-content">
+                                        <div class="tposition">
+                                            <div class="gridStyle" ui-grid="activationCodeGrid"
+                                                 ui-grid-pagination ui-grid-selection ui-grid-resize-columns ui-grid-pinning>
+                                            	<div ng-show="loadImg" class="timg"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="height: 50px"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="height: 30px;"></div>
+
+
+
+
+
+    <!-- 生成激活码 -->
+    <form class="form-horizontal"  name="horizontalCreate" novalidate>
+        <div id="buildActivationCodeModal" class="modal fade" role="dialog">
+            <div class="modal-dialog" style="width: 900px">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            &times;</button>
+                        <h3 class="modal-title">生成激活码</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label"><i class="red_req">*</i>生成激活码数量：</label>
+                            <div class="col-sm-3">
+                                <input type="number" class="form-control"
+                                       ng-model='buildActivation.count' name="number" required min="1"/>
+                                <div class="req_mesg" ng-show="horizontalCreate.number.$dirty && hohorizontalCreate.number.$invalid">
+                                    <span ng-show="horizontalCreate.number.$error.required">请输入生成激活数量</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show="buildActivation.isSuccess">
+                            <label class="col-sm-3 control-label">生成激活码编号：</label>
+                            <div class="col-sm-6">
+                                {{buildActivation.result.minId }} ~ {{buildActivation.result.maxId}}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-6">
+                                <button ng-show="!buildActivation.isSuccess" class="btn btn-primary" type="button" ng-click='buildActivationCode()'>提交</button>
+                                <button class="btn btn-primary8" type="button" ng-click='hideAllModel()'>{{buildActivation.isSuccess ? "返回" : "取消"}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+
+
+
+    <!-- 划分激活码 -->
+    <form class="form-horizontal"  name="horizontalCreate" novalidate>
+        <div id="divideActivationCodeModal" class="modal fade" role="dialog">
+            <div class="modal-dialog" style="width: 900px">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            &times;</button>
+                        <h3 class="modal-title">划分激活码</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label"><i class="red_req">*</i>划分激活码编号：</label>
+                            <div class="col-sm-6">
+                                <input type="number" class="form-control" style="width: auto;display: inline-block"
+                                       ng-model='divideActivation.startId' name="number" required min="1" ng-change="divideActivationChange()"/>
+                                -
+                                <input type="number" class="form-control" style="width: auto;display: inline-block"
+                                       ng-model='divideActivation.endId' name="number" required min="1" ng-change="divideActivationChange()"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label"><i class="red_req">*</i>划分数量：</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" disabled value="{{divideActivation.expectCount}}">
+                            </div>
+                            <div class="col-sm-3">
+                                <label style="color: red;">{{divideActivation.message}}</label>
+                            </div>
+                        </div>
+                        <!--<div class="form-group"  ng-show="divideActivation.showActualCount">-->
+                            <!--<label class="col-sm-3 control-label"><i class="red_req">*</i>实际划分数量：</label>-->
+                            <!--<div class="col-sm-3">-->
+                                <!--<input type="text" class="form-control" disabled value="{{divideActivation.actualCount}}">-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label"><i class="red_req">*</i>服务商名称：</label>
+                            <div class="col-sm-3">
+                                <select name="autocomplete-select" id="autocomplete-select1"
+                                        ng-model="divideActivation.agentNode" ng-options="x.value as x.text for x in agentList"
+                                        style="width: 100%" chosen chosen-data="agent" chosen-keyup="ayncQueryAgentList">
+                                </select>
+                            </div>
+                        </div>
+                        <!--<div class="form-group">-->
+                            <!--<label class="col-sm-3 control-label">服务商名称：</label>-->
+                            <!--<div class="col-sm-3">-->
+                                <!--<input type="text" class="form-control"-->
+                                       <!--ng-model='divideActivation.agentName' disabled name="text" required min="1"/>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-6">
+                                <button class="btn btn-primary" ng-disabled="divideActivation.message" type="button" ng-click='divideActivationCode()'>提交</button>
+                                <button class="btn btn-primary8" type="button" ng-click='hideAllModel()'
+                                >取消</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+
+    <!-- 回收激活码 -->
+    <form class="form-horizontal"  name="horizontalCreate" novalidate>
+        <div id="recoveryActivationCodeModal" class="modal fade" role="dialog">
+            <div class="modal-dialog" style="width: 900px">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            &times;</button>
+                        <h3 class="modal-title">回收激活码</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label"><i class="red_req">*</i>回收激活码编号：</label>
+                            <div class="col-sm-6">
+                                <input type="number" class="form-control" style="width: auto;display: inline-block"
+                                       ng-model='recoveryActivation.startId' name="number" required min="1" ng-change="recoveryActivationChange()"/>
+                                -
+                                <input type="number" class="form-control" style="width: auto;display: inline-block"
+                                       ng-model='recoveryActivation.endId' name="number" required min="1" ng-change="recoveryActivationChange()"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label"><i class="red_req">*</i>回收数量：</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" disabled value="{{recoveryActivation.expectCount}}">
+                            </div>
+                            <div class="col-sm-3">
+                                <label style="color: red;">{{recoveryActivation.message}}</label>
+                            </div>
+                        </div>
+                        <!--<div class="form-group" ng-show="recoveryActivation.showActualCount">-->
+                            <!--<label class="col-sm-3 control-label"><i class="red_req">*</i>实际回收数量：</label>-->
+                            <!--<div class="col-sm-3">-->
+                                <!--<input type="text" class="form-control" disabled value="{{recoveryActivation.actualCount}}">-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-6">
+                                <button class="btn btn-primary" ng-disabled="recoveryActivation.message" type="button" ng-click='recoveryActivationCode()'>提交</button>
+                                <button class="btn btn-primary8" type="button" ng-click='hideAllModel()'
+                                >取消</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <!-- 展示激活码 -->
+    <form class="form-horizontal"  name="horizontalCreate" novalidate>
+        <div id="activeCodeUrlModal" class="modal fade" role="dialog">
+            <div class="modal-dialog" style="width: 900px">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            &times;</button>
+                        <h3 class="modal-title">激活码详情</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label"><i class="red_req">*</i>激活码url：</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" readonly value="{{activeCodeUrl.url}}"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label"></label>
+                            <div class="col-sm-6">
+                                <button class="btn btn-primary8" type="button" ng-click='hideAllModel()'>返回</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+</div>
