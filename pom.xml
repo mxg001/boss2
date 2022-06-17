@@ -24,7 +24,7 @@
 		<commons-lang2.version>2.2</commons-lang2.version>
 		<logback.version>1.2.2</logback.version>
 
-		<fastJson.version>1.2.48.sec06</fastJson.version>
+		<fastJson.version>1.2.83</fastJson.version>
 		<jackson-asl>1.9.13</jackson-asl>
 		<jackson-core>2.3.0</jackson-core>
 		<jackson-databind>2.3.0</jackson-databind>
