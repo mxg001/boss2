@@ -27,7 +27,7 @@
 		<fastJson.version>1.2.48.sec06</fastJson.version>
 		<jackson-asl>1.9.13</jackson-asl>
 		<jackson-core>2.3.0</jackson-core>
-		<jackson-databind>2.3.0</jackson-databind>
+		<jackson-databind>2.12.6.1</jackson-databind>
 		<poi.version>3.14</poi.version>
 
 		<mybatis.version>3.2.2</mybatis.version>
