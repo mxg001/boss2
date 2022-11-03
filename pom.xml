@@ -40,7 +40,7 @@
 		<spring-mvc.version>4.2.5.RELEASE</spring-mvc.version>
 		<servlet.version>3.0.1</servlet.version>
 		<jstl.version>1.2</jstl.version>
-		<fileUpload.version>1.3</fileUpload.version>
+		<fileUpload.version>1.3.3</fileUpload.version>
 		<spring-session>1.2.0.RC2</spring-session>
 
 	</properties>
