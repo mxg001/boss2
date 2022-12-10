@@ -13,7 +13,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.build.jdk>1.7</project.build.jdk>
 
-		<spring.version>4.2.5.RELEASE</spring.version>
+		<spring.version>6.0.0</spring.version>
 		<spring-security.version>4.1.0.RELEASE</spring-security.version>
 		<spring-mvc.version>4.2.5.RELEASE</spring-mvc.version>
 		<cglib.version>3.1</cglib.version>
