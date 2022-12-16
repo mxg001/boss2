@@ -15,7 +15,7 @@
 
 		<spring.version>4.2.5.RELEASE</spring.version>
 		<spring-security.version>4.1.0.RELEASE</spring-security.version>
-		<spring-mvc.version>4.2.5.RELEASE</spring-mvc.version>
+		<spring-mvc.version>5.2.20.RELEASE</spring-mvc.version>
 		<cglib.version>3.1</cglib.version>
 		<aspectj.version>1.7.4</aspectj.version>
 
